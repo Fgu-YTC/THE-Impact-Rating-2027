@@ -1,0 +1,4872 @@
+{
+  "source": "Impact 2027-data collection support v1.xlsx",
+  "note": "Structure from original Excel. Metric fillable=false (灰底不用填); Indicator fillable=true (白底要填).",
+  "sdgs": {
+    "1": {
+      "en": "SDG1: No Poverty",
+      "zh": "SDG1：消除貧窮"
+    },
+    "2": {
+      "en": "SDG2: Zero Hunger",
+      "zh": "SDG2：消除飢餓"
+    },
+    "3": {
+      "en": "SDG3: Good Health and Well-being",
+      "zh": "SDG3：良好健康與福祉"
+    },
+    "4": {
+      "en": "SDG4: Quality Education",
+      "zh": "SDG4：優質教育"
+    },
+    "5": {
+      "en": "SDG5: Gender Equality",
+      "zh": "SDG5：性別平等"
+    },
+    "6": {
+      "en": "SDG6: Clean Water and Sanitation",
+      "zh": "SDG6：潔淨水與衛生"
+    },
+    "7": {
+      "en": "SDG7",
+      "zh": "SDG7：可負擔潔淨能源"
+    },
+    "8": {
+      "en": "SDG8: Decent Work and\nEconomic Growth",
+      "zh": "SDG8：尊嚴勞動與經濟成長"
+    },
+    "9": {
+      "en": "SDG9: Industry, Innovation and Infrastructure",
+      "zh": "SDG9：產業、創新與基礎設施"
+    },
+    "10": {
+      "en": "SDG10: Reduced Inequalities",
+      "zh": "SDG10：減少不平等"
+    },
+    "11": {
+      "en": "SDG11: Sustainable Cities\nand Communities",
+      "zh": "SDG11：永續城市與社區"
+    },
+    "12": {
+      "en": "SDG12: Responsible Consumption\nand Production",
+      "zh": "SDG12：負責任消費與生產"
+    },
+    "13": {
+      "en": "SDG13: Climate Action",
+      "zh": "SDG13：氣候行動"
+    },
+    "14": {
+      "en": "SDG14: Life Below Water",
+      "zh": "SDG14：水下生命"
+    },
+    "15": {
+      "en": "SDG15: Life On Land",
+      "zh": "SDG15：陸域生命"
+    },
+    "16": {
+      "en": "SDG16: Peace, Justice and\nStrong Institutions",
+      "zh": "SDG16：和平、正義與健全制度"
+    },
+    "17": {
+      "en": "SDG17: Partnerships for the Goals",
+      "zh": "SDG17：促進目標實現的夥伴關係"
+    }
+  },
+  "metrics": [
+    {
+      "id": "metric-sdg1-1.2",
+      "sdg": 1,
+      "type": "metric",
+      "fillable": false,
+      "ref": "1.2",
+      "en": "Proportion of students receiving financial aid to attend university because of poverty",
+      "zh": "因貧困而獲得助學財務援助之學生比例"
+    },
+    {
+      "id": "metric-sdg1-1.3",
+      "sdg": 1,
+      "type": "metric",
+      "fillable": false,
+      "ref": "1.3",
+      "en": "University anti-poverty programmes",
+      "zh": "大學反貧窮計畫"
+    },
+    {
+      "id": "metric-sdg1-1.4",
+      "sdg": 1,
+      "type": "metric",
+      "fillable": false,
+      "ref": "1.4",
+      "en": "Community anti-poverty programmes",
+      "zh": "社區反貧窮計畫"
+    },
+    {
+      "id": "metric-sdg2-2.2",
+      "sdg": 2,
+      "type": "metric",
+      "fillable": false,
+      "ref": "2.2",
+      "en": "Campus food waste",
+      "zh": "校園食物浪費"
+    },
+    {
+      "id": "metric-sdg2-2.3",
+      "sdg": 2,
+      "type": "metric",
+      "fillable": false,
+      "ref": "2.3",
+      "en": "Student hunger",
+      "zh": "學生飢餓問題"
+    },
+    {
+      "id": "metric-sdg2-2.4",
+      "sdg": 2,
+      "type": "metric",
+      "fillable": false,
+      "ref": "2.4",
+      "en": "Proportion of graduates in agriculture and aquaculture including sustainability aspects",
+      "zh": "含永續面向之農業與水產養殖畢業生比例"
+    },
+    {
+      "id": "metric-sdg2-2.5",
+      "sdg": 2,
+      "type": "metric",
+      "fillable": false,
+      "ref": "2.5",
+      "en": "National hunger",
+      "zh": "國家層級飢餓議題"
+    },
+    {
+      "id": "metric-sdg3-3.2",
+      "sdg": 3,
+      "type": "metric",
+      "fillable": false,
+      "ref": "3.2",
+      "en": "Number graduating in health professions",
+      "zh": "健康專業領域畢業生人數"
+    },
+    {
+      "id": "metric-sdg3-3.3",
+      "sdg": 3,
+      "type": "metric",
+      "fillable": false,
+      "ref": "3.3",
+      "en": "Collaborations and health services",
+      "zh": "合作與健康服務"
+    },
+    {
+      "id": "metric-sdg4-4.2",
+      "sdg": 4,
+      "type": "metric",
+      "fillable": false,
+      "ref": "4.2",
+      "en": "Proportion of graduates with teaching qualification",
+      "zh": "具教學資格之畢業生比例"
+    },
+    {
+      "id": "metric-sdg4-4.3",
+      "sdg": 4,
+      "type": "metric",
+      "fillable": false,
+      "ref": "4.3",
+      "en": "Lifelong learning measures",
+      "zh": "終身學習措施"
+    },
+    {
+      "id": "metric-sdg4-4.4",
+      "sdg": 4,
+      "type": "metric",
+      "fillable": false,
+      "ref": "4.4",
+      "en": "Proportion of first-generation students",
+      "zh": "第一代大學生比例"
+    },
+    {
+      "id": "metric-sdg5-5.2",
+      "sdg": 5,
+      "type": "metric",
+      "fillable": false,
+      "ref": "5.2",
+      "en": "Proportion of first-generation female students",
+      "zh": "第一代女性大學生比例"
+    },
+    {
+      "id": "metric-sdg5-5.3",
+      "sdg": 5,
+      "type": "metric",
+      "fillable": false,
+      "ref": "5.3",
+      "en": "Student access measures",
+      "zh": "學生入學近用措施"
+    },
+    {
+      "id": "metric-sdg5-5.4",
+      "sdg": 5,
+      "type": "metric",
+      "fillable": false,
+      "ref": "5.4",
+      "en": "Proportion of senior female academics",
+      "zh": "女性資深學術人員比例"
+    },
+    {
+      "id": "metric-sdg5-5.5",
+      "sdg": 5,
+      "type": "metric",
+      "fillable": false,
+      "ref": "5.5",
+      "en": "Proportion of women receiving degrees",
+      "zh": "獲得學位之女性比例"
+    },
+    {
+      "id": "metric-sdg5-5.6",
+      "sdg": 5,
+      "type": "metric",
+      "fillable": false,
+      "ref": "5.6",
+      "en": "Women's progress measures",
+      "zh": "女性發展措施"
+    },
+    {
+      "id": "metric-sdg6-6.2",
+      "sdg": 6,
+      "type": "metric",
+      "fillable": false,
+      "ref": "6.2",
+      "en": "Water consumption per person",
+      "zh": "人均用水量"
+    },
+    {
+      "id": "metric-sdg6-6.3",
+      "sdg": 6,
+      "type": "metric",
+      "fillable": false,
+      "ref": "6.3",
+      "en": "Water usage and care",
+      "zh": "用水與水資源照護"
+    },
+    {
+      "id": "metric-sdg6-6.4",
+      "sdg": 6,
+      "type": "metric",
+      "fillable": false,
+      "ref": "6.4",
+      "en": "Water reuse",
+      "zh": "水資源再利用"
+    },
+    {
+      "id": "metric-sdg6-6.5",
+      "sdg": 6,
+      "type": "metric",
+      "fillable": false,
+      "ref": "6.5",
+      "en": "Water in the community",
+      "zh": "社區水資源"
+    },
+    {
+      "id": "metric-sdg7-7.2",
+      "sdg": 7,
+      "type": "metric",
+      "fillable": false,
+      "ref": "7.2",
+      "en": "University measures towards affordable and clean energy",
+      "zh": "大學推動可負擔潔淨能源之措施"
+    },
+    {
+      "id": "metric-sdg7-7.3",
+      "sdg": 7,
+      "type": "metric",
+      "fillable": false,
+      "ref": "7.3",
+      "en": "Energy use density",
+      "zh": "能源使用密度"
+    },
+    {
+      "id": "metric-sdg7-7.4",
+      "sdg": 7,
+      "type": "metric",
+      "fillable": false,
+      "ref": "7.4",
+      "en": "Energy and the community",
+      "zh": "能源與社區"
+    },
+    {
+      "id": "metric-sdg8-8.2",
+      "sdg": 8,
+      "type": "metric",
+      "fillable": false,
+      "ref": "8.2",
+      "en": "Employment practice",
+      "zh": "就業實務"
+    },
+    {
+      "id": "metric-sdg8-8.3",
+      "sdg": 8,
+      "type": "metric",
+      "fillable": false,
+      "ref": "8.3",
+      "en": "Expenditure per employee",
+      "zh": "每位員工支出"
+    },
+    {
+      "id": "metric-sdg8-8.4",
+      "sdg": 8,
+      "type": "metric",
+      "fillable": false,
+      "ref": "8.4",
+      "en": "Proportion of students taking work placements",
+      "zh": "參與實習之學生比例"
+    },
+    {
+      "id": "metric-sdg8-8.5",
+      "sdg": 8,
+      "type": "metric",
+      "fillable": false,
+      "ref": "8.5",
+      "en": "Proportion of employees on secure contracts",
+      "zh": "具穩定合約之員工比例"
+    },
+    {
+      "id": "metric-sdg9-9.3",
+      "sdg": 9,
+      "type": "metric",
+      "fillable": false,
+      "ref": "9.3",
+      "en": "University spin offs",
+      "zh": "大學衍生企業"
+    },
+    {
+      "id": "metric-sdg9-9.4",
+      "sdg": 9,
+      "type": "metric",
+      "fillable": false,
+      "ref": "9.4",
+      "en": "Research income from industry and commerce",
+      "zh": "產業與商業研究收入"
+    },
+    {
+      "id": "metric-sdg10-10.2",
+      "sdg": 10,
+      "type": "metric",
+      "fillable": false,
+      "ref": "10.2",
+      "en": "First-generation students",
+      "zh": "第一代大學生"
+    },
+    {
+      "id": "metric-sdg10-10.3",
+      "sdg": 10,
+      "type": "metric",
+      "fillable": false,
+      "ref": "10.3",
+      "en": "International students from developing countries",
+      "zh": "來自開發中國家之國際學生"
+    },
+    {
+      "id": "metric-sdg10-10.4",
+      "sdg": 10,
+      "type": "metric",
+      "fillable": false,
+      "ref": "10.4",
+      "en": "Proportion of students with disabilities",
+      "zh": "身心障礙學生比例"
+    },
+    {
+      "id": "metric-sdg10-10.5",
+      "sdg": 10,
+      "type": "metric",
+      "fillable": false,
+      "ref": "10.5",
+      "en": "Proportion of employees with disabilities",
+      "zh": "身心障礙員工比例"
+    },
+    {
+      "id": "metric-sdg10-10.6",
+      "sdg": 10,
+      "type": "metric",
+      "fillable": false,
+      "ref": "10.6",
+      "en": "Measures against discrimination",
+      "zh": "反歧視措施"
+    },
+    {
+      "id": "metric-sdg11-11.2",
+      "sdg": 11,
+      "type": "metric",
+      "fillable": false,
+      "ref": "11.2",
+      "en": "Support of arts and heritage",
+      "zh": "藝術與遺產支持"
+    },
+    {
+      "id": "metric-sdg11-11.3",
+      "sdg": 11,
+      "type": "metric",
+      "fillable": false,
+      "ref": "11.3",
+      "en": "Expenditure on arts and heritage",
+      "zh": "藝術與遺產支出"
+    },
+    {
+      "id": "metric-sdg11-11.4",
+      "sdg": 11,
+      "type": "metric",
+      "fillable": false,
+      "ref": "11.4",
+      "en": "Sustainable practices",
+      "zh": "永續實務"
+    },
+    {
+      "id": "metric-sdg12-12.2",
+      "sdg": 12,
+      "type": "metric",
+      "fillable": false,
+      "ref": "12.2",
+      "en": "Operational measures",
+      "zh": "營運措施"
+    },
+    {
+      "id": "metric-sdg12-12.3",
+      "sdg": 12,
+      "type": "metric",
+      "fillable": false,
+      "ref": "12.3",
+      "en": "Proportion of recycled waste",
+      "zh": "廢棄物回收比例"
+    },
+    {
+      "id": "metric-sdg12-12.4",
+      "sdg": 12,
+      "type": "metric",
+      "fillable": false,
+      "ref": "12.4",
+      "en": "Publication of a sustainability report",
+      "zh": "發布永續報告"
+    },
+    {
+      "id": "metric-sdg13-13.2",
+      "sdg": 13,
+      "type": "metric",
+      "fillable": false,
+      "ref": "13.2",
+      "en": "Low-carbon energy use",
+      "zh": "低碳能源使用"
+    },
+    {
+      "id": "metric-sdg13-13.3",
+      "sdg": 13,
+      "type": "metric",
+      "fillable": false,
+      "ref": "13.3",
+      "en": "Environmental education measures",
+      "zh": "環境教育措施"
+    },
+    {
+      "id": "metric-sdg13-13.4",
+      "sdg": 13,
+      "type": "metric",
+      "fillable": false,
+      "ref": "13.4",
+      "en": "Commitment to carbon neutral university",
+      "zh": "碳中和大學承諾"
+    },
+    {
+      "id": "metric-sdg14-14.2",
+      "sdg": 14,
+      "type": "metric",
+      "fillable": false,
+      "ref": "14.2",
+      "en": "Supporting aquatic ecosystems through education",
+      "zh": "透過教育支持水生生態系"
+    },
+    {
+      "id": "metric-sdg14-14.3",
+      "sdg": 14,
+      "type": "metric",
+      "fillable": false,
+      "ref": "14.3",
+      "en": "Supporting aquatic ecosystems through action",
+      "zh": "透過行動支持水生生態系"
+    },
+    {
+      "id": "metric-sdg14-14.4",
+      "sdg": 14,
+      "type": "metric",
+      "fillable": false,
+      "ref": "14.4",
+      "en": "Water sensitive waste disposal",
+      "zh": "顧及水資源之廢棄物處理"
+    },
+    {
+      "id": "metric-sdg14-14.5",
+      "sdg": 14,
+      "type": "metric",
+      "fillable": false,
+      "ref": "14.5",
+      "en": "Maintaining a local ecosystem",
+      "zh": "維護地方生態系"
+    },
+    {
+      "id": "metric-sdg15-15.2",
+      "sdg": 15,
+      "type": "metric",
+      "fillable": false,
+      "ref": "15.2",
+      "en": "Supporting land ecosystems through education",
+      "zh": "透過教育支持陸域生態系"
+    },
+    {
+      "id": "metric-sdg15-15.3",
+      "sdg": 15,
+      "type": "metric",
+      "fillable": false,
+      "ref": "15.3",
+      "en": "Supporting land ecosystems through action",
+      "zh": "透過行動支持陸域生態系"
+    },
+    {
+      "id": "metric-sdg15-15.4",
+      "sdg": 15,
+      "type": "metric",
+      "fillable": false,
+      "ref": "15.4",
+      "en": "Land sensitive waste disposal",
+      "zh": "顧及土地之廢棄物處理"
+    },
+    {
+      "id": "metric-sdg16-16.2",
+      "sdg": 16,
+      "type": "metric",
+      "fillable": false,
+      "ref": "16.2",
+      "en": "University governance measures",
+      "zh": "大學治理措施"
+    },
+    {
+      "id": "metric-sdg16-16.3",
+      "sdg": 16,
+      "type": "metric",
+      "fillable": false,
+      "ref": "16.3",
+      "en": "Working with government",
+      "zh": "與政府合作"
+    },
+    {
+      "id": "metric-sdg16-16.4",
+      "sdg": 16,
+      "type": "metric",
+      "fillable": false,
+      "ref": "16.4",
+      "en": "Proportion of graduates in law and civil enforcement",
+      "zh": "法律與公民執法畢業生比例"
+    },
+    {
+      "id": "metric-sdg17-17.2",
+      "sdg": 17,
+      "type": "metric",
+      "fillable": false,
+      "ref": "17.2",
+      "en": "Relationships to support the goals",
+      "zh": "支持永續目標之夥伴關係"
+    },
+    {
+      "id": "metric-sdg17-17.3",
+      "sdg": 17,
+      "type": "metric",
+      "fillable": false,
+      "ref": "17.3",
+      "en": "Publication of SDG reports",
+      "zh": "發布 SDG 報告"
+    },
+    {
+      "id": "metric-sdg17-17.4",
+      "sdg": 17,
+      "type": "metric",
+      "fillable": false,
+      "ref": "17.4",
+      "en": "Education for the SDGs",
+      "zh": "SDG 教育"
+    }
+  ],
+  "questions": [
+    {
+      "id": "sdg1-1.2.1",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.2.1",
+      "en": "Low income students receiving financial aid",
+      "zh": "獲得財務援助之低收入學生",
+      "metricRef": "1.2",
+      "metricEn": "Proportion of students receiving financial aid to attend university because of poverty",
+      "metricZh": "因貧困而獲得助學財務援助之學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of low income students receiving financial aid",
+          "zh": "獲得財務援助之低收入學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg1-1.3.1",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.3.1",
+      "en": "Bottom financial quintile admission target\nTargets to admit students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country.",
+      "zh": "最低所得五分位入學目標\n貴校是否訂有招收國內最低所得 20% 家庭學生（或更嚴格定義目標）之目標？",
+      "metricRef": "1.3",
+      "metricEn": "University anti-poverty programmes",
+      "metricZh": "大學反貧窮計畫",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg1-1.3.2",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.3.2",
+      "en": "Bottom financial quintile student success\nGraduation/completion targets for students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country.",
+      "zh": "最低所得五分位學生成功\n貴校是否訂有國內最低所得 20% 家庭學生（或更嚴格定義目標）之畢業／完成學業目標？",
+      "metricRef": "1.3",
+      "metricEn": "University anti-poverty programmes",
+      "metricZh": "大學反貧窮計畫",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg1-1.3.3",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.3.3",
+      "en": "Low-income student support\nProvide support (e.g. food, housing, transportation, legal services) for students from low income families to enable them to complete university.",
+      "zh": "低收入學生支持\n貴校是否提供低收入家庭學生支持（如食物、住宿、交通、法律服務），以協助其完成大學學業？",
+      "metricRef": "1.3",
+      "metricEn": "University anti-poverty programmes",
+      "metricZh": "大學反貧窮計畫",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "subsidised",
+          "zh": "補助／優惠",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg1-1.3.4",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.3.4",
+      "en": "Bottom financial quintile student support\nProgrammes or initiatives to assist students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country to successfully complete their studies.",
+      "zh": "最低所得五分位學生支持\n貴校是否有計畫或措施，協助國內最低所得 20% 家庭學生（或更嚴格定義目標）順利完成學業？",
+      "metricRef": "1.3",
+      "metricEn": "University anti-poverty programmes",
+      "metricZh": "大學反貧窮計畫",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg1-1.3.5",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.3.5",
+      "en": "Low or lower-middle income countries student support\nSchemes to support poor students from low or lower-middle income countries (e.g. offering free education, grants).",
+      "zh": "低度／中低所得國家學生支持\n貴校是否有方案支持來自低度或中低所得國家之清寒學生（如免費教育、獎助金）？",
+      "metricRef": "1.3",
+      "metricEn": "University anti-poverty programmes",
+      "metricZh": "大學反貧窮計畫",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg1-1.4.1",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.4.1",
+      "en": "Local start-up assistance\nProvide assistance in the local community supporting the start-up of financially and socially  sustainable businesses through relevant education or resources (e.g. mentorship programmes, training workshops, access to university facilities).",
+      "zh": "地方新創協助\n貴校是否透過相關教育或資源（如 mentorship、培訓工作坊、開放大學設施），協助地方社區創立財務與社會上可持續之事業？",
+      "metricRef": "1.4",
+      "metricEn": "Community anti-poverty programmes",
+      "metricZh": "社區反貧窮計畫",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg1-1.4.2",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.4.2",
+      "en": "Local start-up financial assistance\nProvide financial assistance to the local community supporting the start-up of financially and socially sustainable businesses.",
+      "zh": "地方新創財務協助\n貴校是否提供地方社區財務協助，支持創立財務與社會上可持續之事業？",
+      "metricRef": "1.4",
+      "metricEn": "Community anti-poverty programmes",
+      "metricZh": "社區反貧窮計畫",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg1-1.4.3",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.4.3",
+      "en": "Programmes for services access\nOrganise training or programmes to improve access to basic services for all.",
+      "zh": "基本服務近用計畫\n貴校是否辦理培訓或計畫，以改善全民取得基本服務之近用？",
+      "metricRef": "1.4",
+      "metricEn": "Community anti-poverty programmes",
+      "metricZh": "社區反貧窮計畫",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "directly",
+          "zh": "直接",
+          "kind": "option"
+        },
+        {
+          "en": "indirectly",
+          "zh": "間接",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg1-1.4.4",
+      "sdg": 1,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "1.4.4",
+      "en": "Policy addressing poverty\nParticipate in policy making at local, regional, national and/or global level to implement programmes and policies to end poverty in all its dimensions.",
+      "zh": "因應貧窮之政策參與\n貴校是否參與地方、區域、國家及／或全球層級之政策制定，以推動終結各面向貧窮之計畫與政策？",
+      "metricRef": "1.4",
+      "metricEn": "Community anti-poverty programmes",
+      "metricZh": "社區反貧窮計畫",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "local",
+          "zh": "地方",
+          "kind": "option"
+        },
+        {
+          "en": "regional",
+          "zh": "區域",
+          "kind": "option"
+        },
+        {
+          "en": "national",
+          "zh": "國家",
+          "kind": "option"
+        },
+        {
+          "en": "global",
+          "zh": "全球",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.2.1",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.2.1",
+      "en": "Campus food waste tracking\nMeasure the amount of food waste generated from food served within the university.",
+      "zh": "校園食物浪費追蹤\n貴校是否量測校內供餐所產生之食物浪費量？",
+      "metricRef": "2.2",
+      "metricEn": "Campus food waste",
+      "metricZh": "校園食物浪費",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "whole university",
+          "zh": "全校",
+          "kind": "option"
+        },
+        {
+          "en": "partial measurement",
+          "zh": "部分量測",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.2.2",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.2.2",
+      "en": "Campus food waste",
+      "zh": "校園食物浪費",
+      "metricRef": "2.2",
+      "metricEn": "Campus food waste",
+      "metricZh": "校園食物浪費",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total food waste",
+          "zh": "食物浪費總量",
+          "kind": "value"
+        },
+        {
+          "en": "Campus population",
+          "zh": "校園人口數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.3.1",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.3.1",
+      "en": "Student food insecurity and hunger\nHave a programme in place on student food insecurity.",
+      "zh": "學生糧食不安全與飢餓\n貴校是否已有因應學生糧食不安全之計畫？",
+      "metricRef": "2.3",
+      "metricEn": "Student hunger",
+      "metricZh": "學生飢餓問題",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg2-2.3.2",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.3.2",
+      "en": "Students hunger interventions\nProvide interventions to prevent or alleviate hunger among students (e.g. including supply and access to food banks/pantries).",
+      "zh": "學生飢餓介入措施\n貴校是否提供介入措施以預防或減輕學生飢餓（例如食物銀行／食物儲備之供應與近用）？",
+      "metricRef": "2.3",
+      "metricEn": "Student hunger",
+      "metricZh": "學生飢餓問題",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg2-2.3.3",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.3.3",
+      "en": "Sustainable food choices on campus\nProvide sustainable food choices for all on campus, including vegetarian and vegan food.",
+      "zh": "校園永續飲食選擇\n貴校是否為校園所有人提供永續飲食選擇，包括素食與純素？",
+      "metricRef": "2.3",
+      "metricEn": "Student hunger",
+      "metricZh": "學生飢餓問題",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "all food outlets",
+          "zh": "所有餐飲據點",
+          "kind": "option"
+        },
+        {
+          "en": "selected food outlets",
+          "zh": "部分餐飲據點",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.3.4",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.3.4",
+      "en": "Healthy and affordable food choices\nProvide healthy and affordable food choices for all on campus.",
+      "zh": "健康且可負擔之飲食選擇\n貴校是否為校園所有人提供健康且可負擔之飲食選擇？",
+      "metricRef": "2.3",
+      "metricEn": "Student hunger",
+      "metricZh": "學生飢餓問題",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "all food outlets",
+          "zh": "所有餐飲據點",
+          "kind": "option"
+        },
+        {
+          "en": "selected food outlets",
+          "zh": "部分餐飲據點",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.3.5",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.3.5",
+      "en": "Staff hunger interventions\nProvide interventions to prevent or alleviate hunger among members of staff (e.g. including supply and access to food banks/pantries).",
+      "zh": "教職員飢餓介入措施\n貴校是否提供介入措施以預防或減輕教職員飢餓（例如食物銀行／食物儲備之供應與近用）？",
+      "metricRef": "2.3",
+      "metricEn": "Student hunger",
+      "metricZh": "學生飢餓問題",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg2-2.4.1",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.4.1",
+      "en": "Proportion of graduates in agriculture and aquaculture",
+      "zh": "農業與水產養殖畢業生比例",
+      "metricRef": "2.4",
+      "metricEn": "Proportion of graduates in agriculture and aquaculture including sustainability aspects",
+      "metricZh": "含永續面向之農業與水產養殖畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates from agriculture and aquaculture courses including sustainability aspects",
+          "zh": "含永續面向之農業與水產養殖課程畢業生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.5.1",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.5.1",
+      "en": "Access to food security knowledge\nProvide access on food security and sustainable agriculture and aquaculture knowledge, skills or technology to local farmers and food producers.",
+      "zh": "糧食安全知識近用\n貴校是否向地方農民與食品生產者提供糧食安全及永續農漁養殖之知識、技能或技術近用？",
+      "metricRef": "2.5",
+      "metricEn": "National hunger",
+      "metricZh": "國家層級飢餓議題",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.5.2",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.5.2",
+      "en": "Events for local farmers and food producers\nProvide events for local farmers and food producers to connect and transfer knowledge",
+      "zh": "地方農民與食品生產者活動\n貴校是否辦理活動，供地方農民與食品生產者交流並移轉知識？",
+      "metricRef": "2.5",
+      "metricEn": "National hunger",
+      "metricZh": "國家層級飢餓議題",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.5.3",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.5.3",
+      "en": "University access to local farmers and food producers\nProvide access to university facilities (e.g. labs, technology, plant stocks) to local farmers and food producers to improve sustainable farming practices.",
+      "zh": "大學設施開放予地方農民與食品生產者\n貴校是否開放大學設施（如實驗室、技術、種苗）予地方農民與食品生產者，以改善永續農業實務？",
+      "metricRef": "2.5",
+      "metricEn": "National hunger",
+      "metricZh": "國家層級飢餓議題",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg2-2.5.4",
+      "sdg": 2,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "2.5.4",
+      "en": "Sustainable food purchases\nPrioritise purchase of products from local, sustainable sources.",
+      "zh": "永續食品採購\n貴校是否優先採購來自地方、永續來源之產品？",
+      "metricRef": "2.5",
+      "metricEn": "National hunger",
+      "metricZh": "國家層級飢餓議題",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg3-3.2.1",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.2.1",
+      "en": "Proportion of graduates in health professions",
+      "zh": "健康專業領域畢業生比例",
+      "metricRef": "3.2",
+      "metricEn": "Number graduating in health professions",
+      "metricZh": "健康專業領域畢業生人數",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates in health professions",
+          "zh": "健康專業領域畢業生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.1",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.1",
+      "en": "Current collaborations with health institutions\nHave current collaborations with local, national, or global health institutions to improve health and well-being outcomes.",
+      "zh": "與健康機構之現行合作\n貴校是否與地方、國家或全球健康機構有現行合作，以改善健康與福祉成果？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "local collaboration",
+          "zh": "地方合作",
+          "kind": "option"
+        },
+        {
+          "en": "national collaboration",
+          "zh": "國家合作",
+          "kind": "option"
+        },
+        {
+          "en": "global cooperation",
+          "zh": "全球合作",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.2",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.2",
+      "en": "Health outreach programmes\nDeliver outreach programmes and projects in the local community (which can include student volunteering programmes) to improve or promote health and well-being including hygiene, nutrition, family planning, sports, exercise, aging well, and other health and well-being related topics.\nThis can also include outreach programmes to displaced or refugee communities local to the institution.",
+      "zh": "健康外展計畫\n貴校是否在地方社區辦理外展計畫與專案（可含學生志工），以改善或推廣健康與福祉（含衛生、營養、家庭計畫、運動、健身、健康老化等）？亦可包含對機構所在地流離失所或難民社區之外展。",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local communities",
+          "zh": "地方社區",
+          "kind": "option"
+        },
+        {
+          "en": "Disadvantaged people",
+          "zh": "弱勢族群",
+          "kind": "option"
+        },
+        {
+          "en": "Refugee/immigrant communities",
+          "zh": "難民／移民社區",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.3",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.3",
+      "en": "Shared sports facilities\nShare sports facilities with the local community, for instance with local schools or with the general public.",
+      "zh": "共享運動設施\n貴校是否與地方社區共享運動設施（例如地方學校或一般大眾）？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all facilities",
+          "zh": "所有設施免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Free access to some facilities",
+          "zh": "部分設施免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Charged access",
+          "zh": "付費使用",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.4",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.4",
+      "en": "Sexual and reproductive health care services for students\nProvide students access to sexual and reproductive health-care services including information and education services.",
+      "zh": "學生性與生殖健康照護服務\n貴校是否提供學生性與生殖健康照護服務近用（含資訊與教育服務）？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access",
+          "zh": "免費使用",
+          "kind": "option"
+        },
+        {
+          "en": "Charged access",
+          "zh": "付費使用",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.5",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.5",
+      "en": "Mental health support for students\nProvide students with access to mental health support.",
+      "zh": "學生心理健康支持\n貴校是否提供學生心理健康支持之近用？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Active promotion of good mental health",
+          "zh": "積極推廣心理健康",
+          "kind": "option"
+        },
+        {
+          "en": "Access to (or signposting to) free mental health support",
+          "zh": "提供（或轉介）免費心理健康支持",
+          "kind": "option"
+        },
+        {
+          "en": "Access to (or signposting to) charged mental health support",
+          "zh": "提供（或轉介）付費心理健康支持",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.6",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.6",
+      "en": "Smoke-free policy\nHave a 'smoke-free' policy.",
+      "zh": "無菸政策\n貴校是否訂有「無菸」政策？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Smoking-free campus",
+          "zh": "無菸校園",
+          "kind": "option"
+        },
+        {
+          "en": "Smoking in designated areas",
+          "zh": "僅限指定區域吸菸",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg3-3.3.7",
+      "sdg": 3,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "3.3.7",
+      "en": "Mental health support for staff\nProvide staff  with access to mental health support.",
+      "zh": "教職員心理健康支持\n貴校是否提供教職員心理健康支持之近用？",
+      "metricRef": "3.3",
+      "metricEn": "Collaborations and health services",
+      "metricZh": "合作與健康服務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Active promotion of good mental health",
+          "zh": "積極推廣心理健康",
+          "kind": "option"
+        },
+        {
+          "en": "Access to (or signposting to) free mental health support",
+          "zh": "提供（或轉介）免費心理健康支持",
+          "kind": "option"
+        },
+        {
+          "en": "Access to (or signposting to) charged mental health support",
+          "zh": "提供（或轉介）付費心理健康支持",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.2.1",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.2.1",
+      "en": "Proportion of graduates with relevant qualification for teaching",
+      "zh": "具相關教學資格之畢業生比例",
+      "metricRef": "4.2",
+      "metricEn": "Proportion of graduates with teaching qualification",
+      "metricZh": "具教學資格之畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates who gained a qualification that entitled them to teach at primary school level",
+          "zh": "取得可於小學任教資格之畢業生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.3.1",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.3.1",
+      "en": "Public resources (lifelong learning)\nProvide free access to educational resources for those not studying at the university.",
+      "zh": "公共資源（終身學習）\n貴校是否為非在校就讀者提供免費教育資源近用？",
+      "metricRef": "4.3",
+      "metricEn": "Lifelong learning measures",
+      "metricZh": "終身學習措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free courses leading to certificate or award",
+          "zh": "可取得證書或獎項之免費課程",
+          "kind": "option"
+        },
+        {
+          "en": "Free access to campus facilities and equipment",
+          "zh": "免費使用校園設施與設備",
+          "kind": "option"
+        },
+        {
+          "en": "Free access to online resources",
+          "zh": "免費使用線上資源",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.3.2",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.3.2",
+      "en": "Public events (lifelong learning)\nHost educational events at university that are open to the general public.",
+      "zh": "公開活動（終身學習）\n貴校是否在校內舉辦對一般大眾開放之教育活動？",
+      "metricRef": "4.3",
+      "metricEn": "Lifelong learning measures",
+      "metricZh": "終身學習措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free events",
+          "zh": "免費活動",
+          "kind": "option"
+        },
+        {
+          "en": "Both changed and free",
+          "zh": "付費與免費皆有",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.3.3",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.3.3",
+      "en": "Vocational training events (lifelong learning)\nHost events at university that are open to the general public: executive education programmes (this refers to short courses for people who are not attending the university; this specifically excludes courses like MBA) and/or vocational training.",
+      "zh": "職業訓練活動（終身學習）\n貴校是否舉辦對一般大眾開放之活動：高階主管教育（指非在校生之短期課程，不含 MBA 等）及／或職業訓練？",
+      "metricRef": "4.3",
+      "metricEn": "Lifelong learning measures",
+      "metricZh": "終身學習措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期",
+          "kind": "option"
+        },
+        {
+          "en": "On programmed basis",
+          "zh": "有計畫／定期辦理",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.3.4",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.3.4",
+      "en": "Education outreach activities beyond campus\nUndertake educational outreach activities (e.g. tailored lectures or demonstrations) beyond campus - in local schools, in the community. This can include voluntary student-run schemes.",
+      "zh": "校園外教育外展活動\n貴校是否在校園外（地方學校、社區）辦理教育外展活動（如客製講座或示範）？可含學生志工方案。",
+      "metricRef": "4.3",
+      "metricEn": "Lifelong learning measures",
+      "metricZh": "終身學習措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期",
+          "kind": "option"
+        },
+        {
+          "en": "On programmed basis",
+          "zh": "有計畫／定期辦理",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg4-4.3.5",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.3.5",
+      "en": "Lifelong learning access policy\nA policy that ensures that access to these activities is accessible to all, regardless of ethnicity, religion, disability immigration status or gender.",
+      "zh": "終身學習近用政策\n貴校是否訂有政策，確保上述活動近用不受族群、宗教、身心障礙、移民身分或性別影響？",
+      "metricRef": "4.3",
+      "metricEn": "Lifelong learning measures",
+      "metricZh": "終身學習措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg4-4.4.1",
+      "sdg": 4,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "4.4.1",
+      "en": "Proportion of first-generation students",
+      "zh": "第一代大學生比例",
+      "metricRef": "4.4",
+      "metricEn": "Proportion of first-generation students",
+      "metricZh": "第一代大學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students starting a degree",
+          "zh": "開始修讀學位之學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of first-generation students starting a degree",
+          "zh": "開始修讀學位之第一代大學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.2.1",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.2.1",
+      "en": "Proportion of women first-generation",
+      "zh": "第一代女性比例",
+      "metricRef": "5.2",
+      "metricEn": "Proportion of first-generation female students",
+      "metricZh": "第一代女性大學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of women starting a degree",
+          "zh": "開始修讀學位之女性人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of first-generation women starting a degree",
+          "zh": "開始修讀學位之第一代女性大學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.3.1",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.3.1",
+      "en": "Tracking access measures\nSystematically measure and track women's application rate, acceptance or entry rate.",
+      "zh": "近用追蹤措施\n貴校是否系統性量測並追蹤女性申請率、錄取率或入學率？",
+      "metricRef": "5.3",
+      "metricEn": "Student access measures",
+      "metricZh": "學生入學近用措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.3.2",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.3.2",
+      "en": "Policy for women applications and entry\nHave a policy (e.g. an Access and Participation plan) addressing women's applications, acceptance, entry, and participation at the university.",
+      "zh": "女性申請與入學政策\n貴校是否訂有政策（如近用與參與計畫），處理女性申請、錄取、入學與參與？",
+      "metricRef": "5.3",
+      "metricEn": "Student access measures",
+      "metricZh": "學生入學近用措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.3.3",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.3.3",
+      "en": "Women's access schemes\nProvide women's access schemes, including mentoring, scholarships, or other provision",
+      "zh": "女性近用方案\n貴校是否提供女性近用方案（含 mentorship、獎學金或其他措施）？",
+      "metricRef": "5.3",
+      "metricEn": "Student access measures",
+      "metricZh": "學生入學近用措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Mentoring",
+          "zh": "輔導／Mentoring",
+          "kind": "option"
+        },
+        {
+          "en": "Scholarship",
+          "zh": "獎學金",
+          "kind": "option"
+        },
+        {
+          "en": "Other provision",
+          "zh": "其他措施",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.3.4",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.3.4",
+      "en": "Women's application in underrepresented subjects\nEncourage applications by women in subjects where they are underrepresented. Through university outreach or through collaboration with other universities, community groups, government or NGOs in regional or national campaigns.",
+      "zh": "女性於代表性不足學科之申請\n貴校是否鼓勵女性申請其代表性不足之學科？可透過大學外展，或與其他大學、社區團體、政府或 NGO 之區域／全國宣導合作。",
+      "metricRef": "5.3",
+      "metricEn": "Student access measures",
+      "metricZh": "學生入學近用措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "through university outreach",
+          "zh": "透過大學外展",
+          "kind": "option"
+        },
+        {
+          "en": "through collaboration with other universities and/or community groups and/or government     and/or NGOs in regional or national campaigns",
+          "zh": "透過與其他大學、社區團體、政府及／或 NGO 之區域或全國性合作宣導",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.4.1",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.4.1",
+      "en": "Proportion of senior female academics",
+      "zh": "女性資深學術人員比例",
+      "metricRef": "5.4",
+      "metricEn": "Proportion of senior female academics",
+      "metricZh": "女性資深學術人員比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of senior academic staff",
+          "zh": "資深學術人員人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of female senior academic staff",
+          "zh": "女性資深學術人員人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.5.1",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.5.1",
+      "en": "Proportion of female degrees awarded",
+      "zh": "女性獲頒學位比例",
+      "metricRef": "5.5",
+      "metricEn": "Proportion of women receiving degrees",
+      "metricZh": "獲得學位之女性比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates: Total",
+          "zh": "畢業生人數：合計",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+          "zh": "依學科領域畢業生人數（STEM、醫學、藝術人文／社會科學）：合計",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates: STEM",
+          "zh": "畢業生人數：STEM",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates: Medicine",
+          "zh": "畢業生人數：醫學",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates: Arts & Humanities / Social Sciences",
+          "zh": "畢業生人數：藝術人文／社會科學",
+          "kind": "value"
+        },
+        {
+          "en": "Number of female graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+          "zh": "依學科領域女性畢業生人數（STEM、醫學、藝術人文／社會科學）：合計",
+          "kind": "value"
+        },
+        {
+          "en": "Number of female graduates: STEM",
+          "zh": "女性畢業生人數：STEM",
+          "kind": "value"
+        },
+        {
+          "en": "Number of female graduates: Medicine",
+          "zh": "女性畢業生人數：醫學",
+          "kind": "value"
+        },
+        {
+          "en": "Number of female graduates: Arts & Humanities / Social Sciences",
+          "zh": "女性畢業生人數：藝術人文／社會科學",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.6.1",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.1",
+      "en": "Policy of non-discrimination against women\nHave a policy of non-discrimination against women",
+      "zh": "禁止歧視女性政策\n貴校是否訂有禁止歧視女性之政策？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.2",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.2",
+      "en": "Non-discrimination policies for transgender\nHave a policy of non-discrimination for transgender people.",
+      "zh": "跨性別不歧視政策\n貴校是否訂有對跨性別者不歧視之政策？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.3",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.3",
+      "en": "Maternity policy\nHave a maternity policy that support women's participation.",
+      "zh": "產假／孕產政策\n貴校是否訂有支持女性參與之孕產相關政策？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.4",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.4",
+      "en": "Childcare facilities for students\nHave accessible childcare facilities for students which allow recent mothers to attend university\ncourses.",
+      "zh": "學生托育設施\n貴校是否提供學生可近用之托育設施，使甫生產之母親能修課？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.6.5",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.5",
+      "en": "Childcare facilities for staff and faculty\nHave childcare facilities for staff and faculty",
+      "zh": "教職員托育設施\n貴校是否為教職員提供托育設施？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg5-5.6.6",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.6",
+      "en": "Women's mentoring schemes\nHave women's mentoring schemes, in which at least 10% of female students participate.",
+      "zh": "女性 mentorship 方案\n貴校是否有女性 mentorship 方案，且至少 10% 女性學生參與？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.7",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.7",
+      "en": "Track women's graduation rate\nHave measurement or tracking of women's likelihood of graduating compared to men's, and schemes in place to close any gap.",
+      "zh": "追蹤女性畢業率\n貴校是否量測／追蹤女性相對男性之畢業可能性，並有縮小差距之方案？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.8",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.8",
+      "en": "Policies protecting those reporting discrimination\nHave a policy that protects those reporting discrimination from educational or employment disadvantage",
+      "zh": "保護檢舉歧視者之政策\n貴校是否訂有政策，保護檢舉歧視者不致遭受教育或就業不利？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg5-5.6.9",
+      "sdg": 5,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "5.6.9",
+      "en": "Paternity policy\nHave a paternity policy that supports women's participation by ensuring that fathers can participate in childcare duties",
+      "zh": "陪產／育嬰假政策\n貴校是否訂有陪產／育嬰相關政策，確保父親可參與育兒以支持女性參與？",
+      "metricRef": "5.6",
+      "metricEn": "Women's progress measures",
+      "metricZh": "女性發展措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.2.1",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.2.1",
+      "en": "Measure the total volume of water used in the university that is taken from mains supply,\ndesalinated, or extracted from rivers, lakes, or aquifers?",
+      "zh": "貴校是否量測自來水、淡化水，或自河川、湖泊、含水層抽取之總用水量？",
+      "metricRef": "6.2",
+      "metricEn": "Water consumption per person",
+      "metricZh": "人均用水量",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Whole university",
+          "zh": "全校",
+          "kind": "option"
+        },
+        {
+          "en": "Partial measurement",
+          "zh": "部分量測",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg6-6.2.2",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.2.2",
+      "en": "Water consumption per person",
+      "zh": "人均用水量",
+      "metricRef": "6.2",
+      "metricEn": "Water consumption per person",
+      "metricZh": "人均用水量",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Volume of water used in the university: Inbound (treated/extracted water)",
+          "zh": "大學用水量：進水量（處理／抽取水）",
+          "kind": "value"
+        },
+        {
+          "en": "Campus population",
+          "zh": "校園人口數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg6-6.3.1",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.3.1",
+      "en": "Wastewater treatment\nA process in place to treat wastewater.",
+      "zh": "廢水處理\n貴校是否已有廢水處理程序？",
+      "metricRef": "6.3",
+      "metricEn": "Water usage and care",
+      "metricZh": "用水與水資源照護",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.3.2",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.3.2",
+      "en": "Preventing water system pollution\nProcesses to prevent polluted water entering the water system, including pollution caused by accidents and incidents at the university.",
+      "zh": "防止水系統污染\n貴校是否有程序防止污染水進入水系統（含校內事故與事件造成之污染）？",
+      "metricRef": "6.3",
+      "metricEn": "Water usage and care",
+      "metricZh": "用水與水資源照護",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.3.3",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.3.3",
+      "en": "Free drinking water provided\nProvide free drinking water for students, staff and/or visitors (e.g. drinking water fountains).",
+      "zh": "免費飲用水\n貴校是否為學生、教職員及／或訪客提供免費飲用水（如飲水機）？",
+      "metricRef": "6.3",
+      "metricEn": "Water usage and care",
+      "metricZh": "用水與水資源照護",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.3.4",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.3.4",
+      "en": "Water-conscious building standards\nApply building standards to minimise water use",
+      "zh": "節水建築標準\n貴校是否採用建築標準以最小化用水？",
+      "metricRef": "6.3",
+      "metricEn": "Water usage and care",
+      "metricZh": "用水與水資源照護",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.3.5",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.3.5",
+      "en": "Water-conscious planting\nPlant landscapes to minimise water usage. (e.g. use drought-tolerant plants)",
+      "zh": "節水植栽\n貴校是否以最小化用水方式規劃景觀植栽（如耐旱植物）？",
+      "metricRef": "6.3",
+      "metricEn": "Water usage and care",
+      "metricZh": "用水與水資源照護",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.4.1",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.4.1",
+      "en": "Water reuse policy\nHave a policy to maximise water reuse across the university?",
+      "zh": "水再利用政策\n貴校是否訂有最大化全校水再利用之政策？",
+      "metricRef": "6.4",
+      "metricEn": "Water reuse",
+      "metricZh": "水資源再利用",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.4.2",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.4.2",
+      "en": "Water reuse measurement\nMeasure the reuse of water across the university?",
+      "zh": "水再利用量測\n貴校是否量測全校水再利用情形？",
+      "metricRef": "6.4",
+      "metricEn": "Water reuse",
+      "metricZh": "水資源再利用",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.5.1",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.1",
+      "en": "Water management educational opportunities\nProvide educational opportunities for local communities to learn about good water management",
+      "zh": "水資源管理教育機會\n貴校是否為地方社區提供優良水資源管理之教育機會？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg6-6.5.3",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.3",
+      "en": "Off-campus water conservation support\nSupport practical water conservation off campus",
+      "zh": "校外節水支持\n貴校是否支持校外實務節水？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.5.4",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.4",
+      "en": "Sustainable water extraction on campus\nWhere water is extracted (for example from aquifers, lakes or rivers) utilise sustainable water extraction technologies on associated university grounds on and off campus.",
+      "zh": "校園永續取水\n若有取水（如自含水層、湖泊或河川），貴校是否在相關校地（校內外）使用永續取水技術？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.5.5",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.5",
+      "en": "Cooperation on water security\nCooperate with local, regional, national, or global governments on water security.",
+      "zh": "水安全合作\n貴校是否與地方、區域、國家或全球政府就水安全合作？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方",
+          "kind": "option"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域",
+          "kind": "option"
+        },
+        {
+          "en": "National",
+          "zh": "國家",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg6-6.5.6",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.6",
+      "en": "Promoting conscious water usage on campus\nActively promote conscious water usage on campus,",
+      "zh": "校園推廣節水意識用水\n貴校是否積極在校園推廣有意識之用水？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg6-6.5.7",
+      "sdg": 6,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "6.5.7",
+      "en": "Promoting conscious water usage in the wider community.\nActively promote conscious water usage in the wider community",
+      "zh": "在更廣泛社區推廣節水意識用水\n貴校是否積極在更廣泛社區推廣有意識之用水？",
+      "metricRef": "6.5",
+      "metricEn": "Water in the community",
+      "metricZh": "社區水資源",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.1",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.1",
+      "en": "Energy-efficient renovation and building\nHave a policy in place for ensuring all renovations or new builds are following energy efficiency standards",
+      "zh": "節能整修與建築\n貴校是否訂有政策，確保所有整修或新建遵循能源效率標準？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.2",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.2",
+      "en": "Upgrade buildings to higher energy efficiency\nHave plans to upgrade existing buildings to higher energy efficiency",
+      "zh": "提升既有建築能源效率\n貴校是否有計畫將既有建築升級至更高能源效率？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.3",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.3",
+      "en": "Carbon reduction and emission reduction process\nHave a process for carbon management and reducing carbon dioxide emissions",
+      "zh": "減碳與排放減量程序\n貴校是否有碳管理及減少二氧化碳排放之程序？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.4",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.4",
+      "en": "Plan to reduce energy consumption\nHave an energy efficiency plan in place to reduce overall energy consumption",
+      "zh": "降低能源消耗計畫\n貴校是否訂有能源效率計畫以降低整體能源消耗？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.5",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.5",
+      "en": "Energy wastage identification\nUndergo energy reviews to identify areas where energy waste is highest",
+      "zh": "能源浪費辨識\n貴校是否進行能源檢視，以找出能源浪費最高之區域？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.2.6",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.2.6",
+      "en": "Divestment policy\nHave a policy on divesting investments from carbon-intensive energy industries notably coal and oil",
+      "zh": "撤資政策\n貴校是否訂有自高碳密集能源產業（尤其煤與石油）撤資之政策？",
+      "metricRef": "7.2",
+      "metricEn": "University measures towards affordable and clean energy",
+      "metricZh": "大學推動可負擔潔淨能源之措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.3.1",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.3.1",
+      "en": "Energy usage per sqm",
+      "zh": "每平方公尺能源使用量",
+      "metricRef": "7.3",
+      "metricEn": "Energy use density",
+      "metricZh": "能源使用密度",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量",
+          "kind": "value"
+        },
+        {
+          "en": "University floor space",
+          "zh": "大學樓地板面積",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg7-7.4.1",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.4.1",
+      "en": "Local community outreach for energy efficiency\nProvide programmes for local community to learn about importance of energy efficiency and clean energy",
+      "zh": "地方社區能源效率外展\n貴校是否提供地方社區認識能源效率與潔淨能源重要性之計畫？",
+      "metricRef": "7.4",
+      "metricEn": "Energy and the community",
+      "metricZh": "能源與社區",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.4.2",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.4.2",
+      "en": "100% renewable energy pledge\nPromote a public pledge toward 100% renewable energy beyond the university",
+      "zh": "100% 再生能源承諾\n貴校是否推動校園外邁向 100% 再生能源之公開承諾？",
+      "metricRef": "7.4",
+      "metricEn": "Energy and the community",
+      "metricZh": "能源與社區",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.4.3",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.4.3",
+      "en": "Energy efficiency services for industry\nProvide direct services to local industry aimed at improving energy efficiency and clean energy (energy efficiency assessments, workshops, research renewable energy options)",
+      "zh": "產業能源效率服務\n貴校是否向地方產業提供直接服務，以改善能源效率與潔淨能源（能源效率評估、工作坊、再生能源選項研究）？",
+      "metricRef": "7.4",
+      "metricEn": "Energy and the community",
+      "metricZh": "能源與社區",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg7-7.4.4",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.4.4",
+      "en": "Policy development for clean energy technology\nInform and support governments in clean energy and energy-efficient technology policy development",
+      "zh": "潔淨能源技術政策發展\n貴校是否協助政府發展潔淨能源與節能技術政策？",
+      "metricRef": "7.4",
+      "metricEn": "Energy and the community",
+      "metricZh": "能源與社區",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方",
+          "kind": "option"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域",
+          "kind": "option"
+        },
+        {
+          "en": "National",
+          "zh": "國家",
+          "kind": "option"
+        },
+        {
+          "en": "Global",
+          "zh": "全球",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg7-7.4.5",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.4.5",
+      "en": "Assistance to low-carbon innovation\nProvide assistance for start-ups that foster and support a low-carbon economy or technology",
+      "zh": "低碳創新協助\n貴校是否協助推動低碳經濟或技術之新創？",
+      "metricRef": "7.4",
+      "metricEn": "Energy and the community",
+      "metricZh": "能源與社區",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Low-carbon energy use",
+          "zh": "低碳能源使用",
+          "kind": "option"
+        },
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量",
+          "kind": "value"
+        },
+        {
+          "en": "Total energy used from low-carbon sources",
+          "zh": "低碳能源使用總量",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg8-8.2.1",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.1",
+      "en": "Employment practice living wage\nPay all staff and faculty at least the living wage, defined as the local living wage (if government defines this) or the local financial poverty indicator for a family of four (expressed as an hourly wage)",
+      "zh": "就業實務：基本生活工資\n貴校是否支付全體教職員至少基本生活工資（以地方政府定義之生活工資，或以四口之家貧困指標換算之時薪）？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.2",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.2",
+      "en": "Employment practice unions\nRecognize unions (freedom of association & collective bargaining) for all, including women & international staff",
+      "zh": "就業實務：工會\n貴校是否承認全體（含女性與國際員工）之工會（結社自由與集體協商）？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.3",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.3",
+      "en": "Employment policy on discrimination\nHave a policy on ending discrimination in the workplace (including discrimination based on religion, sexuality, gender, age, or refugee status)",
+      "zh": "就業歧視政策\n貴校是否訂有終結職場歧視之政策（含宗教、性傾向、性別、年齡或難民身分）？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.4",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.4",
+      "en": "Employment policy modern slavery\nHave a policy commitment against forced labour, modern slavery, human trafficking and child labour",
+      "zh": "現代奴役政策\n貴校是否承諾反對強迫勞動、現代奴役、人口販運與童工？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.5",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.5",
+      "en": "Employment practice equivalent rights outsourcing\nHave a policy on guaranteeing equivalent rights of workers when outsourcing activities to third parties",
+      "zh": "外包同等權利\n貴校是否訂有政策，確保委外予第三方時勞工享有同等權利？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.6",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.6",
+      "en": "Employment policy pay scale equity\nHave a policy on pay scale equity including a commitment to measurement and elimination of\ngender pay gaps",
+      "zh": "薪資尺度公平政策\n貴校是否訂有薪資尺度公平政策，並承諾量測與消除性別薪資差距？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.7",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.7",
+      "en": "Tracking pay scale for gender equity\nMeasurement or tracking pay scale gender equity",
+      "zh": "薪資尺度性別公平追蹤\n貴校是否量測或追蹤薪資尺度之性別公平？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.8",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.8",
+      "en": "Employment practice appeal process\nHave a process for employees to appeal on employee rights and/or pay",
+      "zh": "就業申訴程序\n貴校是否有員工就權利及／或薪資提出申訴之程序？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.2.9",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.2.9",
+      "en": "Employment practice labour rights\nRecognise labour rights (freedom of association and collective bargaining) for all, including women and international staff",
+      "zh": "就業實務：勞動權利\n貴校是否承認全體（含女性與國際員工）之勞動權利（結社自由與集體協商）？",
+      "metricRef": "8.2",
+      "metricEn": "Employment practice",
+      "metricZh": "就業實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg8-8.3.1",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.3.1",
+      "en": "Expenditure per employee",
+      "zh": "每位員工支出",
+      "metricRef": "8.3",
+      "metricEn": "Expenditure per employee",
+      "metricZh": "每位員工支出",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數",
+          "kind": "value"
+        },
+        {
+          "en": "University expenditure",
+          "zh": "大學支出",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg8-8.4.1",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.4.1",
+      "en": "Proportion of students with work placements",
+      "zh": "有實習經驗之學生比例",
+      "metricRef": "8.4",
+      "metricEn": "Proportion of students taking work placements",
+      "metricZh": "參與實習之學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of students with work placements for more than a month",
+          "zh": "實習超過一個月之學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg8-8.5.1",
+      "sdg": 8,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "8.5.1",
+      "en": "Proportion of employees on secure contracts",
+      "zh": "具穩定合約之員工比例",
+      "metricRef": "8.5",
+      "metricEn": "Proportion of employees on secure contracts",
+      "metricZh": "具穩定合約之員工比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of employees on contracts of over 24 months",
+          "zh": "合約超過 24 個月之員工人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg9-9.3.1",
+      "sdg": 9,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "9.3.1",
+      "en": "Number of university spin offs",
+      "zh": "大學衍生企業數量",
+      "metricRef": "9.3",
+      "metricEn": "University spin offs",
+      "metricZh": "大學衍生企業",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of university spin-offs",
+          "zh": "大學衍生企業數量",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg9-9.4.1",
+      "sdg": 9,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "9.4.1",
+      "en": "Research income from industry and commerce per academic staff",
+      "zh": "每位學術人員之產業與商業研究收入",
+      "metricRef": "9.4",
+      "metricEn": "Research income from industry and commerce",
+      "metricZh": "產業與商業研究收入",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Research income from industry and commerce by subject area: STEM",
+          "zh": "產業與商業研究收入（依領域）：STEM",
+          "kind": "value"
+        },
+        {
+          "en": "Research income from industry and commerce by subject area: Medicine",
+          "zh": "產業與商業研究收入（依領域）：醫學",
+          "kind": "value"
+        },
+        {
+          "en": "Research income from industry and commerce by subject area: Arts & Humanities / Social sciences",
+          "zh": "產業與商業研究收入（依領域）：藝術人文／社會科學",
+          "kind": "value"
+        },
+        {
+          "en": "Number of academic staff by subject area: STEM",
+          "zh": "學術人員人數（依領域）：STEM",
+          "kind": "value"
+        },
+        {
+          "en": "Number of academic staff by subject area: Medicine",
+          "zh": "學術人員人數（依領域）：醫學",
+          "kind": "value"
+        },
+        {
+          "en": "Number of academic staff by subject area: Arts & Humanities / Social sciences",
+          "zh": "學術人員人數（依領域）：藝術人文／社會科學",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.2.1",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.2.1",
+      "en": "Proportion of first-generation students",
+      "zh": "第一代大學生比例",
+      "metricRef": "10.2",
+      "metricEn": "First-generation students",
+      "metricZh": "第一代大學生",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students starting a degree",
+          "zh": "開始修讀學位之學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of first-generation students starting a degree",
+          "zh": "開始修讀學位之第一代大學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.3.1",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.3.1",
+      "en": "Proportion of international students from developing countries",
+      "zh": "來自開發中國家之國際學生比例",
+      "metricRef": "10.3",
+      "metricEn": "International students from developing countries",
+      "metricZh": "來自開發中國家之國際學生",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of international students from developing countries",
+          "zh": "來自開發中國家之國際學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.4.1",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.4.1",
+      "en": "Proportion of students with disabilities",
+      "zh": "身心障礙學生比例",
+      "metricRef": "10.4",
+      "metricEn": "Proportion of students with disabilities",
+      "metricZh": "身心障礙學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of students with disability",
+          "zh": "身心障礙學生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.5.1",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.5.1",
+      "en": "Proportion of employees with disabilities",
+      "zh": "身心障礙員工比例",
+      "metricRef": "10.5",
+      "metricEn": "Proportion of employees with disabilities",
+      "metricZh": "身心障礙員工比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of employees with disability",
+          "zh": "身心障礙員工人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.6.1",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.1",
+      "en": "Non-discriminatory admissions policy\nHave an admissions policy which is non-discriminatory or which details and explains the logic for any appropriate positive discrimination policies in admissions",
+      "zh": "不歧視招生政策\n貴校是否訂有不歧視之招生政策，或對任何適當之積極差別待遇招生政策說明其邏輯？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.2",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.2",
+      "en": "Access to university track underrepresented groups applications\nMeasure and track applications and admissions of underrepresented (and potentially underrepresented) groups including ethnic minorities, low income students, non-traditional students, women, LGBT students, disabled students, and newly settled refugee students.",
+      "zh": "追蹤代表性不足群體申請\n貴校是否量測並追蹤代表性不足（及潛在不足）群體之申請與入學（含少數族群、低收入、非傳統學生、女性、LGBT、身心障礙及新定居難民學生）？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.3",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.3",
+      "en": "Access to university underrepresented groups recruit\nTake planned actions  to recruit students, staff, and faculty from under-represented groups",
+      "zh": "招收代表性不足群體\n貴校是否採取有計畫之行動，招收代表性不足群體之學生與教職員？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.4",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.4",
+      "en": "Anti-discrimination policies\nHave an anti-discrimination policy that covers the institution and its operations.",
+      "zh": "反歧視政策\n貴校是否訂有涵蓋機構及其運作之反歧視政策？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.5",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.5",
+      "en": "University diversity officer\nHave a diversity and equality committee, office or officer (or the equivalent) tasked by the administration or governing body to advise on and implement policies, programmes and trainings related to diversity, equity, inclusion and human rights on campus.",
+      "zh": "大學多元事務單位／人員\n貴校是否設有多元與平等委員會、辦公室或專責人員（或同等單位），由行政或治理單位責成，就校園多元、公平、包容與人權提供建議並推動政策、計畫與訓練？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.6",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.6",
+      "en": "Support for underrepresented groups\nProvide mentoring, counselling, or peer support programmes to support students, staff, and faculty from underrepresented groups.",
+      "zh": "代表性不足群體支持\n貴校是否提供 mentorship、諮商或同儕支持計畫，支持代表性不足群體之學生與教職員？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.7",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.7",
+      "en": "Accessible facilities\nProvide accessible facilities for people with disabilities.",
+      "zh": "無障礙設施\n貴校是否提供身心障礙者之無障礙設施？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.8",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.8",
+      "en": "Disability support services\nSupport services for people with disabilities.",
+      "zh": "身心障礙支持服務\n貴校是否提供身心障礙者支持服務？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.9",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.9",
+      "en": "Disability access scheme\nProvide access schemes for people with disabilities such as mentoring or other targeted support",
+      "zh": "身心障礙近用方案\n貴校是否提供身心障礙者近用方案（如 mentorship 或其他針對性支持）？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Mentoring",
+          "zh": "輔導／Mentoring",
+          "kind": "option"
+        },
+        {
+          "en": "Other targeted support",
+          "zh": "其他針對性支持",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg10-10.6.10",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.10",
+      "en": "Disability accommodation policy\nHave reasonable accommodation policy or strategy for people with disabilities including adequate funding",
+      "zh": "身心障礙合理調整政策\n貴校是否訂有身心障礙者合理調整政策或策略，並有充足經費？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg10-10.6.11",
+      "sdg": 10,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "10.6.11",
+      "en": "Anti-harassment policy\nHave an anti-harassment policy that covers the institution and its operations",
+      "zh": "反騷擾政策\n貴校是否訂有涵蓋機構及其運作之反騷擾政策？",
+      "metricRef": "10.6",
+      "metricEn": "Measures against discrimination",
+      "metricZh": "反歧視措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.2.1",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.1",
+      "en": "Public access to buildings\nProvide public access to buildings and/or monuments or natural heritage landscapes of cultural significance",
+      "zh": "建築公共近用\n貴校是否對具文化意義之建築及／或紀念物或自然遺產景觀提供公共近用？",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all significant buildings",
+          "zh": "所有重要建築免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Some free access",
+          "zh": "部分免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.2.2",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.2",
+      "en": "Public access to libraries\nProvide public access to libraries including books and publications",
+      "zh": "圖書館公共近用\n貴校是否提供圖書館（含書籍與出版品）之公共近用？",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Automatic free access",
+          "zh": "自動免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Access to all after application",
+          "zh": "申請後全面開放",
+          "kind": "option"
+        },
+        {
+          "en": "Access in some circumstances",
+          "zh": "特定情況下開放",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.2.3",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.3",
+      "en": "Public access to museums\nProvide public access to museums, exhibition spaces or galleries, or works of art and artefacts",
+      "zh": "博物館公共近用\n貴校是否提供博物館、展覽空間或藝廊，或藝術品與文物之公共近用？",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all museums and galleries",
+          "zh": "所有博物館與藝廊免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Free access to some",
+          "zh": "部分免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.2.4",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.4",
+      "en": "Public access to green spaces\nProvide free public access to open spaces and green spaces",
+      "zh": "綠地公共近用\n貴校是否免費提供開放空間與綠地之公共近用？",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Permanent free access",
+          "zh": "永久免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Occasional free access",
+          "zh": "偶爾免費開放",
+          "kind": "option"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.2.5",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.5",
+      "en": "Arts and heritage contribution\nContribute to local arts, in terms of number of annual public performances of university choirs, theatre groups, orchestras etc… either ad-hoc or as part of an ongoing programme",
+      "zh": "藝術與遺產貢獻\n貴校是否透過大學合唱團、劇團、管弦樂團等年度公開演出次數，對地方藝術作出貢獻（臨時或持續計畫皆可）？",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "More than 30 perfomancees",
+          "zh": "每年超過 30 場演出",
+          "kind": "option"
+        },
+        {
+          "en": "More than 15 perfomances",
+          "zh": "每年超過 15 場演出",
+          "kind": "option"
+        },
+        {
+          "en": "Ad-hoc only",
+          "zh": "僅臨時辦理",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.2.6",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.2.6",
+      "en": "Record and preserve cultural heritage\nDeliver projects to record and preserve intangible cultural heritage such as local folklore, traditions, language, and knowledge. This can include the heritage of displaced communities.",
+      "zh": "記錄與保存文化遺產\n貴校是否執行計畫以記錄並保存非物質文化遺產（如地方民俗、傳統、語言與知識）？可含流離失所社區之遺產。",
+      "metricRef": "11.2",
+      "metricEn": "Support of arts and heritage",
+      "metricZh": "藝術與遺產支持",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local or regional cultural heritage",
+          "zh": "地方或區域文化遺產",
+          "kind": "option"
+        },
+        {
+          "en": "National cultural heritage",
+          "zh": "國家文化遺產",
+          "kind": "option"
+        },
+        {
+          "en": "Heritage of displaced communities",
+          "zh": "流離失所社區之文化遺產",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.3.1",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.3.1",
+      "en": "Arts and heritage expenditure",
+      "zh": "藝術與遺產支出",
+      "metricRef": "11.3",
+      "metricEn": "Expenditure on arts and heritage",
+      "metricZh": "藝術與遺產支出",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "University expenditure",
+          "zh": "大學支出",
+          "kind": "value"
+        },
+        {
+          "en": "University expenditure on arts and heritage",
+          "zh": "藝術與遺產相關支出",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.4.1",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.1",
+      "en": "Sustainable practices targets\nMeasure and set targets for more sustainable commuting (walking, cycling or other non-motorized transport, vanpools, carpools, shuttlebus or public transportation, motorcycle, scooter or moped, or electric vehicles)",
+      "zh": "永續實務目標\n貴校是否量測並設定更永續通勤目標（步行、自行車或其他非機動運輸、共乘、接駁／大眾運輸、機車／電動車等）？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.2",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.2",
+      "en": "Promote sustainable commuting\nUndertake actions to promote more sustainable commuting",
+      "zh": "推廣永續通勤\n貴校是否採取行動推廣更永續之通勤？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.3",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.3",
+      "en": "Allow remote working\nPromote or allow telecommuting or remote working for employees as a matter of policy or standard practice, or offer a condensed working week to reduce employee commuting",
+      "zh": "允許遠距工作\n貴校是否以政策或標準實務推廣／允許遠距工作，或提供壓縮工時以減少員工通勤？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.4",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.4",
+      "en": "Affordable housing for employees\nProvide affordable housing for employees",
+      "zh": "員工可負擔住房\n貴校是否為員工提供可負擔住房？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Evaluating affordability",
+          "zh": "評估可負擔性",
+          "kind": "option"
+        },
+        {
+          "en": "Providing housing directly",
+          "zh": "直接提供住房",
+          "kind": "option"
+        },
+        {
+          "en": "Providing financial support",
+          "zh": "提供財務支持",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.4.5",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.5",
+      "en": "Affordable housing for students\nProvide affordable housing for students",
+      "zh": "學生可負擔住房\n貴校是否為學生提供可負擔住房？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Evaluating affordability",
+          "zh": "評估可負擔性",
+          "kind": "option"
+        },
+        {
+          "en": "Providing housing directly",
+          "zh": "直接提供住房",
+          "kind": "option"
+        },
+        {
+          "en": "Providing financial support",
+          "zh": "提供財務支持",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg11-11.4.6",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.6",
+      "en": "Pedestrian priority on campus\nPrioritise pedestrian access on campus",
+      "zh": "校園行人優先\n貴校是否在校園優先行人通行？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.7",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.7",
+      "en": "Local authority collaboration regarding planning and development\nWork with local authorities to address planning issues and development, including ensuring that local residents are able to access affordable housing",
+      "zh": "與地方主管機關就規劃發展合作\n貴校是否與地方主管機關合作處理規劃與發展議題，包括確保地方居民可近用可負擔住房？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.8",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.8",
+      "en": "Planning development - new build standards\nBuild new buildings to sustainable standards",
+      "zh": "規劃發展－新建標準\n貴校新建建築是否依永續標準興建？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg11-11.4.9",
+      "sdg": 11,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "11.4.9",
+      "en": "Building on brownfield sites\nBuild on brownfield sites, where possible",
+      "zh": "在棕地興建\n貴校是否在可能情況下於棕地興建？",
+      "metricRef": "11.4",
+      "metricEn": "Sustainable practices",
+      "metricZh": "永續實務",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.1",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.1",
+      "en": "Ethical sourcing policy\nHave a policy on ethical sourcing of food and supplies",
+      "zh": "倫理採購政策\n貴校是否訂有食品與物資倫理採購政策？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.3",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.3",
+      "en": "Policy waste disposal - hazardous materials\nHave a policy, process or practice on waste disposal - Covering hazardous materials",
+      "zh": "廢棄物處理政策－危害物質\n貴校是否訂有涵蓋危害物質之廢棄物處理政策、程序或實務？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.4",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.4",
+      "en": "Policy waste disposal - landfill policy\nHave a policy on waste disposal - to measure the amount of waste sent to landfill and recycled",
+      "zh": "廢棄物處理政策－掩埋政策\n貴校是否訂有廢棄物處理政策，以量測送往掩埋與回收之廢棄物量？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.5",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.5",
+      "en": "Policy for minimisation of plastic use\nHave policies around use minimisation of plastic",
+      "zh": "塑膠減量政策\n貴校是否訂有塑膠使用最小化政策？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.6",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.6",
+      "en": "Policy for minimisation of disposable items\nHave policies around use minimisation of disposable items",
+      "zh": "一次性用品減量政策\n貴校是否訂有一次性用品使用最小化政策？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.7",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.7",
+      "en": "Disposable policy: extensions to services\nEnsuring these policies extend to outsourced services and the supply chain",
+      "zh": "一次性用品政策：延伸至服務\n上述政策是否延伸至委外服務與供應鏈？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.2.8",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.2.8",
+      "en": "Minimisation policies extended to suppliers\nEnsuring these policies extend to outsourced suppliers and the supply chain - (for example suppliers of equipment, stationery, building contracts)",
+      "zh": "減量政策延伸至供應商\n上述政策是否延伸至委外供應商與供應鏈（如設備、文具、營建合約供應商）？",
+      "metricRef": "12.2",
+      "metricEn": "Operational measures",
+      "metricZh": "營運措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg12-12.3.1",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.3.1",
+      "en": "Waste tracking\nMeasure the amount of waste generated and recycled across the university",
+      "zh": "廢棄物追蹤\n貴校是否量測全校廢棄物產生量與回收量？",
+      "metricRef": "12.3",
+      "metricEn": "Proportion of recycled waste",
+      "metricZh": "廢棄物回收比例",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Whole university",
+          "zh": "全校",
+          "kind": "option"
+        },
+        {
+          "en": "Partial measurement",
+          "zh": "部分量測",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg12-12.3.2",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.3.2",
+      "en": "Proportion of waste recycled",
+      "zh": "廢棄物回收比例",
+      "metricRef": "12.3",
+      "metricEn": "Proportion of recycled waste",
+      "metricZh": "廢棄物回收比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Amount of waste generated",
+          "zh": "廢棄物產生量",
+          "kind": "value"
+        },
+        {
+          "en": "Amount of waste recycled",
+          "zh": "廢棄物回收量",
+          "kind": "value"
+        },
+        {
+          "en": "Amount of waste sent to landfill",
+          "zh": "送往掩埋之廢棄物量",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg12-12.4.1",
+      "sdg": 12,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "12.4.1",
+      "en": "Publication of a sustainability report",
+      "zh": "發布永續報告",
+      "metricRef": "12.4",
+      "metricEn": "Publication of a sustainability report",
+      "metricZh": "發布永續報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Annual",
+          "zh": "每年",
+          "kind": "option"
+        },
+        {
+          "en": "Bi-annual",
+          "zh": "每兩年",
+          "kind": "option"
+        },
+        {
+          "en": "Less Frequent",
+          "zh": "較不頻繁",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg13-13.2.1",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.2.1",
+      "en": "Low-carbon energy tracking\nMeasure the amount of low carbon energy used across the university",
+      "zh": "低碳能源追蹤\n貴校是否量測全校低碳能源使用量？",
+      "metricRef": "13.2",
+      "metricEn": "Low-carbon energy use",
+      "metricZh": "低碳能源使用",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "whole university",
+          "zh": "全校",
+          "kind": "option"
+        },
+        {
+          "en": "partial measurement",
+          "zh": "部分量測",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg13-13.2.2",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.2.2",
+      "en": "Low-carbon energy use",
+      "zh": "低碳能源使用",
+      "metricRef": "13.2",
+      "metricEn": "Low-carbon energy use",
+      "metricZh": "低碳能源使用",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量",
+          "kind": "value"
+        },
+        {
+          "en": "Total energy used from low-carbon sources",
+          "zh": "低碳能源使用總量",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg13-13.3.1",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.3.1",
+      "en": "Local education programmes on climate\nProvide local education programmes or campaigns on climate change risks, impacts, mitigation, adaptation, impact reduction and early warning",
+      "zh": "地方氣候教育計畫\n貴校是否提供地方教育計畫或宣導，涵蓋氣候變遷風險、衝擊、減緩、調適、衝擊減量與預警？",
+      "metricRef": "13.3",
+      "metricEn": "Environmental education measures",
+      "metricZh": "環境教育措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg13-13.3.2",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.3.2",
+      "en": "Climate Action Plan, shared\nHave a university Climate Action plan, shared with local government and local community groups",
+      "zh": "氣候行動計畫（共享）\n貴校是否訂有氣候行動計畫，並與地方政府及地方社區團體共享？",
+      "metricRef": "13.3",
+      "metricEn": "Environmental education measures",
+      "metricZh": "環境教育措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg13-13.3.3",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.3.3",
+      "en": "Co-operative planning for climate change disasters\nParticipate in co-operative planning for climate change disasters, that may include the displacement of people both within a country and across borders, working with government",
+      "zh": "氣候變遷災害合作規劃\n貴校是否與政府參與氣候變遷災害合作規劃（可含國內及跨境人口流離）？",
+      "metricRef": "13.3",
+      "metricEn": "Environmental education measures",
+      "metricZh": "環境教育措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方",
+          "kind": "option"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg13-13.3.4",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.3.4",
+      "en": "Inform and support government\nInform and support local or regional government in local climate change disaster or risk early warning and monitoring",
+      "zh": "告知並支持政府\n貴校是否就地方氣候變遷災害或風險預警與監測，告知並支持地方或區域政府？",
+      "metricRef": "13.3",
+      "metricEn": "Environmental education measures",
+      "metricZh": "環境教育措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg13-13.3.5",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.3.5",
+      "en": "Environmental education collaborate with NGO\nCollaborate with NGOs on climate adaptation",
+      "zh": "與 NGO 環境教育合作\n貴校是否與 NGO 就氣候調適合作？",
+      "metricRef": "13.3",
+      "metricEn": "Environmental education measures",
+      "metricZh": "環境教育措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg13-13.4.1",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.4.1",
+      "en": "Commitment to carbon neutral university\nHave a target date by which it will become carbon neutral according to the Greenhouse Gas Protocols?",
+      "zh": "碳中和大學承諾\n貴校是否依溫室氣體盤查議定書訂有達成碳中和之目標日期？",
+      "metricRef": "13.4",
+      "metricEn": "Commitment to carbon neutral university",
+      "metricZh": "碳中和大學承諾",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "scope 1",
+          "zh": "範疇 1",
+          "kind": "option"
+        },
+        {
+          "en": "scope 1 and 2",
+          "zh": "範疇 1 與 2",
+          "kind": "option"
+        },
+        {
+          "en": "Scope 1, 2 and 3 (partial)",
+          "zh": "範疇 1、2 與 3（部分）",
+          "kind": "option"
+        },
+        {
+          "en": "Scope 1, 2 and 3 (full)",
+          "zh": "範疇 1、2 與 3（完整）",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg13-13.4.2",
+      "sdg": 13,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "13.4.2",
+      "en": "Achieve by date",
+      "zh": "達成日期",
+      "metricRef": "13.4",
+      "metricEn": "Commitment to carbon neutral university",
+      "metricZh": "碳中和大學承諾",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Achieve by\n•\tDate for achieved prior to 2023 - 4 points\n•\tDate for achieved by: 2023-2029 - 3 points\n•\tDate for achieved by: 2030-2039 - 2 points\n•\tDate for achieved by: 2040-2049 - 1 point\n•\tDate for achieved by: 2050 or later - 0.5",
+          "zh": "達成期限\n• 2023 年前已達成 － 4 分\n• 2023-2029 達成 － 3 分\n• 2030-2039 達成 － 2 分\n• 2040-2049 達成 － 1 分\n• 2050 或之後達成 － 0.5 分",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg14-14.2.1",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.2.1",
+      "en": "Fresh-water ecosystems (community outreach)\nOffer educational programmes on fresh-water ecosystems (water irrigation practices, water management/conservation) for local or national communities",
+      "zh": "淡水生態系（社區外展）\n貴校是否為地方或全國社區提供淡水生態系教育計畫（灌溉實務、水資源管理／保育）？",
+      "metricRef": "14.2",
+      "metricEn": "Supporting aquatic ecosystems through education",
+      "metricZh": "透過教育支持水生生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg14-14.2.2",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.2.2",
+      "en": "Sustainable fisheries (community outreach)\nOffer educational programme or outreach for local or national communities on sustainable management of fisheries, aquaculture and tourism",
+      "zh": "永續漁業（社區外展）\n貴校是否為地方或全國社區提供漁業、水產養殖與觀光永續管理之教育或外展？",
+      "metricRef": "14.2",
+      "metricEn": "Supporting aquatic ecosystems through education",
+      "metricZh": "透過教育支持水生生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg14-14.2.3",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.2.3",
+      "en": "Overfishing (community outreach)\nOffer educational outreach activities for local or national communities to raise awareness about overfishing, illegal, unreported and unregulated fishing and destructive fishing practices",
+      "zh": "過度捕撈（社區外展）\n貴校是否為地方或全國社區辦理教育外展，提升對過度捕撈、非法／未報告／未受規範捕撈及破壞性捕撈之認識？",
+      "metricRef": "14.2",
+      "metricEn": "Supporting aquatic ecosystems through education",
+      "metricZh": "透過教育支持水生生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg14-14.3.1",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.3.1",
+      "en": "Conservation and sustainable utilisation of the oceans (events)\nSupport or organise events aimed to promote conservation and sustainable utilisation of the oceans, seas, lakes, rivers and marine resources",
+      "zh": "海洋保育與永續利用（活動）\n貴校是否支持或舉辦活動，推廣海洋、海域、湖泊、河川與海洋資源之保育與永續利用？",
+      "metricRef": "14.3",
+      "metricEn": "Supporting aquatic ecosystems through action",
+      "metricZh": "透過行動支持水生生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.3.2",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.3.2",
+      "en": "Food from aquatic ecosystems (policies)\nHave a policy to ensure that food on campus that comes from aquatic ecosystems is sustainably harvested",
+      "zh": "水生生態系來源食品（政策）\n貴校是否訂有政策，確保校園來自水生生態系之食品為永續採收？",
+      "metricRef": "14.3",
+      "metricEn": "Supporting aquatic ecosystems through action",
+      "metricZh": "透過行動支持水生生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.3.3",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.3.3",
+      "en": "Maintain ecosystems and their biodiversity (direct work)\nWork directly (research and/or engagement with industries) to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat",
+      "zh": "維護生態系及其生物多樣性（直接工作）\n貴校是否直接（研究及／或與產業合作）維護並擴展既有生態系及其動植物生物多樣性，尤其受威脅生態系？",
+      "metricRef": "14.3",
+      "metricEn": "Supporting aquatic ecosystems through action",
+      "metricZh": "透過行動支持水生生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.3.4",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.3.4",
+      "en": "Technologies towards aquatic ecosystem damage prevention (direct work)\nWork directly (research and/or engagement with industries) on technologies or practices that enable marine industry to minimise or prevent damage to aquatic ecosystems",
+      "zh": "水生生態系損害預防技術（直接工作）\n貴校是否直接（研究及／或與產業合作）發展技術或實務，使海洋產業能最小化或防止對水生生態系之損害？",
+      "metricRef": "14.3",
+      "metricEn": "Supporting aquatic ecosystems through action",
+      "metricZh": "透過行動支持水生生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.4.1",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.4.1",
+      "en": "Water discharge guidelines and standards\nHave water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare)",
+      "zh": "排水指引與標準\n貴校是否訂有排水水質標準與指引（以維護水質、保護生態系、野生動物與人類健康福祉）？",
+      "metricRef": "14.4",
+      "metricEn": "Water sensitive waste disposal",
+      "metricZh": "顧及水資源之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.4.2",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.4.2",
+      "en": "Action plan to reducing plastic waste\nHave an action plan in place to reduce plastic waste on campus",
+      "zh": "塑膠廢棄物減量行動計畫\n貴校是否訂有減少校園塑膠廢棄物之行動計畫？",
+      "metricRef": "14.4",
+      "metricEn": "Water sensitive waste disposal",
+      "metricZh": "顧及水資源之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.4.3",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.4.3",
+      "en": "Reducing marine pollution (policy)\nHave a policy on preventing and reducing marine pollution of all kinds, in particular from land-based activities",
+      "zh": "減少海洋污染（政策）\n貴校是否訂有防止並減少各類海洋污染之政策（尤其陸域活動來源）？",
+      "metricRef": "14.4",
+      "metricEn": "Water sensitive waste disposal",
+      "metricZh": "顧及水資源之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.5.1",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.5.1",
+      "en": "Minimizing alteration of aquatic ecosystems (plan)\nHave a plan to minimise physical, chemical and biological alterations of related aquatic ecosystems",
+      "zh": "最小化水生生態系改變（計畫）\n貴校是否訂有計畫，最小化相關水生生態系之物理、化學與生物改變？",
+      "metricRef": "14.5",
+      "metricEn": "Maintaining a local ecosystem",
+      "metricZh": "維護地方生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.5.2",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.5.2",
+      "en": "Monitoring the health of aquatic ecosystems\nMonitor the health of aquatic ecosystems",
+      "zh": "監測水生生態系健康\n貴校是否監測水生生態系健康？",
+      "metricRef": "14.5",
+      "metricEn": "Maintaining a local ecosystem",
+      "metricZh": "維護地方生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.5.3",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.5.3",
+      "en": "Programs towards good aquatic stewardship practices\nDevelop and support programmes and incentives that encourage and maintain good aquatic stewardship practices",
+      "zh": "優良水域stewardship方案\n貴校是否發展並支持鼓勵與維持優良水域stewardship之計畫與誘因？",
+      "metricRef": "14.5",
+      "metricEn": "Maintaining a local ecosystem",
+      "metricZh": "維護地方生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期",
+          "kind": "option"
+        },
+        {
+          "en": "On-going",
+          "zh": "持續進行",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg14-14.5.4",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.5.4",
+      "en": "Collaboration for shared aquatic ecosystems\nCollaborate with the local community in efforts to maintain shared aquatic ecosystems",
+      "zh": "共享水生生態系合作\n貴校是否與地方社區合作維護共享水生生態系？",
+      "metricRef": "14.5",
+      "metricEn": "Maintaining a local ecosystem",
+      "metricZh": "維護地方生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg14-14.5.5",
+      "sdg": 14,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "14.5.5",
+      "en": "Watershed management strategy\nHave implemented a watershed management strategy based on location specific diversity of aquatic species",
+      "zh": "集水區管理策略\n貴校是否已依在地水生物種多樣性實施集水區管理策略？",
+      "metricRef": "14.5",
+      "metricEn": "Maintaining a local ecosystem",
+      "metricZh": "維護地方生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.2.1",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.1",
+      "en": "Events about sustainable use of land\nSupport or organise events aimed to promote conservation and sustainable utilisation of the land, including forests and wild land",
+      "zh": "土地永續利用相關活動\n貴校是否支持或舉辦活動，推廣土地（含森林與荒地）之保育與永續利用？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.2.2",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.2",
+      "en": "Sustainably farmed food on campus\nHave policies to ensure that food on campus is sustainably farmed",
+      "zh": "校園永續農產食品\n貴校是否訂有政策，確保校園食品為永續耕作？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.2.3",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.3",
+      "en": "Maintain and extend current ecosystems' biodiversity\nWork directly to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat",
+      "zh": "維護並擴展現行生態系生物多樣性\n貴校是否直接維護並擴展既有生態系及其動植物生物多樣性，尤其受威脅生態系？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.2.4",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.4",
+      "en": "Educational programmes on ecosystems\nOffer educational programmes on ecosystems (looking at wild flora and fauna) for local or national communities?",
+      "zh": "生態系教育計畫\n貴校是否為地方或全國社區提供生態系教育計畫（關注野生動植物）？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg15-15.2.5",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.5",
+      "en": "Sustainable management of land for agriculture (educational outreach)\nOffer educational programme/outreach for local or national communities on sustainable management of land for agriculture",
+      "zh": "農業土地永續管理（教育外展）\n貴校是否為地方或全國社區提供農業土地永續管理之教育／外展？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg15-15.2.6",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.2.6",
+      "en": "Sustainable management of land for tourism (educational outreach)\nOffer educational programme/outreach for local or national communities on sustainable management of land for tourism",
+      "zh": "觀光土地永續管理（教育外展）\n貴校是否為地方或全國社區提供觀光土地永續管理之教育／外展？",
+      "metricRef": "15.2",
+      "metricEn": "Supporting land ecosystems through education",
+      "metricZh": "透過教育支持陸域生態系",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費",
+          "kind": "option"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg15-15.3.1",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.3.1",
+      "en": "Sustainable use, conservation and restoration of land (policy)\nHave a policy to ensure the conservation, restoration and sustainable use of terrestrial ecosystems associated with the university, in particular forests, mountains and drylands",
+      "zh": "土地永續利用、保育與復育（政策）\n貴校是否訂有政策，確保與大學相關陸域生態系（尤其森林、山岳與旱地）之保育、復育與永續利用？",
+      "metricRef": "15.3",
+      "metricEn": "Supporting land ecosystems through action",
+      "metricZh": "透過行動支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.3.2",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.3.2",
+      "en": "Monitoring IUCN and other conservation species (policies)\nHave a policy to identify, monitor and protect any IUCN Red Listed species and national conservation list species with habits in areas affected by the operation of your university",
+      "zh": "監測 IUCN 及其他保育物種（政策）\n貴校是否訂有政策，識別、監測並保護受大學營運影響區域內之 IUCN 紅皮書物種及國家保育名錄物種？",
+      "metricRef": "15.3",
+      "metricEn": "Supporting land ecosystems through action",
+      "metricZh": "透過行動支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.3.3",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.3.3",
+      "en": "Local biodiversity included in planning and development\nInclude local biodiversity into any planning and development process (e.g. construction of new buildings)",
+      "zh": "規劃發展納入地方生物多樣性\n貴校是否在任何規劃與發展過程（如新建）納入地方生物多樣性？",
+      "metricRef": "15.3",
+      "metricEn": "Supporting land ecosystems through action",
+      "metricZh": "透過行動支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.3.4",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.3.4",
+      "en": "Alien species impact reduction (policies)\nHave a policy to reduce the impact of alien species on Campus",
+      "zh": "外來種衝擊減量（政策）\n貴校是否訂有減少校園外來種衝擊之政策？",
+      "metricRef": "15.3",
+      "metricEn": "Supporting land ecosystems through action",
+      "metricZh": "透過行動支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.3.5",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.3.5",
+      "en": "Collaboration for shared land ecosystems\nCollaborate with the local community to maintain shared land ecosystems",
+      "zh": "共享陸域生態系合作\n貴校是否與地方社區合作維護共享陸域生態系？",
+      "metricRef": "15.3",
+      "metricEn": "Supporting land ecosystems through action",
+      "metricZh": "透過行動支持陸域生態系",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.4.1",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.4.1",
+      "en": "Water discharge guidelines and standards\nHave water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare)",
+      "zh": "排水指引與標準\n貴校是否訂有排水水質標準與指引（以維護水質、保護生態系、野生動物與人類健康福祉）？",
+      "metricRef": "15.4",
+      "metricEn": "Land sensitive waste disposal",
+      "metricZh": "顧及土地之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.4.2",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.4.2",
+      "en": "Policy on plastic waste reduction\nHave a policy on reducing plastic waste on campus",
+      "zh": "塑膠廢棄物減量政策\n貴校是否訂有減少校園塑膠廢棄物之政策？",
+      "metricRef": "15.4",
+      "metricEn": "Land sensitive waste disposal",
+      "metricZh": "顧及土地之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg15-15.4.3",
+      "sdg": 15,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "15.4.3",
+      "en": "Policy on hazardous waste disposal\nHave a policy, process or practice on waste disposal covering hazardous materials",
+      "zh": "危害廢棄物處理政策\n貴校是否訂有涵蓋危害物質之廢棄物處理政策、程序或實務？",
+      "metricRef": "15.4",
+      "metricEn": "Land sensitive waste disposal",
+      "metricZh": "顧及土地之廢棄物處理",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.2.1",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.1",
+      "en": "Elected representation\nHave elected representation on the university's highest governing body from: students (both undergraduate and graduate), faculty, and staff (non-faculty employees)",
+      "zh": "選舉代表\n貴校最高治理機關是否有來自學生（大學部與研究所）、faculty 與職員（非 faculty）之選舉代表？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "students (both undergraduate and graduate)",
+          "zh": "學生（大學部與研究所）",
+          "kind": "option"
+        },
+        {
+          "en": "faculty",
+          "zh": "教職員（faculty）",
+          "kind": "option"
+        },
+        {
+          "en": "staff (non-faculty employees)",
+          "zh": "職員（非 faculty）",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg16-16.2.2",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.2",
+      "en": "Students' union\nRecognise an independent students' union",
+      "zh": "學生會\n貴校是否承認獨立學生會？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Union provides governance input to university",
+          "zh": "學生會參與大學治理",
+          "kind": "option"
+        },
+        {
+          "en": "Union provides support for students",
+          "zh": "學生會提供學生支持",
+          "kind": "option"
+        },
+        {
+          "en": "Union provides social activities",
+          "zh": "學生會辦理社交活動",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg16-16.2.3",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.3",
+      "en": "Identify and engage with local stakeholders\nHave written policies and procedures to identify local stakeholders external to the university and engage with them",
+      "zh": "識別並與地方利害關係人互動\n貴校是否訂有書面政策與程序，以識別校外地方利害關係人並與之互動？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.2.4",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.4",
+      "en": "Participatory bodies for stakeholder engagement\nEnsure that local stakeholders in the university - including local residents, local government, and civil society representativels (which may include groups such as refugee resettlement agencies) - have a meaningful mechanism or for participating in university decision making.",
+      "zh": "利害關係人參與機制\n貴校是否確保大學之地方利害關係人（含地方居民、地方政府與公民社會代表，可含難民安置機構等）有有意義之機制參與大學決策？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.2.5",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.5",
+      "en": "University principles on corruption and bribery\nPublish the university's principles and commitments on organized crime, corruption & bribery",
+      "zh": "反貪腐與賄賂原則\n貴校是否公開大學對組織犯罪、貪腐與賄賂之原則與承諾？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.2.6",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.6",
+      "en": "Academic freedom policy\nHave a policy on supporting academic freedom (freedom to choose areas of research and to speak and teach publicly about the area of their research)",
+      "zh": "學術自由政策\n貴校是否訂有支持學術自由之政策（選擇研究領域，以及公開談論與教授其研究領域之自由）？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Research freedom for senior academics",
+          "zh": "資深教師研究自由",
+          "kind": "option"
+        },
+        {
+          "en": "Research freedom for junior academics",
+          "zh": "初階教師研究自由",
+          "kind": "option"
+        },
+        {
+          "en": "Teaching freedom for senior academics",
+          "zh": "資深教師教學自由",
+          "kind": "option"
+        },
+        {
+          "en": "Teaching freedom for junior academics",
+          "zh": "初階教師教學自由",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg16-16.2.7",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.2.7",
+      "en": "Publish financial data\nPublish university financial data",
+      "zh": "公開財務資料\n貴校是否公開大學財務資料？",
+      "metricRef": "16.2",
+      "metricEn": "University governance measures",
+      "metricZh": "大學治理措施",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.3.1",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.3.1",
+      "en": "Provide expert advice to government\nProvide specific expert advice to local, regional or national government (for example through policy guidance, participation in committees, provision of evidence)",
+      "zh": "向政府提供專家建議\n貴校是否向地方、區域或國家政府提供具體專家建議（如政策指引、參與委員會、提供證據）？",
+      "metricRef": "16.3",
+      "metricEn": "Working with government",
+      "metricZh": "與政府合作",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方",
+          "kind": "option"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域",
+          "kind": "option"
+        },
+        {
+          "en": "National",
+          "zh": "國家",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg16-16.3.2",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.3.2",
+      "en": "Policy- and lawmakers outreach and education\nProvide outreach, general education, upskilling and capacity-building to policy and lawmakers on relevant topics including economics, law, technology, migration and displacement, and climate change",
+      "zh": "政策與立法者外展與教育\n貴校是否向政策與立法者提供外展、通識、培力與能力建構（含經濟、法律、技術、移民與流離、氣候變遷等）？",
+      "metricRef": "16.3",
+      "metricEn": "Working with government",
+      "metricZh": "與政府合作",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.3.3",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.3.3",
+      "en": "Participation in government research\nUndertake policy-focused research in collaboration with government departments",
+      "zh": "參與政府研究\n貴校是否與政府部門合作進行政策導向研究？",
+      "metricRef": "16.3",
+      "metricEn": "Working with government",
+      "metricZh": "與政府合作",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.3.4",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.3.4",
+      "en": "Neutral platform to discuss issues\nProvide a neutral platform and 'safe' space for different political stakeholders to come together to frankly discuss challenges",
+      "zh": "中立討論平台\n貴校是否提供中立平台與「安全」空間，供不同政治利害關係人坦誠討論挑戰？",
+      "metricRef": "16.3",
+      "metricEn": "Working with government",
+      "metricZh": "與政府合作",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg16-16.4.1",
+      "sdg": 16,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "16.4.1",
+      "en": "Proportion of graduates in law",
+      "zh": "法律畢業生比例",
+      "metricRef": "16.4",
+      "metricEn": "Proportion of graduates in law and civil enforcement",
+      "metricZh": "法律與公民執法畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數",
+          "kind": "value"
+        },
+        {
+          "en": "Number of graduates from law and enforcement related courses",
+          "zh": "法律與執法相關課程畢業生人數",
+          "kind": "value"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.2.1",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.2.1",
+      "en": "Relationships with regional NGOs and government for SDG policy\nHave direct involvement in, or input into, national government or regional non-government organisations, SDG policy development - including identifying problems and challenges, developing policies and strategies, modelling likely futures with and without interventions, monitoring and reporting on interventions, and enabling adaptive management",
+      "zh": "與區域 NGO 及政府之 SDG 政策關係\n貴校是否直接參與或投入國家政府或區域非政府組織之 SDG 政策發展（含問題挑戰識別、政策策略研擬、介入前後情境模擬、監測報告與調適管理）？",
+      "metricRef": "17.2",
+      "metricEn": "Relationships to support the goals",
+      "metricZh": "支持永續目標之夥伴關係",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg17-17.2.2",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.2.2",
+      "en": "Cross sectoral dialogue about SDGs\nInitiate and participate in cross-sectoral dialogue about the SDGs, e.g. conferences involving government or NGOs",
+      "zh": "SDG 跨部門對話\n貴校是否發起並參與 SDG 跨部門對話（如含政府或 NGO 之會議）？",
+      "metricRef": "17.2",
+      "metricEn": "Relationships to support the goals",
+      "metricZh": "支持永續目標之夥伴關係",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg17-17.2.3",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.2.3",
+      "en": "International collaboration data gathering for SDG\nParticipate in international collaboration on gathering or measuring data for the SDGs",
+      "zh": "SDG 國際資料蒐集合作\n貴校是否參與 SDG 資料蒐集或量測之國際合作？",
+      "metricRef": "17.2",
+      "metricEn": "Relationships to support the goals",
+      "metricZh": "支持永續目標之夥伴關係",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg17-17.2.4",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.2.4",
+      "en": "Collaboration for SDG best practice\nThrough international collaboration and research, review comparative approaches and develop international best practice on tackling the SDGs",
+      "zh": "SDG 最佳實務合作\n貴校是否透過國際合作與研究，檢視比較方法並發展因應 SDG 之國際最佳實務？",
+      "metricRef": "17.2",
+      "metricEn": "Relationships to support the goals",
+      "metricZh": "支持永續目標之夥伴關係",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg17-17.2.5",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.2.5",
+      "en": "Collaboration with NGOs for SDGs\nCollaborate with NGOs to tackle the SDGs through: student volunteering programmes, research programmes, or development of educational resources",
+      "zh": "與 NGO 合作推動 SDG\n貴校是否與 NGO 合作因應 SDG（透過：學生志工計畫、研究計畫或發展教育資源）？",
+      "metricRef": "17.2",
+      "metricEn": "Relationships to support the goals",
+      "metricZh": "支持永續目標之夥伴關係",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "student volunteering programmes",
+          "zh": "學生志工計畫",
+          "kind": "option"
+        },
+        {
+          "en": "research programmes",
+          "zh": "研究計畫",
+          "kind": "option"
+        },
+        {
+          "en": "development of educational resources",
+          "zh": "發展教育資源",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.1",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.1",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG1, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG1 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.2",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.2",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG2, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG2 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.3",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.3",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG3, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG3 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.4",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.4",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG4, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG4 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.5",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.5",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG5, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG5 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.6",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.6",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG6, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG6 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.7",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.7",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG7, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG7 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.8",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.8",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG8, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG8 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.9",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.9",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG9, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG9 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.10",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.10",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG10, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG10 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.11",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.11",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG11, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG11 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.12",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.12",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG12, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG12 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.13",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.13",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG13, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG13 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.14",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.14",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG14, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG14 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.15",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.15",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG15, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG15 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.16",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.16",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG16, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG16 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.3.17",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.3.17",
+      "en": "Publication of SDG reports - per SDG\nPublish progress against against SDG17, either individually or within an annual report",
+      "zh": "發布 SDG 報告－各 SDG\n貴校是否單獨或於年報中公布 SDG17 之進展？",
+      "metricRef": "17.3",
+      "metricEn": "Publication of SDG reports",
+      "metricZh": "發布 SDG 報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告",
+          "kind": "option"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.4.1",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.4.1",
+      "en": "Education for SDGs commitment to meaningful education\nHave a commitment to meaningful education around the SDGs across the university, relevant and applicable to all students",
+      "zh": "SDG 有意義教育之承諾\n貴校是否承諾在全校推動與全體學生相關且適用之 SDG 有意義教育？",
+      "metricRef": "17.4",
+      "metricEn": "Education for the SDGs",
+      "metricZh": "SDG 教育",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "education integrated across full curriculum",
+          "zh": "融入整體課程",
+          "kind": "option"
+        },
+        {
+          "en": "mandatory education for all",
+          "zh": "全體必修",
+          "kind": "option"
+        },
+        {
+          "en": "optional education for all",
+          "zh": "全體選修／可選",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.4.2",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.4.2",
+      "en": "Education for SDGs specific courses on sustainability\nHave dedicated courses (full degrees, or electives) that address sustainability and the SDGs.",
+      "zh": "SDG 永續專責課程\n貴校是否設有專責課程（完整學位或選修）探討永續與 SDG？",
+      "metricRef": "17.4",
+      "metricEn": "Education for the SDGs",
+      "metricZh": "SDG 教育",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg17-17.4.3",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.4.3",
+      "en": "Education for SDGs in the wider community\nHave dedicated outreach educational activities for the wider community, which could include alumni, local residents, displaced people",
+      "zh": "更廣泛社區之 SDG 教育\n貴校是否為更廣泛社區（可含校友、地方居民、流離失所者）辦理專責外展教育活動？",
+      "metricRef": "17.4",
+      "metricEn": "Education for the SDGs",
+      "metricZh": "SDG 教育",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Alumni",
+          "zh": "校友",
+          "kind": "option"
+        },
+        {
+          "en": "Local community",
+          "zh": "地方社區",
+          "kind": "option"
+        },
+        {
+          "en": "Displaced people and refugees",
+          "zh": "流離失所者與難民",
+          "kind": "option"
+        }
+      ]
+    },
+    {
+      "id": "sdg17-17.4.4",
+      "sdg": 17,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "17.4.4",
+      "en": "Sustainable Literacy\nThis question explores how you evaluate your students' ability to learn and retain key concepts of sustainability.  For 2025 we will not score this question but will use it to inform our decisions for 2026.\nMeasure the sustainability literacy of students.",
+      "zh": "永續素養\n本题探討貴校如何評估學生學習並保留永續關鍵概念之能力。2025 年不計分，但將作為 2026 決策參考。\n貴校是否量測學生之永續素養？",
+      "metricRef": "17.4",
+      "metricEn": "Education for the SDGs",
+      "metricZh": "SDG 教育",
+      "answerType": "yesno",
+      "options": []
+    }
+  ],
+  "counts": {
+    "metrics": 57,
+    "indicators": 211,
+    "missingQuestionZh": 0,
+    "missingMetricZh": 0
+  }
+}

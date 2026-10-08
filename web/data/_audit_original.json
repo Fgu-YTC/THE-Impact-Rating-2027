@@ -1,0 +1,6794 @@
+{
+  "SDG1": {
+    "title": "SDG1: No Poverty",
+    "metrics": 3,
+    "indicators": 10,
+    "subrows": 12,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "1.2",
+        "label": "Proportion of students receiving financial aid to attend university because of poverty",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "1.2.1",
+        "label": "Low income students receiving financial aid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of students",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Number of low income students receiving financial aid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Metric",
+        "ref": "1.3",
+        "label": "University anti-poverty programmes",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "1.3.1",
+        "label": "Bottom financial quintile admission target\nTargets to admit students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": "Indicator",
+        "ref": "1.3.2",
+        "label": "Bottom financial quintile student success\nGraduation/completion targets for students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "1.3.3",
+        "label": "Low-income student support\nProvide support (e.g. food, housing, transportation, legal services) for students from low income families to enable them to complete university.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "subsidised",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "1.3.4",
+        "label": "Bottom financial quintile student support\nProgrammes or initiatives to assist students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country to successfully complete their studies.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "1.3.5",
+        "label": "Low or lower-middle income countries student support\nSchemes to support poor students from low or lower-middle income countries (e.g. offering free education, grants).",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": "Metric",
+        "ref": "1.4",
+        "label": "Community anti-poverty programmes",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "1.4.1",
+        "label": "Local start-up assistance\nProvide assistance in the local community supporting the start-up of financially and socially  sustainable businesses through relevant education or resources (e.g. mentorship programmes, training workshops, access to university facilities).",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 19,
+        "type": "Indicator",
+        "ref": "1.4.2",
+        "label": "Local start-up financial assistance\nProvide financial assistance to the local community supporting the start-up of financially and socially sustainable businesses.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "1.4.3",
+        "label": "Programmes for services access\nOrganise training or programmes to improve access to basic services for all.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "directly",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "indirectly",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "1.4.4",
+        "label": "Policy addressing poverty\nParticipate in policy making at local, regional, national and/or global level to implement programmes and policies to end poverty in all its dimensions.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "local",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "regional",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "national",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "global",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG2": {
+    "title": "SDG2: Zero Hunger",
+    "metrics": 4,
+    "indicators": 12,
+    "subrows": 16,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "2.2",
+        "label": "Campus food waste",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "2.2.1",
+        "label": "Campus food waste tracking\nMeasure the amount of food waste generated from food served within the university.",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "whole university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "partial measurement",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "2.2.2",
+        "label": "Campus food waste",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Total food waste",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Campus population",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 10,
+        "type": "Metric",
+        "ref": "2.3",
+        "label": "Student hunger",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 11,
+        "type": "Indicator",
+        "ref": "2.3.1",
+        "label": "Student food insecurity and hunger\nHave a programme in place on student food insecurity.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "2.3.2",
+        "label": "Students hunger interventions\nProvide interventions to prevent or alleviate hunger among students (e.g. including supply and access to food banks/pantries)._x000D_",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "2.3.3",
+        "label": "Sustainable food choices on campus \nProvide sustainable food choices for all on campus, including vegetarian and vegan food.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 3
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "all food outlets",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "selected food outlets",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "2.3.4",
+        "label": "Healthy and affordable food choices\nProvide healthy and affordable food choices for all on campus.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 3
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "all food outlets",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "selected food outlets",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": "Indicator",
+        "ref": "2.3.5",
+        "label": "Staff hunger interventions\nProvide interventions to prevent or alleviate hunger among members of staff (e.g. including supply and access to food banks/pantries).",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": "Metric",
+        "ref": "2.4",
+        "label": "Proportion of graduates in agriculture and aquaculture including sustainability aspects",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "2.4.1",
+        "label": "Proportion of graduates in agriculture and aquaculture",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates from agriculture and aquaculture courses including sustainability aspects",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 26,
+        "type": "Metric",
+        "ref": "2.5",
+        "label": "National hunger",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": "Indicator",
+        "ref": "2.5.1",
+        "label": "Access to food security knowledge \nProvide access on food security and sustainable agriculture and aquaculture knowledge, skills or technology to local farmers and food producers.",
+        "answerFills": [
+          "t2",
+          "t0",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 30,
+        "type": null,
+        "ref": null,
+        "label": "free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 31,
+        "type": null,
+        "ref": null,
+        "label": "paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 32,
+        "type": "Indicator",
+        "ref": "2.5.2",
+        "label": "Events for local farmers and food producers\nProvide events for local farmers and food producers to connect and transfer knowledge",
+        "answerFills": [
+          "t2",
+          "t0",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 35,
+        "type": null,
+        "ref": null,
+        "label": "free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 36,
+        "type": null,
+        "ref": null,
+        "label": "paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 37,
+        "type": "Indicator",
+        "ref": "2.5.3",
+        "label": "University access to local farmers and food producers\nProvide access to university facilities (e.g. labs, technology, plant stocks) to local farmers and food producers to improve sustainable farming practices.",
+        "answerFills": [
+          "t2",
+          "t0",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 40,
+        "type": null,
+        "ref": null,
+        "label": "free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 41,
+        "type": null,
+        "ref": null,
+        "label": "paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 42,
+        "type": "Indicator",
+        "ref": "2.5.4",
+        "label": "Sustainable food purchases\nPrioritise purchase of products from local, sustainable sources.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG3": {
+    "title": "SDG3: Good Health and Well-being",
+    "metrics": 2,
+    "indicators": 8,
+    "subrows": 21,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "3.2",
+        "label": "Number graduating in health professions",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "3.2.1",
+        "label": "Proportion of graduates in health professions",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates in health professions",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Metric",
+        "ref": "3.3",
+        "label": "Collaborations and health services",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "3.3.1",
+        "label": "Current collaborations with health institutions\nHave current collaborations with local, national, or global health institutions to improve health and well-being outcomes.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "local collaboration",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "national collaboration",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "global cooperation",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "3.3.2",
+        "label": "Health outreach programmes\nDeliver outreach programmes and projects in the local community (which can include student volunteering programmes) to improve or promote health and well-being including hygiene, nutrition, family planning, sports, exercise, aging well, and other health and well-being related topics. \nThis can also include outreach programmes to displaced or refugee communities local to the institution.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Local communities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Disadvantaged people",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "Refugee/immigrant communities",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "3.3.3",
+        "label": "Shared sports facilities\nShare sports facilities with the local community, for instance with local schools or with the general public.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "Free access to all facilities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Free access to some facilities",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Charged access",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "3.3.4",
+        "label": "Sexual and reproductive health care services for students\nProvide students access to sexual and reproductive health-care services including information and education services.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "Free access",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "Charged access",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "3.3.5",
+        "label": "Mental health support for students\nProvide students with access to mental health support.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Active promotion of good mental health",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Access to (or signposting to) free mental health support",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "Access to (or signposting to) charged mental health support",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 27,
+        "type": "Indicator",
+        "ref": "3.3.6",
+        "label": "Smoke-free policy\nHave a ‘smoke-free’ policy.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 28,
+        "type": null,
+        "ref": null,
+        "label": "Smoking-free campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 29,
+        "type": null,
+        "ref": null,
+        "label": "Smoking in designated areas",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 30,
+        "type": "Indicator",
+        "ref": "3.3.7",
+        "label": "Mental health support for staff\nProvide staff  with access to mental health support.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 31,
+        "type": null,
+        "ref": null,
+        "label": "Active promotion of good mental health",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 32,
+        "type": null,
+        "ref": null,
+        "label": "Access to (or signposting to) free mental health support",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 33,
+        "type": null,
+        "ref": null,
+        "label": "Access to (or signposting to) charged mental health support",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG4": {
+    "title": "SDG4: Quality Education",
+    "metrics": 3,
+    "indicators": 7,
+    "subrows": 13,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "4.2",
+        "label": "Proportion of graduates with teaching qualification",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "4.2.1",
+        "label": "Proportion of graduates with relevant qualification for teaching",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates who gained a qualification that entitled them to teach at primary school level",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Metric",
+        "ref": "4.3",
+        "label": "Lifelong learning measures",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "4.3.1",
+        "label": "Public resources (lifelong learning) \nProvide free access to educational resources for those not studying at the university.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Free courses leading to certificate or award",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "Free access to campus facilities and equipment",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Free access to online resources",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "4.3.2",
+        "label": "Public events (lifelong learning)\nHost educational events at university that are open to the general public.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Free events",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Both changed and free",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "4.3.3",
+        "label": "Vocational training events (lifelong learning)\nHost events at university that are open to the general public: executive education programmes (this refers to short courses for people who are not attending the university; this specifically excludes courses like MBA) and/or vocational training.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "Ad hoc",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "On programmed basis",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "4.3.4",
+        "label": "Education outreach activities beyond campus\nUndertake educational outreach activities (e.g. tailored lectures or demonstrations) beyond campus – in local schools, in the community. This can include voluntary student-run schemes.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Ad hoc",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "On programmed basis",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 21,
+        "type": "Indicator",
+        "ref": "4.3.5",
+        "label": "Lifelong learning access policy\nA policy that ensures that access to these activities is accessible to all, regardless of ethnicity, religion, disability immigration status or gender.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": "Metric",
+        "ref": "4.4",
+        "label": "Proportion of first-generation students",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "4.4.1",
+        "label": "Proportion of first-generation students",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Number of students starting a degree",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Number of first-generation students starting a degree",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG5": {
+    "title": "SDG5: Gender Equality",
+    "metrics": 5,
+    "indicators": 16,
+    "subrows": 22,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "5.2",
+        "label": "Proportion of first-generation female students",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "5.2.1",
+        "label": "Proportion of women first-generation",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of women starting a degree",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Number of first-generation women starting a degree",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Metric",
+        "ref": "5.3",
+        "label": "Student access measures",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "5.3.1",
+        "label": "Tracking access measures\nSystematically measure and track women’s application rate, acceptance or entry rate.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": "Indicator",
+        "ref": "5.3.2",
+        "label": "Policy for women applications and entry\nHave a policy (e.g. an Access and Participation plan) addressing women’s applications, acceptance, entry, and participation at the university.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "5.3.3",
+        "label": "Women’s access schemes\nProvide women’s access schemes, including mentoring, scholarships, or other provision",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Mentoring",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "Scholarship",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Other provision",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "5.3.4",
+        "label": "Women’s application in underrepresented subjects\nEncourage applications by women in subjects where they are underrepresented. Through university outreach or through collaboration with other universities, community groups, government or NGOs in regional or national campaigns.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "through university outreach",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "through collaboration with other universities and/or community groups and/or government     and/or NGOs in regional or national campaigns",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 17,
+        "type": "Metric",
+        "ref": "5.4",
+        "label": "Proportion of senior female academics",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "5.4.1",
+        "label": "Proportion of senior female academics",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Number of senior academic staff",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "Number of female senior academic staff",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 21,
+        "type": "Metric",
+        "ref": "5.5",
+        "label": "Proportion of women receiving degrees",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 22,
+        "type": "Indicator",
+        "ref": "5.5.1",
+        "label": "Proportion of female degrees awarded",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates: Total",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates: STEM",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates: Medicine",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates: Arts & Humanities / Social Sciences",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 28,
+        "type": null,
+        "ref": null,
+        "label": "Number of female graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 29,
+        "type": null,
+        "ref": null,
+        "label": "Number of female graduates: STEM",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 30,
+        "type": null,
+        "ref": null,
+        "label": "Number of female graduates: Medicine",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 31,
+        "type": null,
+        "ref": null,
+        "label": "Number of female graduates: Arts & Humanities / Social Sciences",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 32,
+        "type": "Metric",
+        "ref": "5.6",
+        "label": "Women’s progress measures",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 33,
+        "type": "Indicator",
+        "ref": "5.6.1",
+        "label": "Policy of non-discrimination against women\nHave a policy of non-discrimination against women",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 34,
+        "type": "Indicator",
+        "ref": "5.6.2",
+        "label": "Non-discrimination policies for transgender\nHave a policy of non-discrimination for transgender people.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 35,
+        "type": "Indicator",
+        "ref": "5.6.3",
+        "label": "Maternity policy\nHave a maternity policy that support women’s participation.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 36,
+        "type": "Indicator",
+        "ref": "5.6.4",
+        "label": "Childcare facilities for students\nHave accessible childcare facilities for students which allow recent mothers to attend university \ncourses.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 37,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 38,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 39,
+        "type": "Indicator",
+        "ref": "5.6.5",
+        "label": "Childcare facilities for staff and faculty\nHave childcare facilities for staff and faculty",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 40,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 41,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 42,
+        "type": "Indicator",
+        "ref": "5.6.6",
+        "label": "Women’s mentoring schemes\nHave women’s mentoring schemes, in which at least 10% of female students participate.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 43,
+        "type": "Indicator",
+        "ref": "5.6.7",
+        "label": "Track women’s graduation rate\nHave measurement or tracking of women’s likelihood of graduating compared to men’s, and schemes in place to close any gap.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 44,
+        "type": "Indicator",
+        "ref": "5.6.8",
+        "label": "Policies protecting those reporting discrimination\nHave a policy that protects those reporting discrimination from educational or employment disadvantage",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 45,
+        "type": "Indicator",
+        "ref": "5.6.9",
+        "label": "Paternity policy\nHave a paternity policy that supports women’s participation by ensuring that fathers can participate in childcare duties",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG6": {
+    "title": "SDG6: Clean Water and Sanitation",
+    "metrics": 4,
+    "indicators": 15,
+    "subrows": 9,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "6.2",
+        "label": "Water consumption per person",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "6.2.1",
+        "label": "Measure the total volume of water used in the university that is taken from mains supply, \ndesalinated, or extracted from rivers, lakes, or aquifers?",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Whole university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Partial measurement",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "6.2.2",
+        "label": "Water consumption per person",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Volume of water used in the university: Inbound (treated/extracted water)",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Campus population",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 10,
+        "type": "Metric",
+        "ref": "6.3",
+        "label": "Water usage and care",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 11,
+        "type": "Indicator",
+        "ref": "6.3.1",
+        "label": "Wastewater treatment\nA process in place to treat wastewater.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "6.3.2",
+        "label": "Preventing water system pollution\nProcesses to prevent polluted water entering the water system, including pollution caused by accidents and incidents at the university.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "6.3.3",
+        "label": "Free drinking water provided\nProvide free drinking water for students, staff and/or visitors (e.g. drinking water fountains).",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "6.3.4",
+        "label": "Water-conscious building standards\nApply building standards to minimise water use",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "6.3.5",
+        "label": "Water-conscious planting\nPlant landscapes to minimise water usage. (e.g. use drought-tolerant plants)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": "Metric",
+        "ref": "6.4",
+        "label": "Water reuse",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 17,
+        "type": "Indicator",
+        "ref": "6.4.1",
+        "label": "Water reuse policy\nHave a policy to maximise water reuse across the university?",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "6.4.2",
+        "label": "Water reuse measurement\nMeasure the reuse of water across the university?",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": "Metric",
+        "ref": "6.5",
+        "label": "Water in the community",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "6.5.1",
+        "label": "Water management educational opportunities\nProvide educational opportunities for local communities to learn about good water management",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "6.5.3",
+        "label": "Off-campus water conservation support\nSupport practical water conservation off campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "6.5.4",
+        "label": "Sustainable water extraction on campus\nWhere water is extracted (for example from aquifers, lakes or rivers) utilise sustainable water extraction technologies on associated university grounds on and off campus.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "6.5.5",
+        "label": "Cooperation on water security\nCooperate with local, regional, national, or global governments on water security.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "Local",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "Regional",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 28,
+        "type": null,
+        "ref": null,
+        "label": "National",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 29,
+        "type": "Indicator",
+        "ref": "6.5.6",
+        "label": "Promoting conscious water usage on campus\nActively promote conscious water usage on campus,",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 30,
+        "type": "Indicator",
+        "ref": "6.5.7",
+        "label": "Promoting conscious water usage in the wider community.\nActively promote conscious water usage in the wider community",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG7": {
+    "title": null,
+    "metrics": 3,
+    "indicators": 12,
+    "subrows": 11,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "7.2",
+        "label": "University measures towards affordable and clean energy",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "7.2.1",
+        "label": "Energy-efficient renovation and building\nHave a policy in place for ensuring all renovations or new builds are following energy efficiency standards",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": "Indicator",
+        "ref": "7.2.2",
+        "label": "Upgrade buildings to higher energy efficiency\nHave plans to upgrade existing buildings to higher energy efficiency",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Indicator",
+        "ref": "7.2.3",
+        "label": "Carbon reduction and emission reduction process\nHave a process for carbon management and reducing carbon dioxide emissions",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "7.2.4",
+        "label": "Plan to reduce energy consumption\nHave an energy efficiency plan in place to reduce overall energy consumption",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "7.2.5",
+        "label": "Energy wastage identification\nUndergo energy reviews to identify areas where energy waste is highest",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": "Indicator",
+        "ref": "7.2.6",
+        "label": "Divestment policy\nHave a policy on divesting investments from carbon-intensive energy industries notably coal and oil",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": "Metric",
+        "ref": "7.3",
+        "label": "Energy use density",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 11,
+        "type": "Indicator",
+        "ref": "7.3.1",
+        "label": "Energy usage per sqm",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "Total energy used",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "University floor space",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 14,
+        "type": "Metric",
+        "ref": "7.4",
+        "label": "Energy and the community",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "7.4.1",
+        "label": "Local community outreach for energy efficiency\nProvide programmes for local community to learn about importance of energy efficiency and clean energy",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "7.4.2",
+        "label": "100% renewable energy pledge\nPromote a public pledge toward 100% renewable energy beyond the university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": "Indicator",
+        "ref": "7.4.3",
+        "label": "Energy efficiency services for industry\nProvide direct services to local industry aimed at improving energy efficiency and clean energy (energy efficiency assessments, workshops, research renewable energy options)",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "7.4.4",
+        "label": "Policy development for clean energy technology\nInform and support governments in clean energy and energy-efficient technology policy development",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "Local",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "Regional",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "National",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Global",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "7.4.5",
+        "label": "Assistance to low-carbon innovation\nProvide assistance for start-ups that foster and support a low-carbon economy or technology",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": "7.5",
+        "label": "Low-carbon energy use",
+        "answerFills": [
+          "t6",
+          "t6",
+          "t6",
+          "-"
+        ],
+        "grayedCols": 3
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "Total energy used",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 28,
+        "type": null,
+        "ref": null,
+        "label": "Total energy used from low-carbon sources",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG8": {
+    "title": "SDG8: Decent Work and \nEconomic Growth",
+    "metrics": 4,
+    "indicators": 12,
+    "subrows": 6,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "8.2",
+        "label": "Employment practice",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "8.2.1",
+        "label": "Employment practice living wage\nPay all staff and faculty at least the living wage, defined as the local living wage (if government defines this) or the local financial poverty indicator for a family of four (expressed as an hourly wage)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": "Indicator",
+        "ref": "8.2.2",
+        "label": "Employment practice unions\nRecognize unions (freedom of association & collective bargaining) for all, including women & international staff",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Indicator",
+        "ref": "8.2.3",
+        "label": "Employment policy on discrimination\nHave a policy on ending discrimination in the workplace (including discrimination based on religion, sexuality, gender, age, or refugee status)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "8.2.4",
+        "label": "Employment policy modern slavery\nHave a policy commitment against forced labour, modern slavery, human trafficking and child labour",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "8.2.5",
+        "label": "Employment practice equivalent rights outsourcing\nHave a policy on guaranteeing equivalent rights of workers when outsourcing activities to third parties",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": "Indicator",
+        "ref": "8.2.6",
+        "label": "Employment policy pay scale equity\nHave a policy on pay scale equity including a commitment to measurement and elimination of \ngender pay gaps",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "8.2.7",
+        "label": "Tracking pay scale for gender equity\nMeasurement or tracking pay scale gender equity",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 11,
+        "type": "Indicator",
+        "ref": "8.2.8",
+        "label": "Employment practice appeal process\nHave a process for employees to appeal on employee rights and/or pay",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "8.2.9",
+        "label": "Employment practice labour rights\nRecognise labour rights (freedom of association and collective bargaining) for all, including women and international staff",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": "Metric",
+        "ref": "8.3",
+        "label": "Expenditure per employee",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "8.3.1",
+        "label": "Expenditure per employee",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "Number of employees",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "University expenditure",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 17,
+        "type": "Metric",
+        "ref": "8.4",
+        "label": "Proportion of students taking work placements",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "8.4.1",
+        "label": "Proportion of students with work placements",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Number of students",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "Number of students with work placements for more than a month",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 21,
+        "type": "Metric",
+        "ref": "8.5",
+        "label": "Proportion of employees on secure contracts",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 22,
+        "type": "Indicator",
+        "ref": "8.5.1",
+        "label": "Proportion of employees on secure contracts",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Number of employees",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Number of employees on contracts of over 24 months",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG9": {
+    "title": "SDG9: Industry, Innovation and Infrastructure",
+    "metrics": 2,
+    "indicators": 2,
+    "subrows": 7,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "9.3",
+        "label": "University spin offs",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "9.3.1",
+        "label": "Number of university spin offs",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of university spin-offs",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Metric",
+        "ref": "9.4",
+        "label": "Research income from industry and commerce",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "9.4.1",
+        "label": "Research income from industry and commerce per academic staff",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Research income from industry and commerce by subject area: STEM",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Research income from industry and commerce by subject area: Medicine",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "Research income from industry and commerce by subject area: Arts & Humanities / Social sciences",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Number of academic staff by subject area: STEM",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "Number of academic staff by subject area: Medicine",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Number of academic staff by subject area: Arts & Humanities / Social sciences",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG10": {
+    "title": "SDG10: Reduced Inequalities",
+    "metrics": 5,
+    "indicators": 15,
+    "subrows": 10,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "10.2",
+        "label": "First-generation students",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "10.2.1",
+        "label": "Proportion of first-generation students",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Number of students starting a degree",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Number of first-generation students starting a degree",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Metric",
+        "ref": "10.3",
+        "label": "International students from developing countries",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "10.3.1",
+        "label": "Proportion of international students from developing countries",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Number of students",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "Number of international students from developing countries",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 11,
+        "type": "Metric",
+        "ref": "10.4",
+        "label": "Proportion of students with disabilities",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "10.4.1",
+        "label": "Proportion of students with disabilities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Number of students",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Number of students with disability",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 15,
+        "type": "Metric",
+        "ref": "10.5",
+        "label": "Proportion of employees with disabilities",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "10.5.1",
+        "label": "Proportion of employees with disabilities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "Number of employees",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Number of employees with disability",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 19,
+        "type": "Metric",
+        "ref": "10.6",
+        "label": "Measures against discrimination",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "10.6.1",
+        "label": "Non-discriminatory admissions policy\nHave an admissions policy which is non-discriminatory or which details and explains the logic for any appropriate positive discrimination policies in admissions",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": "Indicator",
+        "ref": "10.6.2",
+        "label": "Access to university track underrepresented groups applications\nMeasure and track applications and admissions of underrepresented (and potentially underrepresented) groups including ethnic minorities, low income students, non-traditional students, women, LGBT students, disabled students, and newly settled refugee students.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": "Indicator",
+        "ref": "10.6.3",
+        "label": "Access to university underrepresented groups recruit\nTake planned actions  to recruit students, staff, and faculty from under-represented groups",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "10.6.4",
+        "label": "Anti-discrimination policies\nHave an anti-discrimination policy that covers the institution and its operations.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "10.6.5",
+        "label": "University diversity officer\nHave a diversity and equality committee, office or officer (or the equivalent) tasked by the administration or governing body to advise on and implement policies, programmes and trainings related to diversity, equity, inclusion and human rights on campus.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "10.6.6",
+        "label": "Support for underrepresented groups\nProvide mentoring, counselling, or peer support programmes to support students, staff, and faculty from underrepresented groups.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 26,
+        "type": "Indicator",
+        "ref": "10.6.7",
+        "label": "Accessible facilities\nProvide accessible facilities for people with disabilities.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": "Indicator",
+        "ref": "10.6.8",
+        "label": "Disability support services\nSupport services for people with disabilities.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 28,
+        "type": "Indicator",
+        "ref": "10.6.9",
+        "label": "Disability access scheme\nProvide access schemes for people with disabilities such as mentoring or other targeted support",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 29,
+        "type": null,
+        "ref": null,
+        "label": "Mentoring",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 30,
+        "type": null,
+        "ref": null,
+        "label": "Other targeted support",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 31,
+        "type": "Indicator",
+        "ref": "10.6.10",
+        "label": "Disability accommodation policy\nHave reasonable accommodation policy or strategy for people with disabilities including adequate funding",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 32,
+        "type": "Indicator",
+        "ref": "10.6.11",
+        "label": "Anti-harassment policy\nHave an anti-harassment policy that covers the institution and its operations_x000D_",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG11": {
+    "title": "SDG11: Sustainable Cities \nand Communities",
+    "metrics": 3,
+    "indicators": 16,
+    "subrows": 26,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "11.2",
+        "label": "Support of arts and heritage",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "11.2.1",
+        "label": "Public access to buildings\nProvide public access to buildings and/or monuments or natural heritage landscapes of cultural significance",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Free access to all significant buildings",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Some free access",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": null,
+        "ref": null,
+        "label": "Paid access",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "11.2.2",
+        "label": "Public access to libraries\nProvide public access to libraries including books and publications",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Automatic free access",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "Access to all after application",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Access in some circumstances",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "11.2.3",
+        "label": "Public access to museums\nProvide public access to museums, exhibition spaces or galleries, or works of art and artefacts",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Free access to all museums and galleries",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Free access to some",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "Paid access",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "11.2.4",
+        "label": "Public access to green spaces\nProvide free public access to open spaces and green spaces",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "Permanent free access",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Occasional free access",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Paid access",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "11.2.5",
+        "label": "Arts and heritage contribution\nContribute to local arts, in terms of number of annual public performances of university choirs, theatre groups, orchestras etc… either ad-hoc or as part of an ongoing programme",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "More than 30 perfomancees",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "More than 15 perfomances",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Ad-hoc only",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "11.2.6",
+        "label": "Record and preserve cultural heritage\nDeliver projects to record and preserve intangible cultural heritage such as local folklore, traditions, language, and knowledge. This can include the heritage of displaced communities.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Local or regional cultural heritage",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "National cultural heritage",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "Heritage of displaced communities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 28,
+        "type": "Metric",
+        "ref": "11.3",
+        "label": "Expenditure on arts and heritage",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 29,
+        "type": "Indicator",
+        "ref": "11.3.1",
+        "label": "Arts and heritage expenditure",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 30,
+        "type": null,
+        "ref": null,
+        "label": "University expenditure",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 31,
+        "type": null,
+        "ref": null,
+        "label": "University expenditure on arts and heritage",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 32,
+        "type": "Metric",
+        "ref": "11.4",
+        "label": "Sustainable practices",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 33,
+        "type": "Indicator",
+        "ref": "11.4.1",
+        "label": "Sustainable practices targets\nMeasure and set targets for more sustainable commuting (walking, cycling or other non-motorized transport, vanpools, carpools, shuttlebus or public transportation, motorcycle, scooter or moped, or electric vehicles)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 34,
+        "type": "Indicator",
+        "ref": "11.4.2",
+        "label": "Promote sustainable commuting\nUndertake actions to promote more sustainable commuting",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 35,
+        "type": "Indicator",
+        "ref": "11.4.3",
+        "label": "Allow remote working\nPromote or allow telecommuting or remote working for employees as a matter of policy or standard practice, or offer a condensed working week to reduce employee commuting",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 36,
+        "type": "Indicator",
+        "ref": "11.4.4",
+        "label": "Affordable housing for employees\nProvide affordable housing for employees",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 37,
+        "type": null,
+        "ref": null,
+        "label": "Evaluating affordability",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 38,
+        "type": null,
+        "ref": null,
+        "label": "Providing housing directly",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 39,
+        "type": null,
+        "ref": null,
+        "label": "Providing financial support",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 40,
+        "type": "Indicator",
+        "ref": "11.4.5",
+        "label": "Affordable housing for students\nProvide affordable housing for students",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 41,
+        "type": null,
+        "ref": null,
+        "label": "Evaluating affordability",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 42,
+        "type": null,
+        "ref": null,
+        "label": "Providing housing directly",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 43,
+        "type": null,
+        "ref": null,
+        "label": "Providing financial support",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 44,
+        "type": "Indicator",
+        "ref": "11.4.6",
+        "label": "Pedestrian priority on campus\nPrioritise pedestrian access on campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 45,
+        "type": "Indicator",
+        "ref": "11.4.7",
+        "label": "Local authority collaboration regarding planning and development \nWork with local authorities to address planning issues and development, including ensuring that local residents are able to access affordable housing",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 46,
+        "type": "Indicator",
+        "ref": "11.4.8",
+        "label": "Planning development - new build standards\nBuild new buildings to sustainable standards",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 47,
+        "type": "Indicator",
+        "ref": "11.4.9",
+        "label": "Building on brownfield sites\nBuild on brownfield sites, where possible",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG12": {
+    "title": "SDG12: Responsible Consumption \nand Production",
+    "metrics": 3,
+    "indicators": 10,
+    "subrows": 8,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "12.2",
+        "label": "Operational measures",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "12.2.1",
+        "label": "Ethical sourcing policy\nHave a policy on ethical sourcing of food and supplies",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": "Indicator",
+        "ref": "12.2.3",
+        "label": "Policy waste disposal - hazardous materials\nHave a policy, process or practice on waste disposal - Covering hazardous materials",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Indicator",
+        "ref": "12.2.4",
+        "label": "Policy waste disposal - landfill policy\nHave a policy on waste disposal - to measure the amount of waste sent to landfill and recycled",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "12.2.5",
+        "label": "Policy for minimisation of plastic use\nHave policies around use minimisation of plastic",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "12.2.6",
+        "label": "Policy for minimisation of disposable items\nHave policies around use minimisation of disposable items",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": "Indicator",
+        "ref": "12.2.7",
+        "label": "Disposable policy: extensions to services  \nEnsuring these policies extend to outsourced services and the supply chain",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "12.2.8",
+        "label": "Minimisation policies extended to suppliers \nEnsuring these policies extend to outsourced suppliers and the supply chain - (for example suppliers of equipment, stationery, building contracts)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 11,
+        "type": "Metric",
+        "ref": "12.3",
+        "label": "Proportion of recycled waste",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "12.3.1",
+        "label": "Waste tracking\nMeasure the amount of waste generated and recycled across the university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": null,
+        "ref": null,
+        "label": "Whole university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Partial measurement",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "12.3.2",
+        "label": "Proportion of waste recycled",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "Amount of waste generated",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "Amount of waste recycled",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Amount of waste sent to landfill",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 19,
+        "type": "Metric",
+        "ref": "12.4",
+        "label": "Publication of a sustainability report",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "12.4.1",
+        "label": "Publication of a sustainability report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "Annual",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "Bi-annual",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Less Frequent",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG13": {
+    "title": "SDG13: Climate Action",
+    "metrics": 3,
+    "indicators": 9,
+    "subrows": 11,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "13.2",
+        "label": "Low-carbon energy use",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "13.2.1",
+        "label": "Low-carbon energy tracking\nMeasure the amount of low carbon energy used across the university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "whole university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "partial measurement",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "13.2.2",
+        "label": "Low-carbon energy use",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Total energy used",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Total energy used from low-carbon sources",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 10,
+        "type": "Metric",
+        "ref": "13.3",
+        "label": "Environmental education measures",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 11,
+        "type": "Indicator",
+        "ref": "13.3.1",
+        "label": "Local education programmes on climate\nProvide local education programmes or campaigns on climate change risks, impacts, mitigation, adaptation, impact reduction and early warning",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "13.3.2",
+        "label": "Climate Action Plan, shared\nHave a university Climate Action plan, shared with local government and local community groups",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "13.3.3",
+        "label": "Co-operative planning for climate change disasters\nParticipate in co-operative planning for climate change disasters, that may include the displacement of people both within a country and across borders, working with government",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Local",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "Regional",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "13.3.4",
+        "label": "Inform and support government\nInform and support local or regional government in local climate change disaster or risk early warning and monitoring",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": "Indicator",
+        "ref": "13.3.5",
+        "label": "Environmental education collaborate with NGO\nCollaborate with NGOs on climate adaptation",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": "Metric",
+        "ref": "13.4",
+        "label": "Commitment to carbon neutral university",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 19,
+        "type": "Indicator",
+        "ref": "13.4.1",
+        "label": "Commitment to carbon neutral university\nHave a target date by which it will become carbon neutral according to the Greenhouse Gas Protocols?",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "scope 1",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "scope 1 and 2",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 22,
+        "type": null,
+        "ref": null,
+        "label": "Scope 1, 2 and 3 (partial)",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Scope 1, 2 and 3 (full)",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "13.4.2",
+        "label": "Achieve by date",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "Achieve by \t\n•\tDate for achieved prior to 2023 – 4 points\n•\tDate for achieved by: 2023-2029 – 3 points\n•\tDate for achieved by: 2030-2039 – 2 points\n•\tDate for achieved by: 2040-2049 – 1 point\n•\tDate for achieved by: 2050 or later – 0.5",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG14": {
+    "title": "SDG14: Life Below Water",
+    "metrics": 4,
+    "indicators": 15,
+    "subrows": 8,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "14.2",
+        "label": "Supporting aquatic ecosystems through education",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "14.2.1",
+        "label": "Fresh-water ecosystems (community outreach)\nOffer educational programmes on fresh-water ecosystems (water irrigation practices, water management/conservation) for local or national communities",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "14.2.2",
+        "label": "Sustainable fisheries (community outreach)\nOffer educational programme or outreach for local or national communities on sustainable management of fisheries, aquaculture and tourism",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "14.2.3",
+        "label": "Overfishing (community outreach)\nOffer educational outreach activities for local or national communities to raise awareness about overfishing, illegal, unreported and unregulated fishing and destructive fishing practices",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 13,
+        "type": "Metric",
+        "ref": "14.3",
+        "label": "Supporting aquatic ecosystems through action",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "14.3.1",
+        "label": "Conservation and sustainable utilisation of the oceans (events)\nSupport or organise events aimed to promote conservation and sustainable utilisation of the oceans, seas, lakes, rivers and marine resources",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "14.3.2",
+        "label": "Food from aquatic ecosystems (policies)\nHave a policy to ensure that food on campus that comes from aquatic ecosystems is sustainably harvested",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "14.3.3",
+        "label": "Maintain ecosystems and their biodiversity (direct work)\nWork directly (research and/or engagement with industries) to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": "Indicator",
+        "ref": "14.3.4",
+        "label": "Technologies towards aquatic ecosystem damage prevention (direct work)\nWork directly (research and/or engagement with industries) on technologies or practices that enable marine industry to minimise or prevent damage to aquatic ecosystems",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": "Metric",
+        "ref": "14.4",
+        "label": "Water sensitive waste disposal",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 19,
+        "type": "Indicator",
+        "ref": "14.4.1",
+        "label": "Water discharge guidelines and standards\nHave water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "14.4.2",
+        "label": "Action plan to reducing plastic waste\nHave an action plan in place to reduce plastic waste on campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": "Indicator",
+        "ref": "14.4.3",
+        "label": "Reducing marine pollution (policy)\nHave a policy on preventing and reducing marine pollution of all kinds, in particular from land-based activities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": "Metric",
+        "ref": "14.5",
+        "label": "Maintaining a local ecosystem",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "14.5.1",
+        "label": "Minimizing alteration of aquatic ecosystems (plan)\nHave a plan to minimise physical, chemical and biological alterations of related aquatic ecosystems",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "14.5.2",
+        "label": "Monitoring the health of aquatic ecosystems\nMonitor the health of aquatic ecosystems",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "14.5.3",
+        "label": "Programs towards good aquatic stewardship practices\nDevelop and support programmes and incentives that encourage and maintain good aquatic stewardship practices",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "Ad hoc",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "On-going",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 28,
+        "type": "Indicator",
+        "ref": "14.5.4",
+        "label": "Collaboration for shared aquatic ecosystems\nCollaborate with the local community in efforts to maintain shared aquatic ecosystems",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 29,
+        "type": "Indicator",
+        "ref": "14.5.5",
+        "label": "Watershed management strategy\nHave implemented a watershed management strategy based on location specific diversity of aquatic species",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG15": {
+    "title": "SDG15: Life On Land",
+    "metrics": 3,
+    "indicators": 14,
+    "subrows": 6,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "15.2",
+        "label": "Supporting land ecosystems through education",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "15.2.1",
+        "label": "Events about sustainable use of land\nSupport or organise events aimed to promote conservation and sustainable utilisation of the land, including forests and wild land",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": "Indicator",
+        "ref": "15.2.2",
+        "label": "Sustainably farmed food on campus\nHave policies to ensure that food on campus is sustainably farmed",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Indicator",
+        "ref": "15.2.3",
+        "label": "Maintain and extend current ecosystems' biodiversity\nWork directly to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "15.2.4",
+        "label": "Educational programmes on ecosystems\nOffer educational programmes on ecosystems (looking at wild flora and fauna) for local or national communities?",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 8,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 10,
+        "type": "Indicator",
+        "ref": "15.2.5",
+        "label": "Sustainable management of land for agriculture (educational outreach)\nOffer educational programme/outreach for local or national communities on sustainable management of land for agriculture",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "15.2.6",
+        "label": "Sustainable management of land for tourism (educational outreach)\nOffer educational programme/outreach for local or national communities on sustainable management of land for tourism",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "Free",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "Paid",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 16,
+        "type": "Metric",
+        "ref": "15.3",
+        "label": "Supporting land ecosystems through action",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 17,
+        "type": "Indicator",
+        "ref": "15.3.1",
+        "label": "Sustainable use, conservation and restoration of land (policy)\nHave a policy to ensure the conservation, restoration and sustainable use of terrestrial ecosystems associated with the university, in particular forests, mountains and drylands",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": "Indicator",
+        "ref": "15.3.2",
+        "label": "Monitoring IUCN and other conservation species (policies)\nHave a policy to identify, monitor and protect any IUCN Red Listed species and national conservation list species with habits in areas affected by the operation of your university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": "Indicator",
+        "ref": "15.3.3",
+        "label": "Local biodiversity included in planning and development\nInclude local biodiversity into any planning and development process (e.g. construction of new buildings)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "15.3.4",
+        "label": "Alien species impact reduction (policies)\nHave a policy to reduce the impact of alien species on Campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": "Indicator",
+        "ref": "15.3.5",
+        "label": "Collaboration for shared land ecosystems\nCollaborate with the local community to maintain shared land ecosystems",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 22,
+        "type": "Metric",
+        "ref": "15.4",
+        "label": "Land sensitive waste disposal",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 23,
+        "type": "Indicator",
+        "ref": "15.4.1",
+        "label": "Water discharge guidelines and standards\nHave water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": "Indicator",
+        "ref": "15.4.2",
+        "label": "Policy on plastic waste reduction\nHave a policy on reducing plastic waste on campus",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "15.4.3",
+        "label": "Policy on hazardous waste disposal\nHave a policy, process or practice on waste disposal covering hazardous materials",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  },
+  "SDG16": {
+    "title": "SDG16: Peace, Justice and \nStrong Institutions",
+    "metrics": 3,
+    "indicators": 12,
+    "subrows": 15,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "16.2",
+        "label": "University governance measures",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "16.2.1",
+        "label": "Elected representation\nHave elected representation on the university’s highest governing body from: students (both undergraduate and graduate), faculty, and staff (non-faculty employees)",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 5,
+        "type": null,
+        "ref": null,
+        "label": "students (both undergraduate and graduate)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": null,
+        "ref": null,
+        "label": "faculty",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 7,
+        "type": null,
+        "ref": null,
+        "label": "staff (non-faculty employees)",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "16.2.2",
+        "label": "Students' union\nRecognise an independent students’ union",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "Union provides governance input to university",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "Union provides support for students",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "Union provides social activities",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 12,
+        "type": "Indicator",
+        "ref": "16.2.3",
+        "label": "Identify and engage with local stakeholders\nHave written policies and procedures to identify local stakeholders external to the university and engage with them",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "16.2.4",
+        "label": "Participatory bodies for stakeholder engagement\nEnsure that local stakeholders in the university – including local residents, local government, and civil society representativels (which may include groups such as refugee resettlement agencies) – have a meaningful mechanism or for participating in university decision making.",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 14,
+        "type": "Indicator",
+        "ref": "16.2.5",
+        "label": "University principles on corruption and bribery\nPublish the university's principles and commitments on organized crime, corruption & bribery",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": "Indicator",
+        "ref": "16.2.6",
+        "label": "Academic freedom policy\nHave a policy on supporting academic freedom (freedom to choose areas of research and to speak and teach publicly about the area of their research)",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 16,
+        "type": null,
+        "ref": null,
+        "label": "Research freedom for senior academics",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "Research freedom for junior academics",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "Teaching freedom for senior academics",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 19,
+        "type": null,
+        "ref": null,
+        "label": "Teaching freedom for junior academics",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 20,
+        "type": "Indicator",
+        "ref": "16.2.7",
+        "label": "Publish financial data \nPublish university financial data",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 21,
+        "type": "Metric",
+        "ref": "16.3",
+        "label": "Working with government",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 22,
+        "type": "Indicator",
+        "ref": "16.3.1",
+        "label": "Provide expert advice to government \nProvide specific expert advice to local, regional or national government (for example through policy guidance, participation in committees, provision of evidence)",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "Local",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "Regional",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 25,
+        "type": null,
+        "ref": null,
+        "label": "National",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 26,
+        "type": "Indicator",
+        "ref": "16.3.2",
+        "label": "Policy- and lawmakers outreach and education\nProvide outreach, general education, upskilling and capacity-building to policy and lawmakers on relevant topics including economics, law, technology, migration and displacement, and climate change",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": "Indicator",
+        "ref": "16.3.3",
+        "label": "Participation in government research\nUndertake policy-focused research in collaboration with government departments",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 28,
+        "type": "Indicator",
+        "ref": "16.3.4",
+        "label": "Neutral platform to discuss issues\nProvide a neutral platform and ‘safe’ space for different political stakeholders to come together to frankly discuss challenges",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 29,
+        "type": "Metric",
+        "ref": "16.4",
+        "label": "Proportion of graduates in law and civil enforcement",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 30,
+        "type": "Indicator",
+        "ref": "16.4.1",
+        "label": "Proportion of graduates in law",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 31,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates",
+        "answerFills": [
+          "-",
+          "t2",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 32,
+        "type": null,
+        "ref": null,
+        "label": "Number of graduates from law and enforcement related courses",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      }
+    ]
+  },
+  "SDG17": {
+    "title": "SDG17: Partnerships for the Goals",
+    "metrics": 3,
+    "indicators": 26,
+    "subrows": 43,
+    "rows": [
+      {
+        "row": 3,
+        "type": "Metric",
+        "ref": "17.2",
+        "label": "Relationships to support the goals",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 4,
+        "type": "Indicator",
+        "ref": "17.2.1",
+        "label": "Relationships with regional NGOs and government for SDG policy\nHave direct involvement in, or input into, national government or regional non-government organisations, SDG policy development - including identifying problems and challenges, developing policies and strategies, modelling likely futures with and without interventions, monitoring and reporting on interventions, and enabling adaptive management",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 5,
+        "type": "Indicator",
+        "ref": "17.2.2",
+        "label": "Cross sectoral dialogue about SDGs\nInitiate and participate in cross-sectoral dialogue about the SDGs, e.g. conferences involving government or NGOs",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 6,
+        "type": "Indicator",
+        "ref": "17.2.3",
+        "label": "International collaboration data gathering for SDG\nParticipate in international collaboration on gathering or measuring data for the SDGs",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 7,
+        "type": "Indicator",
+        "ref": "17.2.4",
+        "label": "Collaboration for SDG best practice\nThrough international collaboration and research, review comparative approaches and develop international best practice on tackling the SDGs",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 8,
+        "type": "Indicator",
+        "ref": "17.2.5",
+        "label": "Collaboration with NGOs for SDGs\nCollaborate with NGOs to tackle the SDGs through: student volunteering programmes, research programmes, or development of educational resources",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 9,
+        "type": null,
+        "ref": null,
+        "label": "student volunteering programmes",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 10,
+        "type": null,
+        "ref": null,
+        "label": "research programmes",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 11,
+        "type": null,
+        "ref": null,
+        "label": "development of educational resources",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 12,
+        "type": "Metric",
+        "ref": "17.3",
+        "label": "Publication of SDG reports",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 13,
+        "type": "Indicator",
+        "ref": "17.3.1",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG1, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 14,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 15,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 16,
+        "type": "Indicator",
+        "ref": "17.3.2",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG2, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 17,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 18,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 19,
+        "type": "Indicator",
+        "ref": "17.3.3",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG3, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 20,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 21,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 22,
+        "type": "Indicator",
+        "ref": "17.3.4",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG4, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 23,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 24,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 25,
+        "type": "Indicator",
+        "ref": "17.3.5",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG5, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 26,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 27,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 28,
+        "type": "Indicator",
+        "ref": "17.3.6",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG6, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 29,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 30,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 31,
+        "type": "Indicator",
+        "ref": "17.3.7",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG7, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 32,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 33,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 34,
+        "type": "Indicator",
+        "ref": "17.3.8",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG8, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 35,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 36,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 37,
+        "type": "Indicator",
+        "ref": "17.3.9",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG9, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 38,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 39,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 40,
+        "type": "Indicator",
+        "ref": "17.3.10",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG10, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 41,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 42,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 43,
+        "type": "Indicator",
+        "ref": "17.3.11",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG11, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 44,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 45,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 46,
+        "type": "Indicator",
+        "ref": "17.3.12",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG12, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 47,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 48,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 49,
+        "type": "Indicator",
+        "ref": "17.3.13",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG13, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 50,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 51,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 52,
+        "type": "Indicator",
+        "ref": "17.3.14",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG14, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 53,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 54,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 55,
+        "type": "Indicator",
+        "ref": "17.3.15",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG15, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 56,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 57,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 58,
+        "type": "Indicator",
+        "ref": "17.3.16",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG16, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 59,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 60,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 61,
+        "type": "Indicator",
+        "ref": "17.3.17",
+        "label": "Publication of SDG reports - per SDG\nPublish progress against against SDG17, either individually or within an annual report",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 62,
+        "type": null,
+        "ref": null,
+        "label": "overall report",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 63,
+        "type": null,
+        "ref": null,
+        "label": "separate report",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 64,
+        "type": "Metric",
+        "ref": "17.4",
+        "label": "Education for the SDGs",
+        "answerFills": [
+          "t2",
+          "t2",
+          "t2",
+          "t2"
+        ],
+        "grayedCols": 4
+      },
+      {
+        "row": 65,
+        "type": "Indicator",
+        "ref": "17.4.1",
+        "label": "Education for SDGs commitment to meaningful education\nHave a commitment to meaningful education around the SDGs across the university, relevant and applicable to all students",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 66,
+        "type": null,
+        "ref": null,
+        "label": "education integrated across full curriculum",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 67,
+        "type": null,
+        "ref": null,
+        "label": "mandatory education for all",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 68,
+        "type": null,
+        "ref": null,
+        "label": "optional education for all",
+        "answerFills": [
+          "-",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 0
+      },
+      {
+        "row": 69,
+        "type": "Indicator",
+        "ref": "17.4.2",
+        "label": "Education for SDGs specific courses on sustainability\nHave dedicated courses (full degrees, or electives) that address sustainability and the SDGs.",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 70,
+        "type": "Indicator",
+        "ref": "17.4.3",
+        "label": "Education for SDGs in the wider community\nHave dedicated outreach educational activities for the wider community, which could include alumni, local residents, displaced people",
+        "answerFills": [
+          "t2",
+          "-",
+          "t2",
+          "-"
+        ],
+        "grayedCols": 2
+      },
+      {
+        "row": 71,
+        "type": null,
+        "ref": null,
+        "label": "Alumni",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 72,
+        "type": null,
+        "ref": null,
+        "label": "Local community",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 73,
+        "type": null,
+        "ref": null,
+        "label": "Displaced people and refugees",
+        "answerFills": [
+          "t2",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      },
+      {
+        "row": 74,
+        "type": "Indicator",
+        "ref": "17.4.4",
+        "label": "Sustainable Literacy\nThis question explores how you evaluate your students’ ability to learn and retain key concepts of sustainability.  For 2025 we will not score this question but will use it to inform our decisions for 2026.\nMeasure the sustainability literacy of students.",
+        "answerFills": [
+          "t0",
+          "-",
+          "-",
+          "-"
+        ],
+        "grayedCols": 1
+      }
+    ]
+  }
+}

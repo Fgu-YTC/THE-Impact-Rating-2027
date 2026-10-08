@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE Impact 2027 填報</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">THE Impact 2027</div>
+    <label for="unitSelect">填寫單位</label>
+    <select id="unitSelect">
+      <option value="">選擇單位…</option>
+    </select>
+    <div class="top-actions">
+      <div class="lang-toggle" id="langToggle" aria-label="語言">
+        <button type="button" data-lang="zh">中文</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button type="button" id="btnExport" class="secondary">匯出 Excel</button>
+      <a href="admin.html">管理</a>
+    </div>
+  </header>
+
+  <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG"></nav>
+
+  <main class="layout">
+    <section class="pane pane-left" aria-label="提問">
+      <h2>提問</h2>
+      <div id="emptyState" class="empty"></div>
+      <div id="questionList"></div>
+    </section>
+    <aside class="pane pane-right" aria-label="方法論">
+      <h2 id="methodTitle">方法論</h2>
+      <div class="method-body" id="methodBody"></div>
+    </aside>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/methodology.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

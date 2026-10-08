@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE Impact 2027 管理／分派</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div id="authGate" class="auth-gate">
+    <h1>管理登入</h1>
+    <p id="authHint">使用學校 Google 帳號登入後，可分派 SDG 題目給各單位。</p>
+    <button type="button" id="btnGoogle">使用 Google 登入</button>
+    <div id="authError" class="auth-error" hidden></div>
+    <p style="margin-top:1.25rem;font-size:0.85rem"><a href="index.html">返回填報頁</a></p>
+  </div>
+
+  <div id="adminApp" hidden>
+    <header class="topbar">
+      <div class="brand">THE Impact 管理</div>
+      <div class="stats">
+        <span>全部 <strong id="statTotal">0</strong></span>
+        <span>已分配 <strong id="statAssigned">0</strong></span>
+        <span>未分配 <strong id="statUnassigned">0</strong></span>
+      </div>
+      <div class="top-actions">
+        <div class="lang-toggle" id="langToggle" aria-label="語言">
+          <button type="button" data-lang="zh">中文</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <span class="user-chip" id="userChip"></span>
+        <a href="index.html">填報頁</a>
+        <button type="button" id="btnLogout" class="secondary">登出</button>
+      </div>
+    </header>
+
+    <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG1-17"></nav>
+
+    <div class="filter-bar" id="filterBar" style="padding:0.5rem 1.25rem;margin:0;border-bottom:1px solid var(--line);background:rgba(255,252,247,0.7)">
+      <button type="button" data-filter="all" class="active">全部</button>
+      <button type="button" data-filter="unassigned">未分配</button>
+      <button type="button" data-filter="assigned">已分配</button>
+      <button type="button" id="btnSelectUnassigned" class="secondary">勾選本 SDG 未分配題</button>
+    </div>
+
+    <main class="layout with-bottom">
+      <section class="pane pane-left" aria-label="提問分派">
+        <h2>提問</h2>
+        <div id="questionList"></div>
+      </section>
+      <aside class="pane pane-right" aria-label="方法論">
+        <h2 id="methodTitle">方法論</h2>
+        <div class="method-body" id="methodBody"></div>
+      </aside>
+    </main>
+
+    <footer class="bottombar">
+      <span>已勾選 <strong id="selectedCount">0</strong> 題</span>
+      <label for="assignUnit">單位</label>
+      <select id="assignUnit"></select>
+      <button type="button" id="btnAssign" disabled>送出分派</button>
+      <button type="button" id="btnUnassign" class="secondary" disabled>取消此單位分派</button>
+      <span style="margin-left:auto;display:flex;gap:0.5rem;align-items:center">
+        <input type="text" id="newUnitName" placeholder="新增單位名稱" />
+        <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
+      </span>
+    </footer>
+  </div>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/admin-allowlist.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/methodology.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
