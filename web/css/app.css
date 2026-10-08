@@ -335,6 +335,28 @@ button:disabled {
   line-height: 1.65;
   margin: 0;
 }
+.q-ask {
+  margin: 0.35rem 0 0.15rem;
+  padding: 0.55rem 0.7rem;
+  background: #f4faf7;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+}
+.q-ask-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.q-ask p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--ink);
+}
 .q-alt {
   margin-top: 0.6rem;
   padding: 0.55rem 0.65rem;

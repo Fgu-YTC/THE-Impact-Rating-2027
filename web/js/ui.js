@@ -32,8 +32,24 @@
     });
   }
 
+  /** 這題實際要問的句子；數值題則列出要填的欄位 */
+  function questionAsk(q, lang) {
+    const primary = lang === "en" ? q.en : q.zh;
+    const parts = splitQuestionText(primary);
+    if (parts.body) return parts.body;
+    if (q.answerType === "continuous") {
+      const opts = (q.options || [])
+        .map((o) => (lang === "en" ? o.en || o.zh : o.zh || o.en))
+        .filter(Boolean);
+      if (opts.length) {
+        return lang === "en" ? `Enter: ${opts.join("; ")}` : `請填寫：${opts.join("、")}`;
+      }
+    }
+    return "";
+  }
+
   /** Build readable question text block — 主語系完整顯示，另一語系永遠附在下方 */
-  function renderQuestionCopy(q, lang, { showBoth = true } = {}) {
+  function renderQuestionCopy(q, lang, { showBoth = true, showAsk = false } = {}) {
     const wrap = document.createElement("div");
     wrap.className = "q-copy";
 
@@ -45,7 +61,19 @@
     title.textContent = parts.title || primary || "—";
     wrap.appendChild(title);
 
-    if (parts.body) {
+    const ask = showAsk ? questionAsk(q, lang) : "";
+    if (ask) {
+      const askEl = document.createElement("div");
+      askEl.className = "q-ask";
+      const label = document.createElement("span");
+      label.className = "q-ask-label";
+      label.textContent = lang === "en" ? "Question" : "本題詢問";
+      const text = document.createElement("p");
+      text.textContent = ask;
+      askEl.appendChild(label);
+      askEl.appendChild(text);
+      wrap.appendChild(askEl);
+    } else if (parts.body) {
       const body = document.createElement("div");
       body.className = "q-body";
       body.textContent = parts.body;
@@ -76,5 +104,6 @@
     setLang,
     bindLangToggle,
     renderQuestionCopy,
+    questionAsk,
   };
 })(window);

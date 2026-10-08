@@ -323,7 +323,7 @@
           meta.appendChild(ref);
           meta.appendChild(badge);
           body.appendChild(meta);
-          body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true }));
+          body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true, showAsk: true }));
           head.appendChild(cb);
           head.appendChild(body);
           card.appendChild(head);
