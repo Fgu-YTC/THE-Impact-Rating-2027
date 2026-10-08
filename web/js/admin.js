@@ -201,7 +201,7 @@
 
       const byMetric = new Map();
       list.forEach((q) => {
-        const key = String(q.metricRef || "_");
+        const key = THEUI.parentRef(q) || "_";
         if (!byMetric.has(key)) byMetric.set(key, []);
         byMetric.get(key).push(q);
       });
@@ -224,16 +224,17 @@
         const note = lang === "en" ? enNote || zhNote : zhNote || enNote;
         const altNote =
           lang === "en" ? (enNote && zhNote ? zhNote : "") : enNote && zhNote ? enNote : "";
+        const clickable = Boolean(note);
 
-        let host = questionList;
-        if (note) {
-          const block = document.createElement("div");
-          block.className = "metric-block";
-          const header = document.createElement("div");
-          header.className =
-            "metric-header" +
-            (focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId ? " selected" : "");
-          header.style.cursor = "pointer";
+        const block = document.createElement("div");
+        block.className = "metric-block";
+        const header = THEUI.renderMetricHeader(metric, lang, {
+          note,
+          altNote,
+          clickable,
+          selected: clickable && focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId,
+        });
+        if (clickable) {
           header.addEventListener("click", () => {
             focusMetricRef = String(metric.ref || metricKey);
             focusQuestionId = null;
@@ -241,44 +242,13 @@
             renderMethod();
             renderQuestions();
           });
-          const mMeta = document.createElement("div");
-          mMeta.className = "q-meta";
-          const mLabel = document.createElement("span");
-          mLabel.className = "ref-label";
-          mLabel.textContent = lang === "en" ? "Metric" : "大標題";
-          const mRef = document.createElement("span");
-          mRef.className = "q-ref ref-metric";
-          mRef.textContent = metric.ref || metricKey;
-          mMeta.appendChild(mLabel);
-          mMeta.appendChild(mRef);
-          header.appendChild(mMeta);
-          header.appendChild(
-            THEUI.renderQuestionCopy({ en: metric.en || "", zh: metric.zh || "" }, lang, { showBoth: true })
-          );
-          const noteEl = document.createElement("div");
-          noteEl.className = "metric-note";
-          noteEl.textContent = note;
-          header.appendChild(noteEl);
-          if (altNote) {
-            const alt = document.createElement("div");
-            alt.className = "q-alt";
-            const tag = document.createElement("span");
-            tag.className = "q-alt-lang";
-            tag.textContent = lang === "en" ? "中文" : "EN";
-            const text = document.createElement("div");
-            text.className = "q-alt-text";
-            text.textContent = altNote;
-            alt.appendChild(tag);
-            alt.appendChild(text);
-            header.appendChild(alt);
-          }
-          block.appendChild(header);
-          const listWrap = document.createElement("div");
-          listWrap.className = "metric-indicators";
-          block.appendChild(listWrap);
-          questionList.appendChild(block);
-          host = listWrap;
         }
+        block.appendChild(header);
+        const listWrap = document.createElement("div");
+        listWrap.className = "metric-indicators";
+        block.appendChild(listWrap);
+        questionList.appendChild(block);
+        const host = listWrap;
 
         group.forEach((q) => {
           const card = document.createElement("article");

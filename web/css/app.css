@@ -184,6 +184,9 @@ button:disabled {
   outline-offset: -2px;
   background: #dce8e4;
 }
+.metric-header.static {
+  cursor: default;
+}
 .metric-header .q-meta {
   margin-bottom: 0.45rem;
   align-items: baseline;
