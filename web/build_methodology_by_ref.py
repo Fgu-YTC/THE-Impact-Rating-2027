@@ -26,7 +26,8 @@ def find_occurrences(text: str, ref: str) -> list[tuple[int, int]]:
     """
     esc = re.escape(ref)
     # Line start (optional bullet), then exact ref not followed by .digit
-    pat = re.compile(rf"(?m)^[ \t]*(?:[#•\-\*]+\s*)?{esc}(?!\.\d)\b")
+    # Do not treat "1.2%" or "1.2.1" as the heading "1.2".
+    pat = re.compile(rf"(?m)^[ \t]*(?:[#•\-\*]+\s*)?{esc}(?!\.\d)(?!%)(?:\s|$)")
     return [(m.start(), m.end()) for m in pat.finditer(text)]
 
 
@@ -49,10 +50,18 @@ def pick_best(text: str, ref: str, all_starts: list[int]) -> tuple[int, int] | N
         # also cap
         end = min(end, start + 6000)
         body = text[start:end].strip()
-        # score: later in doc (skip front-matter 新增指南), longer body
-        score = start + len(body) * 2
-        # penalize changelog / TOC-ish
-        head = body[:120]
+        head = body[:160]
+        first = head.split("\n", 1)[0]
+        # Prefer the metric write-up over a later glossary line such as "1.2 和 10.3".
+        score = len(body)
+        if re.search(
+            r"該指標|此處|大學|參加高等教育|defined as|This metric|Universities|proportion",
+            body[:900],
+            re.I,
+        ):
+            score += 4000
+        if re.search(r"和\s*\d+\.\d+|and\s+\d+\.\d+", first, re.I):
+            score -= 8000
         if re.search(r"新增指南|Added guidance|What’s new|What's new", head, re.I):
             score -= 50000
         if len(body) < 40:

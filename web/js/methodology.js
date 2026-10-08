@@ -379,7 +379,11 @@
       if (/^(數據收集|數據提交指南|Data collection|Guidance)/i.test(lines[i])) break;
       restLines.push(lines[i]);
     }
-    let rest = restLines.join("");
+    let rest = restLines.reduce((acc, line) => {
+      if (!acc) return line;
+      const space = /[A-Za-z0-9]$/.test(acc) && /^[A-Za-z0-9]/.test(line) ? " " : "";
+      return acc + space + line;
+    }, "");
     rest = rest.replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim();
     if (rest.length < 36) return "";
     if (/(\.pdf|https?:|www\.)/i.test(rest.slice(0, 90))) return "";
