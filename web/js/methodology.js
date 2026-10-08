@@ -36,12 +36,18 @@
     return false;
   }
 
-  function isShortBreak(line) {
-    if (!line) return false;
-    if (/[。！？；：:.!?]$/.test(line)) return false;
-    if (/[-–—，,、)]$/.test(line)) return true;
-    if (line.length < 42) return true;
-    return line.length < 55;
+  function isBullet(line) {
+    return /^[•·▪◦\-\u2022]/.test(line);
+  }
+
+  function shouldJoin(buf, line) {
+    if (!buf || isHeading(line) || isHeading(buf)) return false;
+    if (/^https?:\/\//i.test(buf) || /^https?:\/\//i.test(line)) return false;
+    if (isBullet(line) || isBullet(buf)) return false;
+    if (/^[\u4e00-\u9fffA-Za-z].{0,34}\s+(指|這是|係|the number|This is)/i.test(line)) return false;
+    // 一句已經結束就不要再接下一句；PDF 換行常切在詞中間，沒有句號就要接上
+    if (/[。！？!?]$/.test(buf)) return false;
+    return true;
   }
 
   function reflowLines(text) {
@@ -65,20 +71,11 @@
         buf = line;
         continue;
       }
-      // 勿把下一個「欄位名 指…」黏進上一句
-      if (/^[\u4e00-\u9fffA-Za-z].{0,34}\s+(指|這是|係|the number|This is)/i.test(line)) {
-        if (buf) {
-          out.push(buf);
-          buf = "";
-        }
-        out.push(line);
-        continue;
-      }
       if (!buf) {
         buf = line;
         continue;
       }
-      if (isShortBreak(buf) && !isHeading(line)) {
+      if (shouldJoin(buf, line)) {
         const needSpace = /[A-Za-z0-9]$/.test(buf) && /^[A-Za-z0-9]/.test(line);
         buf += (needSpace ? " " : "") + line;
       } else {

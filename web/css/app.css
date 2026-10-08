@@ -458,8 +458,10 @@ button:disabled {
 }
 .method-doc .method-p {
   margin: 0 0 0.85rem;
-  text-align: justify;
-  text-justify: inter-ideograph;
+  text-align: left;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
 }
 .method-doc .method-link {
   margin: 0.35rem 0 0.9rem;
