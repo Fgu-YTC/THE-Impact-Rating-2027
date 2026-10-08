@@ -31,7 +31,7 @@ def find_occurrences(text: str, ref: str) -> list[tuple[int, int]]:
     return [(m.start(), m.end()) for m in pat.finditer(text)]
 
 
-def pick_best(text: str, ref: str, all_starts: list[int]) -> tuple[int, int] | None:
+def pick_best(text: str, ref: str, all_starts: list[int], appendix_at: int) -> tuple[int, int] | None:
     """Choose the best occurrence: skip early changelog if a later one exists;
     prefer the longest slice until next known ref.
     """
@@ -62,10 +62,19 @@ def pick_best(text: str, ref: str, all_starts: list[int]) -> tuple[int, int] | N
             score += 4000
         if re.search(r"和\s*\d+\.\d+|and\s+\d+\.\d+", first, re.I):
             score -= 8000
+        # 文末「提交數據時的幫助信息」裡的年份／語言說明，不是指標正文
+        if re.search(r"(?:年份|語言|语言)\s*$", first):
+            score -= 100000
+        if re.search(r"\.pdf|Watershed-|Lending Groups|Scopus queries", first, re.I):
+            score -= 100000
+        if "提交數據時的幫助" in body[:80] or "提交数据时的帮助" in body[:80] or "Added guidance" in head:
+            score -= 100000
         if re.search(r"新增指南|Added guidance|What’s new|What's new", head, re.I):
             score -= 50000
         if len(body) < 40:
             score -= 10000
+        if appendix_at > 0 and start >= appendix_at:
+            score -= 80000
         candidates.append((score, start, end, body))
 
     candidates.sort(key=lambda x: x[0], reverse=True)
@@ -81,9 +90,14 @@ def split_by_refs(text: str, refs: list[str]) -> dict[str, str]:
             all_starts.append(start)
     all_starts = sorted(set(all_starts))
 
+    appendix_at = -1
+    for marker in ("提交數據時的幫助", "提交数据时的帮助", "Data submission support", "附件2"):
+        found = text.find(marker)
+        if found >= 0 and (appendix_at < 0 or found < appendix_at):
+            appendix_at = found
     out: dict[str, str] = {}
     for ref in refs:
-        picked = pick_best(text, ref, all_starts)
+        picked = pick_best(text, ref, all_starts, appendix_at)
         if not picked:
             continue
         start, end = picked
