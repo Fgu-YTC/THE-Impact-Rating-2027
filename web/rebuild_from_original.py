@@ -163,7 +163,7 @@ def build():
             if not typ_s and not ref_s and not en:
                 continue
 
-            if typ_s == "Metric":
+            if typ_s == "Metric" or (not typ_s and re.fullmatch(r"\d+\.\d+", ref_s)):
                 current_metric = {
                     "id": f"metric-sdg{sdg}-{ref_s}",
                     "sdg": sdg,
@@ -175,6 +175,25 @@ def build():
                 }
                 metrics.append(current_metric)
                 current_indicator = None
+                # 原表把 7.5 寫成沒有類型的列，真正要填的是 7.5.1
+                if not typ_s and re.fullmatch(r"\d+\.\d+", ref_s):
+                    child_ref = f"{ref_s}.1"
+                    q = {
+                        "id": f"sdg{sdg}-{child_ref}",
+                        "sdg": sdg,
+                        "type": "indicator",
+                        "fillable": True,
+                        "ref": child_ref,
+                        "en": en,
+                        "zh": zh_for(en, child_ref, by_ref, by_en) or current_metric["zh"],
+                        "metricRef": ref_s,
+                        "metricEn": en,
+                        "metricZh": current_metric["zh"],
+                        "answerType": "yesno",
+                        "options": [],
+                    }
+                    questions.append(q)
+                    current_indicator = q
                 continue
 
             if typ_s == "Indicator":

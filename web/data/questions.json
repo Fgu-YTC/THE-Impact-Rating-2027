@@ -289,6 +289,15 @@
       "zh": "能源與社區"
     },
     {
+      "id": "metric-sdg7-7.5",
+      "sdg": 7,
+      "type": "metric",
+      "fillable": false,
+      "ref": "7.5",
+      "en": "Low-carbon energy use",
+      "zh": "低碳能源使用"
+    },
+    {
       "id": "metric-sdg8-8.2",
       "sdg": 8,
       "type": "metric",
@@ -2250,13 +2259,22 @@
       "metricRef": "7.4",
       "metricEn": "Energy and the community",
       "metricZh": "能源與社區",
+      "answerType": "yesno",
+      "options": []
+    },
+    {
+      "id": "sdg7-7.5.1",
+      "sdg": 7,
+      "type": "indicator",
+      "fillable": true,
+      "ref": "7.5.1",
+      "en": "Low-carbon energy use",
+      "zh": "低碳能源使用",
+      "metricRef": "7.5",
+      "metricEn": "Low-carbon energy use",
+      "metricZh": "低碳能源使用",
       "answerType": "continuous",
       "options": [
-        {
-          "en": "Low-carbon energy use",
-          "zh": "低碳能源使用",
-          "kind": "option"
-        },
         {
           "en": "Total energy used",
           "zh": "能源使用總量",
@@ -4864,8 +4882,8 @@
     }
   ],
   "counts": {
-    "metrics": 57,
-    "indicators": 211,
+    "metrics": 58,
+    "indicators": 212,
     "missingQuestionZh": 0,
     "missingMetricZh": 0
   }
