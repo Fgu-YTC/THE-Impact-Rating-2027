@@ -103,6 +103,13 @@ def split_by_refs(text: str, refs: list[str]) -> dict[str, str]:
         start, end = picked
         body = text[start:end].strip()
         body = re.sub(r"\n{3,}", "\n\n", body)
+        own = ref.split(".")[0]
+        cut = len(body)
+        for m in re.finditer(r"\nSDG\s*\n\s*(\d+)\s*\n|\nSDG\s+(\d+)\s*\n", body):
+            n = m.group(1) or m.group(2)
+            if n != own and m.start() < cut:
+                cut = m.start()
+        body = body[:cut].rstrip()
         if len(body) > 14000:
             body = body[:14000].rstrip() + "…"
         if len(body) >= 40:

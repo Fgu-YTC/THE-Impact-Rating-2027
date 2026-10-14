@@ -12,6 +12,20 @@
       .replace(/"/g, "&quot;");
   }
 
+  /** 每個 SDG 最後一題的切段會接到下一章，看到別的 SDG 標題就停下。 */
+  function trimOtherSdg(text, ref) {
+    const own = String(ref || "").split(".")[0];
+    if (!own) return text;
+    let cut = text.length;
+    const re = /\nSDG\s*\n\s*(\d+)\s*\n|\nSDG\s+(\d+)\s*\n/g;
+    let match;
+    while ((match = re.exec(text))) {
+      const n = match[1] || match[2];
+      if (n !== own && match.index < cut) cut = match.index;
+    }
+    return text.slice(0, cut).trim();
+  }
+
   function cleanRaw(raw) {
     let text = String(raw || "");
     text = text.replace(/泰晤士高等教育[\s\S]{0,80}?用戶指南\s*2027/g, "\n");
@@ -416,11 +430,11 @@
     }
 
     for (const r of tryRefs) {
-      const body = byRef[r];
-      if (body && String(body).trim().length > 20) {
+      const body = trimOtherSdg(String(byRef[r] || "").trim(), r);
+      if (body && body.length > 20) {
         return {
           title: args.lang === "en" ? `Methodology · ${r}` : `方法論 · ${r}`,
-          body: String(body).trim(),
+          body,
           html: formatToHtml(body),
           level: "ref",
           ref: r,
@@ -459,7 +473,7 @@
    * 沒有說明、只有標題或詞彙對照，則回傳空字串。
    */
   function metricBlurb(raw, ref) {
-    const cleaned = cleanRaw(raw);
+    const cleaned = trimOtherSdg(cleanRaw(raw), ref);
     if (!cleaned || !ref) return "";
     const refEsc = String(ref).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const lines = cleaned
