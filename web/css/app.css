@@ -441,7 +441,17 @@ button:disabled {
 .fields textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
 .fields input[type="file"] { font-size: 0.8rem; }
 .file-name { margin-top: 0.25rem; color: var(--muted); font-size: 0.78rem; }
-.submit-status { font-size: 0.8rem; color: var(--muted); }
+.submit-banner {
+  padding: 0.95rem 1.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+}
+.submit-banner.busy { background: #fff3c4; color: #5c4300; }
+.submit-banner.ok { background: #1f6b3a; color: #fff; }
+.submit-banner.warn { background: #8a4b12; color: #fff; }
+.submit-banner.bad { background: #9d1c1c; color: #fff; }
 .field-help {
   display: inline-flex;
   align-items: center;

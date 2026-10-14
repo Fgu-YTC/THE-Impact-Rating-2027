@@ -253,16 +253,34 @@
     else renderMethod();
   });
 
+  function showSubmitBanner(kind, text) {
+    const banner = $("#submitBanner");
+    banner.hidden = false;
+    banner.className = `submit-banner ${kind}`;
+    banner.textContent = text;
+  }
+
+  function filledAnswerCount(map) {
+    return Object.values(map || {}).filter((answer) => {
+      if (!answer) return false;
+      if (answer.yesNo || answer.public || answer.comment) return true;
+      if (String(answer.evidence || "").trim() || answer.evidenceFileName) return true;
+      if (answer.options && answer.options.length) return true;
+      return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
+    }).length;
+  }
+
   $("#btnSubmit").addEventListener("click", async () => {
     if (!currentUnitId) {
-      alert("請先選擇單位");
+      showSubmitBanner("bad", "還沒提交。請先選擇填寫單位，再按提交。");
       return;
     }
     const unit = units.find((u) => u.id === currentUnitId);
     const btn = $("#btnSubmit");
-    const status = $("#submitStatus");
+    const label = btn.textContent;
     btn.disabled = true;
-    status.textContent = "提交中…";
+    btn.textContent = "提交中…";
+    showSubmitBanner("busy", `正在把「${unit.name}」送到系統，請先不要關閉頁面。`);
     try {
       await THESubmit.submitUnit({
         unitId: currentUnitId,
@@ -275,12 +293,18 @@
           pendingFiles.delete(questionId);
         },
       });
-      status.textContent = "已提交到系統。";
+      const count = filledAnswerCount(THEStorage.getUnitAnswers(currentUnitId));
+      const when = new Date().toLocaleString("zh-TW", { hour12: false });
+      if (count) {
+        showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${count} 題已送到系統。時間 ${when}。`);
+      } else {
+        showSubmitBanner("warn", `已連到系統，但「${unit.name}」目前沒有填答，所以沒有題目被送出。請先填寫再按提交。`);
+      }
     } catch (err) {
-      status.textContent = "";
-      alert(err && err.message ? err.message : "提交失敗，請再試一次。");
+      showSubmitBanner("bad", `提交失敗，資料還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);
     } finally {
       btn.disabled = false;
+      btn.textContent = label;
     }
   });
 
