@@ -458,12 +458,13 @@ button:disabled {
 }
 .field-help-note {
   margin: 0;
-  padding: 0.4rem 0.6rem;
+  padding: 0.45rem 0.65rem;
   background: #f7f4ee;
   border-radius: 6px;
   color: var(--ink);
   font-size: 0.8rem;
-  line-height: 1.5;
+  line-height: 1.55;
+  white-space: pre-line;
 }
 
 .option-list {

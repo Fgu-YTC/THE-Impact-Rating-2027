@@ -100,7 +100,7 @@
         })),
         { label: "證據網址", value: a.evidence || "", kind: "text" },
         {
-          label: "證據是否已放上公開網頁",
+          label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁，但審核人員仍要點得開並看到這題的直接證據",
           value: a.public ? String(a.public).toUpperCase() : "",
           kind: "yesno",
         },
@@ -110,7 +110,7 @@
       { label: "有沒有做到", value: a.yesNo ? String(a.yesNo).toUpperCase() : "", kind: "yesno" },
       { label: "證據網址", value: a.evidence || "", kind: "text" },
       {
-        label: "證據是否已放上公開網頁",
+        label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁，但審核人員仍要點得開並看到這題的直接證據",
         value: a.public ? String(a.public).toUpperCase() : "",
         kind: "yesno",
       },

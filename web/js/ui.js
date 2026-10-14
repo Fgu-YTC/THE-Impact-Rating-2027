@@ -251,9 +251,18 @@
   }
 
   function publicTip(lang) {
-    return lang === "en"
-      ? "Yes means this evidence is already on a public webpage. No means it is not public. You still need a link reviewers can open."
-      : "Yes 表示這份證據已經放在公開網頁上。No 表示還沒有公開。選 No 時，仍要提供一條審核人員打得開的網址。";
+    if (lang === "en") {
+      return [
+        "Public only asks whether this evidence is on a public webpage. The link must still show the direct evidence for this question.",
+        "Yes: anyone can open a public webpage and see it.",
+        "No: it is not on a public webpage. You may put it somewhere reviewers can open and see the same evidence, as long as that place is not a public webpage.",
+      ].join("\n");
+    }
+    return [
+      "Public 只問這份證據現在有沒有放在公開網頁上。網址裡都要是這題的直接證據。",
+      "Yes：任何人打開公開網頁都看得到。",
+      "No：沒有放在公開網頁。可以另外準備一個位置給審核人員點開、看到同一份證據，但那個位置不是公開網頁。",
+    ].join("\n");
   }
 
   function appendHelp(labelEl, tip) {
