@@ -286,17 +286,22 @@
         if (q.answerType !== "continuous") {
           const evRow = document.createElement("div");
           evRow.className = "row";
-          evRow.innerHTML = `<label>Evidence</label>`;
+          const evLab = document.createElement("label");
+          evLab.textContent = "Evidence";
+          const evNote = THEUI.appendHelp(evLab, THEUI.evidenceTip(lang));
           const ev = document.createElement("input");
           ev.type = "url";
           ev.placeholder = "https://…";
           ev.value = ans.evidence || "";
           ev.addEventListener("change", () => saveAnswer(q.id, { evidence: ev.value }));
+          evRow.appendChild(evLab);
           evRow.appendChild(ev);
 
           const pubRow = document.createElement("div");
           pubRow.className = "row";
-          pubRow.innerHTML = `<label>Public</label>`;
+          const pubLab = document.createElement("label");
+          pubLab.textContent = "Public";
+          const pubNote = THEUI.appendHelp(pubLab, THEUI.publicTip(lang));
           const pub = document.createElement("select");
           ["", "yes", "no"].forEach((v) => {
             const o = document.createElement("option");
@@ -306,10 +311,13 @@
           });
           pub.value = ans.public || "";
           pub.addEventListener("change", () => saveAnswer(q.id, { public: pub.value }));
+          pubRow.appendChild(pubLab);
           pubRow.appendChild(pub);
 
           fields.appendChild(evRow);
+          fields.appendChild(evNote);
           fields.appendChild(pubRow);
+          fields.appendChild(pubNote);
         }
 
         card.appendChild(fields);

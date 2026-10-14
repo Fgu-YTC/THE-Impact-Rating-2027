@@ -162,15 +162,20 @@
     if (q.answerType !== "continuous") {
       const evRow = document.createElement("div");
       evRow.className = "row";
-      evRow.innerHTML = `<label>Evidence</label>`;
+      const evLab = document.createElement("label");
+      evLab.textContent = "Evidence";
+      const evNote = appendHelp(evLab, evidenceTip(lang));
       const ev = document.createElement("input");
       ev.type = "url";
       ev.disabled = true;
       ev.placeholder = "https://…";
+      evRow.appendChild(evLab);
       evRow.appendChild(ev);
       const pubRow = document.createElement("div");
       pubRow.className = "row";
-      pubRow.innerHTML = `<label>Public</label>`;
+      const pubLab = document.createElement("label");
+      pubLab.textContent = "Public";
+      const pubNote = appendHelp(pubLab, publicTip(lang));
       const pub = document.createElement("select");
       pub.disabled = true;
       ["—", "YES", "NO"].forEach((v) => {
@@ -178,9 +183,12 @@
         o.textContent = v;
         pub.appendChild(o);
       });
+      pubRow.appendChild(pubLab);
       pubRow.appendChild(pub);
       fields.appendChild(evRow);
+      fields.appendChild(evNote);
       fields.appendChild(pubRow);
+      fields.appendChild(pubNote);
     }
 
     wrap.appendChild(fields);
@@ -236,6 +244,39 @@
     return header;
   }
 
+  function evidenceTip(lang) {
+    return lang === "en"
+      ? "Enter a link THE reviewers can open. A link that needs a login, or that they cannot open, does not count as evidence."
+      : "請填一條泰晤士高等教育審核人員打得開的網址。要登入才看得到、或打不開的連結，不算證據。";
+  }
+
+  function publicTip(lang) {
+    return lang === "en"
+      ? "Yes means this evidence is already on a public webpage. No means it is not public. You still need a link reviewers can open."
+      : "Yes 表示這份證據已經放在公開網頁上。No 表示還沒有公開。選 No 時，仍要提供一條審核人員打得開的網址。";
+  }
+
+  function appendHelp(labelEl, tip) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "field-help";
+    btn.textContent = "?";
+    btn.title = tip;
+    btn.setAttribute("aria-expanded", "false");
+    const note = document.createElement("p");
+    note.className = "field-help-note";
+    note.hidden = true;
+    note.textContent = tip;
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      note.hidden = !note.hidden;
+      btn.setAttribute("aria-expanded", note.hidden ? "false" : "true");
+    });
+    labelEl.appendChild(btn);
+    return note;
+  }
+
   global.THEUI = {
     splitQuestionText,
     getLang,
@@ -244,6 +285,9 @@
     renderQuestionCopy,
     questionAsk,
     parentRef,
+    evidenceTip,
+    publicTip,
+    appendHelp,
     renderMetricHeader,
     renderAnswerPreview,
   };

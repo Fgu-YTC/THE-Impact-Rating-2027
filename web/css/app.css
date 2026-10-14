@@ -432,12 +432,39 @@ button:disabled {
 }
 .fields .row {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 132px 1fr;
   gap: 0.5rem;
   align-items: center;
   font-size: 0.85rem;
 }
 .fields .row label { color: var(--muted); }
+.field-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-left: 0.28rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #c9bfb0;
+  background: #fff;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.field-help-note {
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  background: #f7f4ee;
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
 
 .option-list {
   display: flex;
