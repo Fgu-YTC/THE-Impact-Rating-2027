@@ -294,6 +294,7 @@
           meta.appendChild(badge);
           body.appendChild(meta);
           body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true, showAsk: true }));
+          body.appendChild(THEUI.renderAnswerPreview(q, lang));
           head.appendChild(cb);
           head.appendChild(body);
           card.appendChild(head);

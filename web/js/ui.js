@@ -98,6 +98,95 @@
     return wrap;
   }
 
+  /** 管理頁用：顯示填寫頁會出現的作答格式，欄位不可填 */
+  function renderAnswerPreview(q, lang) {
+    const wrap = document.createElement("div");
+    wrap.className = "q-format";
+    const label = document.createElement("div");
+    label.className = "q-format-label";
+    label.textContent = lang === "en" ? "Answer format" : "填寫格式";
+    wrap.appendChild(label);
+
+    const fields = document.createElement("div");
+    fields.className = "fields";
+
+    if (q.answerType === "picklist" && q.options?.length) {
+      const list = document.createElement("div");
+      list.className = "option-list";
+      q.options.forEach((opt) => {
+        const lab = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.disabled = true;
+        lab.appendChild(cb);
+        const text = document.createElement("span");
+        const primary = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
+        const secondary = lang === "en" ? opt.zh : opt.en;
+        text.textContent = secondary && secondary !== primary ? `${primary}　${secondary}` : primary;
+        lab.appendChild(text);
+        list.appendChild(lab);
+      });
+      fields.appendChild(list);
+    } else if (q.answerType === "continuous") {
+      const opts = q.options?.length ? q.options : [{ en: "Value", zh: "數值" }];
+      opts.forEach((opt) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        const lab = document.createElement("label");
+        lab.textContent = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
+        const inp = document.createElement("input");
+        inp.type = "number";
+        inp.disabled = true;
+        inp.placeholder = lang === "en" ? "Number" : "填數字";
+        row.appendChild(lab);
+        row.appendChild(inp);
+        fields.appendChild(row);
+      });
+    } else {
+      const row = document.createElement("div");
+      row.className = "row";
+      const lab = document.createElement("label");
+      lab.textContent = "Yes / No";
+      const sel = document.createElement("select");
+      sel.disabled = true;
+      ["—", "YES", "NO"].forEach((v) => {
+        const o = document.createElement("option");
+        o.textContent = v;
+        sel.appendChild(o);
+      });
+      row.appendChild(lab);
+      row.appendChild(sel);
+      fields.appendChild(row);
+    }
+
+    if (q.answerType !== "continuous") {
+      const evRow = document.createElement("div");
+      evRow.className = "row";
+      evRow.innerHTML = `<label>Evidence</label>`;
+      const ev = document.createElement("input");
+      ev.type = "url";
+      ev.disabled = true;
+      ev.placeholder = "https://…";
+      evRow.appendChild(ev);
+      const pubRow = document.createElement("div");
+      pubRow.className = "row";
+      pubRow.innerHTML = `<label>Public</label>`;
+      const pub = document.createElement("select");
+      pub.disabled = true;
+      ["—", "YES", "NO"].forEach((v) => {
+        const o = document.createElement("option");
+        o.textContent = v;
+        pub.appendChild(o);
+      });
+      pubRow.appendChild(pub);
+      fields.appendChild(evRow);
+      fields.appendChild(pubRow);
+    }
+
+    wrap.appendChild(fields);
+    return wrap;
+  }
+
   /** x.x.x 題目對應的原生大標題編號 x.x */
   function parentRef(q) {
     const given = String(q.metricRef || "").trim();
@@ -156,5 +245,6 @@
     questionAsk,
     parentRef,
     renderMetricHeader,
+    renderAnswerPreview,
   };
 })(window);

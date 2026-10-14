@@ -360,6 +360,31 @@ button:disabled {
   white-space: pre-wrap;
   color: var(--ink);
 }
+.q-format {
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.7rem 0.65rem;
+  border: 1px dashed #c9bfae;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+.q-format-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--warn);
+  margin-bottom: 0.35rem;
+}
+.q-format .fields {
+  margin-top: 0;
+}
+.q-format .fields .row {
+  grid-template-columns: minmax(8rem, 42%) 1fr;
+}
+.q-format input:disabled,
+.q-format select:disabled {
+  background: #f3f0ea;
+  color: var(--muted);
+}
 .q-alt {
   margin-top: 0.6rem;
   padding: 0.55rem 0.65rem;
