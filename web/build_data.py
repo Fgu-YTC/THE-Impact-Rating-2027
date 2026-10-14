@@ -230,11 +230,7 @@ def build_methodology():
     print(f"Wrote {path_zh} and {path_en}")
 
 def build_units():
-    units = [
-        {"id": "unit-placeholder-1", "name": "（佔位）單位 A"},
-        {"id": "unit-placeholder-2", "name": "（佔位）單位 B"},
-        {"id": "unit-placeholder-3", "name": "（佔位）單位 C"},
-    ]
+    units = []
     path = DATA / "units.json"
     path.write_text(json.dumps(units, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Wrote {path}")

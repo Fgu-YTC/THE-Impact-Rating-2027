@@ -8,7 +8,9 @@
     fetch("data/units.json").then((r) => r.json()),
   ]);
 
-  const units = THEStorage.getUnitsOverride() || unitsFile;
+  const units = (THEStorage.getUnitsOverride() || unitsFile).filter(
+    (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
+  );
   const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
   const metricsByRef = Object.fromEntries(
     (questionsData.metrics || []).map((m) => [String(m.ref), m])
