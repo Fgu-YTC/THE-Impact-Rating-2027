@@ -479,7 +479,15 @@
             showExportBanner("warn", "還沒有下載壓縮檔。已提交的答案裡沒有上傳檔案，網址在「匯出題目與填答」的 Excel 裡。");
             return;
           }
-          const detail = e && (e.code || e.message) ? ` ${e.code || e.message}` : "";
+          const code = e && (e.code || e.message || "");
+          if (String(code).includes("retry-limit-exceeded")) {
+            showExportBanner(
+              "bad",
+              "證據壓縮檔還沒下載。瀏覽器連 Storage 下載時被中斷。請重新整理后再匯出一次；若仍失敗，到 Cloud Storage 桶子的 CORS 允許 https://fgu-ytc.github.io 的 GET。"
+            );
+            return;
+          }
+          const detail = code ? ` ${code}` : "";
           showExportBanner("bad", `證據壓縮檔匯出失敗，檔案還沒下載。${detail}`);
         }
       });

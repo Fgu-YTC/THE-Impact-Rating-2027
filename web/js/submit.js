@@ -95,7 +95,7 @@
 
   async function listSubmissions() {
     const { storage: bucket } = await storage();
-    const { ref, listAll, getBytes } = await import(
+    const { ref, listAll, getDownloadURL } = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
     );
     let listed;
@@ -107,9 +107,10 @@
     }
     const packs = [];
     for (const item of listed.items) {
-      const bytes = await getBytes(item);
-      const text = new TextDecoder().decode(bytes);
-      packs.push(JSON.parse(text));
+      const url = await getDownloadURL(item);
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`讀取提交紀錄 HTTP ${res.status}`);
+      packs.push(await res.json());
     }
     return packs;
   }
@@ -158,22 +159,23 @@
   }
 
   async function readEvidence(bucket, answer) {
-    const { ref, getBlob } = await import(
+    const { ref, getDownloadURL } = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
     );
     let lastError = null;
-    if (answer.evidenceFileUrl) {
+    let url = answer.evidenceFileUrl || "";
+    if (!url && answer.evidenceFilePath) {
       try {
-        const res = await fetch(answer.evidenceFileUrl);
-        if (!res.ok) throw new Error(`下載連結 HTTP ${res.status}`);
-        return await res.blob();
+        url = await getDownloadURL(ref(bucket, answer.evidenceFilePath));
       } catch (err) {
         lastError = err;
       }
     }
-    if (answer.evidenceFilePath) {
+    if (url) {
       try {
-        return await getBlob(ref(bucket, answer.evidenceFilePath), 80 * 1024 * 1024);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`下載連結 HTTP ${res.status}`);
+        return await res.blob();
       } catch (err) {
         lastError = lastError || err;
       }
