@@ -22,7 +22,22 @@
   }
 
   function safeName(name) {
-    return String(name || "file").replace(/[\\/:*?"<>|#]/g, "_");
+    return String(name || "file").replace(/[\\/:*?"<>|#]/g, "_").trim() || "file";
+  }
+
+  function questionMeta(questions, questionId) {
+    const found = (questions || []).find((item) => item.id === questionId);
+    if (found) return { sdg: found.sdg, ref: found.ref || questionId };
+    const match = String(questionId).match(/^sdg(\d+)-(.+)$/);
+    if (match) return { sdg: Number(match[1]), ref: match[2] };
+    return { sdg: 0, ref: questionId };
+  }
+
+  function storedFileName(ref, fileName) {
+    const base = safeName(fileName);
+    const prefix = safeName(ref);
+    if (base === prefix || base.startsWith(`${prefix}_`) || base.startsWith(`${prefix}-`)) return base;
+    return `${prefix}_${base}`;
   }
 
   function explain(err) {
@@ -36,7 +51,7 @@
     return "提交失敗，請再試一次。";
   }
 
-  async function submitUnit({ unitId, unitName, answers, files, onFileUploaded }) {
+  async function submitUnit({ unitId, unitName, answers, files, questions, onFileUploaded }) {
     if (!global.FIREBASE_CONFIG || !global.FIREBASE_CONFIG.storageBucket) {
       throw new Error("還沒有設定 Firebase Storage。");
     }
@@ -49,11 +64,18 @@
     try {
       for (const [questionId, file] of pending.entries()) {
         if (!file) continue;
-        const path = `evidence/${unitId}/${questionId}/${Date.now()}-${safeName(file.name)}`;
+        const meta = questionMeta(questions, questionId);
+        const evidenceStoredName = storedFileName(meta.ref, file.name);
+        const path = `evidence/${unitId}/${questionId}/${evidenceStoredName}`;
         const stored = ref(bucket, path);
         await uploadBytes(stored, file, { contentType: file.type || "application/octet-stream" });
         const evidenceFileUrl = await getDownloadURL(stored);
-        const info = { evidenceFileName: file.name, evidenceFileUrl };
+        const info = {
+          evidenceFileName: file.name,
+          evidenceStoredName,
+          evidenceFilePath: path,
+          evidenceFileUrl,
+        };
         next[questionId] = { ...(next[questionId] || {}), ...info };
         if (onFileUploaded) onFileUploaded(questionId, info);
       }
@@ -105,5 +127,76 @@
     return merged;
   }
 
-  global.THESubmit = { submitUnit, listSubmissions, mergeAnswers };
+  function loadJSZip() {
+    return new Promise((resolve, reject) => {
+      if (global.JSZip) {
+        resolve(global.JSZip);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js";
+      script.onload = () => resolve(global.JSZip);
+      script.onerror = () => reject(new Error("zip"));
+      document.head.appendChild(script);
+    });
+  }
+
+  function uniqueZipPath(used, folder, fileName) {
+    let path = `${folder}/${fileName}`;
+    if (!used.has(path)) {
+      used.add(path);
+      return path;
+    }
+    const dot = fileName.lastIndexOf(".");
+    const stem = dot > 0 ? fileName.slice(0, dot) : fileName;
+    const ext = dot > 0 ? fileName.slice(dot) : "";
+    let n = 2;
+    while (used.has(`${folder}/${stem}_${n}${ext}`)) n += 1;
+    path = `${folder}/${stem}_${n}${ext}`;
+    used.add(path);
+    return path;
+  }
+
+  async function fileBytes(bucket, answer) {
+    const { ref, getBytes } = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
+    );
+    if (answer.evidenceFilePath) return getBytes(ref(bucket, answer.evidenceFilePath));
+    if (!answer.evidenceFileUrl) return null;
+    const res = await fetch(answer.evidenceFileUrl);
+    if (!res.ok) throw new Error("file");
+    return new Uint8Array(await res.arrayBuffer());
+  }
+
+  async function exportEvidenceZip({ packs, questions, filename }) {
+    const JSZip = await loadJSZip();
+    const { storage: bucket } = await storage();
+    const zip = new JSZip();
+    const used = new Set();
+    let count = 0;
+    for (const pack of packs || []) {
+      for (const [questionId, answer] of Object.entries(pack.answers || {})) {
+        if (!answer || (!answer.evidenceFilePath && !answer.evidenceFileUrl)) continue;
+        const meta = questionMeta(questions, questionId);
+        const folder = meta.sdg ? `SDG${meta.sdg}` : "SDG";
+        const name = answer.evidenceStoredName || storedFileName(meta.ref, answer.evidenceFileName || "evidence");
+        const bytes = await fileBytes(bucket, answer);
+        if (!bytes) continue;
+        zip.file(uniqueZipPath(used, folder, name), bytes);
+        count += 1;
+      }
+    }
+    if (!count) {
+      const err = new Error("no-files");
+      throw err;
+    }
+    const blob = await zip.generateAsync({ type: "blob" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename || "THE2027_證據檔_依SDG.zip";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  global.THESubmit = { submitUnit, listSubmissions, mergeAnswers, exportEvidenceZip };
 })(window);

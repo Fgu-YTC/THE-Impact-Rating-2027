@@ -267,7 +267,7 @@
         answers: THEStorage.getUnitAnswers(currentUnitId),
         filename: `Impact 2027-data collection support v1_${unit.name}.xlsx`,
       });
-      if (status) status.textContent = "已匯出收集表。";
+      if (status) status.textContent = "已匯出題目與填答。";
     } catch (err) {
       if (status) status.textContent = "";
       alert("匯出失敗，請再試一次。");
@@ -290,6 +290,7 @@
         unitName: unit.name,
         answers: THEStorage.getUnitAnswers(currentUnitId),
         files: pendingFiles,
+        questions,
         onFileUploaded: (questionId, info) => {
           saveAnswer(questionId, info);
           pendingFiles.delete(questionId);

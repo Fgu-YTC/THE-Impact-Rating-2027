@@ -413,6 +413,23 @@
       }
     });
 
+    $("#btnExportFiles").addEventListener("click", async () => {
+      try {
+        const packs = await THESubmit.listSubmissions();
+        if (!packs.length) {
+          alert("還沒有單位提交。請各單位在填報頁按提交後再匯出。");
+          return;
+        }
+        await THESubmit.exportEvidenceZip({ packs, questions });
+      } catch (e) {
+        if (e && e.message === "no-files") {
+          alert("已提交的答案裡還沒有上傳檔案。網址仍在「匯出題目與填答」的 Excel 裡。");
+          return;
+        }
+        alert("證據壓縮檔匯出失敗。請確認已用管理帳號登入，而且 Storage 允許讀取檔案。");
+      }
+    });
+
     $("#btnAddUnit").addEventListener("click", () => {
       const name = (newUnitName.value || "").trim();
       if (!name) return;
