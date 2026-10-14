@@ -82,6 +82,7 @@
     let focusMetricRef = null;
     let focusQuestionId = null;
     let submissions = [];
+    let mode = "assign";
 
     const unitSelect = $("#assignUnit");
     const sdgTabs = $("#sdgTabs");
@@ -308,17 +309,6 @@
           const head = document.createElement("div");
           head.className = "q-head";
 
-          const cb = document.createElement("input");
-          cb.type = "checkbox";
-          cb.checked = selected.has(q.id);
-          cb.addEventListener("change", () => {
-            if (cb.checked) selected.add(q.id);
-            else selected.delete(q.id);
-            card.classList.toggle("selected", cb.checked);
-            focusQuestion(q);
-            updateBottom();
-          });
-
           const body = document.createElement("div");
           const meta = document.createElement("div");
           meta.className = "q-meta";
@@ -326,7 +316,11 @@
           ref.className = "q-ref ref-indicator";
           ref.textContent = q.ref || q.id;
           const badge = document.createElement("span");
-          if (who.length) {
+          if (mode === "review") {
+            const filled = submissionsFor(q.id).length > 0;
+            badge.className = filled ? "badge ok" : "badge warn";
+            badge.textContent = filled ? "已填寫" : "未填寫";
+          } else if (who.length) {
             badge.className = "badge ok";
             badge.textContent = `已分配：${who.map(unitName).join("、")}`;
           } else {
@@ -337,9 +331,20 @@
           meta.appendChild(badge);
           body.appendChild(meta);
           body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true, showAsk: true }));
-          body.appendChild(THEUI.renderAnswerPreview(q, lang));
-          body.appendChild(renderSubmitted(q));
-          head.appendChild(cb);
+          if (mode === "review") body.appendChild(renderSubmitted(q));
+          if (mode === "assign") {
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.checked = selected.has(q.id);
+            cb.addEventListener("change", () => {
+              if (cb.checked) selected.add(q.id);
+              else selected.delete(q.id);
+              card.classList.toggle("selected", cb.checked);
+              focusQuestion(q);
+              updateBottom();
+            });
+            head.appendChild(cb);
+          }
           head.appendChild(body);
           card.appendChild(head);
           host.appendChild(card);
@@ -463,6 +468,25 @@
 
     $("#btnReloadAnswers").addEventListener("click", () => {
       loadSubmissions();
+    });
+
+    function applyMode(next) {
+      mode = next;
+      if (mode === "assign" && (filter === "filled" || filter === "unfilled")) filter = "all";
+      if (mode === "review" && (filter === "assigned" || filter === "unassigned")) filter = "all";
+      appRoot.classList.toggle("mode-assign", mode === "assign");
+      appRoot.classList.toggle("mode-review", mode === "review");
+      document.querySelectorAll("#modeToggle button").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.mode === mode);
+      });
+      filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.filter === filter);
+      });
+      renderQuestions();
+    }
+
+    document.querySelectorAll("#modeToggle button").forEach((btn) => {
+      btn.addEventListener("click", () => applyMode(btn.dataset.mode));
     });
 
     function updateBottom() {

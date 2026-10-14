@@ -676,6 +676,8 @@ button:disabled {
   padding: 0.3rem 0.65rem;
   font-size: 0.8rem;
 }
+#adminApp.mode-assign [data-for="review"],
+#adminApp.mode-review [data-for="assign"] { display: none !important; }
 .filter-bar button.active {
   color: var(--accent);
   border-color: var(--accent);
