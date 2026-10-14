@@ -458,7 +458,17 @@
             showExportBanner("warn", "還沒有匯出。目前沒有單位提交，請各單位在填報頁按提交後再匯出。");
             return;
           }
-          const result = await THESubmit.exportEvidenceZip({ packs, questions });
+          const result = await THESubmit.exportEvidenceZip({
+            packs,
+            questions,
+            onProgress: (progress) => {
+              if (progress.phase === "zip") {
+                showExportBanner("busy", `檔案已下載 ${progress.done} 個，正在打包壓縮檔。`);
+                return;
+              }
+              showExportBanner("busy", `正在下載證據檔 ${progress.done}／${progress.total}，請先不要關閉頁面。`);
+            },
+          });
           const missed = result.failed && result.failed.length ? `有 ${result.failed.length} 個檔案沒放進去。` : "";
           showExportBanner(
             result.failed && result.failed.length ? "warn" : "ok",

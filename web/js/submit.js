@@ -162,18 +162,18 @@
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
     );
     let lastError = null;
-    if (answer.evidenceFilePath) {
-      try {
-        return await getBlob(ref(bucket, answer.evidenceFilePath), 80 * 1024 * 1024);
-      } catch (err) {
-        lastError = err;
-      }
-    }
     if (answer.evidenceFileUrl) {
       try {
         const res = await fetch(answer.evidenceFileUrl);
         if (!res.ok) throw new Error(`下載連結 HTTP ${res.status}`);
         return await res.blob();
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    if (answer.evidenceFilePath) {
+      try {
+        return await getBlob(ref(bucket, answer.evidenceFilePath), 80 * 1024 * 1024);
       } catch (err) {
         lastError = lastError || err;
       }
@@ -185,39 +185,62 @@
     throw failed;
   }
 
-  async function exportEvidenceZip({ packs, questions, filename }) {
+  async function runPool(items, limit, worker) {
+    let cursor = 0;
+    async function take() {
+      while (cursor < items.length) {
+        const item = items[cursor];
+        cursor += 1;
+        await worker(item);
+      }
+    }
+    const workers = Math.min(limit, items.length);
+    await Promise.all(Array.from({ length: workers }, () => take()));
+  }
+
+  async function exportEvidenceZip({ packs, questions, filename, onProgress }) {
     const JSZip = await loadJSZip();
     const { storage: bucket } = await storage();
     const zip = new JSZip();
     const used = new Set();
     let count = 0;
     const failed = [];
-    let sawFile = false;
+    const jobs = [];
     for (const pack of packs || []) {
       for (const [questionId, answer] of Object.entries(pack.answers || {})) {
         if (!answer || (!answer.evidenceFilePath && !answer.evidenceFileUrl)) continue;
-        sawFile = true;
         const meta = questionMeta(questions, questionId);
-        const folder = meta.sdg ? `SDG${meta.sdg}` : "SDG";
-        const name = answer.evidenceStoredName || storedFileName(meta.ref, answer.evidenceFileName || "evidence");
-        try {
-          const bytes = await readEvidence(bucket, answer);
-          zip.file(uniqueZipPath(used, folder, name), bytes);
-          count += 1;
-        } catch (err) {
-          failed.push(`${meta.ref} ${err.code || err.message || "讀取失敗"}`);
-        }
+        jobs.push({
+          answer,
+          folder: meta.sdg ? `SDG${meta.sdg}` : "SDG",
+          name: answer.evidenceStoredName || storedFileName(meta.ref, answer.evidenceFileName || "evidence"),
+          ref: meta.ref,
+        });
       }
     }
-    if (!sawFile) {
+    if (!jobs.length) {
       const err = new Error("no-files");
       throw err;
     }
+    let done = 0;
+    if (onProgress) onProgress({ phase: "download", done: 0, total: jobs.length });
+    await runPool(jobs, 4, async (job) => {
+      try {
+        const bytes = await readEvidence(bucket, job.answer);
+        zip.file(uniqueZipPath(used, job.folder, job.name), bytes);
+        count += 1;
+      } catch (err) {
+        failed.push(`${job.ref} ${err.code || err.message || "讀取失敗"}`);
+      }
+      done += 1;
+      if (onProgress) onProgress({ phase: "download", done, total: jobs.length });
+    });
     if (!count) {
       const err = new Error(failed.slice(0, 3).join("；"));
       throw err;
     }
-    const blob = await zip.generateAsync({ type: "blob" });
+    if (onProgress) onProgress({ phase: "zip", done: count, total: jobs.length });
+    const blob = await zip.generateAsync({ type: "blob", compression: "STORE" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = filename || "THE2027_證據檔_依SDG.zip";
