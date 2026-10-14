@@ -98,9 +98,9 @@
           value: selected.has(o.en) || selected.has(o.zh) ? "Yes" : "",
           kind: "yesno",
         })),
-        { label: "證據網址", value: a.evidence || "", kind: "text" },
+        { label: "證據（網址或要上傳的檔名）", value: a.evidence || "", kind: "text" },
         {
-          label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁，但審核人員仍要點得開並看到這題的直接證據",
+          label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁（上傳檔案也選 No）",
           value: a.public ? String(a.public).toUpperCase() : "",
           kind: "yesno",
         },
@@ -108,9 +108,9 @@
     }
     return [
       { label: "有沒有做到", value: a.yesNo ? String(a.yesNo).toUpperCase() : "", kind: "yesno" },
-      { label: "證據網址", value: a.evidence || "", kind: "text" },
+      { label: "證據（網址或要上傳的檔名）", value: a.evidence || "", kind: "text" },
       {
-        label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁，但審核人員仍要點得開並看到這題的直接證據",
+        label: "證據是否在公開網頁\nYes＝任何人在公開網頁看得到\nNo＝沒有放公開網頁（上傳檔案也選 No）",
         value: a.public ? String(a.public).toUpperCase() : "",
         kind: "yesno",
       },
@@ -147,7 +147,7 @@
 
     ws.mergeCells("A2:B2");
     const note = ws.getCell("A2");
-    note.value = "THE Impact 2027　只填黃色格子。Yes／No 請用下拉選單。證據網址要讓審核人員打得開。";
+    note.value = "THE Impact 2027　只填黃色格子。Yes／No 請用下拉選單。證據可上傳檔案或貼連結，請寫網址或檔名。";
     styleCell(note, { size: 10, fill: "FFF4F7F5", color: "FF3D4F46" });
     ws.getRow(2).height = 24;
 

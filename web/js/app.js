@@ -290,8 +290,8 @@
           evLab.textContent = "Evidence";
           const evNote = THEUI.appendHelp(evLab, THEUI.evidenceTip(lang));
           const ev = document.createElement("input");
-          ev.type = "url";
-          ev.placeholder = "https://…";
+          ev.type = "text";
+          ev.placeholder = lang === "en" ? "Link or file name" : "網址，或要上傳的檔名";
           ev.value = ans.evidence || "";
           ev.addEventListener("change", () => saveAnswer(q.id, { evidence: ev.value }));
           evRow.appendChild(evLab);

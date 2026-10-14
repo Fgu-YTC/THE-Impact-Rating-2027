@@ -166,9 +166,9 @@
       evLab.textContent = "Evidence";
       const evNote = appendHelp(evLab, evidenceTip(lang));
       const ev = document.createElement("input");
-      ev.type = "url";
+      ev.type = "text";
       ev.disabled = true;
-      ev.placeholder = "https://…";
+      ev.placeholder = lang === "en" ? "Link or file name" : "網址，或要上傳的檔名";
       evRow.appendChild(evLab);
       evRow.appendChild(ev);
       const pubRow = document.createElement("div");
@@ -245,23 +245,32 @@
   }
 
   function evidenceTip(lang) {
-    return lang === "en"
-      ? "Enter a link THE reviewers can open. A link that needs a login, or that they cannot open, does not count as evidence."
-      : "請填一條泰晤士高等教育審核人員打得開的網址。要登入才看得到、或打不開的連結，不算證據。";
+    if (lang === "en") {
+      return [
+        "When this is submitted to THE, evidence can be an uploaded file or a link. Either is fine.",
+        "Reviewers must be able to open it and see the direct evidence for this question. A page that needs a login, or that does not show the evidence, does not count.",
+        "On this form, enter the link or the file name you will upload.",
+      ].join("\n");
+    }
+    return [
+      "送進泰晤士時，證據可以上傳檔案，也可以貼連結，兩種都可以。",
+      "不論哪一種，審核人員都要打得開，而且看得到這題的直接證據。要登入才看得到、或打開後看不到該證據，不算。",
+      "這張表請寫網址，或寫要上傳的檔名。",
+    ].join("\n");
   }
 
   function publicTip(lang) {
     if (lang === "en") {
       return [
-        "Public only asks whether this evidence is on a public webpage. The link must still show the direct evidence for this question.",
+        "Public only asks whether this evidence is already on a public webpage.",
         "Yes: anyone can open a public webpage and see it.",
-        "No: it is not on a public webpage. You may put it somewhere reviewers can open and see the same evidence, as long as that place is not a public webpage.",
+        "No: it is not on a public webpage. An uploaded file, or a link that is not a public webpage, is No.",
       ].join("\n");
     }
     return [
-      "Public 只問這份證據現在有沒有放在公開網頁上。網址裡都要是這題的直接證據。",
+      "Public 只問這份證據現在有沒有放在公開網頁上。",
       "Yes：任何人打開公開網頁都看得到。",
-      "No：沒有放在公開網頁。可以另外準備一個位置給審核人員點開、看到同一份證據，但那個位置不是公開網頁。",
+      "No：沒有放在公開網頁。上傳檔案，或連結不是公開網頁，都選 No。",
     ].join("\n");
   }
 
