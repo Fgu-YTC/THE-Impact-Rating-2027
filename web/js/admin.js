@@ -73,6 +73,7 @@
     const selected = new Set();
     let currentSdg = 1;
     let filter = "all"; // all | assigned | unassigned
+    const unitFilter = new Set();
     let lang = THEUI.getLang();
     let focusRef = null;
     let focusMetricRef = null;
@@ -101,6 +102,7 @@
     }
 
     function fillUnitSelect() {
+      const prev = unitSelect.value;
       unitSelect.innerHTML = "";
       const ph = document.createElement("option");
       ph.value = "";
@@ -111,6 +113,37 @@
         o.value = u.id;
         o.textContent = u.name;
         unitSelect.appendChild(o);
+      });
+      if ([...unitSelect.options].some((o) => o.value === prev)) unitSelect.value = prev;
+      renderUnitFilter();
+    }
+
+    function renderUnitFilter() {
+      const list = $("#unitFilterList");
+      list.innerHTML = "";
+      [...unitFilter].forEach((id) => {
+        if (!units.some((u) => u.id === id)) unitFilter.delete(id);
+      });
+      if (!units.length) {
+        const empty = document.createElement("span");
+        empty.className = "unit-filter-label";
+        empty.textContent = "尚無單位";
+        list.appendChild(empty);
+        return;
+      }
+      units.forEach((u) => {
+        const lab = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = unitFilter.has(u.id);
+        cb.addEventListener("change", () => {
+          if (cb.checked) unitFilter.add(u.id);
+          else unitFilter.delete(u.id);
+          renderQuestions();
+        });
+        lab.appendChild(cb);
+        lab.appendChild(document.createTextNode(u.name));
+        list.appendChild(lab);
       });
     }
     fillUnitSelect();
@@ -184,6 +217,7 @@
       return questions.filter((q) => {
         if (q.sdg !== currentSdg) return false;
         const a = assignees(q.id);
+        if (unitFilter.size && !a.some((id) => unitFilter.has(id))) return false;
         if (filter === "assigned") return a.length > 0;
         if (filter === "unassigned") return a.length === 0;
         return true;
@@ -311,6 +345,12 @@
       $("#btnUnassign").disabled = !(selected.size && unitSelect.value);
     }
 
+    $("#btnClearUnitFilter").addEventListener("click", () => {
+      unitFilter.clear();
+      renderUnitFilter();
+      renderQuestions();
+    });
+
     filterBar.querySelectorAll("button").forEach((btn) => {
       btn.addEventListener("click", () => {
         filter = btn.dataset.filter;
@@ -341,6 +381,26 @@
       renderTabs();
       renderQuestions();
       updateBottom();
+    });
+
+    $("#btnExportForms").addEventListener("click", async () => {
+      const chosen = unitSelect.value;
+      const targets = chosen ? units.filter((u) => u.id === chosen) : units;
+      try {
+        await THEExport.exportAssignedForms({
+          units: targets,
+          questions,
+          assignments: THEStorage.getAssignments(),
+          sdgs: questionsData.sdgs,
+          metricsByRef,
+        });
+      } catch (e) {
+        if (e && e.message === "empty") {
+          alert(chosen ? "此單位還沒有分派題目。" : "還沒有任何已分派題目。");
+        } else {
+          alert("匯出失敗，請再試一次。");
+        }
+      }
     });
 
     $("#btnAddUnit").addEventListener("click", () => {

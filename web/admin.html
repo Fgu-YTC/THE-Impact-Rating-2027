@@ -45,6 +45,11 @@
       <button type="button" data-filter="assigned">已分配</button>
       <button type="button" id="btnSelectUnassigned" class="secondary">勾選本 SDG 未分配題</button>
     </div>
+    <div class="unit-filter" id="unitFilter">
+      <span class="unit-filter-label">篩選單位</span>
+      <div id="unitFilterList"></div>
+      <button type="button" id="btnClearUnitFilter" class="secondary">清除篩選</button>
+    </div>
 
     <main class="layout with-bottom">
       <section class="pane pane-left" aria-label="提問分派">
@@ -63,6 +68,7 @@
       <select id="assignUnit"></select>
       <button type="button" id="btnAssign" disabled>送出分派</button>
       <button type="button" id="btnUnassign" class="secondary" disabled>取消此單位分派</button>
+      <button type="button" id="btnExportForms" class="secondary">匯出填寫 Excel</button>
       <span style="margin-left:auto;display:flex;gap:0.5rem;align-items:center">
         <input type="text" id="newUnitName" placeholder="新增單位名稱" />
         <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
@@ -76,6 +82,7 @@
   <script src="js/ui.js"></script>
   <script src="js/methodology.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/export.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

@@ -597,6 +597,34 @@ button:disabled {
   border-color: var(--accent);
   background: var(--accent-soft);
 }
+.unit-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+  padding: 0.45rem 1.25rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 252, 247, 0.7);
+}
+.unit-filter-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+#unitFilterList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+}
+.unit-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+}
+.unit-filter button {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
+}
 
 .bottombar {
   position: sticky;
