@@ -424,6 +424,32 @@ button:disabled {
 }
 .badge.warn { background: var(--warn-bg); color: var(--warn); }
 .badge.ok { background: var(--ok-bg); color: var(--ok); }
+.submitted {
+  margin-top: 0.65rem;
+  display: grid;
+  gap: 0.45rem;
+}
+.submitted-card {
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  background: #f3f8f5;
+  border: 1px solid #c9dfd2;
+}
+.submitted-head {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+.submitted-row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 0.35rem 0.6rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.submitted-row dt { color: var(--muted); }
+.submitted-row dd { margin: 0; overflow-wrap: anywhere; }
+.submitted-empty { color: var(--muted); font-size: 0.82rem; margin-top: 0.45rem; }
 
 .fields {
   display: grid;

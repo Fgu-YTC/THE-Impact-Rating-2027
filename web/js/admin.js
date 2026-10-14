@@ -81,6 +81,7 @@
     let focusRef = null;
     let focusMetricRef = null;
     let focusQuestionId = null;
+    let submissions = [];
 
     const unitSelect = $("#assignUnit");
     const sdgTabs = $("#sdgTabs");
@@ -334,6 +335,7 @@
           body.appendChild(meta);
           body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true, showAsk: true }));
           body.appendChild(THEUI.renderAnswerPreview(q, lang));
+          body.appendChild(renderSubmitted(q));
           head.appendChild(cb);
           head.appendChild(body);
           card.appendChild(head);
@@ -341,6 +343,124 @@
         });
       });
     }
+
+    function submissionsFor(questionId) {
+      return submissions
+        .map((pack) => ({
+          unitName: pack.unitName || unitName(pack.unitId),
+          updatedAt: pack.updatedAt,
+          answer: (pack.answers || {})[questionId],
+        }))
+        .filter((item) => item.answer && answerHasContent(item.answer));
+    }
+
+    function answerHasContent(answer) {
+      if (!answer) return false;
+      if (answer.yesNo || answer.public || answer.comment) return true;
+      if (String(answer.evidence || "").trim() || answer.evidenceFileName || answer.evidenceFileUrl) return true;
+      if (answer.options && answer.options.length) return true;
+      return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
+    }
+
+    function addAnswerRow(list, label, value) {
+      if (value == null || value === "") return;
+      const row = document.createElement("div");
+      row.className = "submitted-row";
+      const dt = document.createElement("dt");
+      dt.textContent = label;
+      const dd = document.createElement("dd");
+      if (value instanceof Node) dd.appendChild(value);
+      else dd.textContent = value;
+      row.appendChild(dt);
+      row.appendChild(dd);
+      list.appendChild(row);
+    }
+
+    function linkNode(href, text) {
+      const a = document.createElement("a");
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = text || href;
+      return a;
+    }
+
+    function renderSubmitted(q) {
+      const wrap = document.createElement("div");
+      wrap.className = "submitted";
+      wrap.addEventListener("click", (e) => e.stopPropagation());
+      const items = submissionsFor(q.id);
+      if (!items.length) {
+        const empty = document.createElement("div");
+        empty.className = "submitted-empty";
+        empty.textContent = submissions.length ? "尚無提交" : "尚未讀到提交資料";
+        wrap.appendChild(empty);
+        return wrap;
+      }
+      items.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "submitted-card";
+        const head = document.createElement("div");
+        head.className = "submitted-head";
+        const when = item.updatedAt ? new Date(item.updatedAt).toLocaleString("zh-TW", { hour12: false }) : "";
+        head.textContent = when ? `${item.unitName}　${when}` : item.unitName;
+        card.appendChild(head);
+        const list = document.createElement("dl");
+        const answer = item.answer;
+        if (q.answerType !== "continuous" && answer.yesNo) {
+          addAnswerRow(list, "Yes / No", String(answer.yesNo).toUpperCase());
+        }
+        if (q.answerType === "picklist" && answer.options && answer.options.length) {
+          const labels = answer.options.map((key) => {
+            const opt = (q.options || []).find((item) => item.en === key || item.zh === key);
+            return opt ? opt.zh || opt.en : key;
+          });
+          addAnswerRow(list, "選項", labels.join("、"));
+        }
+        if (q.answerType === "continuous") {
+          (q.options || []).forEach((opt, index) => {
+            const raw = (answer.values || {})[`v${index}`];
+            if (raw != null && String(raw) !== "") addAnswerRow(list, opt.zh || opt.en, String(raw));
+          });
+        }
+        const pub = { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" };
+        if (answer.public) addAnswerRow(list, "Public", pub[answer.public] || answer.public);
+        if (String(answer.evidence || "").trim()) addAnswerRow(list, "Evidence", linkNode(answer.evidence, answer.evidence));
+        if (answer.evidenceFileUrl) {
+          addAnswerRow(list, "檔案", linkNode(answer.evidenceFileUrl, answer.evidenceStoredName || answer.evidenceFileName || "開啟檔案"));
+        } else if (answer.evidenceFileName) {
+          addAnswerRow(list, "檔案", answer.evidenceFileName);
+        }
+        if (answer.comment) addAnswerRow(list, "Comments", answer.comment);
+        card.appendChild(list);
+        wrap.appendChild(card);
+      });
+      return wrap;
+    }
+
+    async function loadSubmissions() {
+      const btn = $("#btnReloadAnswers");
+      if (btn) btn.disabled = true;
+      showExportBanner("busy", "正在讀取各單位已提交的填答。");
+      try {
+        submissions = await THESubmit.listSubmissions();
+        renderQuestions();
+        if (!submissions.length) {
+          showExportBanner("warn", "目前還沒有單位提交。");
+          return;
+        }
+        showExportBanner("ok", `已讀到 ${submissions.length} 個單位的填答，顯示在各題下方。`);
+      } catch (err) {
+        const detail = err && (err.code || err.message) ? err.code || err.message : "請再試一次";
+        showExportBanner("bad", `讀取填答失敗。${detail}`);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    $("#btnReloadAnswers").addEventListener("click", () => {
+      loadSubmissions();
+    });
 
     function updateBottom() {
       $("#selectedCount").textContent = String(selected.size);
@@ -354,7 +474,7 @@
       renderQuestions();
     });
 
-    filterBar.querySelectorAll("button").forEach((btn) => {
+    filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {
       btn.addEventListener("click", () => {
         filter = btn.dataset.filter;
         filterBar.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
@@ -517,5 +637,6 @@
     renderQuestions();
     renderMethod();
     updateBottom();
+    loadSubmissions();
   }
 })();
