@@ -109,88 +109,7 @@
 
     const fields = document.createElement("div");
     fields.className = "fields";
-
-    if (q.answerType === "picklist" && q.options?.length) {
-      const list = document.createElement("div");
-      list.className = "option-list";
-      q.options.forEach((opt) => {
-        const lab = document.createElement("label");
-        const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.disabled = true;
-        lab.appendChild(cb);
-        const text = document.createElement("span");
-        const primary = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
-        const secondary = lang === "en" ? opt.zh : opt.en;
-        text.textContent = secondary && secondary !== primary ? `${primary}　${secondary}` : primary;
-        lab.appendChild(text);
-        list.appendChild(lab);
-      });
-      fields.appendChild(list);
-    } else if (q.answerType === "continuous") {
-      const opts = q.options?.length ? q.options : [{ en: "Value", zh: "數值" }];
-      opts.forEach((opt) => {
-        const row = document.createElement("div");
-        row.className = "row";
-        const lab = document.createElement("label");
-        lab.textContent = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
-        const inp = document.createElement("input");
-        inp.type = "number";
-        inp.disabled = true;
-        inp.placeholder = lang === "en" ? "Number" : "填數字";
-        row.appendChild(lab);
-        row.appendChild(inp);
-        fields.appendChild(row);
-      });
-    } else {
-      const row = document.createElement("div");
-      row.className = "row";
-      const lab = document.createElement("label");
-      lab.textContent = "Yes / No";
-      const sel = document.createElement("select");
-      sel.disabled = true;
-      ["—", "YES", "NO"].forEach((v) => {
-        const o = document.createElement("option");
-        o.textContent = v;
-        sel.appendChild(o);
-      });
-      row.appendChild(lab);
-      row.appendChild(sel);
-      fields.appendChild(row);
-    }
-
-    if (q.answerType !== "continuous") {
-      const evRow = document.createElement("div");
-      evRow.className = "row";
-      const evLab = document.createElement("label");
-      evLab.textContent = "Evidence";
-      const evNote = appendHelp(evLab, evidenceTip(lang));
-      const ev = document.createElement("input");
-      ev.type = "text";
-      ev.disabled = true;
-      ev.placeholder = lang === "en" ? "Link or file name" : "網址，或要上傳的檔名";
-      evRow.appendChild(evLab);
-      evRow.appendChild(ev);
-      const pubRow = document.createElement("div");
-      pubRow.className = "row";
-      const pubLab = document.createElement("label");
-      pubLab.textContent = "Public";
-      const pubNote = appendHelp(pubLab, publicTip(lang));
-      const pub = document.createElement("select");
-      pub.disabled = true;
-      ["—", "YES", "NO"].forEach((v) => {
-        const o = document.createElement("option");
-        o.textContent = v;
-        pub.appendChild(o);
-      });
-      pubRow.appendChild(pubLab);
-      pubRow.appendChild(pub);
-      fields.appendChild(evRow);
-      fields.appendChild(evNote);
-      fields.appendChild(pubRow);
-      fields.appendChild(pubNote);
-    }
-
+    appendAnswerFields(fields, q, { lang, answer: {}, disabled: true });
     wrap.appendChild(fields);
     return wrap;
   }
@@ -247,31 +166,215 @@
   function evidenceTip(lang) {
     if (lang === "en") {
       return [
-        "When this is submitted to THE, evidence can be an uploaded file or a link. Either is fine.",
+        "Evidence can be an uploaded file or a link. Either is fine.",
         "Reviewers must be able to open it and see the direct evidence for this question. A page that needs a login, or that does not show the evidence, does not count.",
-        "On this form, enter the link or the file name you will upload.",
+        "Paste a link here, or choose a file. Submit sends the file into the system.",
       ].join("\n");
     }
     return [
-      "送進泰晤士時，證據可以上傳檔案，也可以貼連結，兩種都可以。",
+      "證據可以上傳檔案，也可以貼連結，兩種都可以。",
       "不論哪一種，審核人員都要打得開，而且看得到這題的直接證據。要登入才看得到、或打開後看不到該證據，不算。",
-      "這張表請寫網址，或寫要上傳的檔名。",
+      "有網址就貼在這裡；要上傳檔案就選檔案。按下提交後，檔案會存進系統。",
     ].join("\n");
   }
 
   function publicTip(lang) {
     if (lang === "en") {
       return [
-        "Public only asks whether this evidence is already on a public webpage.",
-        "Yes: anyone can open a public webpage and see it.",
-        "No: it is not on a public webpage. An uploaded file, or a link that is not a public webpage, is No.",
+        "Choose one: Public, Private, or Undefined.",
+        "Public: the evidence is on a public webpage anyone can open.",
+        "Private: there is evidence, but it is not a public webpage. An uploaded file, or a link only reviewers can open, is Private.",
+        "Undefined: there is no evidence for this question yet.",
       ].join("\n");
     }
     return [
-      "Public 只問這份證據現在有沒有放在公開網頁上。",
-      "Yes：任何人打開公開網頁都看得到。",
-      "No：沒有放在公開網頁。上傳檔案，或連結不是公開網頁，都選 No。",
+      "三選一：Public、Private、Undefined。",
+      "Public：證據已經在公開網頁上，任何人打得開、看得到。",
+      "Private：有證據，但不是公開網頁。上傳的檔案，或只有審核人員打得開的位置，選 Private。",
+      "Undefined：這題還沒有可提供的證據。",
     ].join("\n");
+  }
+
+  function publicChoices() {
+    return [
+      { value: "", label: "—" },
+      { value: "public", label: "Public" },
+      { value: "private", label: "Private" },
+      { value: "undefined", label: "Undefined" },
+    ];
+  }
+
+  function normalizePublic(value) {
+    if (value === "yes") return "public";
+    if (value === "no") return "private";
+    return value || "";
+  }
+
+  function appendAnswerFields(fields, q, opts) {
+    const lang = opts.lang || "zh";
+    const disabled = !!opts.disabled;
+    const getAnswer = opts.getAnswer || (() => opts.answer || {});
+    const onPatch = opts.onPatch || (() => {});
+    const ans = getAnswer() || {};
+
+    if (q.answerType === "picklist" && q.options?.length) {
+      fields.appendChild(yesNoRow(ans, disabled, onPatch));
+      const wrap = document.createElement("div");
+      wrap.className = "option-list";
+      q.options.forEach((opt, i) => {
+        const lab = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.disabled = disabled;
+        cb.id = `${q.id}-opt-${i}`;
+        const selected = new Set(ans.options || []);
+        cb.checked = selected.has(opt.en) || selected.has(opt.zh);
+        cb.addEventListener("change", () => {
+          const cur = getAnswer() || {};
+          const next = new Set(cur.options || []);
+          if (cb.checked) next.add(opt.en);
+          else {
+            next.delete(opt.en);
+            next.delete(opt.zh);
+          }
+          onPatch({ options: [...next], yesNo: next.size ? cur.yesNo || "yes" : cur.yesNo || "" });
+        });
+        lab.appendChild(cb);
+        const text = document.createElement("span");
+        const primary = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
+        const secondary = lang === "en" ? opt.zh : opt.en;
+        text.textContent = secondary && secondary !== primary ? `${primary}　${secondary}` : primary;
+        lab.appendChild(text);
+        wrap.appendChild(lab);
+      });
+      fields.appendChild(wrap);
+    } else if (q.answerType === "continuous") {
+      (q.options?.length ? q.options : [{ en: "Value", zh: "數值", kind: "value" }]).forEach((opt, i) => {
+        const row = document.createElement("div");
+        row.className = "row";
+        const lab = document.createElement("label");
+        lab.textContent = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
+        const inp = document.createElement("input");
+        inp.type = "number";
+        inp.disabled = disabled;
+        inp.placeholder = lang === "en" ? "Number" : "填數字";
+        const key = `v${i}`;
+        const values = ans.values || {};
+        inp.value = values[key] ?? "";
+        inp.addEventListener("change", () => {
+          const cur = getAnswer() || {};
+          const next = { ...(cur.values || {}) };
+          next[key] = inp.value;
+          onPatch({ values: next });
+        });
+        row.appendChild(lab);
+        row.appendChild(inp);
+        fields.appendChild(row);
+      });
+    } else {
+      fields.appendChild(yesNoRow(ans, disabled, onPatch));
+    }
+
+    if (q.answerType === "continuous") return fields;
+
+    const commentRow = document.createElement("div");
+    commentRow.className = "row";
+    const commentLab = document.createElement("label");
+    commentLab.textContent = "Comments";
+    const comment = document.createElement("textarea");
+    comment.maxLength = 1000;
+    comment.disabled = disabled;
+    comment.placeholder = lang === "en" ? "Comments, max 1000 characters" : "備註，最多 1000 字";
+    comment.value = ans.comment || "";
+    comment.addEventListener("change", () => onPatch({ comment: comment.value }));
+    commentRow.appendChild(commentLab);
+    commentRow.appendChild(comment);
+    fields.appendChild(commentRow);
+
+    const evRow = document.createElement("div");
+    evRow.className = "row";
+    const evLab = document.createElement("label");
+    evLab.textContent = "Evidence";
+    const evNote = appendHelp(evLab, evidenceTip(lang));
+    const ev = document.createElement("input");
+    ev.type = "text";
+    ev.disabled = disabled;
+    ev.placeholder = "https://";
+    ev.value = ans.evidence || "";
+    ev.addEventListener("change", () => onPatch({ evidence: ev.value }));
+    evRow.appendChild(evLab);
+    evRow.appendChild(ev);
+
+    const fileRow = document.createElement("div");
+    fileRow.className = "row";
+    const fileLab = document.createElement("label");
+    fileLab.textContent = lang === "en" ? "Upload" : "上傳檔案";
+    const fileWrap = document.createElement("div");
+    const file = document.createElement("input");
+    file.type = "file";
+    file.disabled = disabled;
+    const fileName = document.createElement("div");
+    fileName.className = "file-name";
+    fileName.textContent = opts.pendingName || ans.evidenceFileName || "";
+    file.addEventListener("change", () => {
+      const chosen = file.files && file.files[0];
+      fileName.textContent = chosen ? chosen.name : "";
+      onPatch({ evidenceFileName: chosen ? chosen.name : "" });
+      if (opts.onFile) opts.onFile(chosen || null);
+    });
+    fileWrap.appendChild(file);
+    fileWrap.appendChild(fileName);
+    fileRow.appendChild(fileLab);
+    fileRow.appendChild(fileWrap);
+
+    const pubRow = document.createElement("div");
+    pubRow.className = "row";
+    const pubLab = document.createElement("label");
+    pubLab.textContent = "Public";
+    const pubNote = appendHelp(pubLab, publicTip(lang));
+    const pub = document.createElement("select");
+    pub.disabled = disabled;
+    publicChoices().forEach((item) => {
+      const o = document.createElement("option");
+      o.value = item.value;
+      o.textContent = item.label;
+      pub.appendChild(o);
+    });
+    pub.value = normalizePublic(ans.public);
+    pub.addEventListener("change", () => onPatch({ public: pub.value }));
+    pubRow.appendChild(pubLab);
+    pubRow.appendChild(pub);
+
+    fields.appendChild(evRow);
+    fields.appendChild(evNote);
+    fields.appendChild(fileRow);
+    fields.appendChild(pubRow);
+    fields.appendChild(pubNote);
+    return fields;
+  }
+
+  function yesNoRow(ans, disabled, onPatch) {
+    const row = document.createElement("div");
+    row.className = "row";
+    const lab = document.createElement("label");
+    lab.textContent = "Yes / No";
+    const sel = document.createElement("select");
+    sel.disabled = disabled;
+    [
+      ["", "—"],
+      ["yes", "Yes"],
+      ["no", "No"],
+    ].forEach(([value, label]) => {
+      const o = document.createElement("option");
+      o.value = value;
+      o.textContent = label;
+      sel.appendChild(o);
+    });
+    sel.value = ans.yesNo || "";
+    sel.addEventListener("change", () => onPatch({ yesNo: sel.value }));
+    row.appendChild(lab);
+    row.appendChild(sel);
+    return row;
   }
 
   function appendHelp(labelEl, tip) {
@@ -305,7 +408,9 @@
     parentRef,
     evidenceTip,
     publicTip,
+    normalizePublic,
     appendHelp,
+    appendAnswerFields,
     renderMetricHeader,
     renderAnswerPreview,
   };

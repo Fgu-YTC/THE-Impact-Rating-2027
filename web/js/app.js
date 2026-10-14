@@ -26,6 +26,7 @@
   let activeRef = null; // selected indicator/metric ref for methodology
   let activeMetricRef = null;
   let lang = THEUI.getLang();
+  const pendingFiles = new Map();
 
   const unitSelect = $("#unitSelect");
   const sdgTabs = $("#sdgTabs");
@@ -220,105 +221,17 @@
 
         const fields = document.createElement("div");
         fields.className = "fields";
-
-        if (q.answerType === "picklist" && q.options?.length) {
-          const wrap = document.createElement("div");
-          wrap.className = "option-list";
-          const selected = new Set(ans.options || []);
-          q.options.forEach((opt, i) => {
-            const id = `${q.id}-opt-${i}`;
-            const lab = document.createElement("label");
-            const cb = document.createElement("input");
-            cb.type = "checkbox";
-            cb.id = id;
-            cb.checked = selected.has(opt.en);
-            cb.addEventListener("change", () => {
-              const next = new Set(ans.options || []);
-              if (cb.checked) next.add(opt.en);
-              else next.delete(opt.en);
-              saveAnswer(q.id, { options: [...next], yesNo: next.size ? "yes" : "" });
-            });
-            lab.appendChild(cb);
-            lab.appendChild(document.createTextNode(`${opt.zh || opt.en}`));
-            wrap.appendChild(lab);
-          });
-          fields.appendChild(wrap);
-        } else if (q.answerType === "continuous") {
-          (q.options?.length ? q.options : [{ en: "Value", zh: "數值", kind: "value" }]).forEach((opt, i) => {
-            const row = document.createElement("div");
-            row.className = "row";
-            const lab = document.createElement("label");
-            lab.textContent = opt.zh || opt.en;
-            const inp = document.createElement("input");
-            inp.type = "number";
-            const key = `v${i}`;
-            const values = ans.values || {};
-            inp.value = values[key] ?? ans.value ?? "";
-            inp.addEventListener("change", () => {
-              const values = { ...(getAnswer(q.id).values || {}) };
-              values[key] = inp.value;
-              saveAnswer(q.id, { values, value: Object.values(values).filter(Boolean).join("; ") });
-            });
-            row.appendChild(lab);
-            row.appendChild(inp);
-            fields.appendChild(row);
-          });
-        } else {
-          const row = document.createElement("div");
-          row.className = "row";
-          const lab = document.createElement("label");
-          lab.textContent = "Yes / No";
-          const sel = document.createElement("select");
-          ["", "yes", "no"].forEach((v) => {
-            const o = document.createElement("option");
-            o.value = v;
-            o.textContent = v === "" ? "—" : v.toUpperCase();
-            sel.appendChild(o);
-          });
-          sel.value = ans.yesNo || "";
-          sel.addEventListener("change", () => saveAnswer(q.id, { yesNo: sel.value }));
-          row.appendChild(lab);
-          row.appendChild(sel);
-          fields.appendChild(row);
-        }
-
-        // 連續數值題（如 5.2.1）依原始 Excel：只填 Value，不要 Yes/No、Evidence、Public
-        if (q.answerType !== "continuous") {
-          const evRow = document.createElement("div");
-          evRow.className = "row";
-          const evLab = document.createElement("label");
-          evLab.textContent = "Evidence";
-          const evNote = THEUI.appendHelp(evLab, THEUI.evidenceTip(lang));
-          const ev = document.createElement("input");
-          ev.type = "text";
-          ev.placeholder = lang === "en" ? "Link or file name" : "網址，或要上傳的檔名";
-          ev.value = ans.evidence || "";
-          ev.addEventListener("change", () => saveAnswer(q.id, { evidence: ev.value }));
-          evRow.appendChild(evLab);
-          evRow.appendChild(ev);
-
-          const pubRow = document.createElement("div");
-          pubRow.className = "row";
-          const pubLab = document.createElement("label");
-          pubLab.textContent = "Public";
-          const pubNote = THEUI.appendHelp(pubLab, THEUI.publicTip(lang));
-          const pub = document.createElement("select");
-          ["", "yes", "no"].forEach((v) => {
-            const o = document.createElement("option");
-            o.value = v;
-            o.textContent = v === "" ? "—" : v.toUpperCase();
-            pub.appendChild(o);
-          });
-          pub.value = ans.public || "";
-          pub.addEventListener("change", () => saveAnswer(q.id, { public: pub.value }));
-          pubRow.appendChild(pubLab);
-          pubRow.appendChild(pub);
-
-          fields.appendChild(evRow);
-          fields.appendChild(evNote);
-          fields.appendChild(pubRow);
-          fields.appendChild(pubNote);
-        }
+        const pending = pendingFiles.get(q.id);
+        THEUI.appendAnswerFields(fields, q, {
+          lang,
+          getAnswer: () => getAnswer(q.id),
+          pendingName: pending ? pending.name : ans.evidenceFileName || "",
+          onPatch: (partial) => saveAnswer(q.id, partial),
+          onFile: (file) => {
+            if (file) pendingFiles.set(q.id, file);
+            else pendingFiles.delete(q.id);
+          },
+        });
 
         card.appendChild(fields);
         host.appendChild(card);
@@ -346,14 +259,49 @@
       return;
     }
     const unit = units.find((u) => u.id === currentUnitId);
-    const qs = assignmentsForUnit(currentUnitId);
-    await THEExport.exportUnitAnswers({
-      unit,
-      questions: qs,
-      answers: THEStorage.getUnitAnswers(currentUnitId),
-      sdgs,
-      metricsByRef,
-    });
+    const status = $("#submitStatus");
+    if (status) status.textContent = "正在匯出收集表…";
+    try {
+      await THEExport.exportOfficial({
+        questions,
+        answers: THEStorage.getUnitAnswers(currentUnitId),
+        filename: `Impact 2027-data collection support v1_${unit.name}.xlsx`,
+      });
+      if (status) status.textContent = "已匯出收集表。";
+    } catch (err) {
+      if (status) status.textContent = "";
+      alert("匯出失敗，請再試一次。");
+    }
+  });
+
+  $("#btnSubmit").addEventListener("click", async () => {
+    if (!currentUnitId) {
+      alert("請先選擇單位");
+      return;
+    }
+    const unit = units.find((u) => u.id === currentUnitId);
+    const btn = $("#btnSubmit");
+    const status = $("#submitStatus");
+    btn.disabled = true;
+    status.textContent = "提交中…";
+    try {
+      await THESubmit.submitUnit({
+        unitId: currentUnitId,
+        unitName: unit.name,
+        answers: THEStorage.getUnitAnswers(currentUnitId),
+        files: pendingFiles,
+        onFileUploaded: (questionId, info) => {
+          saveAnswer(questionId, info);
+          pendingFiles.delete(questionId);
+        },
+      });
+      status.textContent = "已提交到系統。";
+    } catch (err) {
+      status.textContent = "";
+      alert(err && err.message ? err.message : "提交失敗，請再試一次。");
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   emptyState.hidden = false;

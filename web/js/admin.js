@@ -397,22 +397,19 @@
     });
 
     $("#btnExportForms").addEventListener("click", async () => {
-      const chosen = unitSelect.value;
-      const targets = chosen ? units.filter((u) => u.id === chosen) : units;
       try {
-        await THEExport.exportAssignedForms({
-          units: targets,
+        const packs = await THESubmit.listSubmissions();
+        if (!packs.length) {
+          alert("還沒有單位提交。請各單位在填報頁按提交後再匯出。");
+          return;
+        }
+        await THEExport.exportOfficial({
           questions,
-          assignments: THEStorage.getAssignments(),
-          sdgs: questionsData.sdgs,
-          metricsByRef,
+          answers: THESubmit.mergeAnswers(packs),
+          filename: "Impact 2027-data collection support v1.xlsx",
         });
       } catch (e) {
-        if (e && e.message === "empty") {
-          alert(chosen ? "此單位還沒有分派題目。" : "還沒有任何已分派題目。");
-        } else {
-          alert("匯出失敗，請再試一次。");
-        }
+        alert("匯出失敗。請確認已用管理帳號登入，而且 Storage 允許讀取 submissions。");
       }
     });
 

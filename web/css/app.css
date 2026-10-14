@@ -438,6 +438,10 @@ button:disabled {
   font-size: 0.85rem;
 }
 .fields .row label { color: var(--muted); }
+.fields textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
+.fields input[type="file"] { font-size: 0.8rem; }
+.file-name { margin-top: 0.25rem; color: var(--muted); font-size: 0.78rem; }
+.submit-status { font-size: 0.8rem; color: var(--muted); }
 .field-help {
   display: inline-flex;
   align-items: center;

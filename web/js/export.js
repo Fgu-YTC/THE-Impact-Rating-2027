@@ -298,5 +298,118 @@
     await downloadWorkbook(wb, "THE2027_單位填寫表.xlsx");
   }
 
-  global.THEExport = { exportUnitAnswers, exportAssignedForms };
+  const TEMPLATE_URL = "template/Impact-2027-data-collection.xlsx";
+
+  function cellText(value) {
+    if (value == null) return "";
+    if (typeof value === "number") return String(value);
+    if (typeof value === "object") {
+      if (Array.isArray(value.richText)) return value.richText.map((part) => part.text || "").join("");
+      if (value.text) return String(value.text);
+      if (value.result != null) return cellText(value.result);
+    }
+    return String(value);
+  }
+
+  function normLabel(value) {
+    return cellText(value).toLowerCase().replace(/\s+/g, " ").trim();
+  }
+
+  function publicCell(value) {
+    if (value === "public" || value === "yes") return "yes";
+    if (value === "private" || value === "no") return "no";
+    if (value === "undefined") return "undefined";
+    return "";
+  }
+
+  function evidenceCell(answer) {
+    const link = String(answer.evidence || "").trim();
+    if (link) return link;
+    if (answer.evidenceFileUrl) return answer.evidenceFileUrl;
+    if (answer.evidenceFileName) return answer.evidenceFileName;
+    return "";
+  }
+
+  function answerTouched(answer) {
+    if (!answer) return false;
+    if (answer.yesNo) return true;
+    if (answer.public) return true;
+    if (String(answer.evidence || "").trim()) return true;
+    if (answer.evidenceFileUrl || answer.evidenceFileName) return true;
+    if (answer.comment) return true;
+    if (answer.options && answer.options.length) return true;
+    const values = answer.values || {};
+    return Object.values(values).some((v) => v != null && String(v) !== "");
+  }
+
+  function fillOfficialSheet(ws, sdg, questions, answers) {
+    const byRef = new Map(
+      questions.filter((q) => Number(q.sdg) === sdg).map((q) => [normLabel(q.ref), q])
+    );
+    let current = null;
+    const blocks = [];
+    ws.eachRow((row, rowNumber) => {
+      if (rowNumber < 3) return;
+      const type = cellText(row.getCell(1).value).trim();
+      const ref = cellText(row.getCell(2).value).trim();
+      const label = cellText(row.getCell(3).value).trim();
+      if (type === "Indicator" || type === "Metric") {
+        current = { type, ref, rowNumber, subs: [] };
+        blocks.push(current);
+        return;
+      }
+      if (current && label) current.subs.push({ rowNumber, label });
+    });
+
+    blocks.forEach((block) => {
+      if (block.type !== "Indicator") return;
+      const q = byRef.get(normLabel(block.ref));
+      if (!q) return;
+      const answer = answers[q.id];
+      if (!answerTouched(answer)) return;
+      const yesNo = answer.yesNo === "yes" || answer.yesNo === "no" ? answer.yesNo : "";
+      if (yesNo) ws.getCell(block.rowNumber, 5).value = yesNo;
+      const evidence = evidenceCell(answer);
+      if (evidence) ws.getCell(block.rowNumber, 6).value = evidence;
+      const pub = publicCell(answer.public);
+      if (pub) ws.getCell(block.rowNumber, 7).value = pub;
+
+      block.subs.forEach((sub, index) => {
+        const label = normLabel(sub.label);
+        const optIndex = (q.options || []).findIndex(
+          (opt) => normLabel(opt.en) === label || normLabel(opt.zh) === label
+        );
+        if (q.answerType === "continuous") {
+          const i = optIndex >= 0 ? optIndex : index;
+          const raw = answer.values ? answer.values[`v${i}`] : "";
+          if (raw == null || String(raw) === "") return;
+          const num = Number(raw);
+          ws.getCell(sub.rowNumber, 4).value = Number.isFinite(num) && String(raw).trim() !== "" ? num : raw;
+          return;
+        }
+        if (q.answerType === "picklist" && optIndex >= 0) {
+          const opt = q.options[optIndex];
+          const selected = new Set(answer.options || []);
+          const on = selected.has(opt.en) || selected.has(opt.zh);
+          ws.getCell(sub.rowNumber, 5).value = on ? "yes" : "no";
+        }
+      });
+    });
+  }
+
+  async function exportOfficial({ questions, answers, filename }) {
+    const ExcelJS = await loadExcelJS();
+    const res = await fetch(TEMPLATE_URL);
+    if (!res.ok) throw new Error("template");
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.load(await res.arrayBuffer());
+    wb.eachSheet((ws) => {
+      const match = String(ws.name).match(/SDG\s*(\d+)/i);
+      if (!match) return;
+      fillOfficialSheet(ws, Number(match[1]), questions, answers || {});
+    });
+    await downloadWorkbook(wb, filename || "Impact 2027-data collection support v1.xlsx");
+  }
+
+  global.THEExport = { exportUnitAnswers, exportAssignedForms, exportOfficial };
 })(window);
