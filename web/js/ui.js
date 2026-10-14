@@ -49,7 +49,7 @@
   }
 
   /** Build readable question text block — 主語系完整顯示，另一語系永遠附在下方 */
-  function renderQuestionCopy(q, lang, { showBoth = true, showAsk = false } = {}) {
+  function renderQuestionCopy(q, lang, { showBoth = true, showAsk = false, titleOnly = false } = {}) {
     const wrap = document.createElement("div");
     wrap.className = "q-copy";
 
@@ -60,6 +60,7 @@
     title.className = "q-title";
     title.textContent = parts.title || primary || "—";
     wrap.appendChild(title);
+    if (titleOnly) return wrap;
 
     const ask = showAsk ? questionAsk(q, lang) : "";
     if (ask) {
@@ -123,7 +124,7 @@
   }
 
   /** 大標題。沒有說明時不可點；有說明才附上說明並可點。 */
-  function renderMetricHeader(metric, lang, { note = "", altNote = "", clickable = false, selected = false } = {}) {
+  function renderMetricHeader(metric, lang, { note = "", altNote = "", clickable = false, selected = false, compact = false } = {}) {
     const header = document.createElement("div");
     header.className =
       "metric-header" + (clickable ? "" : " static") + (selected ? " selected" : "");
@@ -139,9 +140,12 @@
     mMeta.appendChild(mRef);
     header.appendChild(mMeta);
     header.appendChild(
-      renderQuestionCopy({ en: metric.en || "", zh: metric.zh || "" }, lang, { showBoth: true })
+      renderQuestionCopy({ en: metric.en || "", zh: metric.zh || "" }, lang, {
+        showBoth: !compact,
+        titleOnly: compact,
+      })
     );
-    if (clickable && note) {
+    if (!compact && clickable && note) {
       const noteEl = document.createElement("div");
       noteEl.className = "metric-note";
       noteEl.textContent = note;

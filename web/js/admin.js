@@ -272,13 +272,15 @@
 
         const block = document.createElement("div");
         block.className = "metric-block";
+        const reviewing = mode === "review";
         const header = THEUI.renderMetricHeader(metric, lang, {
-          note,
-          altNote,
-          clickable,
-          selected: clickable && focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId,
+          note: reviewing ? "" : note,
+          altNote: reviewing ? "" : altNote,
+          clickable: reviewing ? false : clickable,
+          compact: reviewing,
+          selected: !reviewing && clickable && focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId,
         });
-        if (clickable) {
+        if (!reviewing && clickable) {
           header.addEventListener("click", () => {
             focusMetricRef = String(metric.ref || metricKey);
             focusQuestionId = null;
@@ -330,8 +332,14 @@
           meta.appendChild(ref);
           meta.appendChild(badge);
           body.appendChild(meta);
-          body.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true, showAsk: true }));
-          if (mode === "review") body.appendChild(renderSubmitted(q));
+          body.appendChild(
+            THEUI.renderQuestionCopy(q, lang, {
+              showBoth: mode !== "review",
+              showAsk: mode !== "review",
+              titleOnly: mode === "review",
+            })
+          );
+          if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
           if (mode === "assign") {
             const cb = document.createElement("input");
             cb.type = "checkbox";
