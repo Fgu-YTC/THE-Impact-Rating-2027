@@ -452,6 +452,11 @@ button:disabled {
 .submit-banner.ok { background: #1f6b3a; color: #fff; }
 .submit-banner.warn { background: #8a4b12; color: #fff; }
 .submit-banner.bad { background: #9d1c1c; color: #fff; }
+.bottombar > .submit-banner {
+  flex: 1 0 100%;
+  margin: -0.75rem -1.25rem 0.15rem;
+  width: calc(100% + 2.5rem);
+}
 .field-help {
   display: inline-flex;
   align-items: center;

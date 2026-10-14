@@ -157,15 +157,32 @@
     return path;
   }
 
-  async function fileBytes(bucket, answer) {
-    const { ref, getBytes } = await import(
+  async function readEvidence(bucket, answer) {
+    const { ref, getBlob } = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
     );
-    if (answer.evidenceFilePath) return getBytes(ref(bucket, answer.evidenceFilePath));
-    if (!answer.evidenceFileUrl) return null;
-    const res = await fetch(answer.evidenceFileUrl);
-    if (!res.ok) throw new Error("file");
-    return new Uint8Array(await res.arrayBuffer());
+    let lastError = null;
+    if (answer.evidenceFilePath) {
+      try {
+        return await getBlob(ref(bucket, answer.evidenceFilePath), 80 * 1024 * 1024);
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    if (answer.evidenceFileUrl) {
+      try {
+        const res = await fetch(answer.evidenceFileUrl);
+        if (!res.ok) throw new Error(`下載連結 HTTP ${res.status}`);
+        return await res.blob();
+      } catch (err) {
+        lastError = lastError || err;
+      }
+    }
+    const failed = new Error(
+      (lastError && (lastError.code || lastError.message)) || "讀不到證據檔"
+    );
+    if (lastError && lastError.code) failed.code = lastError.code;
+    throw failed;
   }
 
   async function exportEvidenceZip({ packs, questions, filename }) {
@@ -174,20 +191,30 @@
     const zip = new JSZip();
     const used = new Set();
     let count = 0;
+    const failed = [];
+    let sawFile = false;
     for (const pack of packs || []) {
       for (const [questionId, answer] of Object.entries(pack.answers || {})) {
         if (!answer || (!answer.evidenceFilePath && !answer.evidenceFileUrl)) continue;
+        sawFile = true;
         const meta = questionMeta(questions, questionId);
         const folder = meta.sdg ? `SDG${meta.sdg}` : "SDG";
         const name = answer.evidenceStoredName || storedFileName(meta.ref, answer.evidenceFileName || "evidence");
-        const bytes = await fileBytes(bucket, answer);
-        if (!bytes) continue;
-        zip.file(uniqueZipPath(used, folder, name), bytes);
-        count += 1;
+        try {
+          const bytes = await readEvidence(bucket, answer);
+          zip.file(uniqueZipPath(used, folder, name), bytes);
+          count += 1;
+        } catch (err) {
+          failed.push(`${meta.ref} ${err.code || err.message || "讀取失敗"}`);
+        }
       }
     }
-    if (!count) {
+    if (!sawFile) {
       const err = new Error("no-files");
+      throw err;
+    }
+    if (!count) {
+      const err = new Error(failed.slice(0, 3).join("；"));
       throw err;
     }
     const blob = await zip.generateAsync({ type: "blob" });
@@ -195,7 +222,8 @@
     a.href = URL.createObjectURL(blob);
     a.download = filename || "THE2027_證據檔_依SDG.zip";
     a.click();
-    URL.revokeObjectURL(a.href);
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    return { count, failed };
   }
 
   global.THESubmit = { submitUnit, listSubmissions, mergeAnswers, exportEvidenceZip };

@@ -396,38 +396,83 @@
       updateBottom();
     });
 
-    $("#btnExportForms").addEventListener("click", async () => {
+    function showExportBanner(kind, text) {
+      const banner = $("#exportBanner");
+      banner.hidden = false;
+      banner.className = `submit-banner ${kind}`;
+      banner.textContent = text;
+    }
+
+    function whenNow() {
+      return new Date().toLocaleString("zh-TW", { hour12: false });
+    }
+
+    async function runExport(button, busyText, work) {
+      const buttons = [$("#btnExportForms"), $("#btnExportFiles")];
+      const labels = buttons.map((el) => el.textContent);
+      buttons.forEach((el) => {
+        el.disabled = true;
+      });
+      button.textContent = "匯出中…";
+      showExportBanner("busy", busyText);
       try {
-        const packs = await THESubmit.listSubmissions();
-        if (!packs.length) {
-          alert("還沒有單位提交。請各單位在填報頁按提交後再匯出。");
-          return;
-        }
-        await THEExport.exportOfficial({
-          questions,
-          answers: THESubmit.mergeAnswers(packs),
-          filename: "Impact 2027-data collection support v1.xlsx",
+        await work();
+      } finally {
+        buttons.forEach((el, i) => {
+          el.disabled = false;
+          el.textContent = labels[i];
         });
-      } catch (e) {
-        alert("匯出失敗。請確認已用管理帳號登入，而且 Storage 允許讀取 submissions。");
       }
+    }
+
+    $("#btnExportForms").addEventListener("click", () => {
+      runExport($("#btnExportForms"), "正在匯出全部單位的題目與填答，請先不要關閉頁面。", async () => {
+        try {
+          const packs = await THESubmit.listSubmissions();
+          if (!packs.length) {
+            showExportBanner("warn", "還沒有匯出。目前沒有單位提交，請各單位在填報頁按提交後再匯出。");
+            return;
+          }
+          const answers = THESubmit.mergeAnswers(packs);
+          const questionCount = Object.keys(answers).length;
+          await THEExport.exportOfficial({
+            questions,
+            answers,
+            filename: "Impact 2027-data collection support v1.xlsx",
+          });
+          showExportBanner(
+            "ok",
+            `匯出完成。收集表已下載，包含 ${packs.length} 個單位、${questionCount} 題。請看瀏覽器的下載紀錄。時間 ${whenNow()}。`
+          );
+        } catch (e) {
+          showExportBanner("bad", "匯出失敗，檔案還沒下載。請確認已用管理帳號登入，而且 Storage 允許讀取 submissions。");
+        }
+      });
     });
 
-    $("#btnExportFiles").addEventListener("click", async () => {
-      try {
-        const packs = await THESubmit.listSubmissions();
-        if (!packs.length) {
-          alert("還沒有單位提交。請各單位在填報頁按提交後再匯出。");
-          return;
+    $("#btnExportFiles").addEventListener("click", () => {
+      runExport($("#btnExportFiles"), "正在打包全部證據檔，請先不要關閉頁面。", async () => {
+        try {
+          const packs = await THESubmit.listSubmissions();
+          if (!packs.length) {
+            showExportBanner("warn", "還沒有匯出。目前沒有單位提交，請各單位在填報頁按提交後再匯出。");
+            return;
+          }
+          const result = await THESubmit.exportEvidenceZip({ packs, questions });
+          const missed = result.failed && result.failed.length ? `有 ${result.failed.length} 個檔案沒放進去。` : "";
+          showExportBanner(
+            result.failed && result.failed.length ? "warn" : "ok",
+            `匯出完成。證據壓縮檔已下載，共 ${result.count} 個檔案，已依 SDG 分成資料夾。${missed}請看瀏覽器的下載紀錄。時間 ${whenNow()}。`
+          );
+        } catch (e) {
+          if (e && e.message === "no-files") {
+            showExportBanner("warn", "還沒有下載壓縮檔。已提交的答案裡沒有上傳檔案，網址在「匯出題目與填答」的 Excel 裡。");
+            return;
+          }
+          const detail = e && (e.code || e.message) ? ` ${e.code || e.message}` : "";
+          showExportBanner("bad", `證據壓縮檔匯出失敗，檔案還沒下載。${detail}`);
         }
-        await THESubmit.exportEvidenceZip({ packs, questions });
-      } catch (e) {
-        if (e && e.message === "no-files") {
-          alert("已提交的答案裡還沒有上傳檔案。網址仍在「匯出題目與填答」的 Excel 裡。");
-          return;
-        }
-        alert("證據壓縮檔匯出失敗。請確認已用管理帳號登入，而且 Storage 允許讀取檔案。");
-      }
+      });
     });
 
     $("#btnAddUnit").addEventListener("click", () => {
