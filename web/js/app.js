@@ -253,27 +253,6 @@
     else renderMethod();
   });
 
-  $("#btnExport").addEventListener("click", async () => {
-    if (!currentUnitId) {
-      alert("請先選擇單位");
-      return;
-    }
-    const unit = units.find((u) => u.id === currentUnitId);
-    const status = $("#submitStatus");
-    if (status) status.textContent = "正在匯出收集表…";
-    try {
-      await THEExport.exportOfficial({
-        questions,
-        answers: THEStorage.getUnitAnswers(currentUnitId),
-        filename: `Impact 2027-data collection support v1_${unit.name}.xlsx`,
-      });
-      if (status) status.textContent = "已匯出題目與填答。";
-    } catch (err) {
-      if (status) status.textContent = "";
-      alert("匯出失敗，請再試一次。");
-    }
-  });
-
   $("#btnSubmit").addEventListener("click", async () => {
     if (!currentUnitId) {
       alert("請先選擇單位");

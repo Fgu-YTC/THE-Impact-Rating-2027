@@ -361,6 +361,10 @@
       if (current && label) current.subs.push({ rowNumber, label });
     });
 
+    const commentHeader = ws.getCell(2, 8);
+    commentHeader.value = "Comments";
+    ws.getColumn(8).width = 42;
+
     blocks.forEach((block) => {
       if (block.type !== "Indicator") return;
       const q = byRef.get(normLabel(block.ref));
@@ -373,6 +377,12 @@
       if (evidence) ws.getCell(block.rowNumber, 6).value = evidence;
       const pub = publicCell(answer.public);
       if (pub) ws.getCell(block.rowNumber, 7).value = pub;
+      const comment = String(answer.comment || "").trim();
+      if (comment) {
+        const cell = ws.getCell(block.rowNumber, 8);
+        cell.value = comment;
+        cell.alignment = { wrapText: true, vertical: "top" };
+      }
 
       block.subs.forEach((sub, index) => {
         const label = normLabel(sub.label);
