@@ -63,7 +63,7 @@ def pick_best(text: str, ref: str, all_starts: list[int], appendix_at: int) -> t
         if re.search(r"和\s*\d+\.\d+|and\s+\d+\.\d+", first, re.I):
             score -= 8000
         # 文末「提交數據時的幫助信息」裡的年份／語言說明，不是指標正文
-        if re.search(r"(?:年份|語言|语言)\s*$", first):
+        if re.search(r"(?:年份|語言|语言|Year|Language)\s*$", first):
             score -= 100000
         if re.search(r"\.pdf|Watershed-|Lending Groups|Scopus queries", first, re.I):
             score -= 100000
@@ -103,8 +103,8 @@ def split_by_refs(text: str, refs: list[str]) -> dict[str, str]:
         start, end = picked
         body = text[start:end].strip()
         body = re.sub(r"\n{3,}", "\n\n", body)
-        if len(body) > 5000:
-            body = body[:5000].rstrip() + "…"
+        if len(body) > 14000:
+            body = body[:14000].rstrip() + "…"
         if len(body) >= 40:
             out[ref] = body
     return out
@@ -149,9 +149,12 @@ def main():
                 sibling = f"{parent}.1"
                 donor = ref_map.get(sibling) or ref_map.get(parent)
                 if donor:
-                    note = f"（本指標與 {parent} 共用方法論說明）\n" if "發布" in (donor[:80] + ref) or parent == "17.3" else ""
-                    # bilingual-safe short note only for zh-like; keep EN plain
-                    if any("\u4e00" <= ch <= "\u9fff" for ch in donor[:30]):
+                    donor = re.sub(
+                        r"^(?:（本指標與 [\d.]+ 共用方法論說明）|\(This indicator shares methodology guidance with [\d.]+\.\))\s*",
+                        "",
+                        donor,
+                    ).strip()
+                    if any("\u4e00" <= ch <= "\u9fff" for ch in donor[:40]):
                         note = f"（本指標與 {parent} 共用方法論說明）\n"
                     else:
                         note = f"(This indicator shares methodology guidance with {parent}.)\n"

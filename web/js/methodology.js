@@ -26,9 +26,9 @@
 
   function isHeading(line) {
     if (/^\d{1,2}\.\d+(?:\.\d+)?\b/.test(line)) return true;
-    if (/^(定義：|註：|注：|Definition:|Note:)/i.test(line)) return true;
+    if (/^(定義：|註：|注：|Definitions?:|Note:|Year:)/i.test(line)) return true;
     if (
-      /^(數據提交指南|數據收集|與其他\s*SDG|我們為什麼衡量|Why we measure|Links to other|Guidance|參數與指標|Metrics and indicators)/i.test(
+      /^(數據提交指南|數據收集|與其他\s*SDG|我們為什麼衡量|Why we measure|Links to other|Guidance|參數與指標|Metrics and indicators|Data collected|Data submission|Overview|Up to (?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)\b)/i.test(
         line
       )
     )
@@ -43,10 +43,15 @@
   function shouldJoin(buf, line) {
     if (!buf || isHeading(line) || isHeading(buf)) return false;
     if (/^https?:\/\//i.test(buf) || /^https?:\/\//i.test(line)) return false;
-    if (isBullet(line) || isBullet(buf)) return false;
-    if (/^[\u4e00-\u9fffA-Za-z].{0,34}\s+(指|這是|係|the number|This is)/i.test(line)) return false;
-    // 一句已經結束就不要再接下一句；PDF 換行常切在詞中間，沒有句號就要接上
+    if (isBullet(line)) return false;
+    // 項目符號的下一行若不是新標題，就是同一點的換行
+    if (isBullet(buf)) return true;
+    const open = (buf.match(/\(/g) || []).length;
+    const close = (buf.match(/\)/g) || []).length;
+    if (/(?:This is|指|這是)/.test(buf) && open > close) return false;
+    if (/^[\u4e00-\u9fffA-Za-z].{0,40}\s+(指|這是|係|This is|The number|Refers to)/i.test(line)) return false;
     if (/[。！？!?]$/.test(buf)) return false;
+    if (/\.$/.test(buf) && !/\b(?:e\.g|i\.e|etc|U\.S|No|vs)\.$/i.test(buf)) return false;
     return true;
   }
 
@@ -76,8 +81,7 @@
         continue;
       }
       if (shouldJoin(buf, line)) {
-        const needSpace = /[A-Za-z0-9]$/.test(buf) && /^[A-Za-z0-9]/.test(line);
-        buf += (needSpace ? " " : "") + line;
+        buf += joinGap(buf, line) + line;
       } else {
         out.push(buf);
         buf = line;
@@ -87,8 +91,71 @@
     return out;
   }
 
+  function joinGap(left, right) {
+    if (/[\u4e00-\u9fff]$/.test(left) && /^[\u4e00-\u9fff]/.test(right)) return "";
+    if (/[A-Za-z0-9,.(/–-]$/.test(left) || /^[A-Za-z0-9(]/.test(right)) return " ";
+    return "";
+  }
+
+  function joinChunks(chunks) {
+    return chunks.reduce((acc, line) => (acc ? acc + joinGap(acc, line) + line : line), "");
+  }
+
+  function mostlyEnglish(text) {
+    const sample = String(text || "").slice(0, 400);
+    const en = (sample.match(/[A-Za-z]/g) || []).length;
+    const zh = (sample.match(/[\u4e00-\u9fff]/g) || []).length;
+    return en > zh;
+  }
+
+  /** 英文 PDF 的「Data collected | Definition」常左右欄交錯在同一行 */
+  function parseEnglishDataRows(lines) {
+    const rows = [];
+    let term = "";
+    let def = "";
+
+    function flush() {
+      const t = term.replace(/\s+/g, " ").trim();
+      const d = def.replace(/\s+/g, " ").trim();
+      if (t && d) rows.push([t, d]);
+      term = "";
+      def = "";
+    }
+
+    function unclosed(s) {
+      return (s.match(/\(/g) || []).length > (s.match(/\)/g) || []).length;
+    }
+
+    for (const raw of lines) {
+      const line = raw.replace(/\s+/g, " ").trim();
+      if (!line || /^definition$/i.test(line)) continue;
+      if (def && unclosed(def)) {
+        const closeAt = line.search(/\S+\)/);
+        if (closeAt > 0) {
+          const left = line.slice(0, closeAt).trim();
+          if (left) term += " " + left;
+          def += " " + line.slice(closeAt).trim();
+        } else {
+          def += " " + line;
+        }
+        continue;
+      }
+      const opened = line.match(/^(.*?)\s+((?:This is|The number|These are|It is|Refers to)\b.+)$/i);
+      if (opened && opened[1].trim() && !/^(this|the|these|it|refers)$/i.test(opened[1].trim())) {
+        flush();
+        term = opened[1].trim();
+        def = opened[2].trim();
+        continue;
+      }
+      if (def) def += " " + line;
+      else if (term) term += " " + line;
+    }
+    flush();
+    return rows;
+  }
+
   function splitDefinitionTitle(line) {
-    const m = line.match(/^(定義：|註：|注：|Definition:\s*|Note:\s*)(.+)$/i);
+    const m = line.match(/^(定義：|註：|注：|Definitions?:\s*|Note:\s*)(.+)$/i);
     if (!m) return null;
     const kindRaw = m[1].replace(/[:：]\s*$/, "").trim();
     return { kind: kindRaw, term: m[2].trim() };
@@ -200,6 +267,7 @@
     const cleaned = cleanRaw(raw);
     const lines = reflowLines(cleaned);
     if (!lines.length) return `<p class="method-p">${escapeHtml(cleaned)}</p>`;
+    const en = mostlyEnglish(cleaned);
 
     const parts = [];
     let defRows = [];
@@ -208,12 +276,31 @@
       if (!defRows.length) return;
       parts.push(
         renderTable(
-          "定義與說明",
-          ["項目", "說明"],
+          en ? "Definitions" : "定義與說明",
+          en ? ["Item", "Explanation"] : ["項目", "說明"],
           defRows.map((r) => [r.term, r.body || "—"])
         )
       );
       defRows = [];
+    }
+
+    function pushBlocks(chunk) {
+      let bullets = [];
+      function flushBullets() {
+        if (!bullets.length) return;
+        const items = bullets.map((b) => `<li>${escapeHtml(b.replace(/^[•·▪◦\-\u2022]\s*/, ""))}</li>`).join("");
+        parts.push(`<ul class="method-list">${items}</ul>`);
+        bullets = [];
+      }
+      chunk.forEach((c) => {
+        if (isBullet(c)) {
+          bullets.push(c);
+          return;
+        }
+        flushBullets();
+        parts.push(`<p class="method-p">${escapeHtml(c)}</p>`);
+      });
+      flushBullets();
     }
 
     let i = 0;
@@ -228,26 +315,32 @@
       }
 
       // 數據收集（定義）→ 收集到下一個標題，畫成表格
-      if (/^數據收集/.test(line) || /^Data collection/i.test(line)) {
+      if (/^數據收集/.test(line) || /^Data collected/i.test(line)) {
         flushDefs();
-        parts.push(`<h4 class="method-sub">${escapeHtml(line)}</h4>`);
+        parts.push(`<h4 class="method-sub">${escapeHtml(en ? "Data collected" : "數據收集")}</h4>`);
         i += 1;
         const chunk = [];
         while (i < lines.length && !isHeading(lines[i])) {
           chunk.push(lines[i]);
           i += 1;
         }
-        const rows = parseDataCollectionRows(chunk);
+        const rows = en ? parseEnglishDataRows(chunk) : parseDataCollectionRows(chunk);
         if (rows.length) {
-          parts.push(renderTable("數據收集 · 定義", ["欄位／名詞", "定義"], rows));
+          parts.push(
+            renderTable(
+              en ? "Data collected" : "數據收集 · 定義",
+              en ? ["Field", "Definition"] : ["欄位／名詞", "定義"],
+              rows
+            )
+          );
         } else {
-          chunk.forEach((c) => parts.push(`<p class="method-p">${escapeHtml(c)}</p>`));
+          pushBlocks(chunk);
         }
         continue;
       }
 
       if (
-        /^(數據提交指南|與其他\s*SDG|我們為什麼衡量|Why we measure|Links to other|Guidance|參數與指標|Metrics and indicators)/i.test(
+        /^(數據提交指南|與其他\s*SDG|我們為什麼衡量|Why we measure|Links to other|Guidance|參數與指標|Metrics and indicators|Data submission|Overview|Year:|Up to (?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)\b)/i.test(
           line
         )
       ) {
@@ -265,11 +358,12 @@
           chunks.push(lines[i]);
           i += 1;
         }
-        const label =
-          /定義|Definition/i.test(defHead.kind)
-            ? `定義：${defHead.term}`
-            : `${defHead.kind}：${defHead.term}`;
-        defRows.push({ term: label, body: chunks.join("") });
+        const kind = /定義|Definition/i.test(defHead.kind)
+          ? en
+            ? "Definition"
+            : "定義"
+          : defHead.kind;
+        defRows.push({ term: `${kind}：${defHead.term}`, body: joinChunks(chunks) });
         continue;
       }
 
@@ -288,6 +382,16 @@
       }
 
       flushDefs();
+      if (isBullet(line)) {
+        const bullets = [line];
+        i += 1;
+        while (i < lines.length && isBullet(lines[i])) {
+          bullets.push(lines[i]);
+          i += 1;
+        }
+        pushBlocks(bullets);
+        continue;
+      }
       parts.push(`<p class="method-p">${escapeHtml(line)}</p>`);
       i += 1;
     }
