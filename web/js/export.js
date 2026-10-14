@@ -21,21 +21,49 @@
     ).then(() => global.ExcelJS);
   }
 
-  function topicText(q, metricsByRef) {
+  const FONT = "Microsoft JhengHei";
+
+  function topicRich(q, metricsByRef) {
     const metric = (metricsByRef && metricsByRef[String(q.metricRef)]) || {};
     const zh = questionParts(q.zh);
     const en = questionParts(q.en);
-    const lines = [];
+    const richText = [];
     const metricLine = [q.metricRef, metric.zh || q.metricZh || ""].filter(Boolean).join("　");
-    if (metricLine) lines.push(metricLine);
-    if (zh.title) lines.push(zh.title);
-    if (zh.body) lines.push(zh.body);
+    if (metricLine) {
+      richText.push({
+        font: { name: FONT, size: 11, bold: true, color: { argb: "FF1F6B4A" } },
+        text: metricLine + "\n",
+      });
+    }
+    if (zh.title) {
+      richText.push({
+        font: { name: FONT, size: 16, bold: true, color: { argb: "FF1A2E26" } },
+        text: zh.title,
+      });
+    }
+    if (zh.body) {
+      richText.push({
+        font: { name: FONT, size: 12, color: { argb: "FF24322C" } },
+        text: (zh.title ? "\n" : "") + zh.body,
+      });
+    }
     const enLines = [en.title, en.body].filter(Boolean);
     if (enLines.length) {
-      lines.push("");
-      lines.push(...enLines);
+      richText.push({
+        font: { name: FONT, size: 10, italic: true, color: { argb: "FF6B7C74" } },
+        text: "\n" + enLines.join("\n"),
+      });
     }
-    return lines.join("\n");
+    const plain = [
+      metricLine,
+      zh.title,
+      zh.body,
+      enLines.length ? "" : "",
+      ...enLines,
+    ]
+      .filter((line) => line !== undefined)
+      .join("\n");
+    return { richText, plain };
   }
 
   function textUnits(text) {
@@ -59,28 +87,32 @@
       return opts.map((o, i) => ({
         label: o.zh || o.en || "數值",
         value: values[`v${i}`] != null && values[`v${i}`] !== "" ? String(values[`v${i}`]) : "",
+        kind: "number",
       }));
     }
     if (q.answerType === "picklist" && q.options?.length) {
       const selected = new Set(a.options || []);
       return [
         ...q.options.map((o) => ({
-          label: `這項要做就填 Yes：${o.zh || o.en}`,
+          label: o.zh || o.en,
           value: selected.has(o.en) || selected.has(o.zh) ? "Yes" : "",
+          kind: "yesno",
         })),
-        { label: "證據網址（審核人員要打得開；沒有就留空）", value: a.evidence || "" },
+        { label: "證據網址", value: a.evidence || "", kind: "text" },
         {
-          label: "證據是否公開（已放上公開網頁填 Yes，沒有公開填 No）",
+          label: "證據是否已放上公開網頁",
           value: a.public ? String(a.public).toUpperCase() : "",
+          kind: "yesno",
         },
       ];
     }
     return [
-      { label: "Yes 或 No", value: a.yesNo ? String(a.yesNo).toUpperCase() : "" },
-      { label: "證據網址（審核人員要打得開；沒有就留空）", value: a.evidence || "" },
+      { label: "有沒有做到", value: a.yesNo ? String(a.yesNo).toUpperCase() : "", kind: "yesno" },
+      { label: "證據網址", value: a.evidence || "", kind: "text" },
       {
-        label: "證據是否公開（已放上公開網頁填 Yes，沒有公開填 No）",
+        label: "證據是否已放上公開網頁",
         value: a.public ? String(a.public).toUpperCase() : "",
+        kind: "yesno",
       },
     ];
   }
@@ -93,30 +125,31 @@
     if (!mine.length) return false;
 
     const ws = wb.addWorksheet(sheetName(unit.name, used), {
-      views: [{ state: "frozen", ySplit: 3, showGridLines: false }],
-      pageSetup: { fitToPage: true, fitToWidth: 1, orientation: "landscape", paperSize: 9 },
+      views: [{ showGridLines: false }],
+      pageSetup: {
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        orientation: "portrait",
+        paperSize: 9,
+        horizontalCentered: true,
+      },
+      pageMargins: { left: 0.5, right: 0.5, top: 0.6, bottom: 0.6, header: 0.2, footer: 0.2 },
     });
-    ws.columns = [{ width: 12 }, { width: 62 }, { width: 36 }, { width: 28 }];
+    ws.properties.defaultRowHeight = 22;
+    ws.columns = [{ width: 38 }, { width: 52 }];
 
-    ws.mergeCells("A1:D1");
+    ws.mergeCells("A1:B1");
     const title = ws.getCell("A1");
-    title.value = `${unit.name}　THE Impact 2027 填寫表`;
-    styleCell(title, { bold: true, size: 16, fill: "FFE7F2EC" });
-    ws.getRow(1).height = 30;
+    title.value = unit.name;
+    styleCell(title, { bold: true, size: 20, fill: "FF1F6B4A", color: "FFFFFFFF" });
+    ws.getRow(1).height = 36;
 
-    ws.mergeCells("A2:D2");
+    ws.mergeCells("A2:B2");
     const note = ws.getCell("A2");
-    note.value =
-      "題目在第二欄，由上到下是大標題、中文題目、空一行、英文題目。只填黃色格子。證據網址必須是審核人員打得開的連結。";
-    styleCell(note, { size: 11, fill: "FFFFF8E8" });
-    ws.getRow(2).height = 36;
-
-    ["題號", "題目", "要填的項目", "你的答案"].forEach((text, i) => {
-      const cell = ws.getCell(3, i + 1);
-      cell.value = text;
-      styleCell(cell, { bold: true, fill: "FF1F6B4A", color: "FFFFFFFF", align: "center" });
-    });
-    ws.getRow(3).height = 22;
+    note.value = "THE Impact 2027　只填黃色格子。Yes／No 請用下拉選單。證據網址要讓審核人員打得開。";
+    styleCell(note, { size: 10, fill: "FFF4F7F5", color: "FF3D4F46" });
+    ws.getRow(2).height = 24;
 
     let row = 4;
     let lastSdg = null;
@@ -124,37 +157,50 @@
       if (q.sdg !== lastSdg) {
         lastSdg = q.sdg;
         const meta = (sdgs && sdgs[String(q.sdg)]) || {};
-        ws.mergeCells(row, 1, row, 4);
+        ws.mergeCells(row, 1, row, 2);
         const sdgCell = ws.getCell(row, 1);
         sdgCell.value = meta.zh || meta.en || `SDG ${q.sdg}`;
-        styleCell(sdgCell, { bold: true, size: 13, fill: "FFDCE8E3" });
-        ws.getRow(row).height = 24;
+        styleCell(sdgCell, { bold: true, size: 13, fill: "FFDCE8E3", color: "FF1F6B4A" });
+        ws.getRow(row).height = 26;
         row += 1;
       }
 
-      const topic = topicText(q, metricsByRef);
-      const fills = fillItems(q, answers && answers[q.id]);
-      const start = row;
-      const per = Math.max(28, Math.ceil((estimateLines(topic, 56) * 18) / fills.length));
+      const topic = topicRich(q, metricsByRef);
+      const refCell = ws.getCell(row, 1);
+      refCell.value = q.ref;
+      styleCell(refCell, { bold: true, size: 14, fill: "FF1F6B4A", color: "FFFFFFFF", align: "center", middle: true });
+      const qCell = ws.getCell(row, 2);
+      qCell.value = { richText: topic.richText };
+      styleCell(qCell, { fill: "FFF7F4EE", size: 12 });
+      ws.getRow(row).height = Math.max(48, estimateLines(topic.plain, 48) * 16);
+      row += 1;
 
-      fills.forEach((item) => {
-        if (row === start) {
-          ws.getCell(row, 1).value = q.ref;
-          ws.getCell(row, 2).value = topic;
+      fillItems(q, answers && answers[q.id]).forEach((item) => {
+        const labelCell = ws.getCell(row, 1);
+        labelCell.value = item.label;
+        styleCell(labelCell, { fill: "FFFFFFFF", color: "FF3D4F46" });
+        const answerCell = ws.getCell(row, 2);
+        answerCell.value = item.value;
+        styleCell(answerCell, {
+          fill: "FFFFF3C4",
+          align: "left",
+          border: "FFD4B44A",
+        });
+        if (item.kind === "yesno") {
+          ws.dataValidations.add(answerCell.address, {
+            type: "list",
+            allowBlank: true,
+            formulae: ['"Yes,No"'],
+            showErrorMessage: true,
+            errorTitle: "請選擇",
+            error: "請選 Yes 或 No",
+          });
         }
-        ws.getCell(row, 3).value = item.label;
-        ws.getCell(row, 4).value = item.value;
-        styleCell(ws.getCell(row, 1), { bold: true, fill: "FFF7F4EE", align: "center" });
-        styleCell(ws.getCell(row, 2), { fill: "FFF7F4EE" });
-        styleCell(ws.getCell(row, 3), { fill: "FFFFFFFF" });
-        styleCell(ws.getCell(row, 4), { fill: "FFFFF3C4" });
-        ws.getRow(row).height = Math.max(per, estimateLines(item.label, 32) * 18);
+        ws.getRow(row).height = Math.max(24, estimateLines(item.label, 34) * 18);
         row += 1;
       });
-      if (fills.length > 1) {
-        ws.mergeCells(start, 1, row - 1, 1);
-        ws.mergeCells(start, 2, row - 1, 2);
-      }
+
+      ws.getRow(row).height = 14;
       row += 1;
     });
     return true;
@@ -204,13 +250,25 @@
   }
 
   function styleCell(cell, opts) {
-    cell.alignment = { wrapText: true, vertical: "top", horizontal: opts.align || "left" };
-    cell.font = { name: "Calibri", size: opts.size || 12, bold: !!opts.bold, color: opts.color ? { argb: opts.color } : undefined };
+    const line = opts.border || "FFE4DDD2";
+    cell.alignment = {
+      wrapText: true,
+      vertical: opts.middle ? "middle" : "top",
+      horizontal: opts.align || "left",
+    };
+    if (!(cell.value && cell.value.richText)) {
+      cell.font = {
+        name: FONT,
+        size: opts.size || 12,
+        bold: !!opts.bold,
+        color: opts.color ? { argb: opts.color } : { argb: "FF24322C" },
+      };
+    }
     cell.border = {
-      top: { style: "thin", color: { argb: "FFD9D0C1" } },
-      left: { style: "thin", color: { argb: "FFD9D0C1" } },
-      bottom: { style: "thin", color: { argb: "FFD9D0C1" } },
-      right: { style: "thin", color: { argb: "FFD9D0C1" } },
+      top: { style: "thin", color: { argb: line } },
+      left: { style: "thin", color: { argb: line } },
+      bottom: { style: "thin", color: { argb: line } },
+      right: { style: "thin", color: { argb: line } },
     };
     if (opts.fill) {
       cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: opts.fill } };
