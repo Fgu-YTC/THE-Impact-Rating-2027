@@ -66,6 +66,9 @@
     let units = (THEStorage.getUnitsOverride() || unitsFile).filter(
       (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
     );
+    if (THEStorage.getUnitsOverride()) THEStorage.setUnitsOverride(units);
+    THEStorage.resetAssignmentsOnce("2026-10-14-reset");
+    THEStorage.pruneAssignments(units.map((u) => u.id));
     const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
     const metricsByRef = Object.fromEntries(
       (questionsData.metrics || []).map((m) => [String(m.ref), m])
@@ -376,6 +379,16 @@
       const unitId = unitSelect.value;
       if (!unitId || !selected.size) return;
       THEStorage.unassignQuestionsFromUnit([...selected], unitId);
+      selected.clear();
+      refreshStats();
+      renderTabs();
+      renderQuestions();
+      updateBottom();
+    });
+
+    $("#btnClearAssignments").addEventListener("click", () => {
+      if (!window.confirm("要清除這個瀏覽器裡的全部分配嗎？各單位需重新分派。")) return;
+      THEStorage.clearAssignments();
       selected.clear();
       refreshStats();
       renderTabs();

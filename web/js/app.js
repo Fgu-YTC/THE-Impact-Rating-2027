@@ -11,6 +11,9 @@
   const units = (THEStorage.getUnitsOverride() || unitsFile).filter(
     (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
   );
+  if (THEStorage.getUnitsOverride()) THEStorage.setUnitsOverride(units);
+  THEStorage.resetAssignmentsOnce("2026-10-14-reset");
+  THEStorage.pruneAssignments(units.map((u) => u.id));
   const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
   const metricsByRef = Object.fromEntries(
     (questionsData.metrics || []).map((m) => [String(m.ref), m])
