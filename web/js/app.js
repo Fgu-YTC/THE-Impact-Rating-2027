@@ -344,6 +344,7 @@
       questions: qs,
       answers: THEStorage.getUnitAnswers(currentUnitId),
       sdgs,
+      metricsByRef,
     });
   });
 
