@@ -224,6 +224,9 @@
         if (unitFilter.size && !a.some((id) => unitFilter.has(id))) return false;
         if (filter === "assigned") return a.length > 0;
         if (filter === "unassigned") return a.length === 0;
+        const filled = submissionsFor(q.id).length > 0;
+        if (filter === "filled") return filled;
+        if (filter === "unfilled") return !filled;
         return true;
       });
     }
@@ -477,7 +480,7 @@
     filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {
       btn.addEventListener("click", () => {
         filter = btn.dataset.filter;
-        filterBar.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
+        filterBar.querySelectorAll("button[data-filter]").forEach((b) => b.classList.toggle("active", b === btn));
         renderQuestions();
       });
     });
