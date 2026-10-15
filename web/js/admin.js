@@ -680,6 +680,40 @@
       showExportBanner("bad", `讀取 Firestore 失敗。${THELive.explain(err)}`);
     }
 
+    let unsubAnswers = function () {};
+    let answerUnits = "";
+
+    function watchAnswers(list) {
+      const ids = (list || []).map((unit) => unit.id).sort();
+      const sig = ids.join("|");
+      if (sig === answerUnits) return;
+      answerUnits = sig;
+      unsubAnswers();
+      if (!ids.length) {
+        applySubmissions([]);
+        return;
+      }
+      const packs = {};
+      const stops = ids.map((unitId) =>
+        THELive.listenUnitAnswers(
+          unitId,
+          (map) => {
+            let updatedAt = "";
+            Object.values(map || {}).forEach((answer) => {
+              const stamp = String((answer && answer.updatedAt) || "");
+              if (stamp > updatedAt) updatedAt = stamp;
+            });
+            packs[unitId] = { unitId, updatedAt, answers: map || {} };
+            applySubmissions(Object.values(packs));
+          },
+          (err) => showExportBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
+        )
+      );
+      unsubAnswers = function () {
+        stops.forEach((stop) => stop());
+      };
+    }
+
     THELive.listenUnits(
       (next) => {
         units = next || [];
@@ -687,12 +721,9 @@
         refreshStats();
         renderTabs();
         renderQuestions();
+        watchAnswers(units);
       },
       (err) => showExportBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
-    );
-    THELive.listenAllAnswers(
-      (packs) => applySubmissions(packs),
-      (err) => applySubmissions([], err)
     );
   }
 })();

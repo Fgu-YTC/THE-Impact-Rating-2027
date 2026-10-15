@@ -40,5 +40,9 @@ service cloud.firestore {
         allow delete: if false;
       }
     }
+
+    match /{path=**}/answers/{questionId} {
+      allow read: if true;
+    }
   }
 }
