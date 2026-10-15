@@ -339,6 +339,7 @@
               titleOnly: mode === "review",
             })
           );
+          if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
           if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
           if (mode === "assign") {
             const cb = document.createElement("input");
