@@ -173,7 +173,7 @@
       window.__sdgCounts = {};
       for (let n = 1; n <= 17; n++) {
         const qs = questions.filter((q) => q.sdg === n);
-        const a = qs.filter((q) => (map[q.id] || []).length).length;
+        const a = qs.filter((q) => assignees(q.id).length).length;
         window.__sdgCounts[n] = { total: qs.length, assigned: a };
       }
     }
