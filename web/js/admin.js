@@ -63,12 +63,10 @@
       fetch("data/units.json").then((r) => r.json()),
     ]);
 
-    let units = (THEStorage.getUnitsOverride() || unitsFile).filter(
+    let units = [];
+    const localUnits = (THEStorage.getUnitsOverride() || unitsFile).filter(
       (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
     );
-    if (THEStorage.getUnitsOverride()) THEStorage.setUnitsOverride(units);
-    THEStorage.resetAssignmentsOnce("2026-10-14-reset");
-    THEStorage.pruneAssignments(units.map((u) => u.id));
     const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
     const metricsByRef = Object.fromEntries(
       (questionsData.metrics || []).map((m) => [String(m.ref), m])
@@ -158,15 +156,14 @@
     }
 
     function assignees(qid) {
-      return THEStorage.getAssignments()[qid] || [];
+      return units.filter((unit) => (unit.questionIds || []).includes(qid)).map((unit) => unit.id);
     }
 
     function refreshStats() {
-      const map = THEStorage.getAssignments();
       const total = questions.length;
       let assigned = 0;
       questions.forEach((q) => {
-        if ((map[q.id] || []).length) assigned += 1;
+        if (assignees(q.id).length) assigned += 1;
       });
       $("#statTotal").textContent = total;
       $("#statAssigned").textContent = assigned;
@@ -455,28 +452,23 @@
       return wrap;
     }
 
-    async function loadSubmissions() {
-      const btn = $("#btnReloadAnswers");
-      if (btn) btn.disabled = true;
-      showExportBanner("busy", "正在讀取各單位已提交的填答。");
-      try {
-        submissions = await THESubmit.listSubmissions();
-        renderQuestions();
-        if (!submissions.length) {
-          showExportBanner("warn", "目前還沒有單位提交。");
-          return;
-        }
-        showExportBanner("ok", `已讀到 ${submissions.length} 個單位的填答，顯示在各題下方。`);
-      } catch (err) {
-        const detail = err && (err.code || err.message) ? err.code || err.message : "請再試一次";
-        showExportBanner("bad", `讀取填答失敗。${detail}`);
-      } finally {
-        if (btn) btn.disabled = false;
+    function applySubmissions(packs, err) {
+      if (err) {
+        showExportBanner("bad", `讀取填答失敗。${THELive.explain(err)}`);
+        return;
       }
+      submissions = packs || [];
+      submissions.forEach((pack) => {
+        pack.unitName = unitName(pack.unitId);
+      });
+      if (mode === "review") renderQuestions();
     }
 
     $("#btnReloadAnswers").addEventListener("click", () => {
-      loadSubmissions();
+      const count = submissions.length;
+      if (!count) showExportBanner("warn", "目前還沒有單位提交。同一單位有人提交後，這一頁會自己更新。");
+      else showExportBanner("ok", `已在看 ${count} 個單位的填答。有新的提交會自己出現，不用重新整理。`);
+      renderQuestions();
     });
 
     function applyMode(next) {
@@ -520,36 +512,41 @@
 
     unitSelect.addEventListener("change", updateBottom);
 
-    $("#btnAssign").addEventListener("click", () => {
+    $("#btnAssign").addEventListener("click", async () => {
       const unitId = unitSelect.value;
       if (!unitId || !selected.size) return;
-      THEStorage.assignQuestionsToUnit([...selected], unitId);
-      selected.clear();
-      refreshStats();
-      renderTabs();
-      renderQuestions();
-      updateBottom();
+      const ids = [...selected];
+      try {
+        await THELive.assignQuestions(unitId, ids);
+        selected.clear();
+        updateBottom();
+      } catch (err) {
+        showExportBanner("bad", `分派沒有寫入。${THELive.explain(err)}`);
+      }
     });
 
-    $("#btnUnassign").addEventListener("click", () => {
+    $("#btnUnassign").addEventListener("click", async () => {
       const unitId = unitSelect.value;
       if (!unitId || !selected.size) return;
-      THEStorage.unassignQuestionsFromUnit([...selected], unitId);
-      selected.clear();
-      refreshStats();
-      renderTabs();
-      renderQuestions();
-      updateBottom();
+      const ids = [...selected];
+      try {
+        await THELive.unassignQuestions(unitId, ids);
+        selected.clear();
+        updateBottom();
+      } catch (err) {
+        showExportBanner("bad", `取消分派沒有寫入。${THELive.explain(err)}`);
+      }
     });
 
-    $("#btnClearAssignments").addEventListener("click", () => {
-      if (!window.confirm("要清除這個瀏覽器裡的全部分配嗎？各單位需重新分派。")) return;
-      THEStorage.clearAssignments();
-      selected.clear();
-      refreshStats();
-      renderTabs();
-      renderQuestions();
-      updateBottom();
+    $("#btnClearAssignments").addEventListener("click", async () => {
+      if (!window.confirm("要清除全部分派嗎？各單位的題目清單會清空。已經提交的答案會留下。")) return;
+      try {
+        await THELive.clearAssignments();
+        selected.clear();
+        updateBottom();
+      } catch (err) {
+        showExportBanner("bad", `清除分派失敗。${THELive.explain(err)}`);
+      }
     });
 
     function showExportBanner(kind, text) {
@@ -584,7 +581,7 @@
     $("#btnExportForms").addEventListener("click", () => {
       runExport($("#btnExportForms"), "正在匯出全部單位的題目與填答，請先不要關閉頁面。", async () => {
         try {
-          const packs = await THESubmit.listSubmissions();
+          const packs = submissions;
           if (!packs.length) {
             showExportBanner("warn", "還沒有匯出。目前沒有單位提交，請各單位在填報頁按提交後再匯出。");
             return;
@@ -601,7 +598,7 @@
             `匯出完成。收集表已下載，包含 ${packs.length} 個單位、${questionCount} 題。請看瀏覽器的下載紀錄。時間 ${whenNow()}。`
           );
         } catch (e) {
-          showExportBanner("bad", "匯出失敗，檔案還沒下載。請確認已用管理帳號登入，而且 Storage 允許讀取 submissions。");
+          showExportBanner("bad", "匯出失敗，檔案還沒下載。請確認已用管理帳號登入，而且 Firestore 允許讀取答案。");
         }
       });
     });
@@ -609,7 +606,7 @@
     $("#btnExportFiles").addEventListener("click", () => {
       runExport($("#btnExportFiles"), "正在打包全部證據檔，請先不要關閉頁面。", async () => {
         try {
-          const packs = await THESubmit.listSubmissions();
+          const packs = submissions;
           if (!packs.length) {
             showExportBanner("warn", "還沒有匯出。目前沒有單位提交，請各單位在填報頁按提交後再匯出。");
             return;
@@ -649,14 +646,16 @@
       });
     });
 
-    $("#btnAddUnit").addEventListener("click", () => {
+    $("#btnAddUnit").addEventListener("click", async () => {
       const name = (newUnitName.value || "").trim();
       if (!name) return;
       const id = "unit-" + Date.now();
-      units = [...units, { id, name }];
-      THEStorage.setUnitsOverride(units);
-      newUnitName.value = "";
-      fillUnitSelect();
+      try {
+        await THELive.addUnit(id, name);
+        newUnitName.value = "";
+      } catch (err) {
+        showExportBanner("bad", `單位沒有新增。${THELive.explain(err)}`);
+      }
     });
 
     $("#btnSelectUnassigned").addEventListener("click", () => {
@@ -673,6 +672,27 @@
     renderQuestions();
     renderMethod();
     updateBottom();
-    loadSubmissions();
+
+    try {
+      const seeded = await THELive.seedIfEmpty(localUnits, THEStorage.getAssignments());
+      if (seeded) showExportBanner("ok", "已把這個瀏覽器裡的單位與分派寫進 Firestore。之後各台電腦看到的是同一份。");
+    } catch (err) {
+      showExportBanner("bad", `讀取 Firestore 失敗。${THELive.explain(err)}`);
+    }
+
+    THELive.listenUnits(
+      (next) => {
+        units = next || [];
+        fillUnitSelect();
+        refreshStats();
+        renderTabs();
+        renderQuestions();
+      },
+      (err) => showExportBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
+    );
+    THELive.listenAllAnswers(
+      (packs) => applySubmissions(packs),
+      (err) => applySubmissions([], err)
+    );
   }
 })();

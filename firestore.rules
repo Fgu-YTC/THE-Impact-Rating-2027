@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isUnit(data) {
+      return data.keys().hasOnly(['name', 'questionIds'])
+        && data.name is string
+        && data.name.size() > 0
+        && data.name.size() < 80
+        && data.questionIds is list
+        && data.questionIds.size() < 400;
+    }
+
+    function isAnswer(data) {
+      return data.keys().hasOnly([
+          'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
+          'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
+          'updatedAt'
+        ])
+        && (!('yesNo' in data) || (data.yesNo is string && data.yesNo.size() < 20))
+        && (!('public' in data) || (data.public is string && data.public.size() < 20))
+        && (!('comment' in data) || (data.comment is string && data.comment.size() <= 1000))
+        && (!('evidence' in data) || (data.evidence is string && data.evidence.size() <= 2000))
+        && (!('options' in data) || data.options is list)
+        && (!('values' in data) || data.values is map)
+        && (!('evidenceFileName' in data) || data.evidenceFileName is string)
+        && (!('evidenceStoredName' in data) || data.evidenceStoredName is string)
+        && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
+        && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
+        && (!('updatedAt' in data) || data.updatedAt is string);
+    }
+
+    match /units/{unitId} {
+      allow read: if true;
+      allow create, update: if isUnit(request.resource.data);
+      allow delete: if false;
+
+      match /answers/{questionId} {
+        allow read: if true;
+        allow create, update: if isAnswer(request.resource.data);
+        allow delete: if false;
+      }
+    }
+  }
+}

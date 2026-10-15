@@ -48,7 +48,53 @@
     if (String(code).includes("storage/unknown") || String(code).includes("storage/retry-limit-exceeded")) {
       return "連不到 Storage。請確認 Firebase Storage 已啟用。";
     }
+    if (String(code).includes("permission-denied")) {
+      return "Firestore 仍拒絕寫入。請發布允許 units 與 answers 的規則。";
+    }
     return "提交失敗，請再試一次。";
+  }
+
+  async function submitChanged({ unitId, entries, files, questions }) {
+    if (!global.FIREBASE_CONFIG || !global.FIREBASE_CONFIG.storageBucket) {
+      throw new Error("還沒有設定 Firebase Storage。");
+    }
+    if (!global.THELive) throw new Error("Firestore 尚未載入。");
+    const { storage: bucket } = await storage();
+    const { ref, uploadBytes, getDownloadURL } = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
+    );
+    const pending = files || new Map();
+    const saved = [];
+    try {
+      for (const entry of entries) {
+        let answer = { ...(entry.answer || {}) };
+        const file = pending.get(entry.questionId);
+        if (file) {
+          const meta = questionMeta(questions, entry.questionId);
+          const evidenceStoredName = storedFileName(meta.ref, file.name);
+          const path = `evidence/${unitId}/${entry.questionId}/${evidenceStoredName}`;
+          const stored = ref(bucket, path);
+          await uploadBytes(stored, file, { contentType: file.type || "application/octet-stream" });
+          let evidenceFileUrl = "";
+          try {
+            evidenceFileUrl = await getDownloadURL(stored);
+          } catch (err) {
+            evidenceFileUrl = "";
+          }
+          answer = {
+            ...answer,
+            evidenceFileName: file.name,
+            evidenceStoredName,
+            evidenceFilePath: path,
+            evidenceFileUrl,
+          };
+        }
+        saved.push({ questionId: entry.questionId, answer });
+      }
+      await global.THELive.saveAnswers(unitId, saved);
+    } catch (err) {
+      throw new Error(explain(err));
+    }
   }
 
   async function submitUnit({ unitId, unitName, answers, files, questions, onFileUploaded }) {
@@ -251,5 +297,5 @@
     return { count, failed };
   }
 
-  global.THESubmit = { submitUnit, listSubmissions, mergeAnswers, exportEvidenceZip };
+  global.THESubmit = { submitUnit, submitChanged, listSubmissions, mergeAnswers, exportEvidenceZip };
 })(window);

@@ -1,19 +1,13 @@
 (async function () {
   const $ = (sel) => document.querySelector(sel);
 
-  const [questionsData, methodologyZh, methodologyEn, unitsFile] = await Promise.all([
+  const [questionsData, methodologyZh, methodologyEn] = await Promise.all([
     fetch("data/questions.json").then((r) => r.json()),
     fetch("data/methodology-zh.json").then((r) => r.json()),
     fetch("data/methodology-en.json").then((r) => r.json()),
-    fetch("data/units.json").then((r) => r.json()),
   ]);
 
-  const units = (THEStorage.getUnitsOverride() || unitsFile).filter(
-    (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
-  );
-  if (THEStorage.getUnitsOverride()) THEStorage.setUnitsOverride(units);
-  THEStorage.resetAssignmentsOnce("2026-10-14-reset");
-  THEStorage.pruneAssignments(units.map((u) => u.id));
+  let units = [];
   const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
   const metricsByRef = Object.fromEntries(
     (questionsData.metrics || []).map((m) => [String(m.ref), m])
@@ -27,6 +21,11 @@
   let activeMetricRef = null;
   let lang = THEUI.getLang();
   const pendingFiles = new Map();
+  let remoteAnswers = {};
+  let drafts = {};
+  let unsubAnswers = function () {};
+  let holdRender = false;
+  let renderQueued = false;
 
   const unitSelect = $("#unitSelect");
   const sdgTabs = $("#sdgTabs");
@@ -41,16 +40,26 @@
     renderMethod();
   });
 
-  units.forEach((u) => {
-    const opt = document.createElement("option");
-    opt.value = u.id;
-    opt.textContent = u.name;
-    unitSelect.appendChild(opt);
-  });
+  function renderUnitOptions() {
+    const prev = currentUnitId;
+    unitSelect.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "選擇單位…";
+    unitSelect.appendChild(placeholder);
+    units.forEach((u) => {
+      const opt = document.createElement("option");
+      opt.value = u.id;
+      opt.textContent = u.name;
+      unitSelect.appendChild(opt);
+    });
+    if (prev && units.some((u) => u.id === prev)) unitSelect.value = prev;
+  }
 
   function assignmentsForUnit(unitId) {
-    const map = THEStorage.getAssignments();
-    return questions.filter((q) => (map[q.id] || []).includes(unitId));
+    const unit = units.find((u) => u.id === unitId);
+    const ids = new Set(unit?.questionIds || []);
+    return questions.filter((q) => ids.has(q.id));
   }
 
   function sdgsForUnit(unitId) {
@@ -125,12 +134,24 @@
   }
 
   function getAnswer(qid) {
-    return THEStorage.getUnitAnswers(currentUnitId)[qid] || {};
+    return { ...(remoteAnswers[qid] || {}), ...(drafts[qid] || {}) };
   }
 
   function saveAnswer(qid, patch) {
-    const cur = getAnswer(qid);
-    THEStorage.setUnitAnswer(currentUnitId, qid, { ...cur, ...patch });
+    drafts[qid] = { ...(drafts[qid] || {}), ...patch };
+  }
+
+  function answerHasContent(answer) {
+    if (!answer) return false;
+    if (answer.yesNo || answer.public || answer.comment) return true;
+    if (String(answer.evidence || "").trim() || answer.evidenceFileName || answer.evidenceFileUrl) return true;
+    if (answer.options && answer.options.length) return true;
+    return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
+  }
+
+  function requestRender() {
+    if (holdRender) renderQueued = true;
+    else renderQuestions();
   }
 
   function renderQuestions() {
@@ -239,19 +260,68 @@
     });
   }
 
+  questionList.addEventListener("focusin", () => {
+    holdRender = true;
+  });
+  questionList.addEventListener("focusout", (e) => {
+    if (questionList.contains(e.relatedTarget)) return;
+    holdRender = false;
+    if (renderQueued) {
+      renderQueued = false;
+      renderQuestions();
+    }
+  });
+
+  function watchUnit(unitId) {
+    unsubAnswers();
+    remoteAnswers = {};
+    drafts = {};
+    pendingFiles.clear();
+    if (!unitId) return;
+    unsubAnswers = THELive.listenUnitAnswers(
+      unitId,
+      (map) => {
+        if (unitId !== currentUnitId) return;
+        remoteAnswers = map || {};
+        requestRender();
+      },
+      (err) => showSubmitBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
+    );
+  }
+
   unitSelect.addEventListener("change", () => {
     currentUnitId = unitSelect.value;
     currentSdg = null;
     activeQuestionId = null;
     activeRef = null;
     activeMetricRef = null;
+    watchUnit(currentUnitId);
     renderTabs();
     renderQuestions();
-    // 預設選第一題，右側顯示對應方法論
     const first = assignmentsForUnit(currentUnitId).find((q) => q.sdg === currentSdg);
     if (first) selectQuestion(first);
     else renderMethod();
   });
+
+  THELive.listenUnits(
+    (next) => {
+      units = next || [];
+      renderUnitOptions();
+      if (currentUnitId && !units.some((u) => u.id === currentUnitId)) {
+        currentUnitId = "";
+        unitSelect.value = "";
+        watchUnit("");
+      }
+      renderTabs();
+      requestRender();
+      if (currentUnitId) {
+        const first = assignmentsForUnit(currentUnitId).find((q) => q.sdg === currentSdg);
+        if (!activeQuestionId && first) selectQuestion(first);
+      }
+      renderMethod();
+    },
+    (err) => showSubmitBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
+  );
 
   function showSubmitBanner(kind, text) {
     const banner = $("#submitBanner");
@@ -260,48 +330,40 @@
     banner.textContent = text;
   }
 
-  function filledAnswerCount(map) {
-    return Object.values(map || {}).filter((answer) => {
-      if (!answer) return false;
-      if (answer.yesNo || answer.public || answer.comment) return true;
-      if (String(answer.evidence || "").trim() || answer.evidenceFileName) return true;
-      if (answer.options && answer.options.length) return true;
-      return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
-    }).length;
-  }
-
   $("#btnSubmit").addEventListener("click", async () => {
     if (!currentUnitId) {
       showSubmitBanner("bad", "還沒提交。請先選擇填寫單位，再按提交。");
       return;
     }
     const unit = units.find((u) => u.id === currentUnitId);
+    const ids = Object.keys(drafts).filter(
+      (id) => pendingFiles.has(id) || answerHasContent(getAnswer(id))
+    );
+    if (!ids.length) {
+      showSubmitBanner("warn", `「${unit.name}」這次沒有新的填答。改過的題目才會送出，已在系統裡的答案會保留。`);
+      return;
+    }
     const btn = $("#btnSubmit");
     const label = btn.textContent;
     btn.disabled = true;
     btn.textContent = "提交中…";
-    showSubmitBanner("busy", `正在把「${unit.name}」送到系統，請先不要關閉頁面。`);
+    showSubmitBanner("busy", `正在把「${unit.name}」的 ${ids.length} 題送到系統，請先不要關閉頁面。`);
     try {
-      await THESubmit.submitUnit({
+      await THESubmit.submitChanged({
         unitId: currentUnitId,
-        unitName: unit.name,
-        answers: THEStorage.getUnitAnswers(currentUnitId),
+        entries: ids.map((questionId) => ({ questionId, answer: getAnswer(questionId) })),
         files: pendingFiles,
         questions,
-        onFileUploaded: (questionId, info) => {
-          saveAnswer(questionId, info);
-          pendingFiles.delete(questionId);
-        },
       });
-      const count = filledAnswerCount(THEStorage.getUnitAnswers(currentUnitId));
+      ids.forEach((id) => {
+        delete drafts[id];
+        pendingFiles.delete(id);
+      });
       const when = new Date().toLocaleString("zh-TW", { hour12: false });
-      if (count) {
-        showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${count} 題已送到系統。時間 ${when}。`);
-      } else {
-        showSubmitBanner("warn", `已連到系統，但「${unit.name}」目前沒有填答，所以沒有題目被送出。請先填寫再按提交。`);
-      }
+      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新，同一單位的其他頁面會自己看到。時間 ${when}。`);
+      renderQuestions();
     } catch (err) {
-      showSubmitBanner("bad", `提交失敗，資料還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);
+      showSubmitBanner("bad", `提交失敗，這次改的題目還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);
     } finally {
       btn.disabled = false;
       btn.textContent = label;
