@@ -1,10 +1,11 @@
 (async function () {
   const $ = (sel) => document.querySelector(sel);
 
-  const [questionsData, methodologyZh, methodologyEn] = await Promise.all([
+  const [questionsData, methodologyZh, methodologyEn, priorYear] = await Promise.all([
     fetch("data/questions.json").then((r) => r.json()),
     fetch("data/methodology-zh.json").then((r) => r.json()),
     fetch("data/methodology-en.json").then((r) => r.json()),
+    fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
 
   let units = [];
@@ -222,7 +223,7 @@
         card.className = "q-card" + (activeQuestionId === q.id ? " selected" : "");
         card.dataset.id = q.id;
         card.addEventListener("click", (e) => {
-          if (e.target.closest("input, select, textarea, label, button")) return;
+          if (e.target.closest("input, select, textarea, label, button, a")) return;
           selectQuestion(q);
         });
         // 點進輸入欄也同步右側方法論
@@ -239,6 +240,8 @@
         meta.appendChild(ref);
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true }));
+        const prior = THEUI.renderPriorYear(priorYear[q.ref]);
+        if (prior) card.appendChild(prior);
 
         const fields = document.createElement("div");
         fields.className = "fields";

@@ -402,6 +402,70 @@
     return note;
   }
 
+  function priorRow(list, label, value) {
+    if (value == null || value === "") return;
+    const row = document.createElement("div");
+    row.className = "prior-row";
+    const dt = document.createElement("span");
+    dt.textContent = label;
+    const dd = document.createElement("span");
+    if (value instanceof Node) dd.appendChild(value);
+    else dd.textContent = value;
+    row.appendChild(dt);
+    row.appendChild(dd);
+    list.appendChild(row);
+  }
+
+  function priorLink(href) {
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = href;
+    return a;
+  }
+
+  function renderPriorYear(data) {
+    if (!data) return null;
+    const box = document.createElement("div");
+    box.className = "prior";
+    const head = document.createElement("div");
+    head.className = "prior-head";
+    head.textContent = "去年";
+    box.appendChild(head);
+    const list = document.createElement("div");
+    if (data.yesNo === "yes") priorRow(list, "Yes / No", "Yes");
+    if (data.yesNo === "no") priorRow(list, "Yes / No", "No");
+    (data.lines || []).forEach((line) => {
+      const bits = [];
+      if (line.yesNo === "yes") bits.push("Yes");
+      if (line.yesNo === "no") bits.push("No");
+      if (line.public === "yes") bits.push("公開");
+      if (line.public === "no") bits.push("未公開");
+      priorRow(list, line.label || "選項", bits.join("　") || "—");
+      (line.evidence || []).forEach((href) => priorRow(list, "證據", priorLink(href)));
+    });
+    (data.values || []).forEach((entry) => {
+      priorRow(list, entry.label || "數字", entry.value);
+    });
+    (data.evidence || []).forEach((href) => priorRow(list, "證據", priorLink(href)));
+    (data.files || []).forEach((name) => priorRow(list, "檔案", name));
+    if (data.public === "yes") priorRow(list, "Public", "公開");
+    if (data.public === "no") priorRow(list, "Public", "未公開");
+    if (data.note) priorRow(list, "說明", data.note);
+    if (!list.childNodes.length) return null;
+    box.appendChild(list);
+    return box;
+  }
+
+  function renderPriorUnit(names) {
+    if (!names || !names.length) return null;
+    const line = document.createElement("div");
+    line.className = "prior-unit";
+    line.textContent = `去年：${names.join("、")}`;
+    return line;
+  }
+
   global.THEUI = {
     splitQuestionText,
     getLang,
@@ -417,5 +481,7 @@
     appendAnswerFields,
     renderMetricHeader,
     renderAnswerPreview,
+    renderPriorYear,
+    renderPriorUnit,
   };
 })(window);

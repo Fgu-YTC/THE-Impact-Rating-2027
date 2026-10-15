@@ -422,6 +422,29 @@ button:disabled {
   margin-left: 0.35rem;
   vertical-align: middle;
 }
+.prior {
+  margin: 0.55rem 0 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: #f6f3ec;
+  border: 1px dashed #c8bfb0;
+}
+.prior-head,
+.prior-unit {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6d624f;
+}
+.prior-unit { margin: 0.35rem 0 0.15rem; }
+.prior-row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 0.2rem 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin-top: 0.2rem;
+}
+.prior-row a { word-break: break-all; }
 .badge.warn { background: var(--warn-bg); color: var(--warn); }
 .badge.ok { background: var(--ok-bg); color: var(--ok); }
 .submitted {
