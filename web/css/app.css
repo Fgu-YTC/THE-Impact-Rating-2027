@@ -140,10 +140,46 @@ button:disabled {
 }
 .pane-left { border-right: 1px solid var(--line); }
 .pane-right {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background:
     linear-gradient(180deg, #fbfaf6 0%, #f7f4ec 100%);
   border-left: 1px solid var(--line);
 }
+.pane-right .method-body {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+.method-ask {
+  flex: none;
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #ddd4c4;
+}
+.method-ask label {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.method-ask textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 2.6rem;
+}
+.method-ask-answer {
+  white-space: pre-wrap;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: #f3f8f5;
+  border: 1px solid #c9dfd2;
+}
+.method-ask-answer.busy { background: #fff6df; border-color: #e2d2a2; }
+.method-ask-answer.bad { background: #fdeeee; border-color: #e3b4b4; }
 .pane-right h2#methodTitle,
 .pane-right #methodTitle {
   font-family: var(--font-display);
