@@ -360,7 +360,7 @@
         pendingFiles.delete(id);
       });
       const when = new Date().toLocaleString("zh-TW", { hour12: false });
-      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新，同一單位的其他頁面會自己看到。時間 ${when}。`);
+      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新。時間 ${when}。`);
       renderQuestions();
     } catch (err) {
       showSubmitBanner("bad", `提交失敗，這次改的題目還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);
