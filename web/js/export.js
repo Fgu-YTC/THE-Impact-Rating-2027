@@ -330,6 +330,27 @@
     return "";
   }
 
+  function isGray(cell) {
+    const fill = (cell && cell.fill) || {};
+    const fg = fill.fgColor || {};
+    return Number(fg.theme) === 2;
+  }
+
+  function openCell(ws, row, col) {
+    let cell = ws.getCell(row, col);
+    if (cell.master && cell.master.address !== cell.address) cell = cell.master;
+    if (isGray(cell)) return null;
+    return cell;
+  }
+
+  function writeOpen(ws, row, col, value) {
+    if (value == null || value === "") return false;
+    const cell = openCell(ws, row, col);
+    if (!cell) return false;
+    cell.value = value;
+    return true;
+  }
+
   function answerTouched(answer) {
     if (!answer) return false;
     if (answer.yesNo) return true;
@@ -372,14 +393,14 @@
       const answer = answers[q.id];
       if (!answerTouched(answer)) return;
       const yesNo = answer.yesNo === "yes" || answer.yesNo === "no" ? answer.yesNo : "";
-      if (yesNo) ws.getCell(block.rowNumber, 5).value = yesNo;
+      writeOpen(ws, block.rowNumber, 5, yesNo);
       const evidence = evidenceCell(answer);
-      if (evidence) ws.getCell(block.rowNumber, 6).value = evidence;
       const pub = publicCell(answer.public);
-      if (pub) ws.getCell(block.rowNumber, 7).value = pub;
+      const evidenceOnQuestion = writeOpen(ws, block.rowNumber, 6, evidence);
+      const publicOnQuestion = writeOpen(ws, block.rowNumber, 7, pub);
       const comment = String(answer.comment || "").trim();
       if (comment) {
-        const cell = ws.getCell(block.rowNumber, 8);
+        const cell = openCell(ws, block.rowNumber, 8) || ws.getCell(block.rowNumber, 8);
         cell.value = comment;
         cell.alignment = { wrapText: true, vertical: "top" };
       }
@@ -394,14 +415,17 @@
           const raw = answer.values ? answer.values[`v${i}`] : "";
           if (raw == null || String(raw) === "") return;
           const num = Number(raw);
-          ws.getCell(sub.rowNumber, 4).value = Number.isFinite(num) && String(raw).trim() !== "" ? num : raw;
+          const value = Number.isFinite(num) && String(raw).trim() !== "" ? num : raw;
+          writeOpen(ws, sub.rowNumber, 4, value);
           return;
         }
         if (q.answerType === "picklist" && optIndex >= 0) {
           const opt = q.options[optIndex];
           const selected = new Set(answer.options || []);
           const on = selected.has(opt.en) || selected.has(opt.zh);
-          ws.getCell(sub.rowNumber, 5).value = on ? "yes" : "no";
+          writeOpen(ws, sub.rowNumber, 5, on ? "yes" : "no");
+          if (on && !evidenceOnQuestion) writeOpen(ws, sub.rowNumber, 6, evidence);
+          if (on && !publicOnQuestion) writeOpen(ws, sub.rowNumber, 7, pub);
         }
       });
     });
