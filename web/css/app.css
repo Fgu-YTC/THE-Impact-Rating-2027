@@ -160,15 +160,6 @@ button:disabled {
   padding-top: 0.75rem;
   border-top: 1px solid #ddd4c4;
 }
-.method-ask label {
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-.method-ask textarea {
-  width: 100%;
-  resize: vertical;
-  min-height: 2.6rem;
-}
 .method-ask-answer {
   white-space: pre-wrap;
   font-size: 0.88rem;

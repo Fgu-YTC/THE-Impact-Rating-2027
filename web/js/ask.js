@@ -2,11 +2,14 @@
 (function () {
   const form = document.querySelector("#methodAsk");
   if (!form) return;
-  const input = document.querySelector("#methodAskInput");
   const answer = document.querySelector("#methodAskAnswer");
   const button = form.querySelector("button");
+  const methodBody = document.querySelector("#methodBody");
+  const methodTitle = document.querySelector("#methodTitle");
   const endpoint =
     "https://asia-east1-fgu-the-impact-rating.cloudfunctions.net/askMethodology";
+  const ask =
+    "請說明這一題在問什麼、要怎麼填，以及證據要看到什麼才算。只根據方法論，不要假設學校已經做了什麼。";
 
   function show(text, kind) {
     answer.hidden = false;
@@ -14,15 +17,21 @@
     answer.textContent = text;
   }
 
+  if (methodBody) {
+    let seen = methodBody.innerText;
+    new MutationObserver(() => {
+      const next = methodBody.innerText;
+      if (next === seen) return;
+      seen = next;
+      answer.hidden = true;
+      answer.textContent = "";
+    }).observe(methodBody, { childList: true, subtree: true, characterData: true });
+  }
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const ask = input.value.trim();
-    if (!ask) {
-      show("請先寫下想問這一題的問題。", "bad");
-      return;
-    }
-    const methodology = (document.querySelector("#methodBody")?.innerText || "").trim();
-    const title = (document.querySelector("#methodTitle")?.textContent || "").trim();
+    const methodology = (methodBody?.innerText || "").trim();
+    const title = (methodTitle?.textContent || "").trim();
     if (!methodology || methodology.length < 40) {
       show("請先點選左邊的題目，等右邊出現方法論再問。", "bad");
       return;
