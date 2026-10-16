@@ -214,6 +214,17 @@
         metricRef: focusMetricRef,
       });
       THEMethod.render(methodTitle, methodBody, resolved);
+      const q = questions.find((item) => item.id === focusQuestionId);
+      const label = (item) => (lang === "en" ? item.en : item.zh);
+      window.THEAskQuestion = {
+        ref: (q && q.ref) || focusRef || "",
+        sdg: (q && q.sdg) || "",
+        title: q ? label(q) : resolved.title || "",
+        answerType: (q && q.answerType) || "",
+        options: ((q && q.options) || []).map(label).filter(Boolean),
+      };
+      const askForm = $("#methodAsk");
+      if (askForm) askForm.hidden = !q;
     }
 
     function visibleQuestions() {

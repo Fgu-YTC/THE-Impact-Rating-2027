@@ -1,4 +1,4 @@
-/** 依目前右側方法論，透過 Firebase 函式詢問 Gemini。金鑰不進網頁。 */
+/** 把目前題目交給 Firebase 函式。函式讀整份方法論後，只回答這一題要怎麼填。金鑰不進網頁。 */
 (function () {
   const form = document.querySelector("#methodAsk");
   if (!form) return;
@@ -8,9 +8,6 @@
   const methodTitle = document.querySelector("#methodTitle");
   const endpoint =
     "https://asia-east1-fgu-the-impact-rating.cloudfunctions.net/askMethodology";
-  const ask =
-    "請說明這一題在問什麼、要怎麼填，以及證據要看到什麼才算。只根據方法論，不要假設學校已經做了什麼。";
-
   function show(text, kind) {
     answer.hidden = false;
     answer.className = `method-ask-answer ${kind || ""}`;
@@ -36,16 +33,20 @@
       show("請先點選左邊的題目，等右邊出現方法論再問。", "bad");
       return;
     }
+    const ctx = window.THEAskQuestion || {};
     button.disabled = true;
-    show("正在依這一題的方法論整理回答。", "busy");
+    show("正在對照這一題所屬 SDG 的方法論，整理要怎麼填。", "busy");
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: title.slice(0, 300),
-          methodology: methodology.slice(0, 12000),
-          ask: ask.slice(0, 500),
+          ref: String(ctx.ref || "").slice(0, 40),
+          sdg: String(ctx.sdg || "").slice(0, 2),
+          title: String(ctx.title || title).slice(0, 300),
+          answerType: String(ctx.answerType || "").slice(0, 40),
+          options: Array.isArray(ctx.options) ? ctx.options.slice(0, 12) : [],
+          methodology: methodology.slice(0, 8000),
         }),
       });
       const data = await response.json().catch(() => ({}));

@@ -114,6 +114,7 @@
   }
 
   function renderMethod() {
+    const askForm = $("#methodAsk");
     if (!currentUnitId) {
       THEMethod.render(methodTitle, methodBody, {
         title: lang === "en" ? "Methodology" : "方法論",
@@ -121,6 +122,7 @@
           lang === "en" ? "Select a unit first." : "請先選擇填寫單位。"
         }</p>`,
       });
+      if (askForm) askForm.hidden = true;
       return;
     }
     const resolved = THEMethod.resolve({
@@ -132,6 +134,16 @@
       metricRef: activeMetricRef,
     });
     THEMethod.render(methodTitle, methodBody, resolved);
+    const q = questions.find((item) => item.id === activeQuestionId);
+    const label = (item) => (lang === "en" ? item.en : item.zh);
+    window.THEAskQuestion = {
+      ref: (q && q.ref) || activeRef || "",
+      sdg: (q && q.sdg) || "",
+      title: q ? label(q) : resolved.title || "",
+      answerType: (q && q.answerType) || "",
+      options: ((q && q.options) || []).map(label).filter(Boolean),
+    };
+    if (askForm) askForm.hidden = !q;
   }
 
   function getAnswer(qid) {

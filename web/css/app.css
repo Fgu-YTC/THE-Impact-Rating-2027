@@ -152,6 +152,9 @@ button:disabled {
   overflow: auto;
   min-height: 0;
 }
+.method-ask[hidden] {
+  display: none;
+}
 .method-ask {
   flex: none;
   display: grid;
@@ -159,6 +162,8 @@ button:disabled {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid #ddd4c4;
+  max-height: 46%;
+  overflow: auto;
 }
 .method-ask-answer {
   white-space: pre-wrap;
