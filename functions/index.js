@@ -69,6 +69,36 @@ function fieldHint(answerType, options) {
   return "先分辨這一題是填 Yes/No、勾選項，還是填數字。分數是評分方式，不要把它寫成填寫者要選的項目，也不要另造方法論沒有的選項。";
 }
 
+const MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isBusy(status, payload) {
+  const message = String((payload && payload.error && payload.error.message) || "");
+  return status === 429 || status === 503 || /high demand|try again later|UNAVAILABLE|RESOURCE_EXHAUSTED/i.test(message);
+}
+
+async function askModel(apiKey, model, prompt, maxOutputTokens) {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens },
+      }),
+    }
+  );
+  const payload = await response.json().catch(() => ({}));
+  return { ok: response.ok, status: response.status, payload };
+}
+
 function applyCors(req, res) {
   const origin = req.get("origin") || "";
   if (ALLOWED.has(origin)) {
@@ -125,18 +155,28 @@ exports.askMethodology = onRequest(
       return;
     }
     const guide = [chapter, pack.shared].filter(Boolean).join("\n\n").slice(0, 20000);
+    const audience = String(body.audience || "").trim() === "admin" ? "admin" : "fill";
+    const style =
+      audience === "admin"
+        ? [
+            "這是給管理人員看的說明，可以寫完整。",
+            "用繁體中文，四行標題各自起一段：要填什麼、哪些算、哪些不算、證據要看到什麼。",
+            "可補充年份、單位、全時當量、排除條件，以及方法論怎麼計分。分數是評分方式，不要把它寫成表單選項。",
+            "若這一題寫「見」同一份 SDG 裡的某一節，簡短引用那個定義。",
+          ]
+        : [
+            "這是給填寫者看的短摘要。用繁體中文，一整段，120 字以內。",
+            "只講這一題要勾或填什麼，以及證據要看到什麼。",
+            "不要加標題，不要寫評分百分比，不要展開其他定義。",
+          ];
 
     const prompt = [
       "你是 THE Impact Rankings 2027 的填報助手。",
       `下面只有 SDG ${sdg} 的方法論，以及不屬於任何 SDG 的共用章節（例如附件）。`,
-      "不要補上其他 SDG 的內容。先讀這些，再只教填寫者這一題的表單要怎麼填。",
-      "目的是讓填寫者知道每個欄位怎麼下筆，不是解釋方法論，也不是介紹其他題。",
-      "若這一題寫「見」同一份 SDG 裡的某一節，沿用那一節的定義。",
-      "用繁體中文，四行標題各自起一段：要填什麼、哪些算、哪些不算、證據要看到什麼。",
+      "不要補上其他 SDG 的內容。先讀這些，再只談這一題要怎麼填。",
+      ...style,
       "不要用星號、井號或 Markdown。",
       "Yes/No 只表示有或沒有。選項才用來區分免費、付費或其他作法。",
-      "不要把「得 1 分」「得 0.25 分」寫成填寫者要選的項目。",
-      "寫出方法論有寫的年份、單位、全時當量與排除條件。",
       "不要假設這所大學已經做了什麼。方法論沒寫的，直接說方法論沒有寫。",
       "不要詢問或記錄填寫人的姓名。",
       "",
@@ -151,34 +191,45 @@ exports.askMethodology = onRequest(
       guide,
     ].join("\n");
 
-    let payload;
+    let payload = null;
+    let failed = null;
     try {
-      const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": geminiKey.value(),
-          },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 1400 },
-          }),
+      for (const model of MODELS) {
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+          const result = await askModel(
+            geminiKey.value(),
+            model,
+            prompt,
+            audience === "admin" ? 1600 : 500
+          );
+          if (result.ok) {
+            payload = result.payload;
+            failed = null;
+            break;
+          }
+          failed = result;
+          if (!isBusy(result.status, result.payload) || attempt === 1) break;
+          await sleep(1500);
         }
-      );
-      payload = await response.json();
-      if (!response.ok) {
-        const detail = String((payload && payload.error && (payload.error.message || payload.error.status)) || "")
-          .replace(/AIza[\w-]+/g, "")
-          .slice(0, 180);
-        res.status(502).json({
-          error: detail ? `Gemini 沒有回答：${detail}` : "Gemini 這次沒有回答，請再試一次。",
-        });
-        return;
+        if (payload) break;
+        if (failed && !isBusy(failed.status, failed.payload)) break;
       }
     } catch (err) {
       res.status(502).json({ error: "連不到 Gemini，請再試一次。" });
+      return;
+    }
+    if (!payload) {
+      const detail = String((failed && failed.payload && failed.payload.error && (failed.payload.error.message || failed.payload.error.status)) || "")
+        .replace(/AIza[\w-]+/g, "")
+        .slice(0, 180);
+      const busy = failed && isBusy(failed.status, failed.payload);
+      res.status(502).json({
+        error: busy
+          ? "Gemini 目前較忙，請稍後再按一次。"
+          : detail
+            ? `Gemini 沒有回答：${detail}`
+            : "Gemini 這次沒有回答，請再試一次。",
+      });
       return;
     }
 

@@ -47,6 +47,7 @@
           answerType: String(ctx.answerType || "").slice(0, 40),
           options: Array.isArray(ctx.options) ? ctx.options.slice(0, 12) : [],
           methodology: methodology.slice(0, 8000),
+          audience: /admin\.html$/i.test(location.pathname) ? "admin" : "fill",
         }),
       });
       const data = await response.json().catch(() => ({}));
