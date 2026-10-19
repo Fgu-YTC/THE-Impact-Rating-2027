@@ -319,7 +319,28 @@
     file.disabled = disabled;
     const fileName = document.createElement("div");
     fileName.className = "file-name";
-    fileName.textContent = opts.pendingName || ans.evidenceFileName || "";
+    fileName.textContent = opts.pendingName || "";
+    const savedName = ans.evidenceFileName || "";
+    const savedUrl = ans.evidenceFileUrl || "";
+    if (!opts.pendingName && (savedName || savedUrl || ans.evidenceFilePath)) {
+      const link = document.createElement("a");
+      link.className = "file-download";
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = savedName
+        ? (lang === "en" ? `Download last file: ${savedName}` : `下載上次提交的檔案：${savedName}`)
+        : (lang === "en" ? "Download last file" : "下載上次提交的檔案");
+      if (savedUrl) link.href = savedUrl;
+      else link.hidden = true;
+      fileWrap.appendChild(link);
+      if (!savedUrl && ans.evidenceFilePath && opts.resolveFileUrl) {
+        opts.resolveFileUrl(ans).then((url) => {
+          if (!url) return;
+          link.href = url;
+          link.hidden = false;
+        }).catch(() => {});
+      }
+    }
     file.addEventListener("change", () => {
       const chosen = file.files && file.files[0];
       fileName.textContent = chosen ? chosen.name : "";

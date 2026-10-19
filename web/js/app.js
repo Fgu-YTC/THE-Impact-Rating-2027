@@ -261,7 +261,8 @@
         THEUI.appendAnswerFields(fields, q, {
           lang,
           getAnswer: () => getAnswer(q.id),
-          pendingName: pending ? pending.name : ans.evidenceFileName || "",
+          pendingName: pending ? pending.name : "",
+          resolveFileUrl: (answer) => (window.THESubmit && THESubmit.fileUrl ? THESubmit.fileUrl(answer) : Promise.resolve("")),
           onPatch: (partial) => saveAnswer(q.id, partial),
           onFile: (file) => {
             if (file) pendingFiles.set(q.id, file);

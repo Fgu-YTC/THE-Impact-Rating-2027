@@ -204,6 +204,17 @@
     return path;
   }
 
+  async function fileUrl(answer) {
+    if (!answer) return "";
+    if (answer.evidenceFileUrl) return answer.evidenceFileUrl;
+    if (!answer.evidenceFilePath) return "";
+    const { storage: bucket } = await storage();
+    const { ref, getDownloadURL } = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
+    );
+    return getDownloadURL(ref(bucket, answer.evidenceFilePath));
+  }
+
   async function readEvidence(bucket, answer) {
     const { ref, getDownloadURL } = await import(
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
@@ -297,5 +308,5 @@
     return { count, failed };
   }
 
-  global.THESubmit = { submitUnit, submitChanged, listSubmissions, mergeAnswers, exportEvidenceZip };
+  global.THESubmit = { submitUnit, submitChanged, listSubmissions, mergeAnswers, exportEvidenceZip, fileUrl };
 })(window);
