@@ -733,7 +733,12 @@ button:disabled {
   font-size: 0.8rem;
 }
 #adminApp.mode-assign [data-for="review"],
-#adminApp.mode-review [data-for="assign"] { display: none !important; }
+#adminApp.mode-assign [data-for="fill"],
+#adminApp.mode-review [data-for="assign"],
+#adminApp.mode-review [data-for="fill"],
+#adminApp.mode-fill [data-for="assign"],
+#adminApp.mode-fill [data-for="review"],
+#adminApp.mode-fill [data-for="browse"] { display: none !important; }
 .filter-bar button.active {
   color: var(--accent);
   border-color: var(--accent);

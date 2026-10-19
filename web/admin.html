@@ -29,6 +29,7 @@
       <div class="top-actions">
         <div class="lang-toggle" id="modeToggle" aria-label="管理畫面">
           <button type="button" data-mode="assign" class="active">分派</button>
+          <button type="button" data-mode="fill">填寫</button>
           <button type="button" data-mode="review">檢視填答</button>
         </div>
         <div class="lang-toggle" id="langToggle" aria-label="語言">
@@ -52,7 +53,7 @@
       <button type="button" id="btnSelectUnassigned" class="secondary" data-for="assign">勾選本 SDG 未分配題</button>
       <button type="button" id="btnReloadAnswers" class="secondary" data-for="review">重新讀取填答</button>
     </div>
-    <div class="unit-filter" id="unitFilter">
+    <div class="unit-filter" id="unitFilter" data-for="browse">
       <span class="unit-filter-label">篩選單位</span>
       <div id="unitFilterList"></div>
       <button type="button" id="btnClearUnitFilter" class="secondary">清除篩選</button>
@@ -83,6 +84,9 @@
       <button type="button" id="btnClearAssignments" class="secondary" data-for="assign">清除全部分配</button>
       <button type="button" id="btnExportForms" class="secondary" data-for="review">匯出題目與填答</button>
       <button type="button" id="btnExportFiles" class="secondary" data-for="review">匯出證據壓縮檔</button>
+      <label for="fillUnit" data-for="fill">填寫單位</label>
+      <select id="fillUnit" data-for="fill"></select>
+      <button type="button" id="btnAdminSubmit" data-for="fill" disabled>提交這個單位</button>
       <span data-for="assign" style="margin-left:auto;display:flex;gap:0.5rem;align-items:center">
         <input type="text" id="newUnitName" placeholder="新增單位名稱" />
         <button type="button" id="btnAddUnit" class="secondary">新增單位</button>

@@ -82,6 +82,13 @@
     let focusQuestionId = null;
     let submissions = [];
     let mode = "assign";
+    let fillUnitId = "";
+    let fillRemote = {};
+    let fillDrafts = {};
+    const fillFiles = new Map();
+    let unsubFill = function () {};
+    let holdRender = false;
+    let renderQueued = false;
 
     const unitSelect = $("#assignUnit");
     const sdgTabs = $("#sdgTabs");
@@ -107,18 +114,34 @@
 
     function fillUnitSelect() {
       const prev = unitSelect.value;
+      const fillSelect = $("#fillUnit");
+      const fillPrev = fillUnitId || fillSelect.value;
       unitSelect.innerHTML = "";
+      fillSelect.innerHTML = "";
       const ph = document.createElement("option");
       ph.value = "";
       ph.textContent = "選擇單位…";
       unitSelect.appendChild(ph);
+      fillSelect.appendChild(ph.cloneNode(true));
       units.forEach((u) => {
         const o = document.createElement("option");
         o.value = u.id;
         o.textContent = u.name;
         unitSelect.appendChild(o);
+        fillSelect.appendChild(o.cloneNode(true));
       });
       if ([...unitSelect.options].some((o) => o.value === prev)) unitSelect.value = prev;
+      if (fillPrev && [...fillSelect.options].some((o) => o.value === fillPrev)) {
+        fillSelect.value = fillPrev;
+        fillUnitId = fillPrev;
+      } else if (fillUnitId) {
+        unsubFill();
+        fillUnitId = "";
+        fillSelect.value = "";
+        fillRemote = {};
+        fillDrafts = {};
+        fillFiles.clear();
+      }
       renderUnitFilter();
     }
 
@@ -230,6 +253,7 @@
     function visibleQuestions() {
       return questions.filter((q) => {
         if (q.sdg !== currentSdg) return false;
+        if (mode === "fill") return true;
         const a = assignees(q.id);
         if (unitFilter.size && !a.some((id) => unitFilter.has(id))) return false;
         if (filter === "assigned") return a.length > 0;
@@ -243,6 +267,13 @@
 
     function renderQuestions() {
       questionList.innerHTML = "";
+      if (mode === "fill" && !fillUnitId) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "請先在下方選擇要填寫的單位。";
+        questionList.appendChild(empty);
+        return;
+      }
       const list = visibleQuestions();
       if (!list.length) {
         const empty = document.createElement("div");
@@ -313,7 +344,7 @@
             (focusQuestionId === q.id ? " focused" : "");
           card.style.cursor = "pointer";
           card.addEventListener("click", (e) => {
-            if (e.target.closest("input[type=checkbox]")) return;
+            if (e.target.closest("input, select, textarea, label, button, a")) return;
             focusQuestion(q);
           });
           const who = assignees(q.id);
@@ -329,6 +360,10 @@
           const badge = document.createElement("span");
           if (mode === "review") {
             const filled = submissionsFor(q.id).length > 0;
+            badge.className = filled ? "badge ok" : "badge warn";
+            badge.textContent = filled ? "已填寫" : "未填寫";
+          } else if (mode === "fill") {
+            const filled = answerHasContent(getFillAnswer(q.id));
             badge.className = filled ? "badge ok" : "badge warn";
             badge.textContent = filled ? "已填寫" : "未填寫";
           } else if (who.length) {
@@ -352,6 +387,23 @@
           if (priorUnit) body.appendChild(priorUnit);
           if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
           if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
+          if (mode === "fill") {
+            const fields = document.createElement("div");
+            fields.className = "fields";
+            const pending = fillFiles.get(q.id);
+            THEUI.appendAnswerFields(fields, q, {
+              lang,
+              getAnswer: () => getFillAnswer(q.id),
+              pendingName: pending ? pending.name : "",
+              resolveFileUrl: (answer) => (window.THESubmit && THESubmit.fileUrl ? THESubmit.fileUrl(answer) : Promise.resolve("")),
+              onPatch: (partial) => saveFillAnswer(q.id, partial),
+              onFile: (file) => {
+                if (file) fillFiles.set(q.id, file);
+                else fillFiles.delete(q.id);
+              },
+            });
+            body.appendChild(fields);
+          }
           if (mode === "assign") {
             const cb = document.createElement("input");
             cb.type = "checkbox";
@@ -485,12 +537,53 @@
       renderQuestions();
     });
 
+    function getFillAnswer(qid) {
+      return { ...(fillRemote[qid] || {}), ...(fillDrafts[qid] || {}) };
+    }
+
+    function saveFillAnswer(qid, patch) {
+      fillDrafts[qid] = { ...(fillDrafts[qid] || {}), ...patch };
+    }
+
+    function requestFillRender() {
+      if (mode !== "fill") return;
+      if (holdRender) renderQueued = true;
+      else renderQuestions();
+    }
+
+    function watchFill(unitId) {
+      unsubFill();
+      fillRemote = {};
+      fillDrafts = {};
+      fillFiles.clear();
+      fillUnitId = unitId || "";
+      const fillSelect = $("#fillUnit");
+      if (fillSelect.value !== fillUnitId) fillSelect.value = fillUnitId;
+      if (!fillUnitId) {
+        requestFillRender();
+        updateBottom();
+        return;
+      }
+      unsubFill = THELive.listenUnitAnswers(
+        fillUnitId,
+        (map) => {
+          if (fillUnitId !== unitId) return;
+          fillRemote = map || {};
+          requestFillRender();
+        },
+        (err) => showExportBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
+      );
+      updateBottom();
+      if (mode === "fill") renderQuestions();
+    }
+
     function applyMode(next) {
       mode = next;
-      if (mode === "assign" && (filter === "filled" || filter === "unfilled")) filter = "all";
-      if (mode === "review" && (filter === "assigned" || filter === "unassigned")) filter = "all";
+      if (mode !== "review" && (filter === "filled" || filter === "unfilled")) filter = "all";
+      if (mode !== "assign" && (filter === "assigned" || filter === "unassigned")) filter = "all";
       appRoot.classList.toggle("mode-assign", mode === "assign");
       appRoot.classList.toggle("mode-review", mode === "review");
+      appRoot.classList.toggle("mode-fill", mode === "fill");
       document.querySelectorAll("#modeToggle button").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.mode === mode);
       });
@@ -508,7 +601,61 @@
       $("#selectedCount").textContent = String(selected.size);
       $("#btnAssign").disabled = !(selected.size && unitSelect.value);
       $("#btnUnassign").disabled = !(selected.size && unitSelect.value);
+      $("#btnAdminSubmit").disabled = !fillUnitId;
     }
+
+    $("#fillUnit").addEventListener("change", () => watchFill($("#fillUnit").value));
+
+    questionList.addEventListener("focusin", () => {
+      if (mode === "fill") holdRender = true;
+    });
+    questionList.addEventListener("focusout", (e) => {
+      if (questionList.contains(e.relatedTarget)) return;
+      holdRender = false;
+      if (renderQueued) {
+        renderQueued = false;
+        if (mode === "fill") renderQuestions();
+      }
+    });
+
+    $("#btnAdminSubmit").addEventListener("click", async () => {
+      if (!fillUnitId) {
+        showExportBanner("bad", "還沒提交。請先選擇填寫單位，再按提交。");
+        return;
+      }
+      const unit = units.find((u) => u.id === fillUnitId);
+      const ids = Object.keys(fillDrafts).filter(
+        (id) => fillFiles.has(id) || answerHasContent(getFillAnswer(id))
+      );
+      if (!ids.length) {
+        showExportBanner("warn", `「${unit ? unit.name : "這個單位"}」這次沒有新的填答。改過的題目才會送出。`);
+        return;
+      }
+      const btn = $("#btnAdminSubmit");
+      const label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "提交中…";
+      showExportBanner("busy", `正在把「${unit ? unit.name : "這個單位"}」的 ${ids.length} 題送到系統，請先不要關閉頁面。`);
+      try {
+        await THESubmit.submitChanged({
+          unitId: fillUnitId,
+          entries: ids.map((questionId) => ({ questionId, answer: getFillAnswer(questionId) })),
+          files: fillFiles,
+          questions,
+        });
+        ids.forEach((id) => {
+          delete fillDrafts[id];
+          fillFiles.delete(id);
+        });
+        showExportBanner("ok", `提交成功。「${unit ? unit.name : "這個單位"}」的 ${ids.length} 題已更新。時間 ${whenNow()}。`);
+      } catch (e) {
+        const detail = e && (e.code || e.message) ? ` ${e.code || e.message}` : "";
+        showExportBanner("bad", `提交失敗，答案還沒寫入。${detail}`);
+      } finally {
+        btn.disabled = !fillUnitId;
+        btn.textContent = label;
+      }
+    });
 
     $("#btnClearUnitFilter").addEventListener("click", () => {
       unitFilter.clear();
