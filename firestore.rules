@@ -29,6 +29,31 @@ service cloud.firestore {
         && (!('updatedAt' in data) || data.updatedAt is string);
     }
 
+    function isOffice(data) {
+      return data.keys().hasOnly([
+          'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
+          'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
+          'updatedAt', 'editor', 'sourceUnitId', 'sourceUnitName'
+        ])
+        && data.editor == '永續辦'
+        && data.sourceUnitId is string
+        && data.sourceUnitId.size() > 0
+        && data.sourceUnitId.size() < 80
+        && data.sourceUnitName is string
+        && data.sourceUnitName.size() < 80
+        && (!('yesNo' in data) || (data.yesNo is string && data.yesNo.size() < 20))
+        && (!('public' in data) || (data.public is string && data.public.size() < 20))
+        && (!('comment' in data) || (data.comment is string && data.comment.size() <= 1000))
+        && (!('evidence' in data) || (data.evidence is string && data.evidence.size() <= 2000))
+        && (!('options' in data) || data.options is list)
+        && (!('values' in data) || data.values is map)
+        && (!('evidenceFileName' in data) || data.evidenceFileName is string)
+        && (!('evidenceStoredName' in data) || data.evidenceStoredName is string)
+        && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
+        && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
+        && (!('updatedAt' in data) || data.updatedAt is string);
+    }
+
     match /units/{unitId} {
       allow read: if true;
       allow create, update: if isUnit(request.resource.data);
@@ -37,6 +62,12 @@ service cloud.firestore {
       match /answers/{questionId} {
         allow read: if true;
         allow create, update: if isAnswer(request.resource.data);
+        allow delete: if false;
+      }
+
+      match /office/{questionId} {
+        allow read: if true;
+        allow create, update: if isOffice(request.resource.data);
         allow delete: if false;
       }
     }

@@ -90,6 +90,23 @@
     }, onError);
   }
 
+  function listenUnitOffice(unitId, onData, onError) {
+    return listenWith(function (ctx) {
+      const { store, fs } = ctx;
+      return fs.onSnapshot(
+        fs.collection(store, "units", unitId, "office"),
+        function (snap) {
+          const map = {};
+          snap.forEach(function (item) {
+            map[item.id] = item.data() || {};
+          });
+          onData(map);
+        },
+        onError || function () {}
+      );
+    }, onError);
+  }
+
   function listenAllAnswers(onData, onError) {
     return listenWith(function (ctx) {
       const { store, fs } = ctx;
@@ -213,10 +230,27 @@
     await batch.commit();
   }
 
+  async function saveOfficeAnswers(unitId, entries, source) {
+    if (!entries.length) return;
+    const { store, fs } = await db();
+    const batch = fs.writeBatch(store);
+    const updatedAt = new Date().toISOString();
+    const unitName = String((source && source.unitName) || "").slice(0, 79);
+    entries.forEach(function (entry) {
+      const answer = sanitizeAnswer(entry.answer, updatedAt);
+      answer.editor = "永續辦";
+      answer.sourceUnitId = String(unitId);
+      answer.sourceUnitName = unitName;
+      batch.set(fs.doc(store, "units", unitId, "office", entry.questionId), answer);
+    });
+    await batch.commit();
+  }
+
   global.THELive = {
     explain,
     listenUnits,
     listenUnitAnswers,
+    listenUnitOffice,
     listenAllAnswers,
     seedIfEmpty,
     addUnit,
@@ -224,5 +258,6 @@
     unassignQuestions,
     clearAssignments,
     saveAnswers,
+    saveOfficeAnswers,
   };
 })(window);

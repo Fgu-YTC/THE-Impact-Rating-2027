@@ -505,6 +505,18 @@ button:disabled {
 .submitted-row dt { color: var(--muted); }
 .submitted-row dd { margin: 0; overflow-wrap: anywhere; }
 .submitted-empty { color: var(--muted); font-size: 0.82rem; margin-top: 0.45rem; }
+.fill-unit {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--line);
+}
+.submitted-head .badge { margin-left: 0.45rem; }
+.fill-office {
+  margin-top: 0.2rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
 
 .fields {
   display: grid;

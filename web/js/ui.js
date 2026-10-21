@@ -230,7 +230,7 @@
         const cb = document.createElement("input");
         cb.type = "checkbox";
         cb.disabled = disabled;
-        cb.id = `${q.id}-opt-${i}`;
+        cb.id = `${opts.idPrefix || q.id}-opt-${i}`;
         const selected = new Set(ans.options || []);
         cb.checked = selected.has(opt.en) || selected.has(opt.zh);
         cb.addEventListener("change", () => {

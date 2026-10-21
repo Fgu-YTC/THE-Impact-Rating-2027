@@ -54,7 +54,7 @@
     return "提交失敗，請再試一次。";
   }
 
-  async function submitChanged({ unitId, entries, files, questions }) {
+  async function submitChanged({ unitId, entries, files, questions, office }) {
     if (!global.FIREBASE_CONFIG || !global.FIREBASE_CONFIG.storageBucket) {
       throw new Error("還沒有設定 Firebase Storage。");
     }
@@ -91,7 +91,9 @@
         }
         saved.push({ questionId: entry.questionId, answer });
       }
-      await global.THELive.saveAnswers(unitId, saved);
+      await (office
+        ? global.THELive.saveOfficeAnswers(unitId, saved, office)
+        : global.THELive.saveAnswers(unitId, saved));
     } catch (err) {
       throw new Error(explain(err));
     }
