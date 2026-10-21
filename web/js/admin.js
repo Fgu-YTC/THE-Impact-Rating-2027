@@ -56,12 +56,12 @@
     }
     booted = true;
 
-    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorUnits] = await Promise.all([
+    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear] = await Promise.all([
       fetch("data/questions.json").then((r) => r.json()),
       fetch("data/methodology-zh.json").then((r) => r.json()),
       fetch("data/methodology-en.json").then((r) => r.json()),
       fetch("data/units.json").then((r) => r.json()),
-      fetch("data/prior-units.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
     ]);
 
     let units = [];
@@ -354,8 +354,8 @@
               titleOnly: mode === "review",
             })
           );
-          const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
-          if (priorUnit) body.appendChild(priorUnit);
+          const prior = THEUI.renderPriorYear(priorYear[q.ref]);
+          if (prior) body.appendChild(prior);
           if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
           if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
           if (mode === "fill") body.appendChild(renderFillEditors(q));
