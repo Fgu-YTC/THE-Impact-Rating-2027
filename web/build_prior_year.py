@@ -298,17 +298,67 @@ def unit_from_filename(name):
     return stem.strip()
 
 
+def note_chunks(value, size=12):
+    compact = "".join(ch for ch in text(value) if not ch.isspace())
+    return {compact[i : i + size] for i in range(0, max(0, len(compact) - size + 1))}
+
+
+def match_score(final, unit):
+    points = 0
+    conflict = False
+    final_yes = final.get("yesNo") or ""
+    unit_yes = unit.get("yesNo") or ""
+    if final_yes and unit_yes:
+        if final_yes == unit_yes:
+            points += 1
+        else:
+            points -= 4
+            conflict = True
+    final_public = final.get("public") or ""
+    unit_public = unit.get("public") or ""
+    if final_public and unit_public:
+        points += 1 if final_public == unit_public else -2
+    shared_links = set(final.get("evidence") or []) & set(unit.get("evidence") or [])
+    points += 6 * len(shared_links)
+    final_values = {(entry.get("label") or "", entry.get("value") or "") for entry in final.get("values") or []}
+    unit_values = {(entry.get("label") or "", entry.get("value") or "") for entry in unit.get("values") or []}
+    points += 5 * len({pair for pair in final_values & unit_values if pair[1]})
+    final_note = note_chunks(final.get("note") or "")
+    unit_note = note_chunks(unit.get("note") or "")
+    if final_note and unit_note:
+        overlap = len(final_note & unit_note) / max(1, min(len(final_note), len(unit_note)))
+        if overlap >= 0.35:
+            points += 8
+        elif overlap >= 0.15:
+            points += 3
+    final_lines = {
+        (line.get("label") or "", line.get("yesNo") or "")
+        for line in final.get("lines") or []
+        if line.get("yesNo")
+    }
+    unit_lines = {
+        (line.get("label") or "", line.get("yesNo") or "")
+        for line in unit.get("lines") or []
+        if line.get("yesNo")
+    }
+    points += 3 * len(final_lines & unit_lines)
+    return points, conflict
+
+
 def load_units():
     import openpyxl
 
-    owners = defaultdict(set)
+    found = {}
 
     def take(label, rows):
         if not label or label in GENERIC_SHEETS:
             return
         for ref, item in consume_sheet(rows).items():
-            if prune(item):
-                owners[ref].add(label)
+            if ref in SKIP:
+                continue
+            kept = prune(item)
+            if kept:
+                found.setdefault(ref, {}).setdefault(label, []).append(kept)
 
     for name in os.listdir(UNIT_DIR):
         path = os.path.join(UNIT_DIR, name)
@@ -332,7 +382,33 @@ def load_units():
             else:
                 for sheet in data_sheets:
                     take(label or (sheet if sheet not in GENERIC_SHEETS else ""), sheet_rows(wb[sheet]))
-    return {ref: sorted(names) for ref, names in owners.items()}
+    return found
+
+
+def confirmed_units(final, answers):
+    """Unit whose workbook matches the final upload. Ties stay listed together."""
+    chosen = {}
+    for ref, item in final.items():
+        options = answers.get(ref) or {}
+        if not options:
+            continue
+        ranked = []
+        for name, copies in options.items():
+            best = max((match_score(item, copy) for copy in copies), key=lambda pair: pair[0])
+            ranked.append((best[0], best[1], name))
+        ranked.sort(key=lambda pair: pair[0], reverse=True)
+        if len(ranked) == 1:
+            if ranked[0][1]:
+                continue
+            chosen[ref] = [ranked[0][2]]
+            continue
+        top = ranked[0][0]
+        winners = [name for points, _conflict, name in ranked if points == top]
+        if len(winners) == 1 and top > ranked[1][0]:
+            chosen[ref] = winners
+        else:
+            chosen[ref] = sorted(winners)
+    return {ref: names for ref, names in chosen.items() if names}
 
 
 def main():
@@ -351,7 +427,7 @@ def main():
             elif "files" in kept:
                 del kept["files"]
             cleaned[ref] = kept
-    units = {ref: names for ref, names in load_units().items() if ref not in SKIP}
+    units = confirmed_units(cleaned, load_units())
     os.makedirs(os.path.dirname(OUT_CONTENT), exist_ok=True)
     with open(OUT_CONTENT, "w", encoding="utf-8") as handle:
         json.dump(cleaned, handle, ensure_ascii=False, indent=2)

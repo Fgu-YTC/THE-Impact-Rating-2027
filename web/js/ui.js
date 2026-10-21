@@ -483,7 +483,7 @@
     if (!names || !names.length) return null;
     const line = document.createElement("div");
     line.className = "prior-unit";
-    line.textContent = `去年：${names.join("、")}`;
+    line.textContent = `去年單位：${names.join("、")}`;
     return line;
   }
 

@@ -56,12 +56,13 @@
     }
     booted = true;
 
-    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear] = await Promise.all([
+    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear, priorUnits] = await Promise.all([
       fetch("data/questions.json").then((r) => r.json()),
       fetch("data/methodology-zh.json").then((r) => r.json()),
       fetch("data/methodology-en.json").then((r) => r.json()),
       fetch("data/units.json").then((r) => r.json()),
       fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch("data/prior-units.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
     ]);
 
     let units = [];
@@ -354,6 +355,8 @@
               titleOnly: mode === "review",
             })
           );
+          const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
+          if (priorUnit) body.appendChild(priorUnit);
           const prior = THEUI.renderPriorYear(priorYear[q.ref]);
           if (prior) body.appendChild(prior);
           if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
@@ -547,6 +550,12 @@
       fillDrafts[key] = { ...(fillDrafts[key] || {}), ...patch };
     }
 
+    function officeUnit() {
+      return (
+        units.find((unit) => unit.name === "永續發展辦公室" || unit.name === "永續辦") || null
+      );
+    }
+
     function fillTargets(q) {
       const seen = new Set();
       const list = [];
@@ -562,6 +571,22 @@
         seen.add(pack.unitId);
         list.push({ unitId: pack.unitId, unitName: pack.unitName || unitName(pack.unitId) });
       });
+      Object.entries(officeByUnit).forEach(([unitId, map]) => {
+        if (seen.has(unitId)) return;
+        const answer = map && map[q.id];
+        if (!answer || answer.editor !== "永續辦") return;
+        seen.add(unitId);
+        const savedName = answer.sourceUnitName || unitName(unitId);
+        list.push({
+          unitId,
+          unitName: savedName === "永續發展辦公室" || savedName === "永續辦" ? "永續辦" : savedName,
+          officeOnly: savedName === "永續發展辦公室" || savedName === "永續辦",
+        });
+      });
+      if (!list.length) {
+        const office = officeUnit();
+        if (office) list.push({ unitId: office.id, unitName: "永續辦", officeOnly: true });
+      }
       return list;
     }
 
@@ -580,7 +605,7 @@
         block.className = "fill-unit";
         const name = document.createElement("div");
         name.className = "fill-unit-name";
-        name.textContent = `原填寫單位：${target.unitName}`;
+        name.textContent = target.officeOnly ? "永續辦" : `原填寫單位：${target.unitName}`;
         block.appendChild(name);
         const office = officeOf(target.unitId, q.id);
         if (office) {
