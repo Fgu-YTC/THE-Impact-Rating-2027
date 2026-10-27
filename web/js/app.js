@@ -35,8 +35,27 @@
   const methodBody = $("#methodBody");
   const emptyState = $("#emptyState");
 
+  function syncChromeLang() {
+    const en = lang === "en";
+    const unitLab = document.querySelector('label[for="unitSelect"]');
+    if (unitLab) unitLab.textContent = en ? "Unit" : "填寫單位";
+    $("#submitHint").textContent = en
+      ? "When finished, use Submit on the right. You will be asked for the filler’s name."
+      : "改完後按右邊送出。送出前會詢問填寫人。";
+    $("#btnSubmit").textContent = en ? "Submit" : "提交";
+    $("#fillerTitle").textContent = en ? "Who filled this?" : "這次是誰填的？";
+    $("#fillerNote").textContent = en
+      ? "After submit, this unit and the admin page will see the name. For confirmation only."
+      : "送出後，這個單位和管理頁都會看到填寫人。僅作確認使用。";
+    $("#fillerName").placeholder = en ? "Filler name" : "填寫人姓名";
+    $("#fillerCancel").textContent = en ? "Cancel" : "取消";
+    $("#fillerSend").textContent = en ? "Send" : "送出";
+  }
+
   THEUI.bindLangToggle($("#langToggle"), (next) => {
     lang = next;
+    syncChromeLang();
+    renderUnitOptions();
     renderQuestions();
     renderMethod();
   });
@@ -46,7 +65,7 @@
     unitSelect.innerHTML = "";
     const placeholder = document.createElement("option");
     placeholder.value = "";
-    placeholder.textContent = "選擇單位…";
+    placeholder.textContent = lang === "en" ? "Select a unit…" : "選擇單位…";
     unitSelect.appendChild(placeholder);
     units.forEach((u) => {
       const opt = document.createElement("option");
@@ -211,14 +230,12 @@
         metricKey
       );
       const note = lang === "en" ? enNote || zhNote : zhNote || enNote;
-      const altNote = lang === "en" ? (enNote && zhNote ? zhNote : "") : enNote && zhNote ? enNote : "";
       const clickable = Boolean(note);
 
       const block = document.createElement("div");
       block.className = "metric-block";
       const header = THEUI.renderMetricHeader(metric, lang, {
         note,
-        altNote,
         clickable,
         selected: clickable && activeRef === (metric.ref || metricKey) && !activeQuestionId,
       });
@@ -253,11 +270,11 @@
         if (ans.filledBy) {
           const who = document.createElement("span");
           who.className = "filled-by";
-          who.textContent = `填寫人：${ans.filledBy}`;
+          who.textContent = lang === "en" ? `Filler: ${ans.filledBy}` : `填寫人：${ans.filledBy}`;
           meta.appendChild(who);
         }
         card.appendChild(meta);
-        card.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true }));
+        card.appendChild(THEUI.renderQuestionCopy(q, lang));
         const prior = THEUI.renderPriorYear(priorYear[q.ref]);
         if (prior) card.appendChild(prior);
 
@@ -379,8 +396,9 @@
   }
 
   $("#btnSubmit").addEventListener("click", async () => {
+    const en = lang === "en";
     if (!currentUnitId) {
-      showSubmitBanner("bad", "還沒提交。請先選擇填寫單位，再按提交。");
+      showSubmitBanner("bad", en ? "Not submitted. Choose a unit first, then submit." : "還沒提交。請先選擇填寫單位，再按提交。");
       return;
     }
     const unit = units.find((u) => u.id === currentUnitId);
@@ -388,16 +406,26 @@
       (id) => pendingFiles.has(id) || answerHasContent(getAnswer(id))
     );
     if (!ids.length) {
-      showSubmitBanner("warn", `「${unit.name}」這次沒有新的填答。改過的題目才會送出，已在系統裡的答案會保留。`);
+      showSubmitBanner(
+        "warn",
+        en
+          ? `No new answers for “${unit.name}”. Only changed questions are sent; saved answers stay.`
+          : `「${unit.name}」這次沒有新的填答。改過的題目才會送出，已在系統裡的答案會保留。`
+      );
       return;
     }
     const filledBy = await askFillerName();
     if (!filledBy) return;
     const btn = $("#btnSubmit");
-    const label = btn.textContent;
+    const label = en ? "Submit" : "提交";
     btn.disabled = true;
-    btn.textContent = "提交中…";
-    showSubmitBanner("busy", `正在把「${unit.name}」的 ${ids.length} 題送到系統，請先不要關閉頁面。`);
+    btn.textContent = en ? "Submitting…" : "提交中…";
+    showSubmitBanner(
+      "busy",
+      en
+        ? `Sending ${ids.length} question(s) for “${unit.name}”. Please keep this page open.`
+        : `正在把「${unit.name}」的 ${ids.length} 題送到系統，請先不要關閉頁面。`
+    );
     try {
       await THESubmit.submitChanged({
         unitId: currentUnitId,
@@ -409,17 +437,28 @@
         delete drafts[id];
         pendingFiles.delete(id);
       });
-      const when = new Date().toLocaleString("zh-TW", { hour12: false });
-      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新，填寫人是${filledBy}。時間 ${when}。`);
+      const when = new Date().toLocaleString(en ? "en-US" : "zh-TW", { hour12: false });
+      showSubmitBanner(
+        "ok",
+        en
+          ? `Submitted. “${unit.name}”: ${ids.length} question(s) updated. Filler: ${filledBy}. ${when}.`
+          : `提交成功。「${unit.name}」的 ${ids.length} 題已更新，填寫人是${filledBy}。時間 ${when}。`
+      );
       renderQuestions();
     } catch (err) {
-      showSubmitBanner("bad", `提交失敗，這次改的題目還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);
+      showSubmitBanner(
+        "bad",
+        en
+          ? `Submit failed. Changes were not saved.${err && err.message ? " " + err.message : " Please try again."}`
+          : `提交失敗，這次改的題目還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`
+      );
     } finally {
       btn.disabled = false;
       btn.textContent = label;
     }
   });
 
+  syncChromeLang();
   emptyState.hidden = false;
   emptyState.textContent = "請先選擇填寫單位。";
   methodTitle.textContent = "方法論";

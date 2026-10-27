@@ -48,8 +48,8 @@
     return "";
   }
 
-  /** Build readable question text block — 主語系完整顯示，另一語系永遠附在下方 */
-  function renderQuestionCopy(q, lang, { showBoth = true, showAsk = false, titleOnly = false } = {}) {
+  /** Build readable question text block — 依目前語系顯示；showBoth 才附另一語 */
+  function renderQuestionCopy(q, lang, { showBoth = false, showAsk = false, titleOnly = false } = {}) {
     const wrap = document.createElement("div");
     wrap.className = "q-copy";
 
@@ -141,7 +141,7 @@
     header.appendChild(mMeta);
     header.appendChild(
       renderQuestionCopy({ en: metric.en || "", zh: metric.zh || "" }, lang, {
-        showBoth: !compact,
+        showBoth: false,
         titleOnly: compact,
       })
     );
@@ -150,19 +150,6 @@
       noteEl.className = "metric-note";
       noteEl.textContent = note;
       header.appendChild(noteEl);
-      if (altNote) {
-        const alt = document.createElement("div");
-        alt.className = "q-alt";
-        const tag = document.createElement("span");
-        tag.className = "q-alt-lang";
-        tag.textContent = lang === "en" ? "中文" : "EN";
-        const text = document.createElement("div");
-        text.className = "q-alt-text";
-        text.textContent = altNote;
-        alt.appendChild(tag);
-        alt.appendChild(text);
-        header.appendChild(alt);
-      }
     }
     return header;
   }
@@ -245,9 +232,7 @@
         });
         lab.appendChild(cb);
         const text = document.createElement("span");
-        const primary = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
-        const secondary = lang === "en" ? opt.zh : opt.en;
-        text.textContent = secondary && secondary !== primary ? `${primary}　${secondary}` : primary;
+        text.textContent = lang === "en" ? opt.en || opt.zh : opt.zh || opt.en;
         lab.appendChild(text);
         wrap.appendChild(lab);
       });

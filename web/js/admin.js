@@ -282,8 +282,6 @@
         const zhNote = THEMethod.metricBlurb((methodologyZh.byRef || {})[metricKey], metricKey);
         const enNote = THEMethod.metricBlurb((methodologyEn.byRef || {})[metricKey], metricKey);
         const note = lang === "en" ? enNote || zhNote : zhNote || enNote;
-        const altNote =
-          lang === "en" ? (enNote && zhNote ? zhNote : "") : enNote && zhNote ? enNote : "";
         const clickable = Boolean(note);
 
         const block = document.createElement("div");
@@ -291,7 +289,6 @@
         const reviewing = mode === "review";
         const header = THEUI.renderMetricHeader(metric, lang, {
           note: reviewing ? "" : note,
-          altNote: reviewing ? "" : altNote,
           clickable: reviewing ? false : clickable,
           compact: reviewing,
           selected: !reviewing && clickable && focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId,
@@ -350,7 +347,6 @@
           body.appendChild(meta);
           body.appendChild(
             THEUI.renderQuestionCopy(q, lang, {
-              showBoth: mode !== "review",
               showAsk: mode !== "review",
               titleOnly: mode === "review",
             })
