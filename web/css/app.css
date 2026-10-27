@@ -54,6 +54,18 @@ a:hover { text-decoration: underline; }
   margin-right: 0.5rem;
 }
 
+.data-year-note {
+  padding: 0.55rem 1.25rem;
+  background: #e8f2ee;
+  border-bottom: 1px solid var(--line);
+  color: #1e4a3d;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.data-year-note strong {
+  font-weight: 700;
+}
+
 .topbar label {
   font-size: 0.85rem;
   color: var(--muted);

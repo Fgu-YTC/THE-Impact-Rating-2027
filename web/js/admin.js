@@ -97,11 +97,22 @@
     const filterBar = $("#filterBar");
     const newUnitName = $("#newUnitName");
 
+    function syncChromeLang() {
+      const note = $("#dataYearNote");
+      if (!note) return;
+      note.innerHTML =
+        lang === "en"
+          ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
+          : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+    }
+
     THEUI.bindLangToggle($("#langToggle"), (next) => {
       lang = next;
+      syncChromeLang();
       renderQuestions();
       renderMethod();
     });
+    syncChromeLang();
 
     function focusQuestion(q) {
       focusQuestionId = q.id;
@@ -351,10 +362,12 @@
               titleOnly: mode === "review",
             })
           );
-          const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
-          if (priorUnit) body.appendChild(priorUnit);
-          const prior = THEUI.renderPriorYear(priorYear[q.ref]);
-          if (prior) body.appendChild(prior);
+          if (mode !== "review") {
+            const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
+            if (priorUnit) body.appendChild(priorUnit);
+            const prior = THEUI.renderPriorYear(priorYear[q.ref]);
+            if (prior) body.appendChild(prior);
+          }
           if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
           if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
           if (mode === "fill") body.appendChild(renderFillEditors(q));
@@ -549,7 +562,7 @@
 
     function officeUnit() {
       return (
-        units.find((unit) => unit.name === "永續發展辦公室" || unit.name === "永續辦") || null
+        units.find((unit) => unit.name === "永續辦" || unit.name === "永續發展辦公室") || null
       );
     }
 
@@ -576,8 +589,8 @@
         const savedName = answer.sourceUnitName || unitName(unitId);
         list.push({
           unitId,
-          unitName: savedName === "永續發展辦公室" || savedName === "永續辦" ? "永續辦" : savedName,
-          officeOnly: savedName === "永續發展辦公室" || savedName === "永續辦",
+          unitName: savedName === "永續辦" || savedName === "永續發展辦公室" ? "永續辦" : savedName,
+          officeOnly: savedName === "永續辦" || savedName === "永續發展辦公室",
         });
       });
       if (!list.length) {

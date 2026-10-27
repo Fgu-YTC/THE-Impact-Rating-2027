@@ -39,6 +39,12 @@
     const en = lang === "en";
     const unitLab = document.querySelector('label[for="unitSelect"]');
     if (unitLab) unitLab.textContent = en ? "Unit" : "填寫單位";
+    const yearNote = $("#dataYearNote");
+    if (yearNote) {
+      yearNote.innerHTML = en
+        ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
+        : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+    }
     $("#submitHint").textContent = en
       ? "When finished, use Submit on the right. You will be asked for the filler’s name."
       : "改完後按右邊送出。送出前會詢問填寫人。";
