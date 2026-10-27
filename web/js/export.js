@@ -402,6 +402,18 @@
         if (label) current.subs.push({ rowNumber, label, onIndicator: true });
         return;
       }
+      // 範本特例：7.5 等大標題列漏寫 Type，只剩編號；後面數值列其實對應 7.5.1
+      if (!type && !typeSlave && !refSlave && /^\d+\.\d+$/.test(ref)) {
+        blocks.push({ type: "Metric", ref, rowNumber, subs: [] });
+        current = {
+          type: "Indicator",
+          ref: `${ref}.1`,
+          rowNumber,
+          subs: label ? [{ rowNumber, label, onIndicator: true }] : [],
+        };
+        blocks.push(current);
+        return;
+      }
       if (current && label) current.subs.push({ rowNumber, label, onIndicator: false });
     });
 
@@ -416,11 +428,22 @@
       const answer = answers[q.id];
       if (!answerTouched(answer)) return;
       const yesNo = answer.yesNo === "yes" || answer.yesNo === "no" ? answer.yesNo : "";
-      writeOpen(ws, block.rowNumber, 5, yesNo);
+      if (yesNo && !writeOpen(ws, block.rowNumber, 5, yesNo)) {
+        const fallback = block.subs.find((sub) => !sub.onIndicator);
+        if (fallback) writeOpen(ws, fallback.rowNumber, 5, yesNo);
+      }
       const evidence = evidenceCell(answer);
       const pub = publicCell(answer.public);
-      const evidenceOnQuestion = writeOpen(ws, block.rowNumber, 6, evidence);
-      const publicOnQuestion = writeOpen(ws, block.rowNumber, 7, pub);
+      let evidenceOnQuestion = writeOpen(ws, block.rowNumber, 6, evidence);
+      let publicOnQuestion = writeOpen(ws, block.rowNumber, 7, pub);
+      if (evidence && !evidenceOnQuestion) {
+        const fallback = block.subs.find((sub) => !sub.onIndicator);
+        if (fallback) evidenceOnQuestion = writeOpen(ws, fallback.rowNumber, 6, evidence);
+      }
+      if (pub && !publicOnQuestion) {
+        const fallback = block.subs.find((sub) => !sub.onIndicator);
+        if (fallback) publicOnQuestion = writeOpen(ws, fallback.rowNumber, 7, pub);
+      }
       const comment = String(answer.comment || "").trim();
       if (comment) {
         const cell = openCell(ws, block.rowNumber, 8) || ws.getCell(block.rowNumber, 8);
