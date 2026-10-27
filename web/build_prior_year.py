@@ -259,7 +259,22 @@ def prune(item):
             seen.append(entry)
         item["values"] = seen
     item["evidence"] = list(dict.fromkeys(item["evidence"]))
-    item["files"] = list(dict.fromkeys(item["files"]))
+    files = []
+    seen_files = set()
+    for entry in item.get("files") or []:
+        if isinstance(entry, dict):
+            key = entry.get("path") or entry.get("url") or entry.get("name")
+            if not key or key in seen_files:
+                continue
+            seen_files.add(key)
+            files.append(entry)
+        else:
+            name = str(entry)
+            if name in seen_files:
+                continue
+            seen_files.add(name)
+            files.append(name)
+    item["files"] = files
     kept = []
     for line in item["lines"]:
         if line["yesNo"] or line["public"] or line["evidence"]:

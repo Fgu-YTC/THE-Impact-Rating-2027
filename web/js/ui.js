@@ -437,12 +437,12 @@
     list.appendChild(row);
   }
 
-  function priorLink(href) {
+  function priorLink(href, text) {
     const a = document.createElement("a");
     a.href = href;
     a.target = "_blank";
     a.rel = "noopener";
-    a.textContent = href;
+    a.textContent = text || href;
     return a;
   }
 
@@ -470,7 +470,15 @@
       priorRow(list, entry.label || "數字", entry.value);
     });
     (data.evidence || []).forEach((href) => priorRow(list, "證據", priorLink(href)));
-    (data.files || []).forEach((name) => priorRow(list, "檔案", name));
+    (data.files || []).forEach((item) => {
+      if (item && typeof item === "object" && item.url) {
+        priorRow(list, "檔案", priorLink(item.url, item.name || item.url));
+      } else if (item && typeof item === "object" && item.name) {
+        priorRow(list, "檔案", item.name);
+      } else if (item) {
+        priorRow(list, "檔案", String(item));
+      }
+    });
     if (data.public === "yes") priorRow(list, "Public", "公開");
     if (data.public === "no") priorRow(list, "Public", "未公開");
     if (data.note) priorRow(list, "說明", data.note);
