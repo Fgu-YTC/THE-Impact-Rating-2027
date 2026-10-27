@@ -431,14 +431,45 @@
     return a;
   }
 
-  function renderPriorYear(data) {
+  function priorFieldChangeNote(question, data, lang) {
+    if (!question || !data) return "";
+    const priorValues = Array.isArray(data.values) ? data.values.length : 0;
+    const priorLines = Array.isArray(data.lines) ? data.lines.length : 0;
+    const opts = question.options || [];
+    if (question.answerType === "continuous" && priorValues > 0) {
+      const now = opts.length || 1;
+      if (now !== priorValues) {
+        return lang === "en"
+          ? `Fields changed vs last year: last year ${priorValues}, this year ${now}. Fill this year’s fields only.`
+          : `與去年題目有調整：去年 ${priorValues} 欄，今年 ${now} 欄。請依今年欄位填寫。`;
+      }
+    }
+    if (question.answerType === "picklist" && priorLines > 0 && opts.length) {
+      if (opts.length !== priorLines) {
+        return lang === "en"
+          ? `Options changed vs last year: last year ${priorLines}, this year ${opts.length}. Follow this year’s options.`
+          : `與去年題目有調整：去年 ${priorLines} 個選項，今年 ${opts.length} 個。請依今年選項填寫。`;
+      }
+    }
+    return "";
+  }
+
+  function renderPriorYear(data, question) {
     if (!data) return null;
+    const lang = getLang();
     const box = document.createElement("div");
     box.className = "prior";
     const head = document.createElement("div");
     head.className = "prior-head";
-    head.textContent = "去年";
+    head.textContent = lang === "en" ? "Last year" : "去年";
     box.appendChild(head);
+    const changeNote = priorFieldChangeNote(question, data, lang);
+    if (changeNote) {
+      const note = document.createElement("div");
+      note.className = "prior-change";
+      note.textContent = changeNote;
+      box.appendChild(note);
+    }
     const list = document.createElement("div");
     if (data.yesNo === "yes") priorRow(list, "Yes / No", "Yes");
     if (data.yesNo === "no") priorRow(list, "Yes / No", "No");
@@ -467,8 +498,8 @@
     if (data.public === "yes") priorRow(list, "Public", "公開");
     if (data.public === "no") priorRow(list, "Public", "未公開");
     if (data.note) priorRow(list, "說明", data.note);
-    if (!list.childNodes.length) return null;
-    box.appendChild(list);
+    if (!list.childNodes.length && !changeNote) return null;
+    if (list.childNodes.length) box.appendChild(list);
     return box;
   }
 

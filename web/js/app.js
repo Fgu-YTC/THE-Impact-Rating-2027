@@ -56,6 +56,14 @@
     $("#fillerName").placeholder = en ? "Filler name" : "填寫人姓名";
     $("#fillerCancel").textContent = en ? "Cancel" : "取消";
     $("#fillerSend").textContent = en ? "Send" : "送出";
+    const askBtn = $("#methodAskBtn");
+    if (askBtn) askBtn.textContent = en ? "Ask Gemini" : "問 Gemini";
+    const askHint = $("#methodAskHint");
+    if (askHint) {
+      askHint.textContent = en
+        ? "Not a premium model — please wait patiently."
+        : "非高階模型，使用時請耐心等候。";
+    }
   }
 
   THEUI.bindLangToggle($("#langToggle"), (next) => {
@@ -281,7 +289,7 @@
         }
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang));
-        const prior = THEUI.renderPriorYear(priorYear[q.ref]);
+        const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
         if (prior) card.appendChild(prior);
 
         const fields = document.createElement("div");

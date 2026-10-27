@@ -99,11 +99,21 @@
 
     function syncChromeLang() {
       const note = $("#dataYearNote");
-      if (!note) return;
-      note.innerHTML =
-        lang === "en"
-          ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
-          : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+      if (note) {
+        note.innerHTML =
+          lang === "en"
+            ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
+            : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+      }
+      const askBtn = $("#methodAskBtn");
+      if (askBtn) askBtn.textContent = lang === "en" ? "Ask Gemini" : "問 Gemini";
+      const askHint = $("#methodAskHint");
+      if (askHint) {
+        askHint.textContent =
+          lang === "en"
+            ? "Not a premium model — please wait patiently."
+            : "非高階模型，使用時請耐心等候。";
+      }
     }
 
     THEUI.bindLangToggle($("#langToggle"), (next) => {
@@ -365,7 +375,7 @@
           if (mode !== "review") {
             const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
             if (priorUnit) body.appendChild(priorUnit);
-            const prior = THEUI.renderPriorYear(priorYear[q.ref]);
+            const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
             if (prior) body.appendChild(prior);
           }
           if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));

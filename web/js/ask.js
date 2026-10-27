@@ -35,11 +35,26 @@
     }
     const ctx = window.THEAskQuestion || {};
     button.disabled = true;
-    show("正在對照這一題所屬 SDG 的方法論，整理要怎麼填。", "busy");
+    show("正在對照這一題所屬 SDG 的方法論，整理要怎麼填。非高階模型，請耐心等候。", "busy");
+    const allowedHost =
+      location.origin === "https://fgu-ytc.github.io" ||
+      location.origin === "http://127.0.0.1:8765" ||
+      location.origin === "http://localhost:8765";
+    if (!allowedHost) {
+      show(
+        "請用正式站 https://fgu-ytc.github.io/THE-Impact-Rating-2027/ ，或本機 http://127.0.0.1:8765 再開「問 Gemini」。",
+        "bad"
+      );
+      button.disabled = false;
+      return;
+    }
+    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 110000) : null;
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller ? controller.signal : undefined,
         body: JSON.stringify({
           ref: String(ctx.ref || "").slice(0, 40),
           sdg: String(ctx.sdg || "").slice(0, 2),
@@ -57,12 +72,20 @@
       show(data.answer || "沒有取得回答。", "ok");
     } catch (err) {
       const message = String((err && err.message) || "");
+      if (err && err.name === "AbortError") {
+        show("等待逾時。Gemini 可能較忙，請稍後再按一次。", "bad");
+        return;
+      }
       if (message === "Failed to fetch" || message.includes("NetworkError")) {
-        show("詢問服務還沒接上。網頁不能直接使用 GitHub 上的 API 金鑰。", "bad");
+        show(
+          "連不到詢問服務。請確認已開正式站或本機 8765，並再試一次。",
+          "bad"
+        );
         return;
       }
       show(message || "詢問沒有成功，請再試一次。", "bad");
     } finally {
+      if (timer) clearTimeout(timer);
       button.disabled = false;
     }
   });

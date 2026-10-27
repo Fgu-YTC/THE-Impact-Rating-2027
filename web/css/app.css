@@ -177,6 +177,12 @@ button:disabled {
   max-height: 46%;
   overflow: auto;
 }
+.method-ask-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
 .method-ask-answer {
   white-space: pre-wrap;
   font-size: 0.88rem;
@@ -480,6 +486,16 @@ button:disabled {
   color: #6d624f;
 }
 .prior-unit { margin: 0.35rem 0 0.15rem; }
+.prior-change {
+  margin: 0.35rem 0 0.25rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  background: #f6e6d4;
+  color: #8a4b12;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
 .prior-row {
   display: grid;
   grid-template-columns: 7.5rem 1fr;
