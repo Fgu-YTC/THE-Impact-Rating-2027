@@ -336,9 +336,13 @@
     return Number(fg.theme) === 2;
   }
 
+  function isMergeSlave(cell) {
+    return !!(cell && cell.master && cell.master.address !== cell.address);
+  }
+
   function openCell(ws, row, col) {
     let cell = ws.getCell(row, col);
-    if (cell.master && cell.master.address !== cell.address) cell = cell.master;
+    if (isMergeSlave(cell)) cell = cell.master;
     if (isGray(cell)) return null;
     return cell;
   }
@@ -349,6 +353,13 @@
     if (!cell) return false;
     cell.value = value;
     return true;
+  }
+
+  function writeValueAny(ws, row, col, value) {
+    if (value == null || value === "") return false;
+    if (writeOpen(ws, row, col, value)) return true;
+    // 範本常把 Indicator 列的 D–G 跟上面 Metric 灰格合併；改寫下一列可填的 Value 格
+    return writeOpen(ws, row + 1, col, value);
   }
 
   function answerTouched(answer) {
@@ -363,6 +374,12 @@
     return Object.values(values).some((v) => v != null && String(v) !== "");
   }
 
+  function continuousValue(raw) {
+    if (raw == null || String(raw) === "") return null;
+    const num = Number(raw);
+    return Number.isFinite(num) && String(raw).trim() !== "" ? num : raw;
+  }
+
   function fillOfficialSheet(ws, sdg, questions, answers) {
     const byRef = new Map(
       questions.filter((q) => Number(q.sdg) === sdg).map((q) => [normLabel(q.ref), q])
@@ -371,15 +388,21 @@
     const blocks = [];
     ws.eachRow((row, rowNumber) => {
       if (rowNumber < 3) return;
-      const type = cellText(row.getCell(1).value).trim();
-      const ref = cellText(row.getCell(2).value).trim();
+      const typeCell = row.getCell(1);
+      const refCell = row.getCell(2);
+      const type = cellText(typeCell.value).trim();
+      const ref = cellText(refCell.value).trim();
       const label = cellText(row.getCell(3).value).trim();
-      if (type === "Indicator" || type === "Metric") {
+      // 合併儲存格的延續列（Type/Ref 被併進上一列）只能當子列，不能再當新 Indicator
+      const typeSlave = isMergeSlave(typeCell);
+      const refSlave = isMergeSlave(refCell);
+      if ((type === "Indicator" || type === "Metric") && !typeSlave && !refSlave) {
         current = { type, ref, rowNumber, subs: [] };
         blocks.push(current);
+        if (label) current.subs.push({ rowNumber, label, onIndicator: true });
         return;
       }
-      if (current && label) current.subs.push({ rowNumber, label });
+      if (current && label) current.subs.push({ rowNumber, label, onIndicator: false });
     });
 
     const commentHeader = ws.getCell(2, 8);
@@ -405,18 +428,22 @@
         cell.alignment = { wrapText: true, vertical: "top" };
       }
 
+      let wroteContinuous = false;
       block.subs.forEach((sub, index) => {
         const label = normLabel(sub.label);
         const optIndex = (q.options || []).findIndex(
           (opt) => normLabel(opt.en) === label || normLabel(opt.zh) === label
         );
         if (q.answerType === "continuous") {
-          const i = optIndex >= 0 ? optIndex : index;
-          const raw = answer.values ? answer.values[`v${i}`] : "";
-          if (raw == null || String(raw) === "") return;
-          const num = Number(raw);
-          const value = Number.isFinite(num) && String(raw).trim() !== "" ? num : raw;
-          writeOpen(ws, sub.rowNumber, 4, value);
+          // Indicator 列本身的 Value 常被灰格合併鎖住，優先寫真正的子列
+          if (sub.onIndicator) return;
+          const i =
+            optIndex >= 0
+              ? optIndex
+              : block.subs.slice(0, index).filter((item) => !item.onIndicator).length;
+          const value = continuousValue(answer.values ? answer.values[`v${i}`] : "");
+          if (value == null) return;
+          if (writeOpen(ws, sub.rowNumber, 4, value)) wroteContinuous = true;
           return;
         }
         if (q.answerType === "picklist" && optIndex >= 0) {
@@ -428,6 +455,11 @@
           if (on && !publicOnQuestion) writeOpen(ws, sub.rowNumber, 7, pub);
         }
       });
+
+      if (q.answerType === "continuous" && !wroteContinuous) {
+        const value = continuousValue(answer.values ? answer.values.v0 : "");
+        if (value != null) writeValueAny(ws, block.rowNumber, 4, value);
+      }
     });
   }
 
