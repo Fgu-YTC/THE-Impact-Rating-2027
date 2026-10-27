@@ -678,6 +678,7 @@
       $("#selectedCount").textContent = String(selected.size);
       $("#btnAssign").disabled = !(selected.size && unitSelect.value);
       $("#btnUnassign").disabled = !(selected.size && unitSelect.value);
+      $("#btnRemoveUnit").disabled = !unitSelect.value;
     }
 
     questionList.addEventListener("focusin", () => {
@@ -910,6 +911,26 @@
         newUnitName.value = "";
       } catch (err) {
         showExportBanner("bad", `單位沒有新增。${THELive.explain(err)}`);
+      }
+    });
+
+    $("#btnRemoveUnit").addEventListener("click", async () => {
+      const unitId = unitSelect.value;
+      if (!unitId) return;
+      const unit = units.find((item) => item.id === unitId);
+      const label = unit ? unit.name : unitId;
+      const assigned = ((unit && unit.questionIds) || []).length;
+      const warn = assigned
+        ? `要刪除「${label}」嗎？已分派的 ${assigned} 題與這個單位的填答都會一起刪掉。`
+        : `要刪除「${label}」嗎？`;
+      if (!window.confirm(warn)) return;
+      try {
+        await THELive.removeUnit(unitId);
+        unitSelect.value = "";
+        updateBottom();
+        showExportBanner("ok", `已刪除單位「${label}」。`);
+      } catch (err) {
+        showExportBanner("bad", `單位沒有刪除。${THELive.explain(err)}`);
       }
     });
 

@@ -164,6 +164,22 @@
     });
   }
 
+  async function removeUnit(unitId) {
+    if (!unitId) return;
+    const { store, fs } = await db();
+    const batch = fs.writeBatch(store);
+    const answers = await fs.getDocs(fs.collection(store, "units", unitId, "answers"));
+    answers.forEach(function (item) {
+      batch.delete(item.ref);
+    });
+    const office = await fs.getDocs(fs.collection(store, "units", unitId, "office"));
+    office.forEach(function (item) {
+      batch.delete(item.ref);
+    });
+    batch.delete(fs.doc(store, "units", unitId));
+    await batch.commit();
+  }
+
   async function assignQuestions(unitId, questionIds) {
     if (!questionIds.length) return;
     const { store, fs } = await db();
@@ -256,6 +272,7 @@
     listenAllAnswers,
     seedIfEmpty,
     addUnit,
+    removeUnit,
     assignQuestions,
     unassignQuestions,
     clearAssignments,
