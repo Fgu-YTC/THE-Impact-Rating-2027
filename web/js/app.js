@@ -250,6 +250,12 @@
         ref.className = "q-ref ref-indicator";
         ref.textContent = q.ref || q.id;
         meta.appendChild(ref);
+        if (ans.filledBy) {
+          const who = document.createElement("span");
+          who.className = "filled-by";
+          who.textContent = `填寫人：${ans.filledBy}`;
+          meta.appendChild(who);
+        }
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang, { showBoth: true }));
         const prior = THEUI.renderPriorYear(priorYear[q.ref]);
@@ -346,6 +352,32 @@
     banner.textContent = text;
   }
 
+  function askFillerName() {
+    const dialog = $("#fillerDialog");
+    const form = $("#fillerForm");
+    const input = $("#fillerName");
+    dialog.hidden = false;
+    input.value = "";
+    input.focus();
+    return new Promise((resolve) => {
+      const finish = (name) => {
+        dialog.hidden = true;
+        form.removeEventListener("submit", onSubmit);
+        $("#fillerCancel").removeEventListener("click", onCancel);
+        resolve(name);
+      };
+      const onSubmit = (event) => {
+        event.preventDefault();
+        const name = input.value.trim().slice(0, 40);
+        if (!name) return;
+        finish(name);
+      };
+      const onCancel = () => finish("");
+      form.addEventListener("submit", onSubmit);
+      $("#fillerCancel").addEventListener("click", onCancel);
+    });
+  }
+
   $("#btnSubmit").addEventListener("click", async () => {
     if (!currentUnitId) {
       showSubmitBanner("bad", "還沒提交。請先選擇填寫單位，再按提交。");
@@ -359,6 +391,8 @@
       showSubmitBanner("warn", `「${unit.name}」這次沒有新的填答。改過的題目才會送出，已在系統裡的答案會保留。`);
       return;
     }
+    const filledBy = await askFillerName();
+    if (!filledBy) return;
     const btn = $("#btnSubmit");
     const label = btn.textContent;
     btn.disabled = true;
@@ -367,7 +401,7 @@
     try {
       await THESubmit.submitChanged({
         unitId: currentUnitId,
-        entries: ids.map((questionId) => ({ questionId, answer: getAnswer(questionId) })),
+        entries: ids.map((questionId) => ({ questionId, answer: { ...getAnswer(questionId), filledBy } })),
         files: pendingFiles,
         questions,
       });
@@ -376,7 +410,7 @@
         pendingFiles.delete(id);
       });
       const when = new Date().toLocaleString("zh-TW", { hour12: false });
-      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新。時間 ${when}。`);
+      showSubmitBanner("ok", `提交成功。「${unit.name}」的 ${ids.length} 題已更新，填寫人是${filledBy}。時間 ${when}。`);
       renderQuestions();
     } catch (err) {
       showSubmitBanner("bad", `提交失敗，這次改的題目還沒送到系統。${err && err.message ? err.message : "請再試一次。"}`);

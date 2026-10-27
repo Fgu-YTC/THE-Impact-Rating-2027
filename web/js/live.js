@@ -198,7 +198,7 @@
   function sanitizeAnswer(answer, updatedAt) {
     const source = answer || {};
     const out = { updatedAt: updatedAt };
-    ["yesNo", "public", "comment", "evidence", "evidenceFileName", "evidenceStoredName", "evidenceFilePath", "evidenceFileUrl"].forEach(
+    ["yesNo", "public", "comment", "evidence", "evidenceFileName", "evidenceStoredName", "evidenceFilePath", "evidenceFileUrl", "filledBy"].forEach(
       function (key) {
         if (typeof source[key] === "string") out[key] = source[key];
       }
@@ -213,6 +213,8 @@
     }
     if (out.comment) out.comment = out.comment.slice(0, 1000);
     if (out.evidence) out.evidence = out.evidence.slice(0, 2000);
+    if (out.filledBy) out.filledBy = out.filledBy.trim().slice(0, 40);
+    if (!out.filledBy) delete out.filledBy;
     return out;
   }
 

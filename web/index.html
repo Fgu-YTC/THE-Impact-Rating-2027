@@ -21,7 +21,6 @@
         <button type="button" data-lang="zh">中文</button>
         <button type="button" data-lang="en">EN</button>
       </div>
-      <button type="button" id="btnSubmit">提交</button>
       <a href="admin.html">管理</a>
     </div>
   </header>
@@ -29,7 +28,7 @@
 
   <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG"></nav>
 
-  <main class="layout">
+  <main class="layout with-bottom">
     <section class="pane pane-left" aria-label="提問">
       <h2>提問</h2>
       <div id="emptyState" class="empty"></div>
@@ -44,6 +43,23 @@
       </form>
     </aside>
   </main>
+
+  <footer class="bottombar">
+    <span>改完後按右邊送出。送出前會詢問填寫人。</span>
+    <button type="button" id="btnSubmit" class="fill-submit">提交</button>
+  </footer>
+
+  <div id="fillerDialog" class="filler-dialog" hidden>
+    <form id="fillerForm" class="filler-card">
+      <h2>這次是誰填的？</h2>
+      <p>送出後，這個單位和管理頁都會看到填寫人。僅作確認使用。</p>
+      <input id="fillerName" name="fillerName" maxlength="40" required placeholder="填寫人姓名" autocomplete="name" />
+      <div class="filler-actions">
+        <button type="button" id="fillerCancel" class="secondary">取消</button>
+        <button type="submit">送出</button>
+      </div>
+    </form>
+  </div>
 
   <script src="js/firebase-config.js"></script>
   <script src="js/storage.js"></script>

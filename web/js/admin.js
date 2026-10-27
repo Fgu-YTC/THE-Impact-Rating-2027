@@ -466,6 +466,7 @@
         card.appendChild(head);
         const list = document.createElement("dl");
         const answer = item.answer;
+        if (answer.filledBy) addAnswerRow(list, "填寫人", answer.filledBy);
         if (q.answerType !== "continuous" && answer.yesNo) {
           addAnswerRow(list, "Yes / No", String(answer.yesNo).toUpperCase());
         }
@@ -613,6 +614,13 @@
           tag.className = "fill-office";
           tag.textContent = "永續辦已填寫";
           block.appendChild(tag);
+        }
+        const filledBy = (getFillAnswer(target.unitId, q.id) || {}).filledBy;
+        if (filledBy) {
+          const by = document.createElement("div");
+          by.className = "filled-by";
+          by.textContent = `填寫人：${filledBy}`;
+          block.appendChild(by);
         }
         const fields = document.createElement("div");
         fields.className = "fields";

@@ -14,7 +14,7 @@ service cloud.firestore {
       return data.keys().hasOnly([
           'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
           'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
-          'updatedAt'
+          'updatedAt', 'filledBy'
         ])
         && (!('yesNo' in data) || (data.yesNo is string && data.yesNo.size() < 20))
         && (!('public' in data) || (data.public is string && data.public.size() < 20))
@@ -26,14 +26,15 @@ service cloud.firestore {
         && (!('evidenceStoredName' in data) || data.evidenceStoredName is string)
         && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
         && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
-        && (!('updatedAt' in data) || data.updatedAt is string);
+        && (!('updatedAt' in data) || data.updatedAt is string)
+        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40));
     }
 
     function isOffice(data) {
       return data.keys().hasOnly([
           'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
           'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
-          'updatedAt', 'editor', 'sourceUnitId', 'sourceUnitName'
+          'updatedAt', 'editor', 'sourceUnitId', 'sourceUnitName', 'filledBy'
         ])
         && data.editor == '永續辦'
         && data.sourceUnitId is string
@@ -51,7 +52,8 @@ service cloud.firestore {
         && (!('evidenceStoredName' in data) || data.evidenceStoredName is string)
         && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
         && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
-        && (!('updatedAt' in data) || data.updatedAt is string);
+        && (!('updatedAt' in data) || data.updatedAt is string)
+        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40));
     }
 
     match /units/{unitId} {

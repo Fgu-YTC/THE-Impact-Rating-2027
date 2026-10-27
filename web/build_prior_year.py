@@ -385,8 +385,26 @@ def load_units():
     return found
 
 
+def unit_priority(name):
+    """When scores tie, prefer the consolidating office, then the usual office list."""
+    if name in ("永續辦", "永續發展辦公室"):
+        return (0, name)
+    try:
+        return (1, OFFICES.index(name))
+    except ValueError:
+        return (2, name)
+
+
+def pick_one_unit(ranked):
+    """Always keep a single unit. Prefer higher score, then no conflict, then 永續辦 / office order."""
+    if not ranked:
+        return ""
+    ranked = sorted(ranked, key=lambda item: (-item[0], item[1], unit_priority(item[2])))
+    return ranked[0][2]
+
+
 def confirmed_units(final, answers):
-    """Unit whose workbook matches the final upload. Ties stay listed together."""
+    """One unit per question: the workbook that best matches the final upload."""
     chosen = {}
     for ref, item in final.items():
         options = answers.get(ref) or {}
@@ -396,19 +414,10 @@ def confirmed_units(final, answers):
         for name, copies in options.items():
             best = max((match_score(item, copy) for copy in copies), key=lambda pair: pair[0])
             ranked.append((best[0], best[1], name))
-        ranked.sort(key=lambda pair: pair[0], reverse=True)
-        if len(ranked) == 1:
-            if ranked[0][1]:
-                continue
-            chosen[ref] = [ranked[0][2]]
-            continue
-        top = ranked[0][0]
-        winners = [name for points, _conflict, name in ranked if points == top]
-        if len(winners) == 1 and top > ranked[1][0]:
-            chosen[ref] = winners
-        else:
-            chosen[ref] = sorted(winners)
-    return {ref: names for ref, names in chosen.items() if names}
+        name = pick_one_unit(ranked)
+        if name:
+            chosen[ref] = [name]
+    return chosen
 
 
 def main():
