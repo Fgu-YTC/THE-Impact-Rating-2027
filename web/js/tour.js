@@ -43,26 +43,29 @@
         body: en
           ? "Fill answers and evidence here. Last year’s content is for reference only."
           : "在這裡填答案與證據；去年內容僅供參考。",
-        prefer: "bottom",
+        prefer: "right",
         scroll: "start",
+        maxH: 280,
       },
       {
-        sel: "#questionList .q-card .q-method-btn, .pane-right .method-body, .pane-right",
+        sel: "#questionList .q-card .q-method-btn",
         title: en ? "THE methodology" : "THE 方法論",
         body: en
           ? "Every question has a THE methodology button. Tap it to read THE’s Chinese methodology on the right."
           : "每個題目都有「看 THE 方法論」；點了可在右側看到 THE 的中文方法論內容。",
         prefer: "bottom",
         scroll: "start",
+        tight: true,
       },
       {
-        sel: "#questionList .q-card .q-return-btn, #questionList .q-card .q-meta",
+        sel: "#questionList .q-card .q-return-btn",
         title: en ? "Return if you cannot answer" : "無法填就退回",
         body: en
           ? "Tap Return to open the suggestion field. If you have no suggestion, enter「無」."
           : "按「退回」會出現建議欄；沒有建議請填「無」。",
         prefer: "bottom",
         scroll: "start",
+        tight: true,
       },
       {
         sel: "#btnSubmit",
@@ -168,8 +171,8 @@
           const er = el.getBoundingClientRect();
           const nr = node.getBoundingClientRect();
           if (block === "start") {
-            // 對齊到分頁列下方，不要被那條頂欄蓋住
-            node.scrollTop += er.top - Math.max(nr.top, clear) - 10;
+            // 多留一點空隙，避免按鈕被頂列裁切後反白變成大色塊
+            node.scrollTop += er.top - Math.max(nr.top, clear) - 28;
           } else {
             const mid = (Math.max(nr.top, clear) + nr.bottom) / 2;
             node.scrollTop += er.top + er.height / 2 - mid;
@@ -210,6 +213,8 @@
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const inChrome = targetInChrome(el);
+      const tight = !!def.tight;
+      const pad = tight ? 6 : PAD;
       const topMin = inChrome ? PAD : chromeBottom();
       let raw;
       if (el) {
@@ -218,42 +223,40 @@
         raw = {
           top: topMin + 24,
           left: vw * 0.15,
-          width: vw * 0.45,
-          height: 120,
-          bottom: topMin + 144,
-          right: vw * 0.6,
+          width: Math.min(280, vw * 0.4),
+          height: 48,
+          bottom: topMin + 72,
+          right: vw * 0.15 + Math.min(280, vw * 0.4),
         };
       }
 
       let { top, left, width, height } = intersectViewport(
         {
-          top: raw.top - PAD,
-          left: raw.left - PAD,
-          bottom: raw.bottom + PAD,
-          right: raw.right + PAD,
+          top: raw.top - pad,
+          left: raw.left - pad,
+          bottom: raw.bottom + pad,
+          right: raw.right + pad,
         },
         vw,
         vh,
         inChrome
       );
-      if (width < 40 || height < 28) {
-        if (inChrome && el) {
-          top = Math.max(PAD, raw.top - PAD);
-          left = Math.max(PAD, raw.left - PAD);
-          width = Math.min(vw - left - PAD, Math.max(raw.width + PAD * 2, 120));
-          height = Math.min(vh - top - PAD, Math.max(raw.height + PAD * 2, 36));
-        } else {
-          top = topMin + 12;
-          left = Math.max(PAD, raw.left);
-          width = Math.min(vw - left - PAD, Math.max(raw.width, 200));
-          height = Math.min(footerTop() - top, 220);
-        }
-      } else if (!inChrome) {
-        height = Math.min(height, Math.max(120, footerTop() - top));
+
+      // 被頂列裁太狠時：緊貼元素本體，絕不再撐成大色塊蓋住文字
+      if (el && (width < 24 || height < 20)) {
+        top = Math.max(PAD, Math.min(raw.top - pad, footerTop() - 36));
+        left = Math.max(PAD, raw.left - pad);
+        width = Math.min(vw - left - PAD, Math.max(raw.width + pad * 2, tight ? 96 : 160));
+        height = Math.min(footerTop() - top, Math.max(raw.height + pad * 2, 36));
+      }
+      if (def.maxH && height > def.maxH) height = def.maxH;
+      if (tight) {
+        width = Math.min(width, Math.max(raw.width + pad * 2, 96));
+        height = Math.min(height, Math.max(raw.height + pad * 2, 36));
       }
 
-      width = Math.max(width, 40);
-      height = Math.max(height, 36);
+      width = Math.max(width, 36);
+      height = Math.max(height, 32);
       spot.style.top = `${top}px`;
       spot.style.left = `${left}px`;
       spot.style.width = `${width}px`;
@@ -280,61 +283,56 @@
       );
     }
 
-    /** 浮框一定放在反白色塊外，避免被提問區擋住 */
+    function overlapArea(a, b) {
+      const x = Math.max(0, Math.min(a.left + a.width, b.left + b.width) - Math.max(a.left, b.left));
+      const y = Math.max(0, Math.min(a.top + a.height, b.top + b.height) - Math.max(a.top, b.top));
+      return x * y;
+    }
+
+    /** 浮框避開反白目標；大面積反白時改靠視窗邊緣，避免蓋住說明對象 */
     function placePopOutsideSpot(spotBox, prefer, popW, popH, vw, vh) {
-      const gap = 16;
+      const gap = 14;
       const clamp = (left, top) => ({
         left: Math.min(Math.max(PAD, left), vw - popW - PAD),
         top: Math.min(Math.max(PAD, top), vh - popH - PAD),
       });
-      const trials = [];
-      const sides = [prefer, "right", "bottom", "left", "top"].filter(
+      const candidates = [];
+      const push = (left, top, arrowCls) => {
+        const c = clamp(left, top);
+        const box = { left: c.left, top: c.top, width: popW, height: popH };
+        const ov = overlapArea(box, spotBox);
+        candidates.push({
+          ...c,
+          arrow: arrowCls,
+          ov,
+          ok: ov < 8,
+        });
+      };
+
+      const sides = [prefer, "right", "left", "bottom", "top"].filter(
         (s, i, arr) => s && arr.indexOf(s) === i
       );
       sides.forEach((side) => {
-        let left;
-        let top;
-        let arrowCls;
         if (side === "right") {
-          left = spotBox.left + spotBox.width + gap;
-          top = spotBox.top + spotBox.height / 2 - popH / 2;
-          arrowCls = "arrow-left";
+          push(spotBox.left + spotBox.width + gap, spotBox.top + spotBox.height / 2 - popH / 2, "arrow-left");
         } else if (side === "left") {
-          left = spotBox.left - popW - gap;
-          top = spotBox.top + spotBox.height / 2 - popH / 2;
-          arrowCls = "arrow-right";
+          push(spotBox.left - popW - gap, spotBox.top + spotBox.height / 2 - popH / 2, "arrow-right");
         } else if (side === "bottom") {
-          left = spotBox.left + spotBox.width / 2 - popW / 2;
-          top = spotBox.top + spotBox.height + gap;
-          arrowCls = "arrow-top";
+          push(spotBox.left + spotBox.width / 2 - popW / 2, spotBox.top + spotBox.height + gap, "arrow-top");
         } else {
-          left = spotBox.left + spotBox.width / 2 - popW / 2;
-          top = spotBox.top - popH - gap;
-          arrowCls = "arrow-bottom";
+          push(spotBox.left + spotBox.width / 2 - popW / 2, spotBox.top - popH - gap, "arrow-bottom");
         }
-        const c = clamp(left, top);
-        const box = { left: c.left, top: c.top, width: popW, height: popH };
-        trials.push({
-          ...c,
-          arrow: arrowCls,
-          ok: !boxesOverlap(box, spotBox, 8),
-        });
       });
-      const good = trials.find((t) => t.ok);
-      if (good) return good;
-      // 仍重疊時：放到視窗右下／右上空隙
-      const fallbacks = [
-        { left: vw - popW - PAD, top: Math.min(spotBox.top, vh - popH - PAD), arrow: "arrow-left" },
-        { left: vw - popW - PAD, top: PAD + 48, arrow: "arrow-left" },
-        { left: PAD, top: vh - popH - PAD, arrow: "arrow-top" },
-      ];
-      for (let i = 0; i < fallbacks.length; i++) {
-        const f = fallbacks[i];
-        const c = clamp(f.left, f.top);
-        const box = { left: c.left, top: c.top, width: popW, height: popH };
-        if (!boxesOverlap(box, spotBox, 4)) return { ...c, arrow: f.arrow };
-      }
-      return { left: vw - popW - PAD, top: PAD + 48, arrow: "arrow-left" };
+      // 視窗四角／右側空隙：大反白時四周常被 clamp 回重疊
+      push(vw - popW - PAD, chromeBottom() + 12, "arrow-left");
+      push(vw - popW - PAD, Math.max(chromeBottom() + 12, spotBox.top), "arrow-left");
+      push(vw - popW - PAD, footerTop() - popH - 8, "arrow-left");
+      push(PAD, footerTop() - popH - 8, "arrow-top");
+      push(Math.max(PAD, spotBox.left + spotBox.width - popW), footerTop() - popH - 8, "arrow-top");
+
+      candidates.sort((a, b) => a.ov - b.ov || (a.ok === b.ok ? 0 : a.ok ? -1 : 1));
+      const best = candidates.find((t) => t.ok) || candidates[0];
+      return best || { left: vw - popW - PAD, top: chromeBottom() + 12, arrow: "arrow-left" };
     }
 
     function goToStep() {

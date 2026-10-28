@@ -1166,7 +1166,6 @@ body.tour-open .pane-left,
 body.tour-open .pane-right,
 body.tour-open .sdg-tabs,
 body.tour-open .method-body {
-  overflow: hidden !important;
   overscroll-behavior: none;
 }
 .tour-root {
