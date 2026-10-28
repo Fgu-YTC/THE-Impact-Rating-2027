@@ -102,8 +102,8 @@
       if (note) {
         note.innerHTML =
           lang === "en"
-            ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
-            : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+            ? "Data year: For Impact 2027, collect <strong>2025</strong> data (academic year <strong>113</strong> in Taiwan). Use 2025 / AY 113 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
+            : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料（對應 <strong>113 學年度</strong>）。數字題以 2025／113 學年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
       }
       const askBtn = $("#methodAskBtn");
       if (askBtn) askBtn.textContent = lang === "en" ? "Ask Gemini" : "問 Gemini";
@@ -487,30 +487,49 @@
         const answer = item.answer;
         if (answer.filledBy) addAnswerRow(list, "填寫人", answer.filledBy);
         if (q.answerType !== "continuous" && answer.yesNo) {
-          addAnswerRow(list, "Yes / No", String(answer.yesNo).toUpperCase());
+          const yn =
+            lang === "en"
+              ? String(answer.yesNo).toUpperCase()
+              : answer.yesNo === "yes"
+                ? "是"
+                : answer.yesNo === "no"
+                  ? "否"
+                  : String(answer.yesNo);
+          addAnswerRow(list, lang === "en" ? "Yes / No" : "是／否", yn);
         }
         if (q.answerType === "picklist" && answer.options && answer.options.length) {
           const labels = answer.options.map((key) => {
             const opt = (q.options || []).find((item) => item.en === key || item.zh === key);
-            return opt ? opt.zh || opt.en : key;
+            return opt ? (lang === "en" ? opt.en || opt.zh : opt.zh || opt.en) : key;
           });
-          addAnswerRow(list, "選項", labels.join("、"));
+          addAnswerRow(list, lang === "en" ? "Options" : "選項", labels.join("、"));
         }
         if (q.answerType === "continuous") {
           (q.options || []).forEach((opt, index) => {
             const raw = (answer.values || {})[`v${index}`];
-            if (raw != null && String(raw) !== "") addAnswerRow(list, opt.zh || opt.en, String(raw));
+            if (raw != null && String(raw) !== "") {
+              addAnswerRow(list, lang === "en" ? opt.en || opt.zh : opt.zh || opt.en, String(raw));
+            }
           });
         }
-        const pub = { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" };
-        if (answer.public) addAnswerRow(list, "Public", pub[answer.public] || answer.public);
-        if (String(answer.evidence || "").trim()) addAnswerRow(list, "Evidence", linkNode(answer.evidence, answer.evidence));
-        if (answer.evidenceFileUrl) {
-          addAnswerRow(list, "檔案", linkNode(answer.evidenceFileUrl, answer.evidenceStoredName || answer.evidenceFileName || "開啟檔案"));
-        } else if (answer.evidenceFileName) {
-          addAnswerRow(list, "檔案", answer.evidenceFileName);
+        const pub =
+          lang === "en"
+            ? { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" }
+            : { public: "公開", private: "不公開", undefined: "未定", yes: "公開", no: "不公開" };
+        if (answer.public) addAnswerRow(list, lang === "en" ? "Public" : "是否公開", pub[answer.public] || answer.public);
+        if (String(answer.evidence || "").trim()) {
+          addAnswerRow(list, lang === "en" ? "Evidence" : "證據", linkNode(answer.evidence, answer.evidence));
         }
-        if (answer.comment) addAnswerRow(list, "Comments", answer.comment);
+        if (answer.evidenceFileUrl) {
+          addAnswerRow(
+            list,
+            lang === "en" ? "File" : "檔案",
+            linkNode(answer.evidenceFileUrl, answer.evidenceStoredName || answer.evidenceFileName || (lang === "en" ? "Open file" : "開啟檔案"))
+          );
+        } else if (answer.evidenceFileName) {
+          addAnswerRow(list, lang === "en" ? "File" : "檔案", answer.evidenceFileName);
+        }
+        if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
         card.appendChild(list);
         wrap.appendChild(card);
       });

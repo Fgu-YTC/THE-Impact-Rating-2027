@@ -186,12 +186,20 @@
     ].join("\n");
   }
 
-  function publicChoices() {
+  function publicChoices(lang) {
+    if (lang === "en") {
+      return [
+        { value: "", label: "—" },
+        { value: "public", label: "Public" },
+        { value: "private", label: "Private" },
+        { value: "undefined", label: "Undefined" },
+      ];
+    }
     return [
       { value: "", label: "—" },
-      { value: "public", label: "Public" },
-      { value: "private", label: "Private" },
-      { value: "undefined", label: "Undefined" },
+      { value: "public", label: "公開" },
+      { value: "private", label: "不公開" },
+      { value: "undefined", label: "未定" },
     ];
   }
 
@@ -209,7 +217,7 @@
     const ans = getAnswer() || {};
 
     if (q.answerType === "picklist" && q.options?.length) {
-      fields.appendChild(yesNoRow(ans, disabled, onPatch));
+      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang));
       const wrap = document.createElement("div");
       wrap.className = "option-list";
       q.options.forEach((opt, i) => {
@@ -261,7 +269,7 @@
         fields.appendChild(row);
       });
     } else {
-      fields.appendChild(yesNoRow(ans, disabled, onPatch));
+      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang));
     }
 
     if (q.answerType === "continuous") return fields;
@@ -269,7 +277,7 @@
     const commentRow = document.createElement("div");
     commentRow.className = "row";
     const commentLab = document.createElement("label");
-    commentLab.textContent = "Comments";
+    commentLab.textContent = lang === "en" ? "Comments" : "備註";
     const comment = document.createElement("textarea");
     comment.maxLength = 1000;
     comment.disabled = disabled;
@@ -283,7 +291,7 @@
     const evRow = document.createElement("div");
     evRow.className = "row";
     const evLab = document.createElement("label");
-    evLab.textContent = "Evidence";
+    evLab.textContent = lang === "en" ? "Evidence" : "證據";
     const evNote = appendHelp(evLab, evidenceTip(lang));
     const ev = document.createElement("input");
     ev.type = "text";
@@ -340,11 +348,11 @@
     const pubRow = document.createElement("div");
     pubRow.className = "row";
     const pubLab = document.createElement("label");
-    pubLab.textContent = "Public";
+    pubLab.textContent = lang === "en" ? "Public" : "是否公開";
     const pubNote = appendHelp(pubLab, publicTip(lang));
     const pub = document.createElement("select");
     pub.disabled = disabled;
-    publicChoices().forEach((item) => {
+    publicChoices(lang).forEach((item) => {
       const o = document.createElement("option");
       o.value = item.value;
       o.textContent = item.label;
@@ -363,18 +371,25 @@
     return fields;
   }
 
-  function yesNoRow(ans, disabled, onPatch) {
+  function yesNoRow(ans, disabled, onPatch, lang) {
     const row = document.createElement("div");
     row.className = "row";
     const lab = document.createElement("label");
-    lab.textContent = "Yes / No";
+    lab.textContent = lang === "en" ? "Yes / No" : "是／否";
     const sel = document.createElement("select");
     sel.disabled = disabled;
-    [
-      ["", "—"],
-      ["yes", "Yes"],
-      ["no", "No"],
-    ].forEach(([value, label]) => {
+    (lang === "en"
+      ? [
+          ["", "—"],
+          ["yes", "Yes"],
+          ["no", "No"],
+        ]
+      : [
+          ["", "—"],
+          ["yes", "是"],
+          ["no", "否"],
+        ]
+    ).forEach(([value, label]) => {
       const o = document.createElement("option");
       o.value = value;
       o.textContent = label;

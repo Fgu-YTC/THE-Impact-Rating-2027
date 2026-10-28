@@ -42,8 +42,8 @@
     const yearNote = $("#dataYearNote");
     if (yearNote) {
       yearNote.innerHTML = en
-        ? "Data year: For Impact 2027, collect <strong>2025</strong> data. Use calendar year 2025 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
-        : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料。數字題以 2025 日曆年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+        ? "Data year: For Impact 2027, collect <strong>2025</strong> data (academic year <strong>113</strong> in Taiwan). Use 2025 / AY 113 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
+        : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料（對應 <strong>113 學年度</strong>）。數字題以 2025／113 學年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
     }
     $("#submitHint").textContent = en
       ? "When finished, use Submit on the right. You will be asked for the filler’s name."
