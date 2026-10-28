@@ -21,6 +21,7 @@
         <button type="button" data-lang="zh">中文</button>
         <button type="button" data-lang="en">EN</button>
       </div>
+      <button type="button" id="btnTour" class="secondary tour-reopen">重看提交教學</button>
       <a href="admin.html">管理</a>
     </div>
   </header>
@@ -63,12 +64,24 @@
     </form>
   </div>
 
+  <div id="tourDialog" class="filler-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="filler-card tour-card">
+      <h2 id="tourTitle" data-tour-title>填報小教學</h2>
+      <p data-tour-lead>第一次使用可先看這幾步。之後也可點上方「使用說明」再打開。</p>
+      <ol class="tour-list" data-tour-list></ol>
+      <div class="filler-actions">
+        <button type="button" class="fill-submit" data-tour-done>知道了，開始填</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/firebase-config.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/live.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/methodology.js"></script>
   <script src="js/submit.js"></script>
+  <script src="js/tour.js"></script>
   <script src="js/app.js"></script>
   <script src="js/ask.js"></script>
 </body>

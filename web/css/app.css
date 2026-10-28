@@ -365,6 +365,11 @@ button:disabled {
   background: var(--accent);
   color: #fff;
 }
+.tour-reopen {
+  font-size: 0.82rem;
+  padding: 0.35rem 0.7rem;
+  white-space: nowrap;
+}
 
 .q-card {
   border: 1px solid var(--line);
@@ -1137,6 +1142,24 @@ button:disabled {
 .filler-card p { margin: 0 0 0.85rem; color: var(--muted); }
 .filler-card input { width: 100%; font-size: 1rem; padding: 0.55rem 0.7rem; }
 .filler-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.9rem; }
+.tour-card { width: min(480px, 100%); }
+.tour-list {
+  margin: 0 0 0.35rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+.tour-list li {
+  margin: 0;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  background: #f4f0e8;
+  border: 1px solid #e2d9cb;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
 
 .auth-gate {
   max-width: 420px;

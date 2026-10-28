@@ -57,6 +57,8 @@
     $("#fillerName").placeholder = en ? "Filler name" : "填寫人姓名";
     $("#fillerCancel").textContent = en ? "Cancel" : "取消";
     $("#fillerSend").textContent = en ? "Send" : "送出";
+    const tourBtn = $("#btnTour");
+    if (tourBtn) tourBtn.textContent = en ? "Replay guide" : "重看提交教學";
     const askBtn = $("#methodAskBtn");
     if (askBtn) askBtn.textContent = en ? "Ask Gemini" : "問 Gemini";
     const askHint = $("#methodAskHint");
@@ -67,12 +69,15 @@
     }
   }
 
+  const tour = THETour.bind({ getLang: () => lang });
+
   THEUI.bindLangToggle($("#langToggle"), (next) => {
     lang = next;
     syncChromeLang();
     renderUnitOptions();
     renderQuestions();
     renderMethod();
+    if (tour && tour.syncLang) tour.syncLang();
   });
 
   function renderUnitOptions() {
