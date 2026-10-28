@@ -483,19 +483,36 @@
     const priorValues = Array.isArray(data.values) ? data.values.length : 0;
     const priorLines = Array.isArray(data.lines) ? data.lines.length : 0;
     const opts = question.options || [];
+    const optName = (o) =>
+      String((lang === "en" ? o.en || o.zh : o.zh || o.en) || "").trim();
     if (question.answerType === "continuous" && priorValues > 0) {
       const now = opts.length || 1;
       if (now !== priorValues) {
+        const nowNames = opts.map(optName).filter(Boolean);
         return lang === "en"
-          ? `Fields changed vs last year: last year ${priorValues}, this year ${now}. Fill this year’s fields only.`
-          : `與去年題目有調整：去年 ${priorValues} 欄，今年 ${now} 欄。請依今年欄位填寫。`;
+          ? `Number fields differ from last year (${priorValues} → ${now}${
+              nowNames.length ? `: ${nowNames.join(", ")}` : ""
+            }). Fill this year’s fields above; last year below is reference only.`
+          : `此題數字欄與去年不同（去年 ${priorValues} 欄 → 今年 ${now} 欄${
+              nowNames.length ? `：${nowNames.join("、")}` : ""
+            }）。請依上方今年欄位填寫；下方去年內容僅供參考。`;
       }
     }
     if (question.answerType === "picklist" && priorLines > 0 && opts.length) {
       if (opts.length !== priorLines) {
+        const priorNames = (data.lines || [])
+          .map((line, i) => preferLangLabel(line.label, lang, opts[i]))
+          .filter(Boolean);
+        const nowNames = opts.map(optName).filter(Boolean);
         return lang === "en"
-          ? `Options changed vs last year: last year ${priorLines}, this year ${opts.length}. Follow this year’s options.`
-          : `與去年題目有調整：去年 ${priorLines} 個選項，今年 ${opts.length} 個。請依今年選項填寫。`;
+          ? `Checkboxes differ from last year (last year: ${
+              priorNames.join(", ") || priorLines
+            }; this year: ${nowNames.join(", ") || opts.length}). Tick this year’s options above; last year below is reference only.`
+          : `此題可勾選項目與去年不同。去年：${
+              priorNames.join("、") || `${priorLines} 項`
+            }；今年：${
+              nowNames.join("、") || `${opts.length} 項`
+            }。請依上方今年欄位重新勾選；下方去年內容僅供參考。`;
       }
     }
     return "";
@@ -529,13 +546,17 @@
     if (data.yesNo === "yes") priorRow(list, yesNoLabel, yesText);
     if (data.yesNo === "no") priorRow(list, yesNoLabel, noText);
     (data.lines || []).forEach((line, i) => {
-      const bits = [];
-      if (line.yesNo === "yes") bits.push(yesText);
-      if (line.yesNo === "no") bits.push(noText);
-      if (line.public === "yes") bits.push(lang === "en" ? "Public" : "公開");
-      if (line.public === "no") bits.push(lang === "en" ? "Not public" : "未公開");
       const opt = question && Array.isArray(question.options) ? question.options[i] : null;
-      priorRow(list, preferLangLabel(line.label, lang, opt), bits.join("　") || "—");
+      const optLabel = preferLangLabel(line.label, lang, opt);
+      let yn = "—";
+      if (line.yesNo === "yes") yn = yesText;
+      if (line.yesNo === "no") yn = noText;
+      priorRow(list, optLabel, yn);
+      if (line.public === "yes") {
+        priorRow(list, `${optLabel} · ${publicLabel}`, lang === "en" ? "Public" : "公開");
+      } else if (line.public === "no") {
+        priorRow(list, `${optLabel} · ${publicLabel}`, lang === "en" ? "Not public" : "不公開");
+      }
       (line.evidence || []).forEach((href) => priorRow(list, evidenceLabel, priorLink(href)));
     });
     (data.values || []).forEach((entry, i) => {
