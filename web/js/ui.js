@@ -643,35 +643,22 @@
     });
     actions.appendChild(btnSave);
 
-    if (ret) {
-      const btnClear = document.createElement("button");
-      btnClear.type = "button";
-      btnClear.className = "secondary";
-      btnClear.textContent = lang === "en" ? "Undo return" : "取消退回";
-      btnClear.addEventListener("click", async () => {
-        btnClear.disabled = true;
-        status.textContent = lang === "en" ? "Undoing…" : "取消中…";
-        try {
-          await onClear();
-          status.textContent = lang === "en" ? "Cleared" : "已取消退回";
-          if (onClose) onClose();
-        } catch (err) {
-          status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "取消失敗");
-        } finally {
-          btnClear.disabled = false;
-        }
-      });
-      actions.appendChild(btnClear);
-    }
-
-    const btnClose = document.createElement("button");
-    btnClose.type = "button";
-    btnClose.className = "secondary";
-    btnClose.textContent = lang === "en" ? "Close" : "收合";
-    btnClose.addEventListener("click", () => {
-      if (onClose) onClose();
+    const btnCancel = document.createElement("button");
+    btnCancel.type = "button";
+    btnCancel.className = "secondary";
+    btnCancel.textContent = lang === "en" ? "Cancel return" : "取消退回";
+    btnCancel.addEventListener("click", async () => {
+      btnCancel.disabled = true;
+      try {
+        if (ret && onClear) await onClear();
+        else if (onClose) onClose();
+      } catch (err) {
+        status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "取消失敗");
+      } finally {
+        btnCancel.disabled = false;
+      }
     });
-    actions.appendChild(btnClose);
+    actions.appendChild(btnCancel);
     actions.appendChild(status);
     box.appendChild(actions);
     return box;
