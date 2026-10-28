@@ -240,9 +240,14 @@
   }
 
   function selectQuestion(q) {
+    const same = activeQuestionId === q.id;
     activeQuestionId = q.id;
     activeRef = q.ref || null;
     activeMetricRef = q.metricRef || null;
+    if (same) {
+      renderMethod();
+      return;
+    }
     renderQuestions();
     renderMethod();
   }
@@ -377,7 +382,12 @@
         clickable,
         selected: clickable && activeRef === (metric.ref || metricKey) && !activeQuestionId,
       });
-      if (clickable) header.addEventListener("click", () => selectMetric(metric));
+      if (clickable) {
+        header.addEventListener("click", (e) => {
+          if (THEUI.isTextSelecting(e)) return;
+          selectMetric(metric);
+        });
+      }
       block.appendChild(header);
       const listWrap = document.createElement("div");
       listWrap.className = "metric-indicators";
@@ -391,10 +401,12 @@
         card.dataset.id = q.id;
         card.addEventListener("click", (e) => {
           if (e.target.closest("input, select, textarea, label, button, a")) return;
+          if (THEUI.isTextSelecting(e)) return;
           selectQuestion(q);
         });
-        // 點進輸入欄也同步右側方法論
+        // 點進輸入欄也同步右側方法論（勿在選取文字時重繪）
         card.addEventListener("focusin", () => {
+          if (THEUI.isTextSelecting()) return;
           if (activeQuestionId !== q.id) selectQuestion(q);
         });
 

@@ -131,9 +131,14 @@
     syncChromeLang();
 
     function focusQuestion(q) {
+      const same = focusQuestionId === q.id;
       focusQuestionId = q.id;
       focusRef = q.ref || null;
       focusMetricRef = q.metricRef || null;
+      if (same) {
+        renderMethod();
+        return;
+      }
       renderQuestions();
       renderMethod();
     }
@@ -469,7 +474,8 @@
           selected: !reviewing && clickable && focusMetricRef === String(metric.ref || metricKey) && !focusQuestionId,
         });
         if (!reviewing && clickable) {
-          header.addEventListener("click", () => {
+          header.addEventListener("click", (e) => {
+            if (THEUI.isTextSelecting(e)) return;
             focusMetricRef = String(metric.ref || metricKey);
             focusQuestionId = null;
             focusRef = metric.ref || metricKey;
@@ -493,6 +499,7 @@
           card.style.cursor = "pointer";
           card.addEventListener("click", (e) => {
             if (e.target.closest("input, select, textarea, label, button, a")) return;
+            if (THEUI.isTextSelecting(e)) return;
             focusQuestion(q);
           });
           const who = assignees(q.id);

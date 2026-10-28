@@ -32,6 +32,16 @@
     });
   }
 
+  /** 正在選取文字／拖曳選取時，不要觸發卡片 click 重繪（否則無法複製） */
+  function isTextSelecting(event) {
+    try {
+      const sel = window.getSelection && window.getSelection();
+      if (sel && !sel.isCollapsed && String(sel).length > 0) return true;
+    } catch (_) {}
+    if (event && event.detail === 0) return true;
+    return false;
+  }
+
   /** 這題實際要問的句子；數值題則列出要填的欄位 */
   function questionAsk(q, lang) {
     const primary = lang === "en" ? q.en : q.zh;
@@ -703,6 +713,7 @@
     getLang,
     setLang,
     bindLangToggle,
+    isTextSelecting,
     renderQuestionCopy,
     questionAsk,
     parentRef,

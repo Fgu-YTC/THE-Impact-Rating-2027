@@ -419,7 +419,14 @@ button:disabled {
   padding: 0.18rem 0.5rem;
   border-radius: 6px;
 }
-.q-copy { min-width: 0; }
+.q-copy,
+.q-ask,
+.prior,
+.method-body {
+  min-width: 0;
+  user-select: text;
+  -webkit-user-select: text;
+}
 .q-title {
   font-family: var(--font-display);
   font-size: 1.02rem;
