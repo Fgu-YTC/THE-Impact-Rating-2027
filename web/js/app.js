@@ -48,8 +48,8 @@
         : "資料年度：Impact 2027 請蒐集 <strong>113 學年度</strong>資料。數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。";
     }
     $("#submitHint").textContent = en
-      ? "When finished, use Submit on the right. You will be asked for the filler’s name."
-      : "改完後按右邊送出。送出前會詢問填寫人。";
+      ? "Submit on the right (enter filler’s name). You can edit and submit again later."
+      : "改完按右邊提交（會問填寫人）。提交後仍可修改，再提交即可更新。";
     $("#btnSubmit").textContent = en ? "Submit" : "提交";
     $("#fillerTitle").textContent = en ? "Who filled this?" : "這次是誰填的？";
     $("#fillerNote").textContent = en

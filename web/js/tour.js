@@ -67,8 +67,8 @@
         sel: "#btnSubmit",
         title: en ? "Submit" : "提交",
         body: en
-          ? "When finished, submit here and enter the filler’s name."
-          : "改完按這裡提交，並輸入填寫人姓名。",
+          ? "When finished, submit here and enter the filler’s name. You can still edit and submit again later."
+          : "改完按這裡提交，並輸入填寫人姓名。提交後仍可修改，再按一次提交即可更新。",
         prefer: "top",
       },
     ];
