@@ -1147,7 +1147,6 @@ button:disabled {
 .filler-card p { margin: 0 0 0.85rem; color: var(--muted); }
 .filler-card input { width: 100%; font-size: 1rem; padding: 0.55rem 0.7rem; }
 .filler-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.9rem; }
-body.tour-open { overflow: hidden; }
 .tour-root {
   position: fixed;
   inset: 0;

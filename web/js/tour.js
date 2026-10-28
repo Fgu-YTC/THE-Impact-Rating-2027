@@ -25,24 +25,24 @@
         sel: "#unitSelect",
         title: en ? "Choose your unit" : "選擇填寫單位",
         body: en
-          ? `This tour uses「${EXAMPLE_UNIT}」as an example. Later pick your own unit here.`
-          : `教學先以「${EXAMPLE_UNIT}」為例；之後請在這裡改選你們單位。`,
+          ? "Start here. Pick the unit you are filling for."
+          : "從這裡選擇你的填寫單位。",
         prefer: "bottom",
       },
       {
         sel: "#sdgTabs",
         title: en ? "SDG tabs" : "SDG 分頁",
         body: en
-          ? `These are SDGs assigned to「${EXAMPLE_UNIT}」. Click a tab to switch goals.`
-          : `這是「${EXAMPLE_UNIT}」有分派的 SDG；點分頁可切換目標。`,
+          ? "Open an SDG tab to see questions assigned to your unit."
+          : "點 SDG 分頁，查看分派給你們的題目。",
         prefer: "bottom",
       },
       {
         sel: "#questionList .q-card, #questionList, .pane-left",
         title: en ? "Questions & answers" : "提問與填答",
         body: en
-          ? `Example questions for「${EXAMPLE_UNIT}」. Fill answers and evidence; last year is reference only.`
-          : `以下是「${EXAMPLE_UNIT}」的例題。在此填答案與證據；去年內容僅供參考。`,
+          ? "Fill answers and evidence here. Last year’s content is for reference only."
+          : "在這裡填答案與證據；去年內容僅供參考。",
         prefer: "right",
       },
       {
@@ -65,8 +65,8 @@
         sel: "#btnSubmit",
         title: en ? "Submit" : "提交",
         body: en
-          ? "When finished, submit here and enter the filler’s name. (Demo only—don’t submit for 永續辦 unless you mean to.)"
-          : "改完按這裡提交並輸入填寫人。教學以永續辦示範，非你們單位時請勿誤送。",
+          ? "When finished, submit here and enter the filler’s name."
+          : "改完按這裡提交，並輸入填寫人姓名。",
         prefer: "top",
       },
     ];
@@ -101,30 +101,65 @@
     let active = false;
     let defs = [];
 
+    let placeTimer = 0;
+    let scrollQuiet = false;
+
     function finish() {
       active = false;
       root.hidden = true;
       document.body.classList.remove("tour-open");
       markSeen();
+      window.clearTimeout(placeTimer);
       window.removeEventListener("resize", onReposition);
-      window.removeEventListener("scroll", onReposition, true);
+      window.removeEventListener("scroll", onScrollReposition, true);
       try {
         restoreSelection();
       } catch (_) {}
     }
 
     function onReposition() {
-      if (active) place(defs[index]);
+      if (active) layout(defs[index]);
     }
 
-    function place(def) {
+    function onScrollReposition() {
+      if (!active || scrollQuiet) return;
+      window.clearTimeout(placeTimer);
+      placeTimer = window.setTimeout(() => {
+        if (active) layout(defs[index]);
+      }, 40);
+    }
+
+    function scrollToEl(el) {
+      if (!el) return;
+      try {
+        el.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
+      } catch (_) {
+        el.scrollIntoView(true);
+      }
+      // 左右欄是獨立 overflow，再對最近可捲動祖先補一次置中
+      let node = el.parentElement;
+      while (node && node !== document.body) {
+        const style = window.getComputedStyle(node);
+        const canScroll =
+          /(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight + 4;
+        if (canScroll) {
+          const er = el.getBoundingClientRect();
+          const nr = node.getBoundingClientRect();
+          const delta = er.top + er.height / 2 - (nr.top + nr.height / 2);
+          node.scrollTop += delta;
+          break;
+        }
+        node = node.parentElement;
+      }
+    }
+
+    function layout(def) {
       if (!def) return;
       const el = firstMatch(def.sel);
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       let rect;
       if (el) {
-        el.scrollIntoView({ block: "nearest", inline: "nearest" });
         rect = el.getBoundingClientRect();
       } else {
         rect = {
@@ -159,10 +194,10 @@
         right: vw - (left + width),
         left: left,
       };
-      if (side === "bottom" && space.bottom < popH + 20 && space.top > space.bottom) side = "top";
-      if (side === "top" && space.top < popH + 20 && space.bottom > space.top) side = "bottom";
-      if (side === "right" && space.right < popW + 20 && space.left > space.right) side = "left";
-      if (side === "left" && space.left < popW + 20 && space.right > space.left) side = "right";
+      if (side === "bottom" && space.bottom < popH + 24 && space.top > space.bottom) side = "top";
+      if (side === "top" && space.top < popH + 24 && space.bottom > space.top) side = "bottom";
+      if (side === "right" && space.right < popW + 24 && space.left > space.right) side = "left";
+      if (side === "left" && space.left < popW + 24 && space.right > space.left) side = "right";
 
       let popTop;
       let popLeft;
@@ -193,7 +228,7 @@
       pop.style.visibility = "visible";
     }
 
-    function render() {
+    function goToStep() {
       defs = stepDefs(getLang());
       const def = defs[index];
       if (!def) {
@@ -202,8 +237,8 @@
       }
       const en = getLang() === "en";
       stepEl.textContent = en
-        ? `Step ${index + 1} / ${defs.length} · example: ${EXAMPLE_UNIT}`
-        : `步驟 ${index + 1}／${defs.length} · 以${EXAMPLE_UNIT}為例`;
+        ? `Step ${index + 1} / ${defs.length}`
+        : `步驟 ${index + 1}／${defs.length}`;
       titleEl.textContent = def.title;
       bodyEl.textContent = def.body;
       btnPrev.disabled = index === 0;
@@ -212,7 +247,23 @@
         index >= defs.length - 1 ? (en ? "Got it" : "知道了") : en ? "Next" : "下一步";
       btnSkip.textContent = en ? "Skip" : "略過";
       btnPrev.textContent = en ? "Back" : "上一步";
-      place(def);
+
+      const el = firstMatch(def.sel);
+      scrollQuiet = true;
+      scrollToEl(el);
+      window.clearTimeout(placeTimer);
+      placeTimer = window.setTimeout(() => {
+        layout(def);
+        scrollQuiet = false;
+        // 再量一次，避免字型／版面尚未穩定
+        placeTimer = window.setTimeout(() => {
+          if (active) layout(defs[index]);
+        }, 80);
+      }, 60);
+    }
+
+    function render() {
+      goToStep();
     }
 
     function show() {
@@ -221,17 +272,16 @@
       root.hidden = false;
       document.body.classList.add("tour-open");
       window.addEventListener("resize", onReposition);
-      window.addEventListener("scroll", onReposition, true);
+      window.addEventListener("scroll", onScrollReposition, true);
       Promise.resolve(prepareExample())
         .catch(() => {})
         .then(() => {
           if (!active) return;
-          // 等畫面畫出永續辦題目
           setTimeout(() => {
-            if (active) render();
-          }, 180);
+            if (active) goToStep();
+          }, 200);
         });
-      render();
+      goToStep();
     }
 
     function syncLang() {
