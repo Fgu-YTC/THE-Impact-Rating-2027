@@ -42,8 +42,8 @@
     const yearNote = $("#dataYearNote");
     if (yearNote) {
       yearNote.innerHTML = en
-        ? "Data year: For Impact 2027, collect <strong>2025</strong> data (academic year <strong>113</strong> in Taiwan). Use 2025 / AY 113 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
-        : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料（對應 <strong>113 學年度</strong>）。數字題以 2025／113 學年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+        ? "Data year: For Impact 2027, collect academic year <strong>113</strong> data. Use AY 113 for numbers; policies/measures must be in place by the end of that academic year. If a question’s methodology states otherwise, follow that question."
+        : "資料年度：Impact 2027 請蒐集 <strong>113 學年度</strong>資料。數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。";
     }
     $("#submitHint").textContent = en
       ? "When finished, use Submit on the right. You will be asked for the filler’s name."
@@ -63,6 +63,14 @@
       askHint.textContent = en
         ? "Not a premium model — please wait patiently."
         : "非高階模型，使用時請耐心等候。";
+    }
+    const showMethod = $("#btnShowMethod");
+    if (showMethod) showMethod.textContent = en ? "View THE methodology" : "看 THE 方法論";
+    const methodHint = $("#methodHint");
+    if (methodHint) {
+      methodHint.textContent = en
+        ? "Select a question, or use “View THE methodology” on the right."
+        : "點選題目，或按右邊「看 THE 方法論」，即可查看說明。";
     }
   }
 
@@ -171,13 +179,59 @@
     const label = (item) => (lang === "en" ? item.en : item.zh);
     window.THEAskQuestion = {
       ref: (q && q.ref) || activeRef || "",
-      sdg: (q && q.sdg) || "",
+      sdg: (q && q.sdg) || currentSdg || "",
       title: q ? label(q) : resolved.title || "",
       answerType: (q && q.answerType) || "",
       options: ((q && q.options) || []).map(label).filter(Boolean),
     };
-    if (askForm) askForm.hidden = !q;
+    if (askForm) askForm.hidden = !(q || currentSdg);
   }
+
+  function showMethodologyPanel() {
+    if (!currentUnitId) {
+      THEMethod.render(methodTitle, methodBody, {
+        title: lang === "en" ? "Methodology" : "方法論",
+        html: `<p class="method-p method-empty">${
+          lang === "en" ? "Select a unit first." : "請先選擇填寫單位。"
+        }</p>`,
+      });
+    } else if (!currentSdg) {
+      THEMethod.render(methodTitle, methodBody, {
+        title: lang === "en" ? "Methodology" : "方法論",
+        html: `<p class="method-p method-empty">${
+          lang === "en" ? "Select an SDG tab first." : "請先選擇上方的 SDG。"
+        }</p>`,
+      });
+    } else if (!activeRef && !activeQuestionId) {
+      // 尚未點題：直接顯示本 SDG 完整方法論
+      const resolved = THEMethod.resolve({
+        lang,
+        methodologyZh,
+        methodologyEn,
+        sdg: currentSdg,
+      });
+      THEMethod.render(methodTitle, methodBody, resolved);
+      window.THEAskQuestion = {
+        ref: "",
+        sdg: currentSdg,
+        title: resolved.title || "",
+        answerType: "",
+        options: [],
+      };
+      const askForm = $("#methodAsk");
+      if (askForm) askForm.hidden = false;
+    } else {
+      renderMethod();
+    }
+    const pane = document.querySelector(".pane-right");
+    if (pane && typeof pane.scrollIntoView === "function") {
+      pane.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    methodBody.focus?.();
+  }
+
+  const btnShowMethod = $("#btnShowMethod");
+  if (btnShowMethod) btnShowMethod.addEventListener("click", showMethodologyPanel);
 
   function getAnswer(qid) {
     return { ...(remoteAnswers[qid] || {}), ...(drafts[qid] || {}) };
@@ -289,8 +343,6 @@
         }
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang));
-        const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
-        if (prior) card.appendChild(prior);
 
         const fields = document.createElement("div");
         fields.className = "fields";
@@ -306,8 +358,13 @@
             else pendingFiles.delete(q.id);
           },
         });
-
-        card.appendChild(fields);
+        card.appendChild(
+          THEUI.renderFillCompare({
+            lang,
+            prior: THEUI.renderPriorYear(priorYear[q.ref], q),
+            fields,
+          })
+        );
         host.appendChild(card);
       });
     });

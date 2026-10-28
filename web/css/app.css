@@ -194,6 +194,16 @@ button:disabled {
 }
 .method-ask-answer.busy { background: #fff6df; border-color: #e2d2a2; }
 .method-ask-answer.bad { background: #fdeeee; border-color: #e3b4b4; }
+.method-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding-bottom: 0.65rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd4c4;
+}
 .pane-right h2#methodTitle,
 .pane-right #methodTitle {
   font-family: var(--font-display);
@@ -201,9 +211,19 @@ button:disabled {
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #1a2e28;
-  padding-bottom: 0.65rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #ddd4c4;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.method-open-btn {
+  flex: none;
+  white-space: nowrap;
+}
+.method-hint {
+  margin: -0.35rem 0 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--muted);
 }
 
 .pane h2 {
@@ -472,6 +492,53 @@ button:disabled {
   margin-left: 0.35rem;
   vertical-align: middle;
 }
+.fill-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+  align-items: start;
+}
+.fill-compare-side {
+  min-width: 0;
+  padding: 0.55rem 0.65rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fffcf7;
+}
+.fill-compare-prior {
+  background: #f6f3ec;
+  border-style: dashed;
+  border-color: #c8bfb0;
+}
+.fill-compare-now {
+  background: #f3f8f5;
+  border-color: #c9dfd2;
+}
+.fill-compare-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #5a675f;
+  margin-bottom: 0.45rem;
+}
+.fill-compare-prior .fill-compare-label { color: #6d624f; }
+.fill-compare-now .fill-compare-label { color: var(--accent); }
+.fill-compare-empty {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  padding: 0.35rem 0;
+}
+.fill-compare .prior {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.fill-compare .prior-head { display: none; }
+.fill-compare .fields { margin-top: 0; }
+.fill-compare .fill-unit { margin-top: 0; padding-top: 0; border-top: 0; }
+
 .prior {
   margin: 0.55rem 0 0.75rem;
   padding: 0.55rem 0.7rem;
@@ -902,4 +969,5 @@ button:disabled {
   }
   .pane-left { border-right: none; border-bottom: 1px solid var(--line); }
   .fields .row { grid-template-columns: 1fr; }
+  .fill-compare { grid-template-columns: 1fr; }
 }

@@ -522,8 +522,42 @@
     if (!names || !names.length) return null;
     const line = document.createElement("div");
     line.className = "prior-unit";
-    line.textContent = `去年單位：${names[0]}`;
+    line.textContent = getLang() === "en" ? `Last-year unit: ${names[0]}` : `去年單位：${names[0]}`;
     return line;
+  }
+
+  /** 去年參考｜今年填寫，左右對照 */
+  function renderFillCompare({ prior, priorUnit, fields, lang }) {
+    const wrap = document.createElement("div");
+    wrap.className = "fill-compare";
+
+    const left = document.createElement("div");
+    left.className = "fill-compare-side fill-compare-prior";
+    const leftHead = document.createElement("div");
+    leftHead.className = "fill-compare-label";
+    leftHead.textContent = lang === "en" ? "Last year (reference)" : "去年填報（參考）";
+    left.appendChild(leftHead);
+    if (priorUnit) left.appendChild(priorUnit);
+    if (prior) {
+      left.appendChild(prior);
+    } else {
+      const empty = document.createElement("div");
+      empty.className = "fill-compare-empty";
+      empty.textContent = lang === "en" ? "No last-year answer for this question." : "此題沒有去年填答可對照。";
+      left.appendChild(empty);
+    }
+
+    const right = document.createElement("div");
+    right.className = "fill-compare-side fill-compare-now";
+    const rightHead = document.createElement("div");
+    rightHead.className = "fill-compare-label";
+    rightHead.textContent = lang === "en" ? "This year (fill in)" : "今年填報";
+    right.appendChild(rightHead);
+    if (fields) right.appendChild(fields);
+
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+    return wrap;
   }
 
   global.THEUI = {
@@ -543,5 +577,6 @@
     renderAnswerPreview,
     renderPriorYear,
     renderPriorUnit,
+    renderFillCompare,
   };
 })(window);

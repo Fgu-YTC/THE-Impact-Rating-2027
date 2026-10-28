@@ -102,8 +102,8 @@
       if (note) {
         note.innerHTML =
           lang === "en"
-            ? "Data year: For Impact 2027, collect <strong>2025</strong> data (academic year <strong>113</strong> in Taiwan). Use 2025 / AY 113 for numbers; policies/measures must be in place by end of 2025. If a question’s methodology states otherwise, follow that question."
-            : "資料年度：Impact 2027 請蒐集 <strong>2025 年</strong>資料（對應 <strong>113 學年度</strong>）。數字題以 2025／113 學年為準；政策／措施須於 2025 年底前已生效。若該題方法論另有註明，以該題為準。";
+            ? "Data year: For Impact 2027, collect academic year <strong>113</strong> data. Use AY 113 for numbers; policies/measures must be in place by the end of that academic year. If a question’s methodology states otherwise, follow that question."
+            : "資料年度：Impact 2027 請蒐集 <strong>113 學年度</strong>資料。數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。";
       }
       const askBtn = $("#methodAskBtn");
       if (askBtn) askBtn.textContent = lang === "en" ? "Ask Gemini" : "問 Gemini";
@@ -113,6 +113,10 @@
           lang === "en"
             ? "Not a premium model — please wait patiently."
             : "非高階模型，使用時請耐心等候。";
+      }
+      const showMethod = $("#btnShowMethod");
+      if (showMethod) {
+        showMethod.textContent = lang === "en" ? "View THE methodology" : "看 THE 方法論";
       }
     }
 
@@ -245,14 +249,51 @@
       const label = (item) => (lang === "en" ? item.en : item.zh);
       window.THEAskQuestion = {
         ref: (q && q.ref) || focusRef || "",
-        sdg: (q && q.sdg) || "",
+        sdg: (q && q.sdg) || currentSdg || "",
         title: q ? label(q) : resolved.title || "",
         answerType: (q && q.answerType) || "",
         options: ((q && q.options) || []).map(label).filter(Boolean),
       };
       const askForm = $("#methodAsk");
-      if (askForm) askForm.hidden = !q;
+      if (askForm) askForm.hidden = !(q || currentSdg);
     }
+
+    function showMethodologyPanel() {
+      if (!currentSdg) {
+        THEMethod.render(methodTitle, methodBody, {
+          title: lang === "en" ? "Methodology" : "方法論",
+          html: `<p class="method-p method-empty">${
+            lang === "en" ? "Select an SDG tab first." : "請先選擇上方的 SDG。"
+          }</p>`,
+        });
+      } else if (!focusRef && !focusQuestionId) {
+        const resolved = THEMethod.resolve({
+          lang,
+          methodologyZh,
+          methodologyEn,
+          sdg: currentSdg,
+        });
+        THEMethod.render(methodTitle, methodBody, resolved);
+        window.THEAskQuestion = {
+          ref: "",
+          sdg: currentSdg,
+          title: resolved.title || "",
+          answerType: "",
+          options: [],
+        };
+        const askForm = $("#methodAsk");
+        if (askForm) askForm.hidden = false;
+      } else {
+        renderMethod();
+      }
+      const pane = document.querySelector(".pane-right");
+      if (pane && typeof pane.scrollIntoView === "function") {
+        pane.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    const btnShowMethod = $("#btnShowMethod");
+    if (btnShowMethod) btnShowMethod.addEventListener("click", showMethodologyPanel);
 
     function visibleQuestions() {
       return questions.filter((q) => {
@@ -372,15 +413,24 @@
               titleOnly: mode === "review",
             })
           );
-          if (mode !== "review") {
+          if (mode === "assign") {
             const priorUnit = THEUI.renderPriorUnit(priorUnits[q.ref]);
             if (priorUnit) body.appendChild(priorUnit);
             const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
             if (prior) body.appendChild(prior);
+            body.appendChild(THEUI.renderAnswerPreview(q, lang));
           }
-          if (mode === "assign") body.appendChild(THEUI.renderAnswerPreview(q, lang));
           if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
-          if (mode === "fill") body.appendChild(renderFillEditors(q));
+          if (mode === "fill") {
+            body.appendChild(
+              THEUI.renderFillCompare({
+                lang,
+                priorUnit: THEUI.renderPriorUnit(priorUnits[q.ref]),
+                prior: THEUI.renderPriorYear(priorYear[q.ref], q),
+                fields: renderFillEditors(q),
+              })
+            );
+          }
           if (mode === "assign") {
             const cb = document.createElement("input");
             cb.type = "checkbox";

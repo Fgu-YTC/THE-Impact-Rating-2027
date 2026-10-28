@@ -457,8 +457,8 @@
 
     const empty =
       args.lang === "en"
-        ? "Select a question on the left to view its methodology."
-        : "請在左側點選題目，右側將顯示對應方法論。";
+        ? "Select a question on the left, or press “View THE methodology”."
+        : "請點左側題目，或按「看 THE 方法論」。";
     return {
       title: args.fallbackTitle || (args.lang === "en" ? "Methodology" : "方法論"),
       body: empty,
