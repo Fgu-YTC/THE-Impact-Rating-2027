@@ -1142,23 +1142,102 @@ button:disabled {
 .filler-card p { margin: 0 0 0.85rem; color: var(--muted); }
 .filler-card input { width: 100%; font-size: 1rem; padding: 0.55rem 0.7rem; }
 .filler-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.9rem; }
-.tour-card { width: min(480px, 100%); }
-.tour-list {
-  margin: 0 0 0.35rem;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 0.45rem;
+body.tour-open { overflow: hidden; }
+.tour-root {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
 }
-.tour-list li {
-  margin: 0;
-  padding: 0.45rem 0.55rem;
-  border-radius: 8px;
-  background: #f4f0e8;
-  border: 1px solid #e2d9cb;
-  font-size: 0.92rem;
+.tour-root[hidden] { display: none !important; }
+.tour-spot {
+  position: fixed;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(28, 36, 32, 0.55);
+  outline: 2px solid #fff8ee;
+  pointer-events: none;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+  z-index: 61;
+}
+.tour-pop {
+  position: fixed;
+  z-index: 62;
+  width: min(320px, calc(100vw - 1.5rem));
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem 1rem 0.85rem;
+  pointer-events: auto;
+  box-shadow: 0 10px 28px rgba(28, 36, 32, 0.18);
+}
+.tour-pop-step {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+.tour-pop-title {
+  margin: 0 0 0.3rem;
+  font-size: 1.05rem;
+  font-family: var(--font-display);
+}
+.tour-pop-body {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
   line-height: 1.45;
   color: var(--ink);
+}
+.tour-pop-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.tour-pop-nav {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+.tour-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.tour-arrow.arrow-top {
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--panel);
+  filter: drop-shadow(0 -1px 0 var(--line));
+}
+.tour-arrow.arrow-bottom {
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--panel);
+  filter: drop-shadow(0 1px 0 var(--line));
+}
+.tour-arrow.arrow-left {
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--panel);
+  filter: drop-shadow(-1px 0 0 var(--line));
+}
+.tour-arrow.arrow-right {
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--panel);
+  filter: drop-shadow(1px 0 0 var(--line));
 }
 
 .auth-gate {

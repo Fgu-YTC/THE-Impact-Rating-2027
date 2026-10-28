@@ -64,13 +64,19 @@
     </form>
   </div>
 
-  <div id="tourDialog" class="filler-dialog" hidden role="dialog" aria-modal="true" aria-labelledby="tourTitle">
-    <div class="filler-card tour-card">
-      <h2 id="tourTitle" data-tour-title>填報小教學</h2>
-      <p data-tour-lead>第一次使用可先看這幾步。之後也可點上方「使用說明」再打開。</p>
-      <ol class="tour-list" data-tour-list></ol>
-      <div class="filler-actions">
-        <button type="button" class="fill-submit" data-tour-done>知道了，開始填</button>
+  <div id="tourRoot" class="tour-root" hidden>
+    <div class="tour-spot" data-tour-spot aria-hidden="true"></div>
+    <div class="tour-pop" data-tour-pop role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+      <div class="tour-arrow" data-tour-arrow aria-hidden="true"></div>
+      <div class="tour-pop-step" data-tour-step></div>
+      <h2 id="tourTitle" class="tour-pop-title" data-tour-title></h2>
+      <p class="tour-pop-body" data-tour-body></p>
+      <div class="tour-pop-actions">
+        <button type="button" class="secondary" data-tour-skip>略過</button>
+        <span class="tour-pop-nav">
+          <button type="button" class="secondary" data-tour-prev>上一步</button>
+          <button type="button" class="fill-submit" data-tour-next>下一步</button>
+        </span>
       </div>
     </div>
   </div>
