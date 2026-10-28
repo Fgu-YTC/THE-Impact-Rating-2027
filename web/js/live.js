@@ -6,7 +6,7 @@
   function explain(err) {
     const code = String((err && (err.code || err.message)) || "");
     if (code.includes("permission-denied")) {
-      return "Firestore 仍拒絕讀寫。請到 Firestore 規則，貼上只允許 units 與 answers 的那一份後發布。";
+      return "Firestore 仍拒絕讀寫。請確認已發布含 units／answers／returns 的規則。";
     }
     if (code.includes("unavailable") || code.includes("failed-precondition")) {
       return "連不到 Firestore。請確認這個專案已建立 Firestore 資料庫。";
@@ -264,11 +264,49 @@
     await batch.commit();
   }
 
+  function listenUnitReturns(unitId, onData, onError) {
+    return listenWith(function (ctx) {
+      const { store, fs } = ctx;
+      return fs.onSnapshot(
+        fs.collection(store, "units", unitId, "returns"),
+        function (snap) {
+          const map = {};
+          snap.forEach(function (item) {
+            map[item.id] = item.data() || {};
+          });
+          onData(map);
+        },
+        onError
+      );
+    }, onError);
+  }
+
+  async function saveReturn(unitId, questionId, suggestion, filledBy) {
+    if (!unitId || !questionId) return;
+    const note = String(suggestion || "").trim().slice(0, 500);
+    if (!note) throw new Error("請填寫退回建議；若無建議請填「無」。");
+    const { store, fs } = await db();
+    const payload = {
+      suggestion: note,
+      updatedAt: new Date().toISOString(),
+    };
+    const who = String(filledBy || "").trim().slice(0, 40);
+    if (who) payload.filledBy = who;
+    await fs.setDoc(fs.doc(store, "units", unitId, "returns", questionId), payload);
+  }
+
+  async function clearReturn(unitId, questionId) {
+    if (!unitId || !questionId) return;
+    const { store, fs } = await db();
+    await fs.deleteDoc(fs.doc(store, "units", unitId, "returns", questionId));
+  }
+
   global.THELive = {
     explain,
     listenUnits,
     listenUnitAnswers,
     listenUnitOffice,
+    listenUnitReturns,
     listenAllAnswers,
     seedIfEmpty,
     addUnit,
@@ -278,5 +316,7 @@
     clearAssignments,
     saveAnswers,
     saveOfficeAnswers,
+    saveReturn,
+    clearReturn,
   };
 })(window);

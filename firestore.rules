@@ -72,9 +72,25 @@ service cloud.firestore {
         allow create, update: if isOffice(request.resource.data);
         allow delete: if request.auth != null;
       }
+
+      // 單位退回：表示無法回答此題，並可寫退回建議（無建議填「無」）
+      match /returns/{questionId} {
+        allow read: if true;
+        allow create, update: if request.resource.data.keys().hasOnly(['suggestion', 'updatedAt', 'filledBy'])
+          && request.resource.data.suggestion is string
+          && request.resource.data.suggestion.size() > 0
+          && request.resource.data.suggestion.size() <= 500
+          && request.resource.data.updatedAt is string
+          && (!('filledBy' in request.resource.data) || (request.resource.data.filledBy is string && request.resource.data.filledBy.size() > 0 && request.resource.data.filledBy.size() <= 40));
+        allow delete: if true;
+      }
     }
 
     match /{path=**}/answers/{questionId} {
+      allow read: if true;
+    }
+
+    match /{path=**}/returns/{questionId} {
       allow read: if true;
     }
   }

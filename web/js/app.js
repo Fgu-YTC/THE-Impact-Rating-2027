@@ -27,6 +27,7 @@
   let unsubAnswers = function () {};
   let holdRender = false;
   let renderQueued = false;
+  let returns = {};
 
   const unitSelect = $("#unitSelect");
   const sdgTabs = $("#sdgTabs");
@@ -317,6 +318,12 @@
           who.textContent = lang === "en" ? `Filler: ${ans.filledBy}` : `填寫人：${ans.filledBy}`;
           meta.appendChild(who);
         }
+        if (returns[q.id]) {
+          const badge = document.createElement("span");
+          badge.className = "badge return";
+          badge.textContent = lang === "en" ? "Returned" : "已退回";
+          meta.appendChild(badge);
+        }
         const methodBtn = document.createElement("button");
         methodBtn.type = "button";
         methodBtn.className = "secondary q-method-btn";
@@ -350,6 +357,18 @@
             fields,
           })
         );
+        card.appendChild(
+          THEUI.renderReturnEditor({
+            ret: returns[q.id] || null,
+            lang,
+            onReturn: async (suggestion) => {
+              await THELive.saveReturn(currentUnitId, q.id, suggestion);
+            },
+            onClear: async () => {
+              await THELive.clearReturn(currentUnitId, q.id);
+            },
+          })
+        );
         host.appendChild(card);
       });
     });
@@ -370,18 +389,36 @@
   function watchUnit(unitId) {
     unsubAnswers();
     remoteAnswers = {};
+    returns = {};
     drafts = {};
     pendingFiles.clear();
     if (!unitId) return;
-    unsubAnswers = THELive.listenUnitAnswers(
-      unitId,
-      (map) => {
-        if (unitId !== currentUnitId) return;
-        remoteAnswers = map || {};
-        requestRender();
-      },
-      (err) => showSubmitBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
+    const stops = [];
+    stops.push(
+      THELive.listenUnitAnswers(
+        unitId,
+        (map) => {
+          if (unitId !== currentUnitId) return;
+          remoteAnswers = map || {};
+          requestRender();
+        },
+        (err) => showSubmitBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
+      )
     );
+    stops.push(
+      THELive.listenUnitReturns(
+        unitId,
+        (map) => {
+          if (unitId !== currentUnitId) return;
+          returns = map || {};
+          requestRender();
+        },
+        (err) => showSubmitBanner("bad", `讀取退回失敗。${THELive.explain(err)}`)
+      )
+    );
+    unsubAnswers = function () {
+      stops.forEach((stop) => stop());
+    };
   }
 
   unitSelect.addEventListener("change", () => {
@@ -417,6 +454,7 @@
     },
     (err) => showSubmitBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
   );
+
 
   function showSubmitBanner(kind, text) {
     const banner = $("#submitBanner");

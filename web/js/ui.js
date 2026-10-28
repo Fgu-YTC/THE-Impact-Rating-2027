@@ -566,6 +566,103 @@
     return line;
   }
 
+  /** 唯讀：單位已退回 */
+  function renderReturnStatus(ret, lang, unitLabel) {
+    if (!ret || !String(ret.suggestion || "").trim()) return null;
+    const box = document.createElement("div");
+    box.className = "return-box returned";
+    const head = document.createElement("div");
+    head.className = "return-head";
+    head.textContent = lang === "en"
+      ? `Returned${unitLabel ? ` by ${unitLabel}` : ""} (cannot answer)`
+      : `已退回${unitLabel ? `（${unitLabel}）` : ""}：此單位無法回答`;
+    box.appendChild(head);
+    const why = document.createElement("div");
+    why.className = "return-suggestion";
+    why.textContent =
+      (lang === "en" ? "Suggestion: " : "退回建議：") + String(ret.suggestion || "").trim();
+    box.appendChild(why);
+    return box;
+  }
+
+  /** 填報頁：退回此題＋退回建議 */
+  function renderReturnEditor({ ret, lang, onReturn, onClear }) {
+    const box = document.createElement("div");
+    box.className = "return-box" + (ret ? " returned" : "");
+    box.addEventListener("click", (e) => e.stopPropagation());
+
+    const head = document.createElement("div");
+    head.className = "return-head";
+    head.textContent = lang === "en" ? "Cannot answer — return" : "無法填寫？退回此題";
+    box.appendChild(head);
+
+    const note = document.createElement("p");
+    note.className = "return-note";
+    note.textContent = lang === "en"
+      ? "Returning means this unit cannot answer. Suggest another unit, or write「無」if none."
+      : "退回表示本單位無法回答此題。可建議改派單位；若沒有建議請填「無」。";
+    box.appendChild(note);
+
+    const ta = document.createElement("textarea");
+    ta.rows = 2;
+    ta.maxLength = 500;
+    ta.placeholder = lang === "en"
+      ? "Return suggestion (or write 無)"
+      : "退回建議（可建議我們改派誰；沒有建議請填「無」）";
+    ta.value = (ret && ret.suggestion) || "";
+    box.appendChild(ta);
+
+    const actions = document.createElement("div");
+    actions.className = "return-actions";
+    const status = document.createElement("span");
+    status.className = "return-status";
+    if (ret) {
+      status.textContent = lang === "en" ? "Returned" : "目前：已退回";
+    }
+
+    const btnReturn = document.createElement("button");
+    btnReturn.type = "button";
+    btnReturn.className = "secondary";
+    btnReturn.textContent = lang === "en" ? "Return question" : "退回";
+    btnReturn.addEventListener("click", async () => {
+      btnReturn.disabled = true;
+      status.textContent = lang === "en" ? "Saving…" : "送出中…";
+      try {
+        await onReturn(ta.value);
+        status.textContent = lang === "en" ? "Returned" : "已退回";
+      } catch (err) {
+        status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "退回失敗");
+      } finally {
+        btnReturn.disabled = false;
+      }
+    });
+    actions.appendChild(btnReturn);
+
+    if (ret) {
+      const btnClear = document.createElement("button");
+      btnClear.type = "button";
+      btnClear.className = "secondary";
+      btnClear.textContent = lang === "en" ? "Undo return" : "取消退回";
+      btnClear.addEventListener("click", async () => {
+        btnClear.disabled = true;
+        status.textContent = lang === "en" ? "Undoing…" : "取消中…";
+        try {
+          await onClear();
+          status.textContent = lang === "en" ? "Cleared" : "已取消退回";
+        } catch (err) {
+          status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "取消失敗");
+        } finally {
+          btnClear.disabled = false;
+        }
+      });
+      actions.appendChild(btnClear);
+    }
+
+    actions.appendChild(status);
+    box.appendChild(actions);
+    return box;
+  }
+
   /** 今年填寫在上、去年參考在下（全寬，方便閱讀長文） */
   function renderFillCompare({ prior, priorUnit, fields, lang }) {
     const wrap = document.createElement("div");
@@ -617,6 +714,8 @@
     renderAnswerPreview,
     renderPriorYear,
     renderPriorUnit,
+    renderReturnStatus,
+    renderReturnEditor,
     renderFillCompare,
   };
 })(window);

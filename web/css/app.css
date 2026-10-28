@@ -575,6 +575,62 @@ button:disabled {
   color: #6d624f;
 }
 .prior-unit { margin: 0.35rem 0 0.15rem; }
+.return-box {
+  margin: 0.5rem 0 0.35rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: #f7f4ef;
+  border: 1px solid #d5cbbd;
+}
+.return-box.returned {
+  background: #f8eee8;
+  border-color: #e0c4b4;
+}
+.return-head {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6a4a38;
+  margin-bottom: 0.25rem;
+}
+.return-note {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #5c5348;
+}
+.return-box textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 0.88rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #d0c5b6;
+  border-radius: 6px;
+  background: #fff;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.return-suggestion {
+  margin-top: 0.2rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #4a3a30;
+  white-space: pre-wrap;
+}
+.return-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+.return-status {
+  font-size: 0.78rem;
+  color: #6a4a38;
+}
+.badge.return {
+  background: #f0d9cc;
+  color: #7a3f22;
+}
 .prior-change {
   margin: 0.35rem 0 0.25rem;
   padding: 0.35rem 0.5rem;
@@ -720,6 +776,14 @@ button:disabled {
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 0.25rem;
+}
+.fill-unit-final {
+  border-color: var(--accent);
+  background: #eef7f2;
+  box-shadow: inset 0 0 0 1px rgba(15, 92, 76, 0.12);
+}
+.fill-unit-final .fill-unit-name {
+  font-size: 0.95rem;
 }
 .submitted-head .badge { margin-left: 0; }
 .fill-office {

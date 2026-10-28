@@ -88,6 +88,7 @@
     const fillFiles = new Map();
     let holdRender = false;
     let renderQueued = false;
+    let returnsByUnit = {};
 
     const unitSelect = $("#assignUnit");
     const sdgTabs = $("#sdgTabs");
@@ -449,7 +450,7 @@
           const badge = document.createElement("span");
           if (mode === "review" || mode === "fill") {
             const mark = fillMark(q.id);
-            badge.className = mark.filled ? "badge ok" : "badge warn";
+            badge.className = mark.filled ? "badge ok" : mark.returned ? "badge return" : "badge warn";
             badge.textContent = mark.text;
           } else if (who.length) {
             badge.className = "badge ok";
@@ -490,9 +491,17 @@
             if (priorUnit) body.appendChild(priorUnit);
             const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
             if (prior) body.appendChild(prior);
+            returnsFor(q.id).forEach((item) => {
+              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              if (view) body.appendChild(view);
+            });
             body.appendChild(THEUI.renderAnswerPreview(q, lang));
           }
           if (mode === "review") {
+            returnsFor(q.id).forEach((item) => {
+              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              if (view) body.appendChild(view);
+            });
             if (who.length || submissionsFor(q.id).length) {
               body.appendChild(renderMultiUnitPanel(q, { editable: false }));
             }
@@ -500,9 +509,14 @@
           if (mode === "fill") {
             const work = document.createElement("div");
             work.className = "multi-unit-work";
-            if (who.length > 1 || submissionsFor(q.id).length) {
-              work.appendChild(renderMultiUnitPanel(q, { editable: true }));
+            const multi = isMultiUnitQuestion(q);
+            if (multi) {
+              work.appendChild(renderMultiUnitPanel(q, { editable: true, originalOnly: true }));
             }
+            returnsFor(q.id).forEach((item) => {
+              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              if (view) work.appendChild(view);
+            });
             work.appendChild(
               THEUI.renderFillCompare({
                 lang,
@@ -533,36 +547,62 @@
       });
     }
 
+    function isMultiUnitQuestion(q) {
+      const who = assignees(q.id);
+      if (who.length > 1) return true;
+      return submissionsFor(q.id, { originalOnly: true }).length > 1;
+    }
+
+    function returnsFor(questionId) {
+      const out = [];
+      Object.keys(returnsByUnit || {}).forEach((unitId) => {
+        const ret = (returnsByUnit[unitId] || {})[questionId];
+        if (ret && String(ret.suggestion || "").trim()) {
+          out.push({ unitId, unitName: unitName(unitId), ret });
+        }
+      });
+      return out;
+    }
+
     function fillMark(questionId) {
       const who = assignees(questionId);
+      const returned = returnsFor(questionId);
       const items = submissionsFor(questionId);
-      if (items.some((item) => item.office)) {
+      const officeFinal = officeUnit() && officeOf(officeUnit().id, questionId);
+      if (officeFinal || items.some((item) => item.office)) {
         return {
           filled: true,
-          text: who.length > 1 ? `永續辦已整理（${who.length} 單位）` : "永續辦已填寫",
+          text: who.length > 1 ? `最終填報已寫（${who.length} 單位）` : "最終填報已寫",
         };
       }
       if (items.length > 1) return { filled: true, text: `${items.length} 單位已填` };
       if (items.length) return { filled: true, text: "已填寫" };
+      if (returned.length) {
+        return {
+          filled: false,
+          returned: true,
+          text: returned.length > 1 ? `${returned.length} 單位已退回` : "已退回",
+        };
+      }
       if (who.length > 1) return { filled: false, text: `未填（已派 ${who.length}）` };
       return { filled: false, text: "未填寫" };
     }
 
-    /** 各單位答案對照（唯讀）；多單位時提示匯出只會有一份 */
-    function renderMultiUnitPanel(q, { editable = false } = {}) {
+    /** 各單位答案對照（唯讀）；多單位時提示下方寫最終填報 */
+    function renderMultiUnitPanel(q, { editable = false, originalOnly = false } = {}) {
       const wrap = document.createElement("div");
       wrap.className = "multi-unit-panel";
       wrap.addEventListener("click", (e) => e.stopPropagation());
       const who = assignees(q.id);
-      const items = submissionsFor(q.id);
+      const items = submissionsFor(q.id, { originalOnly });
       const multi = who.length > 1 || items.length > 1;
 
       if (multi) {
         const tip = document.createElement("p");
         tip.className = "multi-unit-tip";
         tip.textContent = editable
-          ? "此題有多個單位。請對照各單位答案後人工合併改寫；匯出同一題只會有一份答案。"
-          : "此題有多個單位答案，可並排對照。合併請到「填寫」模式人工改寫；匯出同一題只會有一份。";
+          ? "此題有兩個以上單位。請先對照各單位答案，再於下方「最終填報」合併寫出匯出用的那一份。"
+          : "此題有兩個以上單位答案，可並排對照。合併請到「填寫」模式寫「最終填報」。";
         wrap.appendChild(tip);
       }
 
@@ -573,22 +613,31 @@
         wrap.appendChild(line);
       }
 
-      const submitted = renderSubmitted(q);
       if (items.length || who.length) {
         const label = document.createElement("div");
         label.className = "multi-unit-label";
-        label.textContent = multi ? "各單位提交（對照）" : "單位提交";
+        label.textContent = multi ? "各單位答案" : "單位答案";
         wrap.appendChild(label);
       }
-      wrap.appendChild(submitted);
+      wrap.appendChild(renderSubmitted(q, { originalOnly }));
       return wrap;
     }
 
-    function submissionsFor(questionId) {
+    function submissionsFor(questionId, { originalOnly = false } = {}) {
       return submissions
         .map((pack) => {
           const original = (pack.answers || {})[questionId];
           const office = officeOf(pack.unitId, questionId);
+          if (originalOnly) {
+            return {
+              unitId: pack.unitId,
+              unitName: pack.unitName || unitName(pack.unitId),
+              sourceUnitName: pack.unitName || unitName(pack.unitId),
+              updatedAt: pack.updatedAt,
+              answer: original,
+              office: false,
+            };
+          }
           return {
             unitId: pack.unitId,
             unitName: pack.unitName || unitName(pack.unitId),
@@ -632,11 +681,11 @@
       return a;
     }
 
-    function renderSubmitted(q) {
+    function renderSubmitted(q, { originalOnly = false } = {}) {
       const wrap = document.createElement("div");
       wrap.className = "submitted";
       wrap.addEventListener("click", (e) => e.stopPropagation());
-      const items = submissionsFor(q.id);
+      const items = submissionsFor(q.id, { originalOnly });
       const who = assignees(q.id);
       const pending = who.filter((unitId) => !items.some((item) => item.unitId === unitId));
       if (items.length + pending.length > 1) wrap.classList.add("multi");
@@ -796,67 +845,78 @@
     }
 
     function fillTargets(q) {
-      const seen = new Set();
-      const list = [];
-      assignees(q.id).forEach((unitId) => {
-        if (seen.has(unitId)) return;
-        seen.add(unitId);
-        list.push({ unitId, unitName: unitName(unitId) });
-      });
-      submissions.forEach((pack) => {
-        if (!pack.unitId || seen.has(pack.unitId)) return;
-        const answer = (pack.answers || {})[q.id];
-        if (!answer || !answerHasContent(answer)) return;
-        seen.add(pack.unitId);
-        list.push({ unitId: pack.unitId, unitName: pack.unitName || unitName(pack.unitId) });
-      });
-      Object.entries(officeByUnit).forEach(([unitId, map]) => {
-        if (seen.has(unitId)) return;
-        const answer = map && map[q.id];
-        if (!answer || answer.editor !== "永續辦") return;
-        seen.add(unitId);
-        const savedName = answer.sourceUnitName || unitName(unitId);
-        list.push({
-          unitId,
-          unitName: savedName === "永續辦" || savedName === "永續發展辦公室" ? "永續辦" : savedName,
-          officeOnly: savedName === "永續辦" || savedName === "永續發展辦公室",
-        });
-      });
-      if (!list.length) {
+      const who = assignees(q.id);
+      const originals = submissionsFor(q.id, { originalOnly: true });
+      const multi = who.length > 1 || originals.length > 1;
+
+      // 兩個以上單位：只開一份「最終填報」，存到永續辦
+      if (multi) {
         const office = officeUnit();
-        if (office) list.push({ unitId: office.id, unitName: "永續辦", officeOnly: true });
+        if (office) {
+          return [{ unitId: office.id, unitName: "最終填報", kind: "final" }];
+        }
+        if (who[0]) {
+          return [{ unitId: who[0], unitName: "最終填報", kind: "final" }];
+        }
+        return [];
       }
-      return list;
+
+      // 單一原單位：改寫該單位答案
+      if (who[0]) {
+        return [{ unitId: who[0], unitName: unitName(who[0]), kind: "rewrite" }];
+      }
+      if (originals[0]) {
+        return [
+          {
+            unitId: originals[0].unitId,
+            unitName: originals[0].unitName,
+            kind: "rewrite",
+          },
+        ];
+      }
+      const office = officeUnit();
+      if (office) return [{ unitId: office.id, unitName: "最終填報", kind: "final" }];
+      return [];
     }
 
     function renderFillEditors(q) {
       const wrap = document.createElement("div");
       wrap.className = "fill-editors";
       const targets = fillTargets(q);
+      const multi = isMultiUnitQuestion(q);
       const head = document.createElement("div");
       head.className = "multi-unit-label";
-      head.textContent =
-        targets.length > 1 ? "整理改寫（可改各單位；匯出同一題只會有一份）" : "整理改寫";
+      if (multi) {
+        head.textContent = "最終填報（匯出用，同一題只會有這一份）";
+      } else if (targets[0] && targets[0].kind === "rewrite") {
+        head.textContent = `原本單位改寫：${targets[0].unitName}`;
+      } else {
+        head.textContent = "最終填報";
+      }
       wrap.appendChild(head);
       if (!targets.length) {
         const empty = document.createElement("div");
         empty.className = "submitted-empty";
-        empty.textContent = "尚無單位可改寫（可先分派單位，或等單位提交）";
+        empty.textContent = "尚無可寫入的單位（請先分派，或確認已有永續辦單位）";
         wrap.appendChild(empty);
         return wrap;
       }
       targets.forEach((target) => {
         const block = document.createElement("div");
-        block.className = "fill-unit";
+        block.className = "fill-unit" + (target.kind === "final" ? " fill-unit-final" : "");
         const name = document.createElement("div");
         name.className = "fill-unit-name";
-        name.textContent = target.officeOnly ? "永續辦" : `改寫單位：${target.unitName}`;
+        if (target.kind === "final") {
+          name.textContent = "最終填報";
+        } else {
+          name.textContent = `原本單位改寫：${target.unitName}`;
+        }
         block.appendChild(name);
         const office = officeOf(target.unitId, q.id);
         if (office) {
           const tag = document.createElement("div");
           tag.className = "fill-office";
-          tag.textContent = "永續辦已填寫";
+          tag.textContent = target.kind === "final" ? "已有最終填報稿" : "永續辦已改過此單位答案";
           block.appendChild(tag);
         }
         const filledBy = (getFillAnswer(target.unitId, q.id) || {}).filledBy;
@@ -978,7 +1038,12 @@
             })),
             files: job.files,
             questions,
-            office: { unitName: unitName(job.unitId) },
+            office: {
+              unitName:
+                unitName(job.unitId) === "永續辦" || unitName(job.unitId) === "永續發展辦公室"
+                  ? "最終填報"
+                  : unitName(job.unitId),
+            },
           });
           job.questionIds.forEach((questionId) => {
             const key = fillKey(job.unitId, questionId);
@@ -1219,6 +1284,7 @@
       answerUnits = sig;
       unsubAnswers();
       officeByUnit = {};
+      returnsByUnit = {};
       if (!ids.length) {
         applySubmissions([]);
         return;
@@ -1249,6 +1315,16 @@
               if (mode === "fill" || mode === "review") requestFillRender();
             },
             (err) => showExportBanner("bad", `讀取永續辦修改失敗。${THELive.explain(err)}`)
+          )
+        );
+        stops.push(
+          THELive.listenUnitReturns(
+            unitId,
+            (map) => {
+              returnsByUnit = { ...returnsByUnit, [unitId]: map || {} };
+              renderQuestions();
+            },
+            (err) => showExportBanner("bad", `讀取退回失敗。${THELive.explain(err)}`)
           )
         );
       });
