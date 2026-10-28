@@ -101,6 +101,21 @@
     return [...set].sort((a, b) => a - b);
   }
 
+  function showSdgOverview(n) {
+    currentSdg = n;
+    activeQuestionId = null;
+    activeRef = null;
+    activeMetricRef = null;
+    renderTabs();
+    renderQuestions();
+    // 點 SDG 或問號：右側顯示該篇完整方法論
+    renderMethod();
+    const pane = document.querySelector(".pane-right");
+    if (pane && typeof pane.scrollIntoView === "function") {
+      pane.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   function renderTabs() {
     sdgTabs.innerHTML = "";
     if (!currentUnitId) return;
@@ -111,22 +126,29 @@
     }
     if (!currentSdg || !list.includes(currentSdg)) currentSdg = list[0];
     list.forEach((n) => {
+      const chip = document.createElement("div");
+      chip.className = "sdg-chip has-items" + (n === currentSdg ? " active" : "");
+
       const btn = document.createElement("button");
       btn.type = "button";
+      btn.className = "sdg-tab";
       btn.textContent = `SDG${n}`;
-      btn.className = n === currentSdg ? "active has-items" : "has-items";
-      btn.addEventListener("click", () => {
-        currentSdg = n;
-        activeQuestionId = null;
-        activeRef = null;
-        activeMetricRef = null;
-        renderTabs();
-        renderQuestions();
-        const first = assignmentsForUnit(currentUnitId).find((q) => q.sdg === currentSdg);
-        if (first) selectQuestion(first);
-        else renderMethod();
+      btn.addEventListener("click", () => showSdgOverview(n));
+
+      const help = document.createElement("button");
+      help.type = "button";
+      help.className = "field-help sdg-help";
+      help.textContent = "?";
+      help.title = lang === "en" ? `What is SDG${n} about?` : `SDG${n} 在說什麼？`;
+      help.setAttribute("aria-label", help.title);
+      help.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showSdgOverview(n);
       });
-      sdgTabs.appendChild(btn);
+
+      chip.appendChild(btn);
+      chip.appendChild(help);
+      sdgTabs.appendChild(chip);
     });
   }
 

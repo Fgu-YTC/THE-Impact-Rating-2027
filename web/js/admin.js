@@ -206,28 +206,51 @@
       }
     }
 
+    function showSdgOverview(n) {
+      currentSdg = n;
+      selected.clear();
+      focusRef = null;
+      focusMetricRef = null;
+      focusQuestionId = null;
+      renderTabs();
+      renderQuestions();
+      renderMethod();
+      updateBottom();
+      const pane = document.querySelector(".pane-right");
+      if (pane && typeof pane.scrollIntoView === "function") {
+        pane.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
     function renderTabs() {
       sdgTabs.innerHTML = "";
       for (let n = 1; n <= 17; n++) {
+        const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0 };
+        const chip = document.createElement("div");
+        chip.className = "sdg-chip" + (n === currentSdg ? " active" : "");
+        if (c.total) chip.classList.add("has-items");
+
         const btn = document.createElement("button");
         btn.type = "button";
-        const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0 };
+        btn.className = "sdg-tab";
         btn.textContent = `SDG${n}`;
         btn.title = `已分配 ${c.assigned}/${c.total}`;
-        btn.className = n === currentSdg ? "active" : "";
-        if (c.total) btn.classList.add("has-items");
-        btn.addEventListener("click", () => {
-          currentSdg = n;
-          selected.clear();
-          focusRef = null;
-          focusMetricRef = null;
-          focusQuestionId = null;
-          renderTabs();
-          renderQuestions();
-          renderMethod();
-          updateBottom();
+        btn.addEventListener("click", () => showSdgOverview(n));
+
+        const help = document.createElement("button");
+        help.type = "button";
+        help.className = "field-help sdg-help";
+        help.textContent = "?";
+        help.title = lang === "en" ? `What is SDG${n} about?` : `SDG${n} 在說什麼？`;
+        help.setAttribute("aria-label", help.title);
+        help.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showSdgOverview(n);
         });
-        sdgTabs.appendChild(btn);
+
+        chip.appendChild(btn);
+        chip.appendChild(help);
+        sdgTabs.appendChild(chip);
       }
     }
 
