@@ -34,19 +34,20 @@
         title: en ? "SDG tabs" : "SDG 分頁",
         body: en
           ? "Open an SDG tab to see questions assigned to your unit."
-          : "點 SDG 分頁，查看分派給你們的題目。",
+          : "點 SDG 分頁，查看分派給貴單位的題目。",
         prefer: "bottom",
       },
       {
-        sel: "#questionList .q-card, #questionList, .pane-left",
+        sel: "#questionList .q-card .fill-compare-now, #questionList .q-card .fields, #questionList .q-card",
         title: en ? "Questions & answers" : "提問與填答",
         body: en
           ? "Fill answers and evidence here. Last year’s content is for reference only."
           : "在這裡填答案與證據；去年內容僅供參考。",
         prefer: "right",
+        scroll: "start",
       },
       {
-        sel: ".pane-right",
+        sel: ".pane-right .method-body, .pane-right",
         title: en ? "Methodology" : "方法論",
         body: en
           ? "The right pane shows THE methodology for the current SDG or question."
@@ -54,12 +55,13 @@
         prefer: "left",
       },
       {
-        sel: ".q-return-btn, #questionList .q-card, .pane-left",
+        sel: "#questionList .q-card .q-return-btn, #questionList .q-card .q-method-btn",
         title: en ? "Return if you cannot answer" : "無法填就退回",
         body: en
           ? "Next to「THE methodology」, tap Return. Then write a suggestion (or「無」)."
           : "在「看 THE 方法論」旁按「退回」，才會出現建議欄；沒有建議請填「無」。",
-        prefer: "right",
+        prefer: "bottom",
+        scroll: "start",
       },
       {
         sel: "#btnSubmit",
@@ -129,14 +131,15 @@
       }, 40);
     }
 
-    function scrollToEl(el) {
+    function scrollToEl(el, mode) {
       if (!el) return;
+      const block = mode === "start" ? "start" : "center";
       try {
-        el.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
+        el.scrollIntoView({ behavior: "auto", block, inline: "nearest" });
       } catch (_) {
         el.scrollIntoView(true);
       }
-      // 左右欄是獨立 overflow，再對最近可捲動祖先補一次置中
+      // 左右欄是獨立 overflow，再對最近可捲動祖先對齊
       let node = el.parentElement;
       while (node && node !== document.body) {
         const style = window.getComputedStyle(node);
@@ -145,12 +148,27 @@
         if (canScroll) {
           const er = el.getBoundingClientRect();
           const nr = node.getBoundingClientRect();
-          const delta = er.top + er.height / 2 - (nr.top + nr.height / 2);
-          node.scrollTop += delta;
+          if (block === "start") {
+            node.scrollTop += er.top - nr.top - 12;
+          } else {
+            const delta = er.top + er.height / 2 - (nr.top + nr.height / 2);
+            node.scrollTop += delta;
+          }
           break;
         }
         node = node.parentElement;
       }
+    }
+
+    /** 只框住畫面內看得到的部分，避免整題卡片裁切後變成空白框 */
+    function intersectViewport(rect, vw, vh) {
+      const top = Math.max(PAD, rect.top);
+      const left = Math.max(PAD, rect.left);
+      const bottom = Math.min(vh - PAD, rect.bottom);
+      const right = Math.min(vw - PAD, rect.right);
+      const width = Math.max(0, right - left);
+      const height = Math.max(0, bottom - top);
+      return { top, left, width, height };
     }
 
     function layout(def) {
@@ -158,24 +176,39 @@
       const el = firstMatch(def.sel);
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      let rect;
+      let raw;
       if (el) {
-        rect = el.getBoundingClientRect();
+        raw = el.getBoundingClientRect();
       } else {
-        rect = {
+        raw = {
           top: vh * 0.3,
-          left: vw * 0.2,
-          width: vw * 0.6,
-          height: 80,
-          bottom: vh * 0.3 + 80,
-          right: vw * 0.8,
+          left: vw * 0.15,
+          width: vw * 0.45,
+          height: 120,
+          bottom: vh * 0.3 + 120,
+          right: vw * 0.6,
         };
       }
 
-      const top = Math.max(PAD, rect.top - PAD);
-      const left = Math.max(PAD, rect.left - PAD);
-      const width = Math.min(vw - left - PAD, rect.width + PAD * 2);
-      const height = Math.min(vh - top - PAD, Math.min(rect.height + PAD * 2, vh * 0.55));
+      let { top, left, width, height } = intersectViewport(
+        {
+          top: raw.top - PAD,
+          left: raw.left - PAD,
+          bottom: raw.bottom + PAD,
+          right: raw.right + PAD,
+        },
+        vw,
+        vh
+      );
+      if (width < 40 || height < 28) {
+        // 目標幾乎在畫面外時，改框可視區中段，避免空白框
+        top = Math.max(PAD, vh * 0.2);
+        left = Math.max(PAD, raw.left);
+        width = Math.min(vw - left - PAD, Math.max(raw.width, 200));
+        height = Math.min(vh * 0.4, 220);
+      } else {
+        height = Math.min(height, vh * 0.62);
+      }
 
       spot.style.top = `${top}px`;
       spot.style.left = `${left}px`;
@@ -250,16 +283,15 @@
 
       const el = firstMatch(def.sel);
       scrollQuiet = true;
-      scrollToEl(el);
+      scrollToEl(el, def.scroll || "center");
       window.clearTimeout(placeTimer);
       placeTimer = window.setTimeout(() => {
         layout(def);
         scrollQuiet = false;
-        // 再量一次，避免字型／版面尚未穩定
         placeTimer = window.setTimeout(() => {
           if (active) layout(defs[index]);
-        }, 80);
-      }, 60);
+        }, 100);
+      }, 80);
     }
 
     function render() {

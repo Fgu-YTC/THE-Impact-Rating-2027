@@ -410,45 +410,53 @@
         });
         meta.appendChild(returnBtn);
         card.appendChild(meta);
-        card.appendChild(THEUI.renderQuestionCopy(q, lang));
 
-        const fields = document.createElement("div");
-        fields.className = "fields";
-        const pending = pendingFiles.get(q.id);
-        THEUI.appendAnswerFields(fields, q, {
-          lang,
-          getAnswer: () => getAnswer(q.id),
-          pendingName: pending ? pending.name : "",
-          resolveFileUrl: (answer) => (window.THESubmit && THESubmit.fileUrl ? THESubmit.fileUrl(answer) : Promise.resolve("")),
-          onPatch: (partial) => saveAnswer(q.id, partial),
-          onFile: (file) => {
-            if (file) pendingFiles.set(q.id, file);
-            else pendingFiles.delete(q.id);
-          },
-        });
-        card.appendChild(
-          THEUI.renderFillCompare({
-            lang,
-            prior: THEUI.renderPriorYear(priorYear[q.ref], q),
-            fields,
-          })
-        );
-        if (returnOpen.has(q.id)) {
+        const returning = returnOpen.has(q.id) || !!returns[q.id];
+        if (returning) {
+          card.classList.add("q-card-returning");
           card.appendChild(
             THEUI.renderReturnEditor({
               ret: returns[q.id] || null,
               lang,
               onReturn: async (suggestion) => {
                 await THELive.saveReturn(currentUnitId, q.id, suggestion);
+                // 退回後自本單位取消分派，供管理頁重新分配
+                await THELive.unassignQuestions(currentUnitId, [q.id]);
+                returnOpen.delete(q.id);
               },
               onClear: async () => {
                 await THELive.clearReturn(currentUnitId, q.id);
                 returnOpen.delete(q.id);
               },
               onClose: () => {
+                if (returns[q.id]) return; // 已退回不可只收合隱藏狀態
                 returnOpen.delete(q.id);
                 requestRender();
               },
+            })
+          );
+        } else {
+          card.appendChild(THEUI.renderQuestionCopy(q, lang));
+          const fields = document.createElement("div");
+          fields.className = "fields";
+          const pending = pendingFiles.get(q.id);
+          THEUI.appendAnswerFields(fields, q, {
+            lang,
+            getAnswer: () => getAnswer(q.id),
+            pendingName: pending ? pending.name : "",
+            resolveFileUrl: (answer) =>
+              window.THESubmit && THESubmit.fileUrl ? THESubmit.fileUrl(answer) : Promise.resolve(""),
+            onPatch: (partial) => saveAnswer(q.id, partial),
+            onFile: (file) => {
+              if (file) pendingFiles.set(q.id, file);
+              else pendingFiles.delete(q.id);
+            },
+          });
+          card.appendChild(
+            THEUI.renderFillCompare({
+              lang,
+              prior: THEUI.renderPriorYear(priorYear[q.ref], q),
+              fields,
             })
           );
         }

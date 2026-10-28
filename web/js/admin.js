@@ -355,6 +355,12 @@
         if (q.sdg !== currentSdg) return false;
         if (mode === "fill") return true;
         const a = assignees(q.id);
+        const returned = returnsFor(q.id);
+        if (filter === "returned") {
+          if (!returned.length) return false;
+          if (unitFilter.size) return returned.some((item) => unitFilter.has(item.unitId));
+          return true;
+        }
         if (unitFilter.size && !a.some((id) => unitFilter.has(id))) return false;
         if (filter === "assigned") return a.length > 0;
         if (filter === "unassigned") return a.length === 0;
@@ -1092,6 +1098,8 @@
       const ids = [...selected];
       try {
         await THELive.assignQuestions(unitId, ids);
+        // 重新分配：清掉舊退回紀錄
+        await THELive.clearReturnsForQuestions(ids);
         selected.clear();
         updateBottom();
       } catch (err) {

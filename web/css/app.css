@@ -621,6 +621,15 @@ button:disabled {
   color: #4a3a30;
   white-space: pre-wrap;
 }
+.return-reassign-tip {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: #6a4a38;
+  font-weight: 600;
+}
+.q-card-returning .q-return-btn {
+  pointer-events: none;
+}
 .return-actions {
   display: flex;
   flex-wrap: wrap;

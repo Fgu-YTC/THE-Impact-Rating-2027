@@ -582,6 +582,13 @@
     why.textContent =
       (lang === "en" ? "Suggestion: " : "退回建議：") + String(ret.suggestion || "").trim();
     box.appendChild(why);
+    const tip = document.createElement("div");
+    tip.className = "return-reassign-tip";
+    tip.textContent =
+      lang === "en"
+        ? "Reassign: select this question, choose a unit, then Assign."
+        : "重新分配：勾選此題、選單位後按「送出分派」。";
+    box.appendChild(tip);
     return box;
   }
 

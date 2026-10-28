@@ -301,6 +301,22 @@
     await fs.deleteDoc(fs.doc(store, "units", unitId, "returns", questionId));
   }
 
+  /** 重新分配前清掉各單位對該題的退回紀錄 */
+  async function clearReturnsForQuestions(questionIds) {
+    const ids = (questionIds || []).filter(Boolean);
+    if (!ids.length) return;
+    const { store, fs } = await db();
+    const snap = await fs.getDocs(fs.collection(store, "units"));
+    if (snap.empty) return;
+    const batch = fs.writeBatch(store);
+    snap.forEach(function (unitDoc) {
+      ids.forEach(function (questionId) {
+        batch.delete(fs.doc(store, "units", unitDoc.id, "returns", questionId));
+      });
+    });
+    await batch.commit();
+  }
+
   global.THELive = {
     explain,
     listenUnits,
@@ -318,5 +334,6 @@
     saveOfficeAnswers,
     saveReturn,
     clearReturn,
+    clearReturnsForQuestions,
   };
 })(window);
