@@ -47,19 +47,20 @@
         scroll: "start",
       },
       {
-        sel: ".pane-right .method-body, .pane-right",
-        title: en ? "Methodology" : "方法論",
+        sel: "#questionList .q-card .q-method-btn, .pane-right .method-body, .pane-right",
+        title: en ? "THE methodology" : "THE 方法論",
         body: en
-          ? "The right pane shows THE methodology for the current SDG or question."
-          : "右側顯示目前 SDG／題目的 THE 方法論。",
-        prefer: "left",
+          ? "Every question has a THE methodology button. Tap it to read THE’s Chinese methodology on the right."
+          : "每個題目都有「看 THE 方法論」；點了可在右側看到 THE 的中文方法論內容。",
+        prefer: "bottom",
+        scroll: "start",
       },
       {
-        sel: "#questionList .q-card .q-meta, #questionList .q-card .q-return-btn",
+        sel: "#questionList .q-card .q-return-btn, #questionList .q-card .q-meta",
         title: en ? "Return if you cannot answer" : "無法填就退回",
         body: en
-          ? "Next to「THE methodology」, tap Return. Then write a suggestion (or「無」)."
-          : "在「看 THE 方法論」旁按「退回」，才會出現建議欄；沒有建議請填「無」。",
+          ? "Tap Return to open the suggestion field. If you have no suggestion, enter「無」."
+          : "按「退回」會出現建議欄；沒有建議請填「無」。",
         prefer: "bottom",
         scroll: "start",
       },
