@@ -194,36 +194,13 @@ button:disabled {
 }
 .method-ask-answer.busy { background: #fff6df; border-color: #e2d2a2; }
 .method-ask-answer.bad { background: #fdeeee; border-color: #e3b4b4; }
-.method-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 0.75rem;
-  padding-bottom: 0.65rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #ddd4c4;
-}
-.pane-right h2#methodTitle,
-.pane-right #methodTitle {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
+.q-method-btn {
+  margin-left: auto;
+  padding: 0.22rem 0.55rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1a2e28;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-.method-open-btn {
-  flex: none;
+  line-height: 1.2;
   white-space: nowrap;
-}
-.method-hint {
-  margin: -0.35rem 0 0.85rem;
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: var(--muted);
 }
 
 .pane h2 {
@@ -382,6 +359,7 @@ button:disabled {
   align-items: center;
   gap: 0.4rem;
   margin-bottom: 0.45rem;
+  width: 100%;
 }
 .q-ref {
   font-size: 0.75rem;
@@ -494,14 +472,13 @@ button:disabled {
 }
 .fill-compare {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
   margin-top: 0.65rem;
-  align-items: start;
 }
 .fill-compare-side {
   min-width: 0;
-  padding: 0.55rem 0.65rem 0.7rem;
+  padding: 0.65rem 0.75rem 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: #fffcf7;
@@ -519,7 +496,7 @@ button:disabled {
   font-size: 0.8rem;
   font-weight: 700;
   color: #5a675f;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 .fill-compare-prior .fill-compare-label { color: #6d624f; }
 .fill-compare-now .fill-compare-label { color: var(--accent); }
@@ -563,15 +540,40 @@ button:disabled {
   line-height: 1.4;
   font-weight: 600;
 }
+.prior-list {
+  display: grid;
+  gap: 0.35rem;
+}
 .prior-row {
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  gap: 0.2rem 0.55rem;
-  font-size: 0.84rem;
-  line-height: 1.45;
-  margin-top: 0.2rem;
+  grid-template-columns: minmax(4.5rem, 6.5rem) minmax(0, 1fr);
+  gap: 0.25rem 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  align-items: start;
+}
+.prior-dt {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.prior-dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .prior-row a { word-break: break-all; }
+.prior-row-block {
+  grid-template-columns: 1fr;
+  gap: 0.2rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.prior-row-block .prior-dd {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: var(--ink);
+}
 .badge.warn { background: var(--warn-bg); color: var(--warn); }
 .badge.ok { background: var(--ok-bg); color: var(--ok); }
 .submitted {

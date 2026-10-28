@@ -114,10 +114,6 @@
             ? "Not a premium model — please wait patiently."
             : "非高階模型，使用時請耐心等候。";
       }
-      const showMethod = $("#btnShowMethod");
-      if (showMethod) {
-        showMethod.textContent = lang === "en" ? "View THE methodology" : "看 THE 方法論";
-      }
     }
 
     THEUI.bindLangToggle($("#langToggle"), (next) => {
@@ -258,42 +254,13 @@
       if (askForm) askForm.hidden = !(q || currentSdg);
     }
 
-    function showMethodologyPanel() {
-      if (!currentSdg) {
-        THEMethod.render(methodTitle, methodBody, {
-          title: lang === "en" ? "Methodology" : "方法論",
-          html: `<p class="method-p method-empty">${
-            lang === "en" ? "Select an SDG tab first." : "請先選擇上方的 SDG。"
-          }</p>`,
-        });
-      } else if (!focusRef && !focusQuestionId) {
-        const resolved = THEMethod.resolve({
-          lang,
-          methodologyZh,
-          methodologyEn,
-          sdg: currentSdg,
-        });
-        THEMethod.render(methodTitle, methodBody, resolved);
-        window.THEAskQuestion = {
-          ref: "",
-          sdg: currentSdg,
-          title: resolved.title || "",
-          answerType: "",
-          options: [],
-        };
-        const askForm = $("#methodAsk");
-        if (askForm) askForm.hidden = false;
-      } else {
-        renderMethod();
-      }
+    function showQuestionMethodology(q) {
+      focusQuestion(q);
       const pane = document.querySelector(".pane-right");
       if (pane && typeof pane.scrollIntoView === "function") {
         pane.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
-
-    const btnShowMethod = $("#btnShowMethod");
-    if (btnShowMethod) btnShowMethod.addEventListener("click", showMethodologyPanel);
 
     function visibleQuestions() {
       return questions.filter((q) => {
@@ -406,6 +373,15 @@
           }
           meta.appendChild(ref);
           meta.appendChild(badge);
+          const methodBtn = document.createElement("button");
+          methodBtn.type = "button";
+          methodBtn.className = "secondary q-method-btn";
+          methodBtn.textContent = lang === "en" ? "View THE methodology" : "看 THE 方法論";
+          methodBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            showQuestionMethodology(q);
+          });
+          meta.appendChild(methodBtn);
           body.appendChild(meta);
           body.appendChild(
             THEUI.renderQuestionCopy(q, lang, {

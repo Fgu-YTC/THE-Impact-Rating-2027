@@ -32,15 +32,11 @@
   <main class="layout with-bottom">
     <section class="pane pane-left" aria-label="提問">
       <h2>提問</h2>
-      <p id="methodHint" class="method-hint">點選題目，或按右邊「看 THE 方法論」，即可查看說明。</p>
       <div id="emptyState" class="empty"></div>
       <div id="questionList"></div>
     </section>
     <aside class="pane pane-right" aria-label="方法論">
-      <div class="method-head">
-        <h2 id="methodTitle">方法論</h2>
-        <button type="button" id="btnShowMethod" class="secondary method-open-btn">看 THE 方法論</button>
-      </div>
+      <h2 id="methodTitle">方法論</h2>
       <div class="method-body" id="methodBody"></div>
       <form id="methodAsk" class="method-ask" hidden>
         <button type="submit" id="methodAskBtn">問 Gemini</button>

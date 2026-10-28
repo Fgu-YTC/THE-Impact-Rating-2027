@@ -64,14 +64,6 @@
         ? "Not a premium model — please wait patiently."
         : "非高階模型，使用時請耐心等候。";
     }
-    const showMethod = $("#btnShowMethod");
-    if (showMethod) showMethod.textContent = en ? "View THE methodology" : "看 THE 方法論";
-    const methodHint = $("#methodHint");
-    if (methodHint) {
-      methodHint.textContent = en
-        ? "Select a question, or use “View THE methodology” on the right."
-        : "點選題目，或按右邊「看 THE 方法論」，即可查看說明。";
-    }
   }
 
   THEUI.bindLangToggle($("#langToggle"), (next) => {
@@ -187,51 +179,13 @@
     if (askForm) askForm.hidden = !(q || currentSdg);
   }
 
-  function showMethodologyPanel() {
-    if (!currentUnitId) {
-      THEMethod.render(methodTitle, methodBody, {
-        title: lang === "en" ? "Methodology" : "方法論",
-        html: `<p class="method-p method-empty">${
-          lang === "en" ? "Select a unit first." : "請先選擇填寫單位。"
-        }</p>`,
-      });
-    } else if (!currentSdg) {
-      THEMethod.render(methodTitle, methodBody, {
-        title: lang === "en" ? "Methodology" : "方法論",
-        html: `<p class="method-p method-empty">${
-          lang === "en" ? "Select an SDG tab first." : "請先選擇上方的 SDG。"
-        }</p>`,
-      });
-    } else if (!activeRef && !activeQuestionId) {
-      // 尚未點題：直接顯示本 SDG 完整方法論
-      const resolved = THEMethod.resolve({
-        lang,
-        methodologyZh,
-        methodologyEn,
-        sdg: currentSdg,
-      });
-      THEMethod.render(methodTitle, methodBody, resolved);
-      window.THEAskQuestion = {
-        ref: "",
-        sdg: currentSdg,
-        title: resolved.title || "",
-        answerType: "",
-        options: [],
-      };
-      const askForm = $("#methodAsk");
-      if (askForm) askForm.hidden = false;
-    } else {
-      renderMethod();
-    }
+  function showQuestionMethodology(q) {
+    selectQuestion(q);
     const pane = document.querySelector(".pane-right");
     if (pane && typeof pane.scrollIntoView === "function") {
       pane.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-    methodBody.focus?.();
   }
-
-  const btnShowMethod = $("#btnShowMethod");
-  if (btnShowMethod) btnShowMethod.addEventListener("click", showMethodologyPanel);
 
   function getAnswer(qid) {
     return { ...(remoteAnswers[qid] || {}), ...(drafts[qid] || {}) };
@@ -341,6 +295,15 @@
           who.textContent = lang === "en" ? `Filler: ${ans.filledBy}` : `填寫人：${ans.filledBy}`;
           meta.appendChild(who);
         }
+        const methodBtn = document.createElement("button");
+        methodBtn.type = "button";
+        methodBtn.className = "secondary q-method-btn";
+        methodBtn.textContent = lang === "en" ? "View THE methodology" : "看 THE 方法論";
+        methodBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showQuestionMethodology(q);
+        });
+        meta.appendChild(methodBtn);
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang));
 

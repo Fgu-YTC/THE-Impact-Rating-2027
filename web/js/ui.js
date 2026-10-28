@@ -423,13 +423,35 @@
     return note;
   }
 
-  function priorRow(list, label, value) {
+  /** 去年標籤常是英中黏在一起；依介面語言只留一邊，或對齊今年選項文案 */
+  function preferLangLabel(raw, lang, option) {
+    if (option) {
+      const picked = lang === "en" ? option.en || option.zh : option.zh || option.en;
+      if (picked) return String(picked).trim();
+    }
+    const s = String(raw || "").trim();
+    if (!s) return lang === "en" ? "Option" : "選項";
+    const paren = s.match(/^(.+?)\s*[\(（]\s*(.+?)\s*[\)）]\s*$/);
+    if (paren) return (lang === "en" ? paren[1] : paren[2]).trim();
+    const cjk = s.search(/[\u4e00-\u9fff]/);
+    if (cjk > 0) {
+      const en = s.slice(0, cjk).trim();
+      const zh = s.slice(cjk).trim();
+      if (en && zh) return lang === "en" ? en : zh;
+    }
+    return s;
+  }
+
+  function priorRow(list, label, value, { block = false } = {}) {
     if (value == null || value === "") return;
     const row = document.createElement("div");
-    row.className = "prior-row";
+    const longText = typeof value === "string" && value.length > 80;
+    row.className = "prior-row" + (block || longText ? " prior-row-block" : "");
     const dt = document.createElement("span");
+    dt.className = "prior-dt";
     dt.textContent = label;
     const dd = document.createElement("span");
+    dd.className = "prior-dd";
     if (value instanceof Node) dd.appendChild(value);
     else dd.textContent = value;
     row.appendChild(dt);
@@ -472,6 +494,13 @@
   function renderPriorYear(data, question) {
     if (!data) return null;
     const lang = getLang();
+    const yesNoLabel = lang === "en" ? "Yes / No" : "是／否";
+    const evidenceLabel = lang === "en" ? "Evidence" : "證據";
+    const fileLabel = lang === "en" ? "File" : "檔案";
+    const publicLabel = lang === "en" ? "Public" : "是否公開";
+    const noteLabel = lang === "en" ? "Comments" : "備註";
+    const yesText = lang === "en" ? "Yes" : "是";
+    const noText = lang === "en" ? "No" : "否";
     const box = document.createElement("div");
     box.className = "prior";
     const head = document.createElement("div");
@@ -486,33 +515,40 @@
       box.appendChild(note);
     }
     const list = document.createElement("div");
-    if (data.yesNo === "yes") priorRow(list, "Yes / No", "Yes");
-    if (data.yesNo === "no") priorRow(list, "Yes / No", "No");
-    (data.lines || []).forEach((line) => {
+    list.className = "prior-list";
+    if (data.yesNo === "yes") priorRow(list, yesNoLabel, yesText);
+    if (data.yesNo === "no") priorRow(list, yesNoLabel, noText);
+    (data.lines || []).forEach((line, i) => {
       const bits = [];
-      if (line.yesNo === "yes") bits.push("Yes");
-      if (line.yesNo === "no") bits.push("No");
-      if (line.public === "yes") bits.push("公開");
-      if (line.public === "no") bits.push("未公開");
-      priorRow(list, line.label || "選項", bits.join("　") || "—");
-      (line.evidence || []).forEach((href) => priorRow(list, "證據", priorLink(href)));
+      if (line.yesNo === "yes") bits.push(yesText);
+      if (line.yesNo === "no") bits.push(noText);
+      if (line.public === "yes") bits.push(lang === "en" ? "Public" : "公開");
+      if (line.public === "no") bits.push(lang === "en" ? "Not public" : "未公開");
+      const opt = question && Array.isArray(question.options) ? question.options[i] : null;
+      priorRow(list, preferLangLabel(line.label, lang, opt), bits.join("　") || "—");
+      (line.evidence || []).forEach((href) => priorRow(list, evidenceLabel, priorLink(href)));
     });
-    (data.values || []).forEach((entry) => {
-      priorRow(list, entry.label || "數字", entry.value);
+    (data.values || []).forEach((entry, i) => {
+      const opt = question && Array.isArray(question.options) ? question.options[i] : null;
+      priorRow(
+        list,
+        preferLangLabel(entry.label || (lang === "en" ? "Number" : "數字"), lang, opt),
+        entry.value
+      );
     });
-    (data.evidence || []).forEach((href) => priorRow(list, "證據", priorLink(href)));
+    (data.evidence || []).forEach((href) => priorRow(list, evidenceLabel, priorLink(href)));
     (data.files || []).forEach((item) => {
       if (item && typeof item === "object" && item.url) {
-        priorRow(list, "檔案", priorLink(item.url, item.name || item.url));
+        priorRow(list, fileLabel, priorLink(item.url, item.name || item.url));
       } else if (item && typeof item === "object" && item.name) {
-        priorRow(list, "檔案", item.name);
+        priorRow(list, fileLabel, item.name);
       } else if (item) {
-        priorRow(list, "檔案", String(item));
+        priorRow(list, fileLabel, String(item));
       }
     });
-    if (data.public === "yes") priorRow(list, "Public", "公開");
-    if (data.public === "no") priorRow(list, "Public", "未公開");
-    if (data.note) priorRow(list, "說明", data.note);
+    if (data.public === "yes") priorRow(list, publicLabel, lang === "en" ? "Yes" : "公開");
+    if (data.public === "no") priorRow(list, publicLabel, lang === "en" ? "No" : "未公開");
+    if (data.note) priorRow(list, noteLabel, data.note, { block: true });
     if (!list.childNodes.length && !changeNote) return null;
     if (list.childNodes.length) box.appendChild(list);
     return box;
@@ -526,37 +562,37 @@
     return line;
   }
 
-  /** 去年參考｜今年填寫，左右對照 */
+  /** 今年填寫在上、去年參考在下（全寬，方便閱讀長文） */
   function renderFillCompare({ prior, priorUnit, fields, lang }) {
     const wrap = document.createElement("div");
     wrap.className = "fill-compare";
 
-    const left = document.createElement("div");
-    left.className = "fill-compare-side fill-compare-prior";
-    const leftHead = document.createElement("div");
-    leftHead.className = "fill-compare-label";
-    leftHead.textContent = lang === "en" ? "Last year (reference)" : "去年填報（參考）";
-    left.appendChild(leftHead);
-    if (priorUnit) left.appendChild(priorUnit);
+    const now = document.createElement("div");
+    now.className = "fill-compare-side fill-compare-now";
+    const nowHead = document.createElement("div");
+    nowHead.className = "fill-compare-label";
+    nowHead.textContent = lang === "en" ? "This year (fill in)" : "今年填報";
+    now.appendChild(nowHead);
+    if (fields) now.appendChild(fields);
+
+    const ref = document.createElement("div");
+    ref.className = "fill-compare-side fill-compare-prior";
+    const refHead = document.createElement("div");
+    refHead.className = "fill-compare-label";
+    refHead.textContent = lang === "en" ? "Last year (reference)" : "去年填報（參考）";
+    ref.appendChild(refHead);
+    if (priorUnit) ref.appendChild(priorUnit);
     if (prior) {
-      left.appendChild(prior);
+      ref.appendChild(prior);
     } else {
       const empty = document.createElement("div");
       empty.className = "fill-compare-empty";
       empty.textContent = lang === "en" ? "No last-year answer for this question." : "此題沒有去年填答可對照。";
-      left.appendChild(empty);
+      ref.appendChild(empty);
     }
 
-    const right = document.createElement("div");
-    right.className = "fill-compare-side fill-compare-now";
-    const rightHead = document.createElement("div");
-    rightHead.className = "fill-compare-label";
-    rightHead.textContent = lang === "en" ? "This year (fill in)" : "今年填報";
-    right.appendChild(rightHead);
-    if (fields) right.appendChild(fields);
-
-    wrap.appendChild(left);
-    wrap.appendChild(right);
+    wrap.appendChild(now);
+    wrap.appendChild(ref);
     return wrap;
   }
 
