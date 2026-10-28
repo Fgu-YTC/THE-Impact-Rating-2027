@@ -1,7 +1,8 @@
-/** 逐步浮動教學：反白目標＋箭頭說明 */
+/** 逐步浮動教學：以永續辦題目為例，反白＋箭頭說明 */
 (function (global) {
-  const KEY = "theImpact2027.tour.seen.v2";
+  const KEY = "theImpact2027.tour.seen.v3";
   const PAD = 8;
+  const EXAMPLE_UNIT = "永續辦";
 
   function seen() {
     try {
@@ -24,57 +25,68 @@
         sel: "#unitSelect",
         title: en ? "Choose your unit" : "選擇填寫單位",
         body: en
-          ? "Start here. Pick the unit you are filling for."
-          : "從這裡開始：選你要代填的單位。",
+          ? `This tour uses「${EXAMPLE_UNIT}」as an example. Later pick your own unit here.`
+          : `教學先以「${EXAMPLE_UNIT}」為例；之後請在這裡改選你們單位。`,
         prefer: "bottom",
       },
       {
         sel: "#sdgTabs",
         title: en ? "SDG tabs" : "SDG 分頁",
         body: en
-          ? "After a unit is selected, open an SDG to see assigned questions."
-          : "選好單位後，點 SDG 分頁查看分派給你們的題目。",
+          ? `These are SDGs assigned to「${EXAMPLE_UNIT}」. Click a tab to switch goals.`
+          : `這是「${EXAMPLE_UNIT}」有分派的 SDG；點分頁可切換目標。`,
         prefer: "bottom",
       },
       {
-        sel: ".pane-left",
+        sel: "#questionList .q-card, #questionList, .pane-left",
         title: en ? "Questions & answers" : "提問與填答",
         body: en
-          ? "Fill answers and evidence here. Last year’s content is reference only."
-          : "在這裡填答案與證據；去年內容只供參考。",
+          ? `Example questions for「${EXAMPLE_UNIT}」. Fill answers and evidence; last year is reference only.`
+          : `以下是「${EXAMPLE_UNIT}」的例題。在此填答案與證據；去年內容僅供參考。`,
         prefer: "right",
       },
       {
         sel: ".pane-right",
         title: en ? "Methodology" : "方法論",
         body: en
-          ? "The right pane shows THE methodology for the selected SDG or question."
-          : "右側顯示目前 SDG／題目的 THE 方法論說明。",
+          ? "The right pane shows THE methodology for the current SDG or question."
+          : "右側顯示目前 SDG／題目的 THE 方法論。",
         prefer: "left",
       },
       {
-        sel: ".pane-left",
+        sel: ".q-return-btn, #questionList .q-card, .pane-left",
         title: en ? "Return if you cannot answer" : "無法填就退回",
         body: en
-          ? "Under each question, use Return and write a suggestion (or「無」) if your unit cannot answer."
-          : "每題下方可「退回」：表示本單位無法回答，並寫退回建議（沒有就填「無」）。",
+          ? "Next to「THE methodology」, tap Return. Then write a suggestion (or「無」)."
+          : "在「看 THE 方法論」旁按「退回」，才會出現建議欄；沒有建議請填「無」。",
         prefer: "right",
       },
       {
         sel: "#btnSubmit",
         title: en ? "Submit" : "提交",
         body: en
-          ? "When finished, submit here and enter the filler’s name."
-          : "改完按這裡提交，並輸入填寫人姓名。",
+          ? "When finished, submit here and enter the filler’s name. (Demo only—don’t submit for 永續辦 unless you mean to.)"
+          : "改完按這裡提交並輸入填寫人。教學以永續辦示範，非你們單位時請勿誤送。",
         prefer: "top",
       },
     ];
+  }
+
+  function firstMatch(sel) {
+    const parts = String(sel || "").split(",").map((s) => s.trim()).filter(Boolean);
+    for (let i = 0; i < parts.length; i++) {
+      const el = document.querySelector(parts[i]);
+      if (el) return el;
+    }
+    return null;
   }
 
   function bind(opts) {
     const root = document.getElementById("tourRoot");
     if (!root) return { show() {}, syncLang() {} };
     const getLang = (opts && opts.getLang) || (() => "zh");
+    const prepareExample = (opts && opts.prepareExample) || (() => Promise.resolve());
+    const restoreSelection = (opts && opts.restoreSelection) || (() => {});
     const spot = root.querySelector("[data-tour-spot]");
     const pop = root.querySelector("[data-tour-pop]");
     const arrow = root.querySelector("[data-tour-arrow]");
@@ -96,6 +108,9 @@
       markSeen();
       window.removeEventListener("resize", onReposition);
       window.removeEventListener("scroll", onReposition, true);
+      try {
+        restoreSelection();
+      } catch (_) {}
     }
 
     function onReposition() {
@@ -104,7 +119,7 @@
 
     function place(def) {
       if (!def) return;
-      const el = document.querySelector(def.sel);
+      const el = firstMatch(def.sel);
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       let rect;
@@ -112,13 +127,20 @@
         el.scrollIntoView({ block: "nearest", inline: "nearest" });
         rect = el.getBoundingClientRect();
       } else {
-        rect = { top: vh * 0.3, left: vw * 0.2, width: vw * 0.6, height: 80, bottom: vh * 0.3 + 80, right: vw * 0.8 };
+        rect = {
+          top: vh * 0.3,
+          left: vw * 0.2,
+          width: vw * 0.6,
+          height: 80,
+          bottom: vh * 0.3 + 80,
+          right: vw * 0.8,
+        };
       }
 
       const top = Math.max(PAD, rect.top - PAD);
       const left = Math.max(PAD, rect.left - PAD);
       const width = Math.min(vw - left - PAD, rect.width + PAD * 2);
-      const height = Math.min(vh - top - PAD, rect.height + PAD * 2);
+      const height = Math.min(vh - top - PAD, Math.min(rect.height + PAD * 2, vh * 0.55));
 
       spot.style.top = `${top}px`;
       spot.style.left = `${left}px`;
@@ -179,7 +201,9 @@
         return;
       }
       const en = getLang() === "en";
-      stepEl.textContent = en ? `Step ${index + 1} / ${defs.length}` : `步驟 ${index + 1}／${defs.length}`;
+      stepEl.textContent = en
+        ? `Step ${index + 1} / ${defs.length} · example: ${EXAMPLE_UNIT}`
+        : `步驟 ${index + 1}／${defs.length} · 以${EXAMPLE_UNIT}為例`;
       titleEl.textContent = def.title;
       bodyEl.textContent = def.body;
       btnPrev.disabled = index === 0;
@@ -198,6 +222,15 @@
       document.body.classList.add("tour-open");
       window.addEventListener("resize", onReposition);
       window.addEventListener("scroll", onReposition, true);
+      Promise.resolve(prepareExample())
+        .catch(() => {})
+        .then(() => {
+          if (!active) return;
+          // 等畫面畫出永續辦題目
+          setTimeout(() => {
+            if (active) render();
+          }, 180);
+        });
       render();
     }
 
@@ -220,13 +253,11 @@
     });
     btnSkip.addEventListener("click", finish);
 
-    if (!seen()) setTimeout(show, 400);
-
     const reopen = document.getElementById("btnTour");
     if (reopen) reopen.addEventListener("click", show);
 
     return { show, syncLang };
   }
 
-  global.THETour = { bind, seen };
+  global.THETour = { bind, seen, EXAMPLE_UNIT };
 })(window);

@@ -636,6 +636,11 @@ button:disabled {
   background: #f0d9cc;
   color: #7a3f22;
 }
+.q-return-btn.is-returned {
+  background: #f0d9cc;
+  border-color: #e0c4b4;
+  color: #7a3f22;
+}
 .prior-change {
   margin: 0.35rem 0 0.25rem;
   padding: 0.35rem 0.5rem;

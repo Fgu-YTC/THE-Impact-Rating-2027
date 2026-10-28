@@ -585,15 +585,15 @@
     return box;
   }
 
-  /** 填報頁：退回此題＋退回建議 */
-  function renderReturnEditor({ ret, lang, onReturn, onClear }) {
+  /** 填報頁：按「退回」後才展開的建議欄 */
+  function renderReturnEditor({ ret, lang, onReturn, onClear, onClose }) {
     const box = document.createElement("div");
     box.className = "return-box" + (ret ? " returned" : "");
     box.addEventListener("click", (e) => e.stopPropagation());
 
     const head = document.createElement("div");
     head.className = "return-head";
-    head.textContent = lang === "en" ? "Cannot answer — return" : "無法填寫？退回此題";
+    head.textContent = lang === "en" ? "Return this question" : "退回此題";
     box.appendChild(head);
 
     const note = document.createElement("p");
@@ -616,16 +616,14 @@
     actions.className = "return-actions";
     const status = document.createElement("span");
     status.className = "return-status";
-    if (ret) {
-      status.textContent = lang === "en" ? "Returned" : "目前：已退回";
-    }
+    if (ret) status.textContent = lang === "en" ? "Returned" : "目前：已退回";
 
-    const btnReturn = document.createElement("button");
-    btnReturn.type = "button";
-    btnReturn.className = "secondary";
-    btnReturn.textContent = lang === "en" ? "Return question" : "退回";
-    btnReturn.addEventListener("click", async () => {
-      btnReturn.disabled = true;
+    const btnSave = document.createElement("button");
+    btnSave.type = "button";
+    btnSave.className = "fill-submit";
+    btnSave.textContent = lang === "en" ? "Confirm return" : "確認退回";
+    btnSave.addEventListener("click", async () => {
+      btnSave.disabled = true;
       status.textContent = lang === "en" ? "Saving…" : "送出中…";
       try {
         await onReturn(ta.value);
@@ -633,10 +631,10 @@
       } catch (err) {
         status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "退回失敗");
       } finally {
-        btnReturn.disabled = false;
+        btnSave.disabled = false;
       }
     });
-    actions.appendChild(btnReturn);
+    actions.appendChild(btnSave);
 
     if (ret) {
       const btnClear = document.createElement("button");
@@ -649,6 +647,7 @@
         try {
           await onClear();
           status.textContent = lang === "en" ? "Cleared" : "已取消退回";
+          if (onClose) onClose();
         } catch (err) {
           status.textContent = (err && err.message) || (lang === "en" ? "Failed" : "取消失敗");
         } finally {
@@ -658,6 +657,14 @@
       actions.appendChild(btnClear);
     }
 
+    const btnClose = document.createElement("button");
+    btnClose.type = "button";
+    btnClose.className = "secondary";
+    btnClose.textContent = lang === "en" ? "Close" : "收合";
+    btnClose.addEventListener("click", () => {
+      if (onClose) onClose();
+    });
+    actions.appendChild(btnClose);
     actions.appendChild(status);
     box.appendChild(actions);
     return box;

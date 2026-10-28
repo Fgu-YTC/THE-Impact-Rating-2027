@@ -28,6 +28,7 @@
   let holdRender = false;
   let renderQueued = false;
   let returns = {};
+  const returnOpen = new Set();
 
   const unitSelect = $("#unitSelect");
   const sdgTabs = $("#sdgTabs");
@@ -69,7 +70,61 @@
     }
   }
 
-  const tour = THETour.bind({ getLang: () => lang });
+  let tourPrev = null;
+  let tourAutoShown = false;
+
+  function prepareTourExample() {
+    const office = units.find((u) => u.name === "永續辦");
+    if (!office) return;
+    if (tourPrev === null) {
+      tourPrev = {
+        unitId: currentUnitId,
+        sdg: currentSdg,
+        questionId: activeQuestionId,
+      };
+    }
+    currentUnitId = office.id;
+    unitSelect.value = office.id;
+    activeQuestionId = null;
+    activeRef = null;
+    activeMetricRef = null;
+    watchUnit(office.id);
+    const assigned = assignmentsForUnit(office.id);
+    currentSdg = assigned.length ? assigned[0].sdg : null;
+    renderTabs();
+    renderQuestions();
+    const first = assigned.find((q) => q.sdg === currentSdg) || assigned[0];
+    if (first) selectQuestion(first);
+    else renderMethod();
+  }
+
+  function restoreTourSelection() {
+    if (!tourPrev) return;
+    const prev = tourPrev;
+    tourPrev = null;
+    currentUnitId = prev.unitId || "";
+    unitSelect.value = currentUnitId;
+    currentSdg = prev.sdg;
+    activeQuestionId = prev.questionId || null;
+    activeRef = null;
+    activeMetricRef = null;
+    watchUnit(currentUnitId);
+    renderTabs();
+    renderQuestions();
+    if (currentUnitId && activeQuestionId) {
+      const q = questions.find((item) => item.id === activeQuestionId);
+      if (q) selectQuestion(q);
+      else renderMethod();
+    } else {
+      renderMethod();
+    }
+  }
+
+  const tour = THETour.bind({
+    getLang: () => lang,
+    prepareExample: prepareTourExample,
+    restoreSelection: restoreTourSelection,
+  });
 
   THEUI.bindLangToggle($("#langToggle"), (next) => {
     lang = next;
@@ -323,12 +378,6 @@
           who.textContent = lang === "en" ? `Filler: ${ans.filledBy}` : `填寫人：${ans.filledBy}`;
           meta.appendChild(who);
         }
-        if (returns[q.id]) {
-          const badge = document.createElement("span");
-          badge.className = "badge return";
-          badge.textContent = lang === "en" ? "Returned" : "已退回";
-          meta.appendChild(badge);
-        }
         const methodBtn = document.createElement("button");
         methodBtn.type = "button";
         methodBtn.className = "secondary q-method-btn";
@@ -338,6 +387,28 @@
           showQuestionMethodology(q);
         });
         meta.appendChild(methodBtn);
+
+        const returnBtn = document.createElement("button");
+        returnBtn.type = "button";
+        returnBtn.className =
+          "secondary q-return-btn" + (returns[q.id] ? " is-returned" : "");
+        returnBtn.textContent = returns[q.id]
+          ? lang === "en"
+            ? "Returned"
+            : "已退回"
+          : lang === "en"
+            ? "Return"
+            : "退回";
+        returnBtn.title = lang === "en"
+          ? "Cannot answer — open return form"
+          : "本單位無法回答時，按此填寫退回建議";
+        returnBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (returnOpen.has(q.id)) returnOpen.delete(q.id);
+          else returnOpen.add(q.id);
+          requestRender();
+        });
+        meta.appendChild(returnBtn);
         card.appendChild(meta);
         card.appendChild(THEUI.renderQuestionCopy(q, lang));
 
@@ -362,18 +433,25 @@
             fields,
           })
         );
-        card.appendChild(
-          THEUI.renderReturnEditor({
-            ret: returns[q.id] || null,
-            lang,
-            onReturn: async (suggestion) => {
-              await THELive.saveReturn(currentUnitId, q.id, suggestion);
-            },
-            onClear: async () => {
-              await THELive.clearReturn(currentUnitId, q.id);
-            },
-          })
-        );
+        if (returnOpen.has(q.id)) {
+          card.appendChild(
+            THEUI.renderReturnEditor({
+              ret: returns[q.id] || null,
+              lang,
+              onReturn: async (suggestion) => {
+                await THELive.saveReturn(currentUnitId, q.id, suggestion);
+              },
+              onClear: async () => {
+                await THELive.clearReturn(currentUnitId, q.id);
+                returnOpen.delete(q.id);
+              },
+              onClose: () => {
+                returnOpen.delete(q.id);
+                requestRender();
+              },
+            })
+          );
+        }
         host.appendChild(card);
       });
     });
@@ -456,6 +534,15 @@
         if (!activeQuestionId && first) selectQuestion(first);
       }
       renderMethod();
+      if (
+        !tourAutoShown &&
+        tour &&
+        !THETour.seen() &&
+        units.some((u) => u.name === "永續辦")
+      ) {
+        tourAutoShown = true;
+        setTimeout(() => tour.show(), 350);
+      }
     },
     (err) => showSubmitBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
   );
