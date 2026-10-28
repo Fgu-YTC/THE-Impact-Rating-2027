@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261028e" />
+  <link rel="stylesheet" href="css/app.css?v=20261028f" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -19,59 +19,78 @@
   </div>
 
   <div id="adminApp" class="mode-assign" hidden>
-    <header class="topbar">
-      <div class="brand">THE Impact 管理</div>
-      <div class="stats" id="adminStats" title="填寫進度：已有內容的題數／已分派題數">
-        <span>全部 <strong id="statTotal">0</strong></span>
-        <span>已分配 <strong id="statAssigned">0</strong></span>
-        <span>未分配 <strong id="statUnassigned">0</strong></span>
-        <span class="stat-progress">填寫進度 <strong id="statFilled">0</strong>／<strong id="statFillDue">0</strong></span>
-        <span>未填 <strong id="statUnfilled">0</strong></span>
-      </div>
-      <div class="top-actions">
-        <div class="lang-toggle" id="modeToggle" aria-label="管理畫面">
+    <header class="topbar admin-topbar">
+      <div class="admin-top-left">
+        <div class="brand">THE Impact 管理</div>
+        <div class="lang-toggle mode-toggle" id="modeToggle" aria-label="管理畫面">
           <button type="button" data-mode="assign" class="active">分派</button>
           <button type="button" data-mode="fill">填寫</button>
-          <button type="button" data-mode="review">檢視填答</button>
+          <button type="button" data-mode="review">檢視</button>
         </div>
+      </div>
+
+      <div class="admin-progress" id="adminStats" title="填寫進度：已有內容的題數／已分派題數">
+        <div class="admin-progress-main">
+          <span class="admin-progress-label">填寫進度</span>
+          <strong><span id="statFilled">0</span>／<span id="statFillDue">0</span></strong>
+        </div>
+        <div class="admin-progress-sub">
+          分派 <strong id="statAssigned">0</strong>／<strong id="statTotal">0</strong>
+          <span class="dot">·</span>
+          未填 <strong id="statUnfilled">0</strong>
+          <span class="dot">·</span>
+          未派 <strong id="statUnassigned">0</strong>
+        </div>
+      </div>
+
+      <div class="top-actions admin-top-actions">
         <div class="lang-toggle" id="langToggle" aria-label="語言">
           <button type="button" data-lang="zh">中文</button>
           <button type="button" data-lang="en">EN</button>
         </div>
         <span class="user-chip" id="userChip"></span>
-        <a href="index.html">填報頁</a>
+        <a class="admin-link" href="index.html">填報頁</a>
         <button type="button" id="btnLogout" class="secondary">登出</button>
       </div>
     </header>
-    <div id="dataYearNote" class="data-year-note">資料年度：Impact 2027 請蒐集 <strong>113 學年度</strong>資料。數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。</div>
 
-    <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG1-17"></nav>
+    <div class="admin-chrome">
+      <div
+        id="dataYearNote"
+        class="data-year-note admin-year-note"
+        title="數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。"
+      >資料年度：Impact 2027 · <strong>113 學年度</strong></div>
 
-    <div class="filter-bar" id="filterBar" style="padding:0.5rem 1.25rem;margin:0;border-bottom:1px solid var(--line);background:rgba(255,252,247,0.7)">
-      <button type="button" data-filter="all" class="active">全部</button>
-      <button type="button" data-filter="unassigned" data-for="assign">未分配</button>
-      <button type="button" data-filter="assigned" data-for="assign">已分配</button>
-      <button type="button" data-filter="returned" data-for="assign">已退回</button>
-      <button type="button" data-filter="filled" data-for="review">已填寫</button>
-      <button type="button" data-filter="unfilled" data-for="review">未填寫</button>
-      <button type="button" data-filter="returned" data-for="review">已退回</button>
-      <button type="button" id="btnSelectUnassigned" class="secondary" data-for="assign">勾選本 SDG 未分配題</button>
-      <button type="button" id="btnReloadAnswers" class="secondary" data-for="review">重新讀取填答</button>
-    </div>
-    <div class="unit-filter" id="unitFilter" data-for="browse">
-      <div class="unit-filter-head">
-        <button type="button" id="btnToggleUnitFilter" class="secondary unit-filter-toggle" aria-expanded="false" aria-controls="unitFilterBody">
-          篩選單位
-        </button>
-        <span id="unitFilterSummary" class="unit-filter-summary">未篩選（顯示全部）</span>
-        <button type="button" id="btnClearUnitFilter" class="secondary">清除篩選</button>
+      <nav class="sdg-tabs admin-sdg-tabs" id="sdgTabs" aria-label="SDG1-17"></nav>
+
+      <div class="admin-toolbar">
+        <div class="filter-bar" id="filterBar">
+          <button type="button" data-filter="all" class="active">全部</button>
+          <button type="button" data-filter="unassigned" data-for="assign">未分配</button>
+          <button type="button" data-filter="assigned" data-for="assign">已分配</button>
+          <button type="button" data-filter="returned" data-for="assign">已退回</button>
+          <button type="button" data-filter="filled" data-for="review">已填寫</button>
+          <button type="button" data-filter="unfilled" data-for="review">未填寫</button>
+          <button type="button" data-filter="returned" data-for="review">已退回</button>
+          <button type="button" id="btnSelectUnassigned" class="secondary filter-action" data-for="assign">勾選本 SDG 未分配</button>
+          <button type="button" id="btnReloadAnswers" class="secondary filter-action" data-for="review">重新讀取填答</button>
+        </div>
+        <div class="unit-filter" id="unitFilter" data-for="browse">
+          <div class="unit-filter-head">
+            <button type="button" id="btnToggleUnitFilter" class="secondary unit-filter-toggle" aria-expanded="false" aria-controls="unitFilterBody">
+              篩選單位
+            </button>
+            <span id="unitFilterSummary" class="unit-filter-summary">未篩選</span>
+            <button type="button" id="btnClearUnitFilter" class="secondary">清除</button>
+          </div>
+          <div class="unit-filter-body" id="unitFilterBody" hidden>
+            <div id="unitFilterList"></div>
+          </div>
+        </div>
       </div>
-      <div class="unit-filter-body" id="unitFilterBody" hidden>
-        <div id="unitFilterList"></div>
-      </div>
     </div>
 
-    <main class="layout with-bottom">
+    <main class="layout with-bottom admin-layout">
       <section class="pane pane-left" aria-label="提問分派">
         <h2>提問</h2>
         <div id="questionList"></div>
@@ -87,35 +106,48 @@
       </aside>
     </main>
 
-    <footer class="bottombar">
+    <footer class="bottombar admin-bottombar">
       <div id="exportBanner" class="submit-banner" hidden role="status" aria-live="assertive"></div>
-      <span data-for="assign">已勾選 <strong id="selectedCount">0</strong> 題</span>
-      <label for="assignUnit" data-for="assign">單位</label>
-      <select id="assignUnit" data-for="assign"></select>
-      <button type="button" id="btnAssign" data-for="assign" disabled>送出分派</button>
-      <button type="button" id="btnUnassign" class="secondary" data-for="assign" disabled>取消此單位分派</button>
-      <button type="button" id="btnClearAssignments" class="secondary" data-for="assign">清除全部分配</button>
-      <button type="button" id="btnExportForms" class="secondary" data-for="review" title="同一題若有多單位答案，匯出只會有一份；請先在填寫模式人工整理">匯出題目與填答</button>
-      <button type="button" id="btnExportFiles" class="secondary" data-for="review">匯出證據壓縮檔</button>
-      <button type="button" id="btnAdminSubmit" data-for="fill">儲存修改</button>
-      <span data-for="assign" style="margin-left:auto;display:flex;gap:0.5rem;align-items:center">
-        <input type="text" id="newUnitName" placeholder="新增單位名稱" />
-        <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
-        <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
-      </span>
+
+      <div class="admin-bottom-main" data-for="assign">
+        <span class="admin-selected">已勾選 <strong id="selectedCount">0</strong></span>
+        <label class="admin-unit-label" for="assignUnit">分派給</label>
+        <select id="assignUnit"></select>
+        <button type="button" id="btnAssign" disabled>送出分派</button>
+        <button type="button" id="btnUnassign" class="secondary" disabled>取消此單位分派</button>
+      </div>
+
+      <div class="admin-bottom-main" data-for="review">
+        <button type="button" id="btnExportForms" class="secondary" title="同一題若有多單位答案，匯出只會有一份；請先在填寫模式人工整理">匯出題目與填答</button>
+        <button type="button" id="btnExportFiles" class="secondary">匯出證據壓縮檔</button>
+      </div>
+
+      <div class="admin-bottom-main" data-for="fill">
+        <button type="button" id="btnAdminSubmit" class="fill-submit">儲存修改</button>
+      </div>
+
+      <details class="admin-more" data-for="assign">
+        <summary>單位管理</summary>
+        <div class="admin-more-body">
+          <button type="button" id="btnClearAssignments" class="secondary">清除全部分配</button>
+          <input type="text" id="newUnitName" placeholder="新增單位名稱" />
+          <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
+          <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
+        </div>
+      </details>
     </footer>
   </div>
 
-  <script src="js/firebase-config.js?v=20261028e"></script>
-  <script src="js/admin-allowlist.js?v=20261028e"></script>
-  <script src="js/storage.js?v=20261028e"></script>
-  <script src="js/live.js?v=20261028e"></script>
-  <script src="js/ui.js?v=20261028e"></script>
-  <script src="js/methodology.js?v=20261028e"></script>
-  <script src="js/auth.js?v=20261028e"></script>
-  <script src="js/export.js?v=20261028e"></script>
-  <script src="js/submit.js?v=20261028e"></script>
-  <script src="js/admin.js?v=20261028e"></script>
-  <script src="js/ask.js?v=20261028e"></script>
+  <script src="js/firebase-config.js?v=20261028f"></script>
+  <script src="js/admin-allowlist.js?v=20261028f"></script>
+  <script src="js/storage.js?v=20261028f"></script>
+  <script src="js/live.js?v=20261028f"></script>
+  <script src="js/ui.js?v=20261028f"></script>
+  <script src="js/methodology.js?v=20261028f"></script>
+  <script src="js/auth.js?v=20261028f"></script>
+  <script src="js/export.js?v=20261028f"></script>
+  <script src="js/submit.js?v=20261028f"></script>
+  <script src="js/admin.js?v=20261028f"></script>
+  <script src="js/ask.js?v=20261028f"></script>
 </body>
 </html>

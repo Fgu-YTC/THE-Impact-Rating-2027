@@ -101,10 +101,15 @@
     function syncChromeLang() {
       const note = $("#dataYearNote");
       if (note) {
+        const full =
+          lang === "en"
+            ? "Use AY 113 for numbers; policies/measures must be in place by the end of that academic year. If a question’s methodology states otherwise, follow that question."
+            : "數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。";
+        note.title = full;
         note.innerHTML =
           lang === "en"
-            ? "Data year: For Impact 2027, collect academic year <strong>113</strong> data. Use AY 113 for numbers; policies/measures must be in place by the end of that academic year. If a question’s methodology states otherwise, follow that question."
-            : "資料年度：Impact 2027 請蒐集 <strong>113 學年度</strong>資料。數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。";
+            ? "Data year: Impact 2027 · AY <strong>113</strong>"
+            : "資料年度：Impact 2027 · <strong>113 學年度</strong>";
       }
       const askBtn = $("#methodAskBtn");
       if (askBtn) askBtn.textContent = lang === "en" ? "Ask Gemini" : "問 Gemini";
@@ -154,7 +159,7 @@
       const el = $("#unitFilterSummary");
       if (!el) return;
       if (!unitFilter.size) {
-        el.textContent = "未篩選（顯示全部）";
+        el.textContent = "未篩選";
         el.classList.remove("has-filter");
         return;
       }

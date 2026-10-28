@@ -1021,13 +1021,248 @@ button:disabled {
   color: var(--muted);
 }
 .stats strong { color: var(--ink); font-weight: 600; }
-.stats .stat-progress {
-  padding: 0.12rem 0.45rem;
-  border-radius: 6px;
-  background: rgba(46, 110, 82, 0.1);
-  color: var(--ink);
+
+/* —— 管理頁：收斂頂欄／工具列／底欄 —— */
+#adminApp .admin-topbar {
+  gap: 0.75rem 1.1rem;
+  align-items: center;
 }
-.stats .stat-progress strong { color: var(--accent); }
+#adminApp .admin-top-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.9rem;
+}
+#adminApp .mode-toggle {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.15rem;
+  background: #fff;
+}
+#adminApp .mode-toggle button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+#adminApp .mode-toggle button.active {
+  background: var(--accent);
+  color: #fff;
+}
+#adminApp .admin-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 11rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #eef6f2 0%, #e5f0eb 100%);
+  border: 1px solid #c5ddd2;
+}
+#adminApp .admin-progress-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+#adminApp .admin-progress-main strong {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+#adminApp .admin-progress-sub {
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+#adminApp .admin-progress-sub strong { color: var(--ink); font-weight: 600; }
+#adminApp .admin-progress-sub .dot { opacity: 0.55; margin: 0 0.15rem; }
+#adminApp .admin-top-actions { gap: 0.45rem; }
+#adminApp .admin-link {
+  font-size: 0.84rem;
+  padding: 0.35rem 0.55rem;
+}
+#adminApp .admin-chrome {
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 252, 247, 0.88);
+}
+#adminApp .admin-year-note {
+  padding: 0.35rem 1.25rem;
+  font-size: 0.8rem;
+  background: transparent;
+  border-bottom: 0;
+  color: var(--muted);
+}
+#adminApp .admin-year-note strong { color: var(--accent); }
+#adminApp .admin-sdg-tabs {
+  padding: 0.45rem 1.15rem 0.55rem;
+  border-bottom: 0;
+  background: transparent;
+}
+#adminApp .admin-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0 1.15rem 0.65rem;
+}
+#adminApp .filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+}
+#adminApp .filter-bar button {
+  background: #fff;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  padding: 0.28rem 0.62rem;
+  font-size: 0.78rem;
+  border-radius: 999px;
+}
+#adminApp .filter-bar button.filter-action {
+  border-radius: 6px;
+  margin-left: 0.25rem;
+}
+#adminApp .filter-bar button.active {
+  color: #fff;
+  border-color: var(--accent);
+  background: var(--accent);
+}
+#adminApp .unit-filter {
+  padding: 0;
+  border-bottom: 0;
+  background: transparent;
+}
+#adminApp .unit-filter-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.55rem;
+}
+#adminApp .unit-filter-toggle {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+#adminApp .unit-filter-toggle::after {
+  content: " ▾";
+  font-size: 0.75em;
+}
+#adminApp .unit-filter.open .unit-filter-toggle::after {
+  content: " ▴";
+}
+#adminApp .unit-filter-summary {
+  font-size: 0.76rem;
+  color: var(--muted);
+  flex: 1 1 auto;
+  min-width: 6rem;
+}
+#adminApp .unit-filter-summary.has-filter {
+  color: var(--accent);
+  font-weight: 600;
+}
+#adminApp .unit-filter-body {
+  margin-top: 0.4rem;
+  max-height: min(26vh, 12rem);
+  overflow: auto;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+#adminApp .unit-filter-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+#adminApp #unitFilterList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+}
+#adminApp .unit-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  padding: 0.15rem 0.35rem;
+  border-radius: 6px;
+}
+#adminApp .unit-filter label:hover {
+  background: var(--accent-soft);
+}
+#adminApp .unit-filter button {
+  padding: 0.22rem 0.5rem;
+  font-size: 0.76rem;
+  border-radius: 999px;
+}
+#adminApp .admin-layout .pane h2 {
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+}
+#adminApp .admin-bottombar {
+  gap: 0.55rem 0.75rem;
+  align-items: center;
+}
+#adminApp .admin-bottom-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+}
+#adminApp .admin-selected {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+#adminApp .admin-selected strong { color: var(--ink); }
+#adminApp .admin-unit-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+#adminApp .admin-more {
+  margin-left: auto;
+  font-size: 0.82rem;
+}
+#adminApp .admin-more summary {
+  cursor: pointer;
+  color: var(--muted);
+  list-style: none;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+}
+#adminApp .admin-more summary::-webkit-details-marker { display: none; }
+#adminApp .admin-more summary:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+#adminApp .admin-more-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+#adminApp .admin-more-body input {
+  min-width: 9rem;
+  padding: 0.4rem 0.55rem;
+}
+#adminApp.mode-assign [data-for="review"],
+#adminApp.mode-assign [data-for="fill"],
+#adminApp.mode-review [data-for="assign"],
+#adminApp.mode-review [data-for="fill"],
+#adminApp.mode-fill [data-for="assign"],
+#adminApp.mode-fill [data-for="review"],
+#adminApp.mode-fill [data-for="browse"] { display: none !important; }
 
 .filter-bar {
   display: flex;
@@ -1042,13 +1277,6 @@ button:disabled {
   padding: 0.3rem 0.65rem;
   font-size: 0.8rem;
 }
-#adminApp.mode-assign [data-for="review"],
-#adminApp.mode-assign [data-for="fill"],
-#adminApp.mode-review [data-for="assign"],
-#adminApp.mode-review [data-for="fill"],
-#adminApp.mode-fill [data-for="assign"],
-#adminApp.mode-fill [data-for="review"],
-#adminApp.mode-fill [data-for="browse"] { display: none !important; }
 .filter-bar button.active {
   color: var(--accent);
   border-color: var(--accent);
@@ -1112,6 +1340,14 @@ button:disabled {
 .unit-filter button {
   padding: 0.25rem 0.55rem;
   font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  #adminApp .admin-progress {
+    order: 3;
+    flex: 1 1 100%;
+  }
+  #adminApp .admin-more { margin-left: 0; width: 100%; }
 }
 
 .bottombar {
