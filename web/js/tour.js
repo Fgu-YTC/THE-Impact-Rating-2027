@@ -55,7 +55,7 @@
         prefer: "left",
       },
       {
-        sel: "#questionList .q-card .q-return-btn, #questionList .q-card .q-method-btn",
+        sel: "#questionList .q-card .q-meta, #questionList .q-card .q-return-btn",
         title: en ? "Return if you cannot answer" : "無法填就退回",
         body: en
           ? "Next to「THE methodology」, tap Return. Then write a suggestion (or「無」)."
@@ -131,6 +131,24 @@
       }, 40);
     }
 
+    /** 頂部 sticky（頂欄／年度說明／SDG 分頁）下緣，反白不可鑽進去 */
+    function chromeBottom() {
+      let bottom = PAD;
+      [".topbar", ".data-year-note", ".sdg-tabs"].forEach((sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        if (r.bottom > bottom) bottom = r.bottom;
+      });
+      return bottom + 6;
+    }
+
+    function footerTop() {
+      const bar = document.querySelector(".bottombar");
+      if (!bar) return window.innerHeight - PAD;
+      return Math.min(window.innerHeight - PAD, bar.getBoundingClientRect().top - 6);
+    }
+
     function scrollToEl(el, mode) {
       if (!el) return;
       const block = mode === "start" ? "start" : "center";
@@ -139,7 +157,7 @@
       } catch (_) {
         el.scrollIntoView(true);
       }
-      // 左右欄是獨立 overflow，再對最近可捲動祖先對齊
+      const clear = chromeBottom();
       let node = el.parentElement;
       while (node && node !== document.body) {
         const style = window.getComputedStyle(node);
@@ -149,10 +167,11 @@
           const er = el.getBoundingClientRect();
           const nr = node.getBoundingClientRect();
           if (block === "start") {
-            node.scrollTop += er.top - nr.top - 12;
+            // 對齊到分頁列下方，不要被那條頂欄蓋住
+            node.scrollTop += er.top - Math.max(nr.top, clear) - 10;
           } else {
-            const delta = er.top + er.height / 2 - (nr.top + nr.height / 2);
-            node.scrollTop += delta;
+            const mid = (Math.max(nr.top, clear) + nr.bottom) / 2;
+            node.scrollTop += er.top + er.height / 2 - mid;
           }
           break;
         }
@@ -160,11 +179,13 @@
       }
     }
 
-    /** 只框住畫面內看得到的部分，避免整題卡片裁切後變成空白框 */
+    /** 只框住「分頁列以下、底欄以上」看得到的部分 */
     function intersectViewport(rect, vw, vh) {
-      const top = Math.max(PAD, rect.top);
+      const topMin = chromeBottom();
+      const bottomMax = footerTop();
+      const top = Math.max(topMin, rect.top);
       const left = Math.max(PAD, rect.left);
-      const bottom = Math.min(vh - PAD, rect.bottom);
+      const bottom = Math.min(bottomMax, rect.bottom);
       const right = Math.min(vw - PAD, rect.right);
       const width = Math.max(0, right - left);
       const height = Math.max(0, bottom - top);
@@ -176,16 +197,17 @@
       const el = firstMatch(def.sel);
       const vw = window.innerWidth;
       const vh = window.innerHeight;
+      const topMin = chromeBottom();
       let raw;
       if (el) {
         raw = el.getBoundingClientRect();
       } else {
         raw = {
-          top: vh * 0.3,
+          top: topMin + 24,
           left: vw * 0.15,
           width: vw * 0.45,
           height: 120,
-          bottom: vh * 0.3 + 120,
+          bottom: topMin + 144,
           right: vw * 0.6,
         };
       }
@@ -201,13 +223,12 @@
         vh
       );
       if (width < 40 || height < 28) {
-        // 目標幾乎在畫面外時，改框可視區中段，避免空白框
-        top = Math.max(PAD, vh * 0.2);
+        top = topMin + 12;
         left = Math.max(PAD, raw.left);
         width = Math.min(vw - left - PAD, Math.max(raw.width, 200));
-        height = Math.min(vh * 0.4, 220);
+        height = Math.min(footerTop() - top, 220);
       } else {
-        height = Math.min(height, vh * 0.62);
+        height = Math.min(height, Math.max(120, footerTop() - top));
       }
 
       width = Math.max(width, 40);
