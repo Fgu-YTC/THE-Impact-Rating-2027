@@ -71,27 +71,51 @@
   }
 
   let tourAutoShown = false;
+  let tourActive = false;
 
+  function findTourExampleUnit() {
+    return (
+      units.find((u) => u.name === "永續辦") ||
+      units.find((u) => u.name === "永續發展辦公室") ||
+      null
+    );
+  }
+
+  /** 教學示範：強制切到永續辦並帶出題目；成功回 true */
   function prepareTourExample() {
-    const office = units.find((u) => u.name === "永續辦");
-    if (!office) return;
+    const office = findTourExampleUnit();
+    if (!office) return false;
+    const keepQ = activeQuestionId;
+    const needSwitch = currentUnitId !== office.id;
     currentUnitId = office.id;
+    if (!unitSelect.querySelector(`option[value="${office.id}"]`)) {
+      renderUnitOptions();
+    }
     unitSelect.value = office.id;
-    activeQuestionId = null;
-    activeRef = null;
-    activeMetricRef = null;
-    watchUnit(office.id);
+    if (needSwitch) {
+      activeQuestionId = null;
+      activeRef = null;
+      activeMetricRef = null;
+      watchUnit(office.id);
+    }
     const assigned = assignmentsForUnit(office.id);
-    currentSdg = assigned.length ? assigned[0].sdg : null;
+    if (!currentSdg || !assigned.some((q) => q.sdg === currentSdg)) {
+      currentSdg = assigned.length ? assigned[0].sdg : null;
+    }
     renderTabs();
     renderQuestions();
-    const first = assigned.find((q) => q.sdg === currentSdg) || assigned[0];
-    if (first) selectQuestion(first);
+    const prefer =
+      (keepQ && assigned.find((q) => q.id === keepQ)) ||
+      assigned.find((q) => q.sdg === currentSdg) ||
+      assigned[0];
+    if (prefer) selectQuestion(prefer);
     else renderMethod();
+    return assigned.length > 0;
   }
 
   /** 教學結束：回到未選單位的初始畫面 */
   function restoreTourSelection() {
+    tourActive = false;
     currentUnitId = "";
     unitSelect.value = "";
     currentSdg = null;
@@ -106,7 +130,25 @@
 
   const tour = THETour.bind({
     getLang: () => lang,
-    prepareExample: prepareTourExample,
+    prepareExample: () => {
+      tourActive = true;
+      return new Promise((resolve) => {
+        let tries = 0;
+        const tick = () => {
+          if (prepareTourExample()) {
+            resolve(true);
+            return;
+          }
+          tries += 1;
+          if (tries >= 40) {
+            resolve(false);
+            return;
+          }
+          setTimeout(tick, 200);
+        };
+        tick();
+      });
+    },
     restoreSelection: restoreTourSelection,
   });
 
@@ -523,6 +565,11 @@
     (next) => {
       units = next || [];
       renderUnitOptions();
+      if (tourActive) {
+        // 教學中單位清單更新時，維持永續辦示範，避免又變空白
+        prepareTourExample();
+        return;
+      }
       if (currentUnitId && !units.some((u) => u.id === currentUnitId)) {
         currentUnitId = "";
         unitSelect.value = "";
@@ -539,7 +586,7 @@
         !tourAutoShown &&
         tour &&
         !THETour.seen() &&
-        units.some((u) => u.name === "永續辦")
+        findTourExampleUnit()
       ) {
         tourAutoShown = true;
         setTimeout(() => tour.show(), 350);

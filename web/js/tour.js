@@ -357,17 +357,23 @@
       btnSkip.textContent = en ? "Skip" : "略過";
       btnPrev.textContent = en ? "Back" : "上一步";
 
-      const el = firstMatch(def.sel);
-      scrollQuiet = true;
-      scrollToEl(el, def.scroll || "center");
-      window.clearTimeout(placeTimer);
-      placeTimer = window.setTimeout(() => {
-        layout(def);
-        scrollQuiet = false;
-        placeTimer = window.setTimeout(() => {
-          if (active) layout(defs[index]);
-        }, 100);
-      }, 80);
+      // 每一步都再套一次示範單位，避免中途又變「請先選擇填寫單位」
+      Promise.resolve(prepareExample())
+        .catch(() => {})
+        .then(() => {
+          if (!active) return;
+          const el = firstMatch(def.sel);
+          scrollQuiet = true;
+          scrollToEl(el, def.scroll || "center");
+          window.clearTimeout(placeTimer);
+          placeTimer = window.setTimeout(() => {
+            layout(def);
+            scrollQuiet = false;
+            placeTimer = window.setTimeout(() => {
+              if (active) layout(defs[index]);
+            }, 100);
+          }, 80);
+        });
     }
 
     function render() {
