@@ -43,7 +43,7 @@
         body: en
           ? "Fill answers and evidence here. Last year’s content is for reference only."
           : "在這裡填答案與證據；去年內容僅供參考。",
-        prefer: "right",
+        prefer: "bottom",
         scroll: "start",
       },
       {
@@ -210,55 +210,89 @@
         height = Math.min(height, vh * 0.62);
       }
 
+      width = Math.max(width, 40);
+      height = Math.max(height, 36);
       spot.style.top = `${top}px`;
       spot.style.left = `${left}px`;
-      spot.style.width = `${Math.max(width, 40)}px`;
-      spot.style.height = `${Math.max(height, 36)}px`;
+      spot.style.width = `${width}px`;
+      spot.style.height = `${height}px`;
 
       pop.style.visibility = "hidden";
       pop.style.display = "block";
       const popW = pop.offsetWidth || 300;
       const popH = pop.offsetHeight || 140;
-
-      let side = def.prefer || "bottom";
-      const space = {
-        bottom: vh - (top + height),
-        top: top,
-        right: vw - (left + width),
-        left: left,
-      };
-      if (side === "bottom" && space.bottom < popH + 24 && space.top > space.bottom) side = "top";
-      if (side === "top" && space.top < popH + 24 && space.bottom > space.top) side = "bottom";
-      if (side === "right" && space.right < popW + 24 && space.left > space.right) side = "left";
-      if (side === "left" && space.left < popW + 24 && space.right > space.left) side = "right";
-
-      let popTop;
-      let popLeft;
-      arrow.className = "tour-arrow";
-      if (side === "bottom") {
-        popTop = top + height + 14;
-        popLeft = left + width / 2 - popW / 2;
-        arrow.classList.add("arrow-top");
-      } else if (side === "top") {
-        popTop = top - popH - 14;
-        popLeft = left + width / 2 - popW / 2;
-        arrow.classList.add("arrow-bottom");
-      } else if (side === "right") {
-        popTop = top + height / 2 - popH / 2;
-        popLeft = left + width + 14;
-        arrow.classList.add("arrow-left");
-      } else {
-        popTop = top + height / 2 - popH / 2;
-        popLeft = left - popW - 14;
-        arrow.classList.add("arrow-right");
-      }
-
-      popLeft = Math.min(Math.max(PAD, popLeft), vw - popW - PAD);
-      popTop = Math.min(Math.max(PAD, popTop), vh - popH - PAD);
-
-      pop.style.top = `${popTop}px`;
-      pop.style.left = `${popLeft}px`;
+      const spotBox = { top, left, width, height };
+      const placed = placePopOutsideSpot(spotBox, def.prefer || "right", popW, popH, vw, vh);
+      arrow.className = "tour-arrow " + placed.arrow;
+      pop.style.top = `${placed.top}px`;
+      pop.style.left = `${placed.left}px`;
       pop.style.visibility = "visible";
+    }
+
+    function boxesOverlap(a, b, gap) {
+      return !(
+        a.left + a.width + gap <= b.left ||
+        b.left + b.width + gap <= a.left ||
+        a.top + a.height + gap <= b.top ||
+        b.top + b.height + gap <= a.top
+      );
+    }
+
+    /** 浮框一定放在反白色塊外，避免被提問區擋住 */
+    function placePopOutsideSpot(spotBox, prefer, popW, popH, vw, vh) {
+      const gap = 16;
+      const clamp = (left, top) => ({
+        left: Math.min(Math.max(PAD, left), vw - popW - PAD),
+        top: Math.min(Math.max(PAD, top), vh - popH - PAD),
+      });
+      const trials = [];
+      const sides = [prefer, "right", "bottom", "left", "top"].filter(
+        (s, i, arr) => s && arr.indexOf(s) === i
+      );
+      sides.forEach((side) => {
+        let left;
+        let top;
+        let arrowCls;
+        if (side === "right") {
+          left = spotBox.left + spotBox.width + gap;
+          top = spotBox.top + spotBox.height / 2 - popH / 2;
+          arrowCls = "arrow-left";
+        } else if (side === "left") {
+          left = spotBox.left - popW - gap;
+          top = spotBox.top + spotBox.height / 2 - popH / 2;
+          arrowCls = "arrow-right";
+        } else if (side === "bottom") {
+          left = spotBox.left + spotBox.width / 2 - popW / 2;
+          top = spotBox.top + spotBox.height + gap;
+          arrowCls = "arrow-top";
+        } else {
+          left = spotBox.left + spotBox.width / 2 - popW / 2;
+          top = spotBox.top - popH - gap;
+          arrowCls = "arrow-bottom";
+        }
+        const c = clamp(left, top);
+        const box = { left: c.left, top: c.top, width: popW, height: popH };
+        trials.push({
+          ...c,
+          arrow: arrowCls,
+          ok: !boxesOverlap(box, spotBox, 8),
+        });
+      });
+      const good = trials.find((t) => t.ok);
+      if (good) return good;
+      // 仍重疊時：放到視窗右下／右上空隙
+      const fallbacks = [
+        { left: vw - popW - PAD, top: Math.min(spotBox.top, vh - popH - PAD), arrow: "arrow-left" },
+        { left: vw - popW - PAD, top: PAD + 48, arrow: "arrow-left" },
+        { left: PAD, top: vh - popH - PAD, arrow: "arrow-top" },
+      ];
+      for (let i = 0; i < fallbacks.length; i++) {
+        const f = fallbacks[i];
+        const c = clamp(f.left, f.top);
+        const box = { left: c.left, top: c.top, width: popW, height: popH };
+        if (!boxesOverlap(box, spotBox, 4)) return { ...c, arrow: f.arrow };
+      }
+      return { left: vw - popW - PAD, top: PAD + 48, arrow: "arrow-left" };
     }
 
     function goToStep() {
