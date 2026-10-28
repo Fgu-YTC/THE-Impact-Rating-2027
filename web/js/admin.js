@@ -629,12 +629,45 @@
       return out;
     }
 
+    /** 永續辦／單位 office 裡有實際內容的最終稿 */
+    function officeAnswerWithContent(unitId, questionId) {
+      const ans = officeOf(unitId, questionId);
+      return ans && answerHasContent(ans) ? ans : null;
+    }
+
+    function finalOfficeAnswer(questionId) {
+      const office = officeUnit();
+      if (office) {
+        const ans = officeAnswerWithContent(office.id, questionId);
+        if (ans) return { unitId: office.id, answer: ans, label: "最終填報" };
+      }
+      // 單一單位「永續辦改寫」也存在該單位的 office
+      const who = assignees(questionId);
+      for (let i = 0; i < who.length; i++) {
+        const ans = officeAnswerWithContent(who[i], questionId);
+        if (ans) {
+          return {
+            unitId: who[i],
+            answer: ans,
+            label: who.length > 1 ? "最終填報" : `永續辦改寫（${unitName(who[i])}）`,
+          };
+        }
+      }
+      return null;
+    }
+
     function fillMark(questionId) {
       const who = assignees(questionId);
       const returned = returnsFor(questionId);
       const items = submissionsFor(questionId);
-      const officeFinal = officeUnit() && officeOf(officeUnit().id, questionId);
-      if (officeFinal || items.some((item) => item.office)) {
+      const finalHit = finalOfficeAnswer(questionId);
+      if (finalHit) {
+        return {
+          filled: true,
+          text: who.length > 1 ? `最終填報已寫（${who.length} 單位）` : "最終填報已寫",
+        };
+      }
+      if (items.some((item) => item.office)) {
         return {
           filled: true,
           text: who.length > 1 ? `最終填報已寫（${who.length} 單位）` : "最終填報已寫",
@@ -746,16 +779,102 @@
       return a;
     }
 
+    function appendAnswerDetails(list, q, answer) {
+      if (!answer) return;
+      if (answer.filledBy) addAnswerRow(list, "填寫人", answer.filledBy);
+      if (q.answerType !== "continuous" && answer.yesNo) {
+        const yn =
+          lang === "en"
+            ? String(answer.yesNo).toUpperCase()
+            : answer.yesNo === "yes"
+              ? "是"
+              : answer.yesNo === "no"
+                ? "否"
+                : String(answer.yesNo);
+        addAnswerRow(list, lang === "en" ? "Yes / No" : "是／否", yn);
+      }
+      if (q.answerType === "picklist" && answer.options && answer.options.length) {
+        const labels = answer.options.map((key) => {
+          const opt = (q.options || []).find((row) => row.en === key || row.zh === key);
+          return opt ? (lang === "en" ? opt.en || opt.zh : opt.zh || opt.en) : key;
+        });
+        addAnswerRow(list, lang === "en" ? "Options" : "選項", labels.join("、"));
+      }
+      if (q.answerType === "continuous") {
+        (q.options || []).forEach((opt, index) => {
+          const raw = (answer.values || {})[`v${index}`];
+          if (raw != null && String(raw) !== "") {
+            addAnswerRow(list, lang === "en" ? opt.en || opt.zh : opt.zh || opt.en, String(raw));
+          }
+        });
+      }
+      const pub =
+        lang === "en"
+          ? { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" }
+          : { public: "公開", private: "不公開", undefined: "未定", yes: "公開", no: "不公開" };
+      if (answer.public) addAnswerRow(list, lang === "en" ? "Public" : "是否公開", pub[answer.public] || answer.public);
+      if (String(answer.evidence || "").trim()) {
+        addAnswerRow(list, lang === "en" ? "Evidence" : "證據", linkNode(answer.evidence, answer.evidence));
+      }
+      if (answer.evidenceFileUrl) {
+        addAnswerRow(
+          list,
+          lang === "en" ? "File" : "檔案",
+          linkNode(
+            answer.evidenceFileUrl,
+            answer.evidenceStoredName || answer.evidenceFileName || (lang === "en" ? "Open file" : "開啟檔案")
+          )
+        );
+      } else if (answer.evidenceFileName) {
+        addAnswerRow(list, lang === "en" ? "File" : "檔案", answer.evidenceFileName);
+      }
+      if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
+    }
+
+    function renderAnswerCard({ title, answer, q, when, tagText, tagClass, cardClass }) {
+      const card = document.createElement("div");
+      card.className = "submitted-card" + (cardClass ? ` ${cardClass}` : "");
+      const head = document.createElement("div");
+      head.className = "submitted-head";
+      head.appendChild(document.createTextNode(title || "單位"));
+      if (when) {
+        const time = document.createElement("span");
+        time.className = "submitted-time";
+        time.textContent = when;
+        head.appendChild(time);
+      }
+      if (tagText) {
+        const tag = document.createElement("span");
+        tag.className = tagClass || "badge warn";
+        tag.textContent = tagText;
+        head.appendChild(tag);
+      }
+      card.appendChild(head);
+      if (answer) {
+        const list = document.createElement("dl");
+        appendAnswerDetails(list, q, answer);
+        if (list.childNodes.length) card.appendChild(list);
+      }
+      return card;
+    }
+
     function renderSubmitted(q, { originalOnly = false } = {}) {
       const wrap = document.createElement("div");
       wrap.className = "submitted";
       wrap.addEventListener("click", (e) => e.stopPropagation());
       const items = submissionsFor(q.id, { originalOnly });
       const who = assignees(q.id);
-      const pending = who.filter((unitId) => !items.some((item) => item.unitId === unitId));
-      if (items.length + pending.length > 1) wrap.classList.add("multi");
+      const finalHit = originalOnly ? null : finalOfficeAnswer(q.id);
+      // 單位「原提交」：有內容的才算；最終稿另外用卡片顯示，避免只看到尚未提交
+      const pending = who.filter((unitId) => {
+        const pack = submissions.find((item) => item.unitId === unitId);
+        const original = pack && pack.answers && pack.answers[q.id];
+        return !answerHasContent(original);
+      });
+      const shownOfficeIds = new Set();
+      if (items.length + pending.length + (finalHit ? 1 : 0) > 1) wrap.classList.add("multi");
 
-      if (!items.length && !pending.length) {
+      if (!items.length && !pending.length && !finalHit) {
         const empty = document.createElement("div");
         empty.className = "submitted-empty";
         empty.textContent = submissions.length ? "尚無提交" : "尚未讀到提交資料";
@@ -763,89 +882,53 @@
         return wrap;
       }
 
+      if (finalHit) {
+        shownOfficeIds.add(finalHit.unitId);
+        const when = finalHit.answer.updatedAt
+          ? new Date(finalHit.answer.updatedAt).toLocaleString("zh-TW", { hour12: false })
+          : "";
+        wrap.appendChild(
+          renderAnswerCard({
+            title: finalHit.label,
+            answer: finalHit.answer,
+            q,
+            when,
+            tagText: "可匯出內容",
+            tagClass: "badge ok",
+            cardClass: "submitted-final",
+          })
+        );
+      }
+
       items.forEach((item) => {
-        const card = document.createElement("div");
-        card.className = "submitted-card";
-        const head = document.createElement("div");
-        head.className = "submitted-head";
-        const when = item.updatedAt ? new Date(item.updatedAt).toLocaleString("zh-TW", { hour12: false }) : "";
-        head.appendChild(document.createTextNode(item.sourceUnitName || item.unitName || "單位"));
-        if (when) {
-          const time = document.createElement("span");
-          time.className = "submitted-time";
-          time.textContent = when;
-          head.appendChild(time);
-        }
-        if (item.office) {
-          const tag = document.createElement("span");
-          tag.className = "badge warn";
-          tag.textContent = "永續辦已改";
-          head.appendChild(tag);
-        }
-        card.appendChild(head);
-        const list = document.createElement("dl");
-        const answer = item.answer;
-        if (answer.filledBy) addAnswerRow(list, "填寫人", answer.filledBy);
-        if (q.answerType !== "continuous" && answer.yesNo) {
-          const yn =
-            lang === "en"
-              ? String(answer.yesNo).toUpperCase()
-              : answer.yesNo === "yes"
-                ? "是"
-                : answer.yesNo === "no"
-                  ? "否"
-                  : String(answer.yesNo);
-          addAnswerRow(list, lang === "en" ? "Yes / No" : "是／否", yn);
-        }
-        if (q.answerType === "picklist" && answer.options && answer.options.length) {
-          const labels = answer.options.map((key) => {
-            const opt = (q.options || []).find((row) => row.en === key || row.zh === key);
-            return opt ? (lang === "en" ? opt.en || opt.zh : opt.zh || opt.en) : key;
-          });
-          addAnswerRow(list, lang === "en" ? "Options" : "選項", labels.join("、"));
-        }
-        if (q.answerType === "continuous") {
-          (q.options || []).forEach((opt, index) => {
-            const raw = (answer.values || {})[`v${index}`];
-            if (raw != null && String(raw) !== "") {
-              addAnswerRow(list, lang === "en" ? opt.en || opt.zh : opt.zh || opt.en, String(raw));
-            }
-          });
-        }
-        const pub =
-          lang === "en"
-            ? { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" }
-            : { public: "公開", private: "不公開", undefined: "未定", yes: "公開", no: "不公開" };
-        if (answer.public) addAnswerRow(list, lang === "en" ? "Public" : "是否公開", pub[answer.public] || answer.public);
-        if (String(answer.evidence || "").trim()) {
-          addAnswerRow(list, lang === "en" ? "Evidence" : "證據", linkNode(answer.evidence, answer.evidence));
-        }
-        if (answer.evidenceFileUrl) {
-          addAnswerRow(
-            list,
-            lang === "en" ? "File" : "檔案",
-            linkNode(answer.evidenceFileUrl, answer.evidenceStoredName || answer.evidenceFileName || (lang === "en" ? "Open file" : "開啟檔案"))
-          );
-        } else if (answer.evidenceFileName) {
-          addAnswerRow(list, lang === "en" ? "File" : "檔案", answer.evidenceFileName);
-        }
-        if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
-        card.appendChild(list);
-        wrap.appendChild(card);
+        // 最終稿已用上方卡片顯示時，略過同單位的 office 重複卡
+        if (item.office && shownOfficeIds.has(item.unitId)) return;
+        const when = item.updatedAt
+          ? new Date(item.updatedAt).toLocaleString("zh-TW", { hour12: false })
+          : "";
+        wrap.appendChild(
+          renderAnswerCard({
+            title: item.sourceUnitName || item.unitName || "單位",
+            answer: item.answer,
+            q,
+            when,
+            tagText: item.office ? "永續辦已改" : "",
+            tagClass: "badge warn",
+          })
+        );
       });
 
       pending.forEach((unitId) => {
-        const card = document.createElement("div");
-        card.className = "submitted-card pending";
-        const head = document.createElement("div");
-        head.className = "submitted-head";
-        head.textContent = unitName(unitId);
-        const tag = document.createElement("span");
-        tag.className = "badge warn";
-        tag.textContent = "尚未提交";
-        head.appendChild(tag);
-        card.appendChild(head);
-        wrap.appendChild(card);
+        wrap.appendChild(
+          renderAnswerCard({
+            title: unitName(unitId),
+            answer: null,
+            q,
+            tagText: finalHit ? "單位尚未提交（上方已有最終填報）" : "尚未提交",
+            tagClass: "badge warn",
+            cardClass: "pending",
+          })
+        );
       });
       return wrap;
     }

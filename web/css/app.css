@@ -753,6 +753,10 @@ button:disabled {
   border: 1px solid #c9dfd2;
   min-width: 0;
 }
+.submitted-card.submitted-final {
+  background: #eef6f2;
+  border-color: #9fc4b4;
+}
 .submitted-card.pending {
   background: #faf7f0;
   border-style: dashed;
