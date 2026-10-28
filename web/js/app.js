@@ -291,6 +291,13 @@
     else renderQuestions();
   }
 
+  /** 退回開關等必須立刻重繪，不能被輸入框 focus 的 holdRender 卡住 */
+  function forceRender() {
+    holdRender = false;
+    renderQueued = false;
+    renderQuestions();
+  }
+
   function renderQuestions() {
     questionList.innerHTML = "";
     if (!currentUnitId) {
@@ -403,15 +410,16 @@
           ? "Cannot answer — open return form"
           : "本單位無法回答時，按此填寫退回建議";
         returnBtn.addEventListener("click", (e) => {
+          e.preventDefault();
           e.stopPropagation();
           if (returnOpen.has(q.id)) returnOpen.delete(q.id);
           else returnOpen.add(q.id);
-          requestRender();
+          forceRender();
         });
         meta.appendChild(returnBtn);
         card.appendChild(meta);
 
-        const returning = returnOpen.has(q.id) || !!returns[q.id];
+        const returning = returnOpen.has(q.id);
         if (returning) {
           card.classList.add("q-card-returning");
           card.appendChild(
@@ -423,15 +431,16 @@
                 // 退回後自本單位取消分派，供管理頁重新分配
                 await THELive.unassignQuestions(currentUnitId, [q.id]);
                 returnOpen.delete(q.id);
+                forceRender();
               },
               onClear: async () => {
                 await THELive.clearReturn(currentUnitId, q.id);
                 returnOpen.delete(q.id);
+                forceRender();
               },
               onClose: () => {
-                if (returns[q.id]) return; // 已退回不可只收合隱藏狀態
                 returnOpen.delete(q.id);
-                requestRender();
+                forceRender();
               },
             })
           );

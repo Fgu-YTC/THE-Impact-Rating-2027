@@ -627,9 +627,6 @@ button:disabled {
   color: #6a4a38;
   font-weight: 600;
 }
-.q-card-returning .q-return-btn {
-  pointer-events: none;
-}
 .return-actions {
   display: flex;
   flex-wrap: wrap;
