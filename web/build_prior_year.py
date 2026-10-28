@@ -410,8 +410,21 @@ def unit_priority(name):
         return (2, name)
 
 
+def normalize_unit_name(name):
+    """Map informal / alternate workbook labels to current office names."""
+    aliases = {
+        "樂管院": "健康院",
+        "佛學院": "佛教院",
+        "永續發展辦公室": "永續辦",
+        "周老師": "永續辦",
+        "年翔": "永續辦",
+        "瑜蓓": "永續辦",
+    }
+    return aliases.get(name, name)
+
+
 def pick_one_unit(ranked):
-    """Always keep a single unit. Prefer higher score, then no conflict, then 永續辦 / office order."""
+    """Fallback: a single unit. Prefer higher score, then no conflict, then 永續辦 / office order."""
     if not ranked:
         return ""
     ranked = sorted(ranked, key=lambda item: (-item[0], item[1], unit_priority(item[2])))
@@ -419,7 +432,11 @@ def pick_one_unit(ranked):
 
 
 def confirmed_units(final, answers):
-    """One unit per question: the workbook that best matches the final upload."""
+    """Units whose workbook matched the final upload.
+
+    Keep every non-conflicting match with score >= 4 (last year often had
+    two-plus units on the same indicator). If none qualify, keep the best one.
+    """
     chosen = {}
     for ref, item in final.items():
         options = answers.get(ref) or {}
@@ -428,10 +445,25 @@ def confirmed_units(final, answers):
         ranked = []
         for name, copies in options.items():
             best = max((match_score(item, copy) for copy in copies), key=lambda pair: pair[0])
-            ranked.append((best[0], best[1], name))
-        name = pick_one_unit(ranked)
-        if name:
-            chosen[ref] = [name]
+            ranked.append((best[0], best[1], normalize_unit_name(name)))
+        ranked = sorted(ranked, key=lambda item: (-item[0], item[1], unit_priority(item[2])))
+        keep = []
+        seen = set()
+        for score, conflict, name in ranked:
+            if conflict or score < 4 or not name or name in seen:
+                continue
+            # skip personal drafts that are not real offices
+            if name in ("周老師", "年翔", "瑜蓓", "工作表1"):
+                continue
+            seen.add(name)
+            keep.append(name)
+        if not keep:
+            name = pick_one_unit(ranked)
+            name = normalize_unit_name(name) if name else ""
+            if name and name not in ("周老師", "年翔", "瑜蓓", "工作表1"):
+                keep = [name]
+        if keep:
+            chosen[ref] = keep
     return chosen
 
 

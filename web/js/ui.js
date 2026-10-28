@@ -558,7 +558,11 @@
     if (!names || !names.length) return null;
     const line = document.createElement("div");
     line.className = "prior-unit";
-    line.textContent = getLang() === "en" ? `Last-year unit: ${names[0]}` : `去年單位：${names[0]}`;
+    const joined = names.join(getLang() === "en" ? ", " : "、");
+    line.textContent =
+      getLang() === "en"
+        ? `Last-year unit${names.length > 1 ? "s" : ""}: ${joined}`
+        : `去年單位：${joined}`;
     return line;
   }
 
