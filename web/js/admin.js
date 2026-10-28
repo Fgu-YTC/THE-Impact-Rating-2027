@@ -460,6 +460,15 @@
           }
           meta.appendChild(ref);
           meta.appendChild(badge);
+          if ((mode === "review" || mode === "fill") && who.length) {
+            const unitsBadge = document.createElement("span");
+            unitsBadge.className = "badge units-badge";
+            unitsBadge.textContent =
+              who.length > 1
+                ? `分派 ${who.length} 單位：${who.map(unitName).join("、")}`
+                : `分派：${unitName(who[0])}`;
+            meta.appendChild(unitsBadge);
+          }
           const methodBtn = document.createElement("button");
           methodBtn.type = "button";
           methodBtn.className = "secondary q-method-btn";
@@ -483,9 +492,18 @@
             if (prior) body.appendChild(prior);
             body.appendChild(THEUI.renderAnswerPreview(q, lang));
           }
-          if (mode === "review" && submissionsFor(q.id).length) body.appendChild(renderSubmitted(q));
+          if (mode === "review") {
+            if (who.length || submissionsFor(q.id).length) {
+              body.appendChild(renderMultiUnitPanel(q, { editable: false }));
+            }
+          }
           if (mode === "fill") {
-            body.appendChild(
+            const work = document.createElement("div");
+            work.className = "multi-unit-work";
+            if (who.length > 1 || submissionsFor(q.id).length) {
+              work.appendChild(renderMultiUnitPanel(q, { editable: true }));
+            }
+            work.appendChild(
               THEUI.renderFillCompare({
                 lang,
                 priorUnit: THEUI.renderPriorUnit(priorUnits[q.ref]),
@@ -493,6 +511,7 @@
                 fields: renderFillEditors(q),
               })
             );
+            body.appendChild(work);
           }
           if (mode === "assign") {
             const cb = document.createElement("input");
@@ -515,10 +534,54 @@
     }
 
     function fillMark(questionId) {
+      const who = assignees(questionId);
       const items = submissionsFor(questionId);
-      if (items.some((item) => item.office)) return { filled: true, text: "永續辦已填寫" };
+      if (items.some((item) => item.office)) {
+        return {
+          filled: true,
+          text: who.length > 1 ? `永續辦已整理（${who.length} 單位）` : "永續辦已填寫",
+        };
+      }
+      if (items.length > 1) return { filled: true, text: `${items.length} 單位已填` };
       if (items.length) return { filled: true, text: "已填寫" };
+      if (who.length > 1) return { filled: false, text: `未填（已派 ${who.length}）` };
       return { filled: false, text: "未填寫" };
+    }
+
+    /** 各單位答案對照（唯讀）；多單位時提示匯出只會有一份 */
+    function renderMultiUnitPanel(q, { editable = false } = {}) {
+      const wrap = document.createElement("div");
+      wrap.className = "multi-unit-panel";
+      wrap.addEventListener("click", (e) => e.stopPropagation());
+      const who = assignees(q.id);
+      const items = submissionsFor(q.id);
+      const multi = who.length > 1 || items.length > 1;
+
+      if (multi) {
+        const tip = document.createElement("p");
+        tip.className = "multi-unit-tip";
+        tip.textContent = editable
+          ? "此題有多個單位。請對照各單位答案後人工合併改寫；匯出同一題只會有一份答案。"
+          : "此題有多個單位答案，可並排對照。合併請到「填寫」模式人工改寫；匯出同一題只會有一份。";
+        wrap.appendChild(tip);
+      }
+
+      if (who.length) {
+        const line = document.createElement("div");
+        line.className = "assignee-line";
+        line.textContent = `分派單位：${who.map(unitName).join("、")}`;
+        wrap.appendChild(line);
+      }
+
+      const submitted = renderSubmitted(q);
+      if (items.length || who.length) {
+        const label = document.createElement("div");
+        label.className = "multi-unit-label";
+        label.textContent = multi ? "各單位提交（對照）" : "單位提交";
+        wrap.appendChild(label);
+      }
+      wrap.appendChild(submitted);
+      return wrap;
     }
 
     function submissionsFor(questionId) {
@@ -574,25 +637,35 @@
       wrap.className = "submitted";
       wrap.addEventListener("click", (e) => e.stopPropagation());
       const items = submissionsFor(q.id);
-      if (!items.length) {
+      const who = assignees(q.id);
+      const pending = who.filter((unitId) => !items.some((item) => item.unitId === unitId));
+      if (items.length + pending.length > 1) wrap.classList.add("multi");
+
+      if (!items.length && !pending.length) {
         const empty = document.createElement("div");
         empty.className = "submitted-empty";
         empty.textContent = submissions.length ? "尚無提交" : "尚未讀到提交資料";
         wrap.appendChild(empty);
         return wrap;
       }
+
       items.forEach((item) => {
         const card = document.createElement("div");
         card.className = "submitted-card";
         const head = document.createElement("div");
         head.className = "submitted-head";
         const when = item.updatedAt ? new Date(item.updatedAt).toLocaleString("zh-TW", { hour12: false }) : "";
-        head.appendChild(document.createTextNode(`原填寫單位：${item.sourceUnitName || item.unitName}`));
-        if (when) head.appendChild(document.createTextNode(`　${when}`));
+        head.appendChild(document.createTextNode(item.sourceUnitName || item.unitName || "單位"));
+        if (when) {
+          const time = document.createElement("span");
+          time.className = "submitted-time";
+          time.textContent = when;
+          head.appendChild(time);
+        }
         if (item.office) {
           const tag = document.createElement("span");
           tag.className = "badge warn";
-          tag.textContent = "永續辦已填寫";
+          tag.textContent = "永續辦已改";
           head.appendChild(tag);
         }
         card.appendChild(head);
@@ -612,7 +685,7 @@
         }
         if (q.answerType === "picklist" && answer.options && answer.options.length) {
           const labels = answer.options.map((key) => {
-            const opt = (q.options || []).find((item) => item.en === key || item.zh === key);
+            const opt = (q.options || []).find((row) => row.en === key || row.zh === key);
             return opt ? (lang === "en" ? opt.en || opt.zh : opt.zh || opt.en) : key;
           });
           addAnswerRow(list, lang === "en" ? "Options" : "選項", labels.join("、"));
@@ -644,6 +717,20 @@
         }
         if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
         card.appendChild(list);
+        wrap.appendChild(card);
+      });
+
+      pending.forEach((unitId) => {
+        const card = document.createElement("div");
+        card.className = "submitted-card pending";
+        const head = document.createElement("div");
+        head.className = "submitted-head";
+        head.textContent = unitName(unitId);
+        const tag = document.createElement("span");
+        tag.className = "badge warn";
+        tag.textContent = "尚未提交";
+        head.appendChild(tag);
+        card.appendChild(head);
         wrap.appendChild(card);
       });
       return wrap;
@@ -744,11 +831,17 @@
 
     function renderFillEditors(q) {
       const wrap = document.createElement("div");
+      wrap.className = "fill-editors";
       const targets = fillTargets(q);
+      const head = document.createElement("div");
+      head.className = "multi-unit-label";
+      head.textContent =
+        targets.length > 1 ? "整理改寫（可改各單位；匯出同一題只會有一份）" : "整理改寫";
+      wrap.appendChild(head);
       if (!targets.length) {
         const empty = document.createElement("div");
         empty.className = "submitted-empty";
-        empty.textContent = "尚無單位填寫";
+        empty.textContent = "尚無單位可改寫（可先分派單位，或等單位提交）";
         wrap.appendChild(empty);
         return wrap;
       }
@@ -757,7 +850,7 @@
         block.className = "fill-unit";
         const name = document.createElement("div");
         name.className = "fill-unit-name";
-        name.textContent = target.officeOnly ? "永續辦" : `原填寫單位：${target.unitName}`;
+        name.textContent = target.officeOnly ? "永續辦" : `改寫單位：${target.unitName}`;
         block.appendChild(name);
         const office = officeOf(target.unitId, q.id);
         if (office) {
@@ -1011,7 +1104,7 @@
           });
           showExportBanner(
             "ok",
-            `匯出完成。收集表已下載，包含 ${packs.length} 個單位、${questionCount} 題。請看瀏覽器的下載紀錄。時間 ${whenNow()}。`
+            `匯出完成。收集表已下載（同一題只會有一份答案），含 ${packs.length} 個單位來源、${questionCount} 題。請看瀏覽器的下載紀錄。時間 ${whenNow()}。`
           );
         } catch (e) {
           showExportBanner("bad", "匯出失敗，檔案還沒下載。請確認已用管理帳號登入，而且 Firestore 允許讀取答案。");
