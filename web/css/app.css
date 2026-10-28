@@ -1153,6 +1153,22 @@ button:disabled {
 .filler-card p { margin: 0 0 0.85rem; color: var(--muted); }
 .filler-card input { width: 100%; font-size: 1rem; padding: 0.55rem 0.7rem; }
 .filler-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.9rem; }
+/* 教學進行中：鎖住背景捲動與點擊，只能操作浮框 */
+body.tour-open {
+  overflow: hidden !important;
+}
+body.tour-open > *:not(.tour-root) {
+  pointer-events: none !important;
+}
+body.tour-open .layout,
+body.tour-open .pane,
+body.tour-open .pane-left,
+body.tour-open .pane-right,
+body.tour-open .sdg-tabs,
+body.tour-open .method-body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
 .tour-root {
   position: fixed;
   inset: 0;

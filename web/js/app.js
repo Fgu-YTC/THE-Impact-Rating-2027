@@ -70,19 +70,11 @@
     }
   }
 
-  let tourPrev = null;
   let tourAutoShown = false;
 
   function prepareTourExample() {
     const office = units.find((u) => u.name === "永續辦");
     if (!office) return;
-    if (tourPrev === null) {
-      tourPrev = {
-        unitId: currentUnitId,
-        sdg: currentSdg,
-        questionId: activeQuestionId,
-      };
-    }
     currentUnitId = office.id;
     unitSelect.value = office.id;
     activeQuestionId = null;
@@ -98,26 +90,18 @@
     else renderMethod();
   }
 
+  /** 教學結束：回到未選單位的初始畫面 */
   function restoreTourSelection() {
-    if (!tourPrev) return;
-    const prev = tourPrev;
-    tourPrev = null;
-    currentUnitId = prev.unitId || "";
-    unitSelect.value = currentUnitId;
-    currentSdg = prev.sdg;
-    activeQuestionId = prev.questionId || null;
+    currentUnitId = "";
+    unitSelect.value = "";
+    currentSdg = null;
+    activeQuestionId = null;
     activeRef = null;
     activeMetricRef = null;
-    watchUnit(currentUnitId);
+    watchUnit("");
     renderTabs();
     renderQuestions();
-    if (currentUnitId && activeQuestionId) {
-      const q = questions.find((item) => item.id === activeQuestionId);
-      if (q) selectQuestion(q);
-      else renderMethod();
-    } else {
-      renderMethod();
-    }
+    renderMethod();
   }
 
   const tour = THETour.bind({

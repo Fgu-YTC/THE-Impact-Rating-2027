@@ -180,10 +180,21 @@
       }
     }
 
-    /** 只框住「分頁列以下、底欄以上」看得到的部分 */
-    function intersectViewport(rect, vw, vh) {
-      const topMin = chromeBottom();
-      const bottomMax = footerTop();
+    function targetInChrome(el) {
+      if (!el || !el.closest) return false;
+      return !!(
+        el.closest(".topbar") ||
+        el.closest(".data-year-note") ||
+        el.id === "sdgTabs" ||
+        el.closest(".sdg-tabs") ||
+        el.closest(".bottombar")
+      );
+    }
+
+    /** 內容區反白避開 sticky 頂列；頂欄／分頁本身則不夾 */
+    function intersectViewport(rect, vw, vh, skipChromeClamp) {
+      const topMin = skipChromeClamp ? PAD : chromeBottom();
+      const bottomMax = skipChromeClamp ? window.innerHeight - PAD : footerTop();
       const top = Math.max(topMin, rect.top);
       const left = Math.max(PAD, rect.left);
       const bottom = Math.min(bottomMax, rect.bottom);
@@ -198,7 +209,8 @@
       const el = firstMatch(def.sel);
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const topMin = chromeBottom();
+      const inChrome = targetInChrome(el);
+      const topMin = inChrome ? PAD : chromeBottom();
       let raw;
       if (el) {
         raw = el.getBoundingClientRect();
@@ -221,14 +233,22 @@
           right: raw.right + PAD,
         },
         vw,
-        vh
+        vh,
+        inChrome
       );
       if (width < 40 || height < 28) {
-        top = topMin + 12;
-        left = Math.max(PAD, raw.left);
-        width = Math.min(vw - left - PAD, Math.max(raw.width, 200));
-        height = Math.min(footerTop() - top, 220);
-      } else {
+        if (inChrome && el) {
+          top = Math.max(PAD, raw.top - PAD);
+          left = Math.max(PAD, raw.left - PAD);
+          width = Math.min(vw - left - PAD, Math.max(raw.width + PAD * 2, 120));
+          height = Math.min(vh - top - PAD, Math.max(raw.height + PAD * 2, 36));
+        } else {
+          top = topMin + 12;
+          left = Math.max(PAD, raw.left);
+          width = Math.min(vw - left - PAD, Math.max(raw.width, 200));
+          height = Math.min(footerTop() - top, 220);
+        }
+      } else if (!inChrome) {
         height = Math.min(height, Math.max(120, footerTop() - top));
       }
 
@@ -361,6 +381,7 @@
       document.body.classList.add("tour-open");
       window.addEventListener("resize", onReposition);
       window.addEventListener("scroll", onScrollReposition, true);
+      // 等範例單位就緒再反白，避免步驟 1 對到空白頁
       Promise.resolve(prepareExample())
         .catch(() => {})
         .then(() => {
@@ -369,7 +390,6 @@
             if (active) goToStep();
           }, 200);
         });
-      goToStep();
     }
 
     function syncLang() {
