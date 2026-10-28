@@ -149,6 +149,32 @@
       renderUnitFilter();
     }
 
+    function updateUnitFilterSummary() {
+      const el = $("#unitFilterSummary");
+      if (!el) return;
+      if (!unitFilter.size) {
+        el.textContent = "未篩選（顯示全部）";
+        el.classList.remove("has-filter");
+        return;
+      }
+      const names = [...unitFilter].map((id) => unitName(id)).filter(Boolean);
+      const preview = names.slice(0, 3).join("、");
+      const more = names.length > 3 ? ` 等 ${names.length} 個` : "";
+      el.textContent = `已選：${preview}${more}`;
+      el.classList.add("has-filter");
+    }
+
+    function setUnitFilterOpen(open) {
+      const panel = $("#unitFilter");
+      const body = $("#unitFilterBody");
+      const btn = $("#btnToggleUnitFilter");
+      if (!panel || !body || !btn) return;
+      body.hidden = !open;
+      panel.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.textContent = open ? "收合單位篩選" : "篩選單位";
+    }
+
     function renderUnitFilter() {
       const list = $("#unitFilterList");
       list.innerHTML = "";
@@ -160,6 +186,7 @@
         empty.className = "unit-filter-label";
         empty.textContent = "尚無單位";
         list.appendChild(empty);
+        updateUnitFilterSummary();
         return;
       }
       units.forEach((u) => {
@@ -170,12 +197,14 @@
         cb.addEventListener("change", () => {
           if (cb.checked) unitFilter.add(u.id);
           else unitFilter.delete(u.id);
-          renderQuestions();
+          updateUnitFilterSummary();
+          applyUnitFilterNavigation();
         });
         lab.appendChild(cb);
         lab.appendChild(document.createTextNode(u.name));
         list.appendChild(lab);
       });
+      updateUnitFilterSummary();
     }
     fillUnitSelect();
 
@@ -185,6 +214,32 @@
 
     function assignees(qid) {
       return units.filter((unit) => (unit.questionIds || []).includes(qid)).map((unit) => unit.id);
+    }
+
+    /** 目前單位篩選下，各單位被分派到的 SDG 列表；未篩選則回傳 null */
+    function sdgsForUnitFilter() {
+      if (!unitFilter.size) return null;
+      const set = new Set();
+      questions.forEach((q) => {
+        const a = assignees(q.id);
+        if (a.some((id) => unitFilter.has(id))) set.add(Number(q.sdg));
+      });
+      return [...set].sort((a, b) => a - b);
+    }
+
+    function applyUnitFilterNavigation() {
+      const hits = sdgsForUnitFilter();
+      if (hits && hits.length && !hits.includes(Number(currentSdg))) {
+        currentSdg = hits[0];
+        selected.clear();
+        focusRef = null;
+        focusMetricRef = null;
+        focusQuestionId = null;
+        renderMethod();
+        updateBottom();
+      }
+      renderTabs();
+      renderQuestions();
     }
 
     function refreshStats() {
@@ -224,17 +279,26 @@
 
     function renderTabs() {
       sdgTabs.innerHTML = "";
+      const unitSdgs = sdgsForUnitFilter();
       for (let n = 1; n <= 17; n++) {
         const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0 };
         const chip = document.createElement("div");
         chip.className = "sdg-chip" + (n === currentSdg ? " active" : "");
         if (c.total) chip.classList.add("has-items");
+        if (unitSdgs) {
+          if (unitSdgs.includes(n)) chip.classList.add("unit-hit");
+          else chip.classList.add("unit-dim");
+        }
 
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "sdg-tab";
         btn.textContent = `SDG${n}`;
-        btn.title = `已分配 ${c.assigned}/${c.total}`;
+        if (unitSdgs && unitSdgs.includes(n)) {
+          btn.title = `篩選單位有題可看 · 已分配 ${c.assigned}/${c.total}`;
+        } else {
+          btn.title = `已分配 ${c.assigned}/${c.total}`;
+        }
         btn.addEventListener("click", () => showSdgOverview(n));
 
         const help = document.createElement("button");
@@ -839,10 +903,19 @@
       }
     });
 
+    const btnToggleUnitFilter = $("#btnToggleUnitFilter");
+    if (btnToggleUnitFilter) {
+      btnToggleUnitFilter.addEventListener("click", () => {
+        const body = $("#unitFilterBody");
+        setUnitFilterOpen(Boolean(body && body.hidden));
+      });
+      setUnitFilterOpen(false);
+    }
+
     $("#btnClearUnitFilter").addEventListener("click", () => {
       unitFilter.clear();
       renderUnitFilter();
-      renderQuestions();
+      applyUnitFilterNavigation();
     });
 
     filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {

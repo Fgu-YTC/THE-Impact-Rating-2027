@@ -55,9 +55,16 @@
       <button type="button" id="btnReloadAnswers" class="secondary" data-for="review">重新讀取填答</button>
     </div>
     <div class="unit-filter" id="unitFilter" data-for="browse">
-      <span class="unit-filter-label">篩選單位</span>
-      <div id="unitFilterList"></div>
-      <button type="button" id="btnClearUnitFilter" class="secondary">清除篩選</button>
+      <div class="unit-filter-head">
+        <button type="button" id="btnToggleUnitFilter" class="secondary unit-filter-toggle" aria-expanded="false" aria-controls="unitFilterBody">
+          篩選單位
+        </button>
+        <span id="unitFilterSummary" class="unit-filter-summary">未篩選（顯示全部）</span>
+        <button type="button" id="btnClearUnitFilter" class="secondary">清除篩選</button>
+      </div>
+      <div class="unit-filter-body" id="unitFilterBody" hidden>
+        <div id="unitFilterList"></div>
+      </div>
     </div>
 
     <main class="layout with-bottom">
