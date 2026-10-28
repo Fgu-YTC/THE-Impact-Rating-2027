@@ -202,7 +202,15 @@
           applyUnitFilterNavigation();
         });
         lab.appendChild(cb);
-        lab.appendChild(document.createTextNode(u.name));
+        const prog = unitFillProgress(u.id);
+        const due = prog.due || (u.questionIds || []).length;
+        const label =
+          due > 0 ? `${u.name}（${prog.filled}/${due}）` : `${u.name}（0）`;
+        lab.appendChild(document.createTextNode(label));
+        lab.title =
+          due > 0
+            ? `${u.name}：已填 ${prog.filled}／分派 ${due}`
+            : `${u.name}：尚未分派題目`;
         list.appendChild(lab);
       });
       updateUnitFilterSummary();
@@ -243,22 +251,59 @@
       renderQuestions();
     }
 
+    function questionIsFilled(questionId) {
+      return fillMark(questionId).filled === true;
+    }
+
+    function unitFillProgress(unitId) {
+      const ids = (units.find((u) => u.id === unitId) || {}).questionIds || [];
+      let due = ids.length;
+      let filled = 0;
+      ids.forEach((qid) => {
+        const pack = submissions.find((item) => item.unitId === unitId);
+        const original = pack && pack.answers && pack.answers[qid];
+        const office = officeOf(unitId, qid);
+        if (answerHasContent(office || original)) filled += 1;
+      });
+      return { filled, due };
+    }
+
     function refreshStats() {
       const total = questions.length;
       let assigned = 0;
+      let filled = 0;
       questions.forEach((q) => {
-        if (assignees(q.id).length) assigned += 1;
+        const who = assignees(q.id);
+        if (!who.length) return;
+        assigned += 1;
+        if (questionIsFilled(q.id)) filled += 1;
       });
+      const unfilled = Math.max(0, assigned - filled);
       $("#statTotal").textContent = total;
       $("#statAssigned").textContent = assigned;
       $("#statUnassigned").textContent = total - assigned;
+      const filledEl = $("#statFilled");
+      const dueEl = $("#statFillDue");
+      const unfilledEl = $("#statUnfilled");
+      if (filledEl) filledEl.textContent = filled;
+      if (dueEl) dueEl.textContent = assigned;
+      if (unfilledEl) unfilledEl.textContent = unfilled;
+      const stats = $("#adminStats");
+      if (stats) {
+        stats.title =
+          lang === "en"
+            ? `Fill progress: ${filled} of ${assigned} assigned questions have answers`
+            : `填寫進度：已分派 ${assigned} 題中，已有 ${filled} 題填了內容（未填 ${unfilled}）`;
+      }
 
       // per-SDG counts on tabs via title attribute later
       window.__sdgCounts = {};
       for (let n = 1; n <= 17; n++) {
         const qs = questions.filter((q) => q.sdg === n);
-        const a = qs.filter((q) => assignees(q.id).length).length;
-        window.__sdgCounts[n] = { total: qs.length, assigned: a };
+        const aQs = qs.filter((q) => assignees(q.id).length);
+        const a = aQs.length;
+        const f = aQs.filter((q) => questionIsFilled(q.id)).length;
+        window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f };
       }
     }
 
@@ -294,11 +339,13 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "sdg-tab";
-        btn.textContent = `SDG${n}`;
+        btn.textContent = c.assigned
+          ? `SDG${n} ${c.filled}/${c.assigned}`
+          : `SDG${n}`;
         if (unitSdgs && unitSdgs.includes(n)) {
-          btn.title = `篩選單位有題可看 · 已分配 ${c.assigned}/${c.total}`;
+          btn.title = `篩選單位有題可看 · 填寫 ${c.filled}/${c.assigned} · 題數 ${c.total}`;
         } else {
-          btn.title = `已分配 ${c.assigned}/${c.total}`;
+          btn.title = `填寫進度 ${c.filled || 0}/${c.assigned || 0}（本 SDG 共 ${c.total} 題）`;
         }
         btn.addEventListener("click", () => showSdgOverview(n));
 
@@ -800,7 +847,11 @@
       submissions.forEach((pack) => {
         pack.unitName = unitName(pack.unitId);
       });
+      refreshStats();
+      renderUnitFilter();
+      renderTabs();
       if (mode === "review" || mode === "fill") requestFillRender();
+      else renderQuestions();
     }
 
     $("#btnReloadAnswers").addEventListener("click", () => {
@@ -1320,7 +1371,11 @@
             unitId,
             (map) => {
               officeByUnit = { ...officeByUnit, [unitId]: map || {} };
+              refreshStats();
+              renderUnitFilter();
+              renderTabs();
               if (mode === "fill" || mode === "review") requestFillRender();
+              else renderQuestions();
             },
             (err) => showExportBanner("bad", `讀取永續辦修改失敗。${THELive.explain(err)}`)
           )
@@ -1330,6 +1385,9 @@
             unitId,
             (map) => {
               returnsByUnit = { ...returnsByUnit, [unitId]: map || {} };
+              refreshStats();
+              renderUnitFilter();
+              renderTabs();
               renderQuestions();
             },
             (err) => showExportBanner("bad", `讀取退回失敗。${THELive.explain(err)}`)

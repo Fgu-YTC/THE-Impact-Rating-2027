@@ -1021,6 +1021,13 @@ button:disabled {
   color: var(--muted);
 }
 .stats strong { color: var(--ink); font-weight: 600; }
+.stats .stat-progress {
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  background: rgba(46, 110, 82, 0.1);
+  color: var(--ink);
+}
+.stats .stat-progress strong { color: var(--accent); }
 
 .filter-bar {
   display: flex;
