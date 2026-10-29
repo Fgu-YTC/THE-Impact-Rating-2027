@@ -67,10 +67,10 @@
       yesNo: "是／否",
       evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
       evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
-      evidenceMax: "提供證據（最多 1 項）",
+      evidenceMax: "提供證據（每題最多 1 項；網址或檔案擇一）",
       evidenceChoose: "選擇證據類型",
-      evidenceTypeUrl: "網址：連到線上證據",
-      evidenceTypeFile: "檔案：上傳一個證據檔",
+      evidenceTypeUrl: "網址：連到公開網頁／文件",
+      evidenceTypeFile: "檔案：上傳一份證據檔（機密請於備註註明）",
       evidenceClear: "清除證據",
       evidencePending: (name) => `待上傳：${name}`,
       evidenceUploading: "上傳證據中…",
@@ -139,10 +139,10 @@
       evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
       evidenceWarn:
         "Use a public webpage URL. For uploaded files, use the download link below — do not paste Firebase Storage URLs.",
-      evidenceMax: "Provide Evidence (Maximum 1)",
+      evidenceMax: "Provide Evidence (Maximum 1; URL or file)",
       evidenceChoose: "Choose Evidence Type",
-      evidenceTypeUrl: "Url: Link to online evidence",
-      evidenceTypeFile: "File: Upload a file for evidence",
+      evidenceTypeUrl: "Url: Link to online evidence / document",
+      evidenceTypeFile: "File: Upload one evidence file (mark confidential in comments)",
       evidenceClear: "Clear evidence",
       evidencePending: (name) => `Pending upload: ${name}`,
       evidenceUploading: "Uploading evidence…",
@@ -558,6 +558,14 @@
       if (!pack) return;
       const mapped = fromLiveAnswer(pack.preferred.answer);
       if (!mapped || !Object.keys(mapped).length) return;
+      if (
+        f.answerType === "picklist" &&
+        (f.portal || {}).optionSelect === "single" &&
+        Array.isArray(mapped.options) &&
+        mapped.options.length > 1
+      ) {
+        mapped.options = mapped.options.slice(0, 1);
+      }
       if (onlyEmpty) {
         const cur = answerOf(f.ref);
         const next = { ...mapped };
@@ -697,17 +705,24 @@
         const wrap = document.createElement("div");
         wrap.className = "portal-choice-group";
         const row = document.createElement("div");
-        row.className = "portal-choice-row portal-opts";
         const selected = new Set(ans.options || []);
+        const single = (portal.optionSelect || "multi") === "single";
+        row.className = "portal-choice-row portal-opts" + (single ? "" : " portal-opts-multi");
         f.options.forEach((opt) => {
           const key = opt.en || opt.zh;
+          const checked =
+            selected.has(opt.en) || selected.has(opt.zh) || selected.has(key);
           appendChoiceRow(row, {
             name: `opt-${f.ref}`,
-            type: "checkbox",
+            type: single ? "radio" : "checkbox",
             value: key,
-            checked: selected.has(opt.en) || selected.has(opt.zh) || selected.has(key),
+            checked,
             label: optLabel(opt) || key,
             onChange: (ev) => {
+              if (single) {
+                patch(f.ref, { options: ev.target.checked ? [key] : [] });
+                return;
+              }
               const next = new Set(answerOf(f.ref).options || []);
               if (ev.target.checked) next.add(key);
               else {

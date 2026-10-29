@@ -112,11 +112,63 @@ for ref, body in blocks:
     has_comment = "Comments, max length" in body
     has_evidence = bool(re.search(r"evidence/|THE\d|https?://", body))
 
+    def option_select(opts):
+        ens = [(o.get("en") or "").strip().lower() for o in (opts or [])]
+        joined = " | ".join(ens)
+        if not ens:
+            return "multi"
+        rules = [
+            r"whole university|partial measurement|partial\b",
+            r"all food outlets|selected food outlets",
+            r"ad hoc|on programmed|on-going|ongoing",
+            r"overall report|separate report",
+            r"scope 1",
+            r"\bannual\b|\bbi-annual\b|less frequent",
+            r"smoking-free|designated areas",
+            r"automatic free access|access to all after|access in some",
+            r"permanent free access|occasional free access",
+            r"more than 30|more than 15|ad-hoc only",
+            r"education integrated|mandatory education|optional education",
+        ]
+        for rule in rules:
+            if re.search(rule, joined, re.I):
+                return "single"
+        accessish = sum(
+            1
+            for e in ens
+            if re.search(
+                r"free access|charged access|paid access|charged\b|free access to all|free access to some",
+                e,
+            )
+        )
+        if (
+            accessish >= 2
+            and len(ens) <= 3
+            and "mental health" not in joined
+            and "promotion" not in joined
+        ):
+            return "single"
+        return "multi"
+
     fid = f"portal-{ref}"
     if fid in seen:
         continue
     seen.add(fid)
     sdg = int(ref.split(".")[0])
+    portal_meta = {
+        "hasYesNo": answer_type in ("yesno", "picklist")
+        or bool(re.search(r"(?m)^Yes\b", body)),
+        "hasPublic": has_public or answer_type in ("yesno", "picklist"),
+        # 連續數值題通常只要填數字，不需證據／備註
+        "hasComment": False if answer_type == "continuous" else has_comment,
+        "hasEvidence": False
+        if answer_type == "continuous"
+        else (has_evidence or answer_type in ("yesno", "picklist")),
+        "hasPolicyCreated": has_policy_created,
+        "hasPolicyReviewed": has_policy_reviewed,
+    }
+    if answer_type == "picklist":
+        portal_meta["optionSelect"] = option_select(options)
     fields.append(
         {
             "id": fid,
@@ -127,18 +179,7 @@ for ref, body in blocks:
             "answerType": answer_type,
             "options": options,
             "siteQuestionId": site_q.get("id") or "",
-            "portal": {
-                "hasYesNo": answer_type in ("yesno", "picklist")
-                or bool(re.search(r"(?m)^Yes\b", body)),
-                "hasPublic": has_public or answer_type in ("yesno", "picklist"),
-                # 連續數值題通常只要填數字，不需證據／備註
-                "hasComment": False if answer_type == "continuous" else has_comment,
-                "hasEvidence": False
-                if answer_type == "continuous"
-                else (has_evidence or answer_type in ("yesno", "picklist")),
-                "hasPolicyCreated": has_policy_created,
-                "hasPolicyReviewed": has_policy_reviewed,
-            },
+            "portal": portal_meta,
             "aligned": bool(site_q),
         }
     )
