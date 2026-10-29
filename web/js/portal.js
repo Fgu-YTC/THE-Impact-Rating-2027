@@ -18,7 +18,7 @@
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
       note:
-        "依 <strong>WUR Portal</strong> 題列填寫。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
+        "依 <strong>WUR Portal</strong> 題列填寫。「帶入今年填報」一次帶入答案與證據（網址與檔案可同時保留）。資料存在 <code>portalFill</code>，不改單位填報。",
       importLive: "帶入今年填報",
       importLiveTitle: "一次帶入答案、選項、公開網址／檔案等到尚空欄位",
       importAll: "覆蓋帶入",
@@ -63,11 +63,12 @@
       yesNo: "是／否",
       evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
       evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
-      evidenceMax: "提供證據（每題最多 1 項；網址或檔案擇一）",
-      evidenceChoose: "選擇證據類型",
-      evidenceTypeUrl: "網址：連到公開網頁／文件",
-      evidenceTypeFile: "檔案：上傳一份證據檔（機密請於備註註明）",
-      evidenceClear: "清除證據",
+      evidenceMax: "提供證據（可同時填網址與檔案）",
+      evidenceTypeUrl: "網址",
+      evidenceTypeFile: "檔案",
+      evidenceClear: "清除全部證據",
+      evidenceClearUrl: "清除網址",
+      evidenceClearFile: "清除檔案",
       evidencePending: (name) => `待上傳：${name}`,
       evidenceUploading: "上傳證據中…",
       publicLabel: "公開／不公開／未定",
@@ -84,7 +85,7 @@
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
       note:
-        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
+        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL and file can both be kept). Data is stored in <code>portalFill</code> and does not change unit fill.",
       importLive: "Import this year",
       importLiveTitle: "Import answers, options, public URL/file into empty fields in one step",
       importAll: "Overwrite import",
@@ -131,11 +132,12 @@
       evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
       evidenceWarn:
         "Use a public webpage URL. For uploaded files, use the download link below — do not paste Firebase Storage URLs.",
-      evidenceMax: "Provide Evidence (Maximum 1; URL or file)",
-      evidenceChoose: "Choose Evidence Type",
-      evidenceTypeUrl: "Url: Link to online evidence / document",
-      evidenceTypeFile: "File: Upload one evidence file (mark confidential in comments)",
-      evidenceClear: "Clear evidence",
+      evidenceMax: "Provide evidence (URL and file can both be kept)",
+      evidenceTypeUrl: "URL",
+      evidenceTypeFile: "File",
+      evidenceClear: "Clear all evidence",
+      evidenceClearUrl: "Clear URL",
+      evidenceClearFile: "Clear file",
       evidencePending: (name) => `Pending upload: ${name}`,
       evidenceUploading: "Uploading evidence…",
       publicLabel: "Public / Private / Undefined",
@@ -211,27 +213,54 @@
   let dbCtx = null;
   let storageCtx = null;
 
-  function evidenceKindOf(ans, ref) {
-    if (!ans) return "";
-    if (ans.evidenceKind === "url" || ans.evidenceKind === "file") return ans.evidenceKind;
-    if (publicEvidenceUrl(ans.evidence)) return "url";
-    if (pendingFiles.has(ref) || ans.evidenceFileName || ans.evidenceFileUrl) return "file";
+  function hasEvidenceFile(ans, ref) {
+    if (ref && pendingFiles.has(ref)) return true;
+    return !!(ans && (ans.evidenceFileName || ans.evidenceFileUrl || ans.evidenceFilePath));
+  }
+
+  function syncEvidenceKind(ans, ref) {
+    const hasUrl = !!publicEvidenceUrl(ans && ans.evidence);
+    const hasFile = hasEvidenceFile(ans, ref);
+    if (hasUrl && hasFile) return "both";
+    if (hasUrl) return "url";
+    if (hasFile) return "file";
     return "";
   }
 
-  function clearEvidenceFields(ref, keepKind) {
+  function clearEvidenceFields(ref) {
     pendingFiles.delete(ref);
-    const next = {
+    patch(ref, {
       evidence: "",
       evidenceFileName: "",
       evidenceFileUrl: "",
       evidenceFilePath: "",
       evidenceStoredName: "",
       evidenceAlsoFile: false,
-    };
-    if (keepKind) next.evidenceKind = keepKind;
-    else next.evidenceKind = "";
-    patch(ref, next);
+      evidenceKind: "",
+    });
+  }
+
+  function clearEvidenceUrl(ref) {
+    const cur = answerOf(ref);
+    patch(ref, {
+      evidence: "",
+      evidenceAlsoFile: hasEvidenceFile(cur, ref),
+      evidenceKind: hasEvidenceFile(cur, ref) ? "file" : "",
+    });
+  }
+
+  function clearEvidenceFile(ref) {
+    pendingFiles.delete(ref);
+    const cur = answerOf(ref);
+    const hasUrl = !!publicEvidenceUrl(cur.evidence);
+    patch(ref, {
+      evidenceFileName: "",
+      evidenceFileUrl: "",
+      evidenceFilePath: "",
+      evidenceStoredName: "",
+      evidenceAlsoFile: false,
+      evidenceKind: hasUrl ? "url" : "",
+    });
   }
 
   function appendChoiceRow(parent, { name, type, value, checked, label, onChange }) {
@@ -317,17 +346,11 @@
     }
     const hasUrl = !!out.evidence;
     const hasFileMeta = !!(out.evidenceFileName || out.evidenceFileUrl || out.evidenceFilePath);
-    // 有公開網址就以網址為主；檔案可當附帶下載保留
-    if (hasUrl) {
-      out.evidenceKind = "url";
-      out.evidenceAlsoFile = hasFileMeta;
-    } else if (hasFileMeta) {
-      out.evidenceKind = "file";
-      out.evidenceAlsoFile = false;
-    } else if (out.evidenceKind !== "url" && out.evidenceKind !== "file") {
-      out.evidenceKind = "";
-      out.evidenceAlsoFile = false;
-    }
+    out.evidenceAlsoFile = hasUrl && hasFileMeta;
+    if (hasUrl && hasFileMeta) out.evidenceKind = "both";
+    else if (hasUrl) out.evidenceKind = "url";
+    else if (hasFileMeta) out.evidenceKind = "file";
+    else out.evidenceKind = "";
     return out;
   }
 
@@ -364,10 +387,9 @@
       } catch (_) {
         url = "";
       }
+      const prev = merged[refId] || {};
       merged[refId] = sanitizePortalAnswer({
-        ...(merged[refId] || {}),
-        evidenceKind: "file",
-        evidence: "",
+        ...prev,
         evidenceFileName: file.name,
         evidenceStoredName: stored,
         evidenceFilePath: path,
@@ -438,24 +460,22 @@
   function applyEvidenceUrl(ref, url, fileMeta) {
     const next = publicEvidenceUrl(url);
     if (!next) return false;
+    const cur = answerOf(ref);
     const patchBody = {
       evidence: next,
-      evidenceKind: "url",
     };
     if (fileMeta && (fileMeta.evidenceFileName || fileMeta.evidenceFileUrl)) {
       patchBody.evidenceFileName = fileMeta.evidenceFileName || "";
       patchBody.evidenceFileUrl = fileMeta.evidenceFileUrl || "";
       patchBody.evidenceFilePath = fileMeta.evidenceFilePath || "";
       patchBody.evidenceStoredName = fileMeta.evidenceStoredName || "";
-      patchBody.evidenceAlsoFile = true;
-    } else {
-      pendingFiles.delete(ref);
-      patchBody.evidenceFileName = "";
-      patchBody.evidenceFileUrl = "";
-      patchBody.evidenceFilePath = "";
-      patchBody.evidenceStoredName = "";
-      patchBody.evidenceAlsoFile = false;
     }
+    const withFile = {
+      ...cur,
+      ...patchBody,
+    };
+    patchBody.evidenceKind = syncEvidenceKind(withFile, ref);
+    patchBody.evidenceAlsoFile = patchBody.evidenceKind === "both";
     patch(ref, patchBody);
     return true;
   }
@@ -796,153 +816,119 @@
         caption.textContent = t("evidenceMax");
         wrap.appendChild(caption);
 
-        const kind = evidenceKindOf(ans, f.ref);
-        const typeRow = document.createElement("div");
-        typeRow.className = "portal-choice-row";
-        appendChoiceRow(typeRow, {
-          name: `evkind-${f.ref}`,
-          type: "radio",
-          value: "url",
-          checked: kind === "url",
-          label: lang === "en" ? "URL" : "網址",
-          onChange: () => {
-            const pack = liveForRef(f.ref);
-            const live = pack && pack.preferred.answer;
-            if (live) {
-              const mapped = fromLiveAnswer(live, f) || {};
-              const pub = publicEvidenceUrl(mapped.evidence) || publicEvidenceUrl(live.evidence);
-              if (pub) {
-                applyEvidenceUrl(f.ref, pub, mapped.evidenceAlsoFile ? mapped : null);
-              } else {
-                clearEvidenceFields(f.ref, "url");
-              }
-            } else {
-              const prior = bestEvidenceUrl(f.ref);
-              if (prior) applyEvidenceUrl(f.ref, prior);
-              else clearEvidenceFields(f.ref, "url");
-            }
-            renderFields();
-          },
-        });
-        appendChoiceRow(typeRow, {
-          name: `evkind-${f.ref}`,
-          type: "radio",
-          value: "file",
-          checked: kind === "file",
-          label: lang === "en" ? "File" : "檔案",
-          onChange: () => {
-            pendingFiles.delete(f.ref);
-            const pack = liveForRef(f.ref);
-            const live = pack && pack.preferred.answer;
-            const fileName = live ? String(live.evidenceFileName || "").trim() : "";
-            const fileUrl = live
-              ? String(live.evidenceFileUrl || (isStorageUrl(live.evidence) ? live.evidence : "")).trim()
-              : "";
-            if (fileName || fileUrl) {
-              patch(f.ref, {
-                evidenceKind: "file",
-                evidence: "",
-                evidenceAlsoFile: false,
-                evidenceFileName: fileName,
-                evidenceFileUrl: fileUrl,
-                evidenceFilePath: (live && live.evidenceFilePath) || "",
-                evidenceStoredName: (live && live.evidenceStoredName) || "",
-              });
-            } else {
-              clearEvidenceFields(f.ref, "file");
-            }
-            renderFields();
-          },
-        });
-        wrap.appendChild(typeRow);
-
         const body = document.createElement("div");
         body.className = "portal-evidence-body";
-        const alsoFile =
-          !!ans.evidenceAlsoFile ||
-          (kind === "url" && !!(ans.evidenceFileName || ans.evidenceFileUrl || ans.evidenceFilePath));
+        const hasUrl = !!publicEvidenceUrl(ans.evidence);
+        const hasFile = hasEvidenceFile(ans, f.ref);
 
-        if (kind === "url") {
-          const input = document.createElement("input");
-          input.type = "url";
-          input.placeholder = "https://…";
-          input.value = publicEvidenceUrl(ans.evidence) || "";
-          input.addEventListener("change", () => {
-            const next = publicEvidenceUrl(input.value);
-            if (input.value.trim() && !next) {
-              banner("warn", t("evidenceWarn"));
-              input.value = "";
-            }
-            patch(f.ref, {
-              evidence: next,
-              evidenceKind: next ? "url" : "",
-              evidenceAlsoFile: next ? alsoFile : false,
-            });
+        const urlBlock = document.createElement("div");
+        urlBlock.className = "portal-ev-block";
+        const urlLab = document.createElement("div");
+        urlLab.className = "portal-ev-mini";
+        urlLab.textContent = t("evidenceTypeUrl");
+        urlBlock.appendChild(urlLab);
+        const input = document.createElement("input");
+        input.type = "url";
+        input.placeholder = "https://…";
+        input.value = publicEvidenceUrl(ans.evidence) || "";
+        input.addEventListener("change", () => {
+          const next = publicEvidenceUrl(input.value);
+          if (input.value.trim() && !next) {
+            banner("warn", t("evidenceWarn"));
+            input.value = "";
+          }
+          const cur = answerOf(f.ref);
+          const nextAns = { ...cur, evidence: next || "" };
+          patch(f.ref, {
+            evidence: next || "",
+            evidenceKind: syncEvidenceKind(nextAns, f.ref),
+            evidenceAlsoFile: !!(next && hasEvidenceFile(cur, f.ref)),
           });
-          body.appendChild(input);
-          if (alsoFile) {
-            const side = document.createElement("div");
-            side.className = "portal-ev-side";
-            const note = document.createElement("span");
-            note.textContent = t("alsoHasFile");
-            side.appendChild(note);
-            const fileHref = fileDownloadHref(ans);
-            if (fileHref || ans.evidenceFileName) {
-              const a = document.createElement("a");
-              a.className = "portal-ev-link";
-              a.target = "_blank";
-              a.rel = "noopener";
-              if (fileHref) a.href = fileHref;
-              a.textContent = t("downloadFileSide", ans.evidenceFileName || "");
-              if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
-              side.appendChild(a);
-            }
-            body.appendChild(side);
-          }
-        } else if (kind === "file") {
-          const pending = pendingFiles.get(f.ref);
-          const fileHref = fileDownloadHref(ans);
-          if (pending) {
-            const tip = document.createElement("div");
-            tip.className = "portal-ev-pending";
-            tip.textContent = t("evidencePending", pending.name);
-            body.appendChild(tip);
-          } else if (fileHref || ans.evidenceFileName) {
-            const a = document.createElement("a");
-            a.className = "portal-ev-link";
-            a.target = "_blank";
-            a.rel = "noopener";
-            if (fileHref) a.href = fileHref;
-            a.textContent = fileDownloadLabel(ans);
-            if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
-            body.appendChild(a);
-          }
-          const file = document.createElement("input");
-          file.type = "file";
-          file.addEventListener("change", () => {
-            const chosen = file.files && file.files[0];
-            if (!chosen) return;
-            pendingFiles.set(f.ref, chosen);
-            patch(f.ref, {
-              evidenceKind: "file",
-              evidence: "",
-              evidenceAlsoFile: false,
-              evidenceFileName: chosen.name,
-              evidenceFileUrl: "",
-              evidenceFilePath: "",
-              evidenceStoredName: "",
-            });
+        });
+        urlBlock.appendChild(input);
+        if (hasUrl) {
+          const clearUrl = document.createElement("button");
+          clearUrl.type = "button";
+          clearUrl.className = "portal-ev-action muted";
+          clearUrl.textContent = t("evidenceClearUrl");
+          clearUrl.addEventListener("click", () => {
+            clearEvidenceUrl(f.ref);
             renderFields();
           });
-          body.appendChild(file);
+          urlBlock.appendChild(clearUrl);
         }
-        if (kind) {
+        body.appendChild(urlBlock);
+
+        const fileBlock = document.createElement("div");
+        fileBlock.className = "portal-ev-block";
+        const fileLab = document.createElement("div");
+        fileLab.className = "portal-ev-mini";
+        fileLab.textContent = t("evidenceTypeFile");
+        fileBlock.appendChild(fileLab);
+        const pending = pendingFiles.get(f.ref);
+        const fileHref = fileDownloadHref(ans);
+        if (pending) {
+          const tip = document.createElement("div");
+          tip.className = "portal-ev-pending";
+          tip.textContent = t("evidencePending", pending.name);
+          fileBlock.appendChild(tip);
+        } else if (fileHref || ans.evidenceFileName) {
+          const a = document.createElement("a");
+          a.className = "portal-ev-link";
+          a.target = "_blank";
+          a.rel = "noopener";
+          if (fileHref) a.href = fileHref;
+          a.textContent = ans.evidenceFileName
+            ? t("downloadFileSide", ans.evidenceFileName)
+            : fileDownloadLabel(ans);
+          if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
+          fileBlock.appendChild(a);
+        }
+        const file = document.createElement("input");
+        file.type = "file";
+        file.addEventListener("change", () => {
+          const chosen = file.files && file.files[0];
+          if (!chosen) return;
+          pendingFiles.set(f.ref, chosen);
+          const cur = answerOf(f.ref);
+          const nextAns = {
+            ...cur,
+            evidenceFileName: chosen.name,
+            evidenceFileUrl: "",
+            evidenceFilePath: "",
+            evidenceStoredName: "",
+          };
+          patch(f.ref, {
+            evidenceFileName: chosen.name,
+            evidenceFileUrl: "",
+            evidenceFilePath: "",
+            evidenceStoredName: "",
+            evidenceKind: syncEvidenceKind(nextAns, f.ref),
+            evidenceAlsoFile: !!publicEvidenceUrl(cur.evidence),
+          });
+          renderFields();
+        });
+        fileBlock.appendChild(file);
+        if (hasFile) {
+          const clearFile = document.createElement("button");
+          clearFile.type = "button";
+          clearFile.className = "portal-ev-action muted";
+          clearFile.textContent = t("evidenceClearFile");
+          clearFile.addEventListener("click", () => {
+            clearEvidenceFile(f.ref);
+            renderFields();
+          });
+          fileBlock.appendChild(clearFile);
+        }
+        body.appendChild(fileBlock);
+
+        if (hasUrl || hasFile) {
           const clearBtn = document.createElement("button");
           clearBtn.type = "button";
           clearBtn.className = "portal-ev-action muted";
           clearBtn.textContent = t("evidenceClear");
           clearBtn.addEventListener("click", () => {
-            clearEvidenceFields(f.ref, "");
+            clearEvidenceFields(f.ref);
             renderFields();
           });
           body.appendChild(clearBtn);
