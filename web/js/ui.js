@@ -772,7 +772,10 @@
     now.className = "fill-compare-side fill-compare-now";
     const nowHead = document.createElement("div");
     nowHead.className = "fill-compare-label";
-    nowHead.textContent = lang === "en" ? "This year (fill in)" : "今年填報";
+    nowHead.textContent =
+      lang === "en"
+        ? "This year — please enter AY 113 data"
+        : "今年填報 — 請填寫113學年度的資料";
     now.appendChild(nowHead);
     if (fields) now.appendChild(fields);
 
@@ -780,7 +783,10 @@
     ref.className = "fill-compare-side fill-compare-prior";
     const refHead = document.createElement("div");
     refHead.className = "fill-compare-label";
-    refHead.textContent = lang === "en" ? "Last year (reference)" : "去年填報（參考）";
+    refHead.textContent =
+      lang === "en"
+        ? "Last year (reference) — submitted for AY 112"
+        : "去年填報（參考）— 資料為112學年度提交";
     ref.appendChild(refHead);
     if (priorUnit) ref.appendChild(priorUnit);
     if (prior) {
