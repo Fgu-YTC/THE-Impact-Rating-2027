@@ -950,10 +950,21 @@
         lab.textContent = t("comments");
         const ta = document.createElement("textarea");
         ta.maxLength = 1000;
+        ta.rows = 2;
         ta.value = ans.comment || "";
+        const fitComment = () => {
+          ta.style.height = "auto";
+          const next = Math.min(Math.max(ta.scrollHeight, 56), 480);
+          ta.style.height = `${next}px`;
+        };
+        ta.addEventListener("input", () => {
+          patch(f.ref, { comment: ta.value });
+          fitComment();
+        });
         ta.addEventListener("change", () => patch(f.ref, { comment: ta.value }));
         lab.appendChild(ta);
         grid.appendChild(lab);
+        requestAnimationFrame(fitComment);
       }
 
       card.appendChild(grid);

@@ -166,7 +166,10 @@
 }
 .portal-grid textarea {
   min-height: 3.6rem;
+  max-height: 30rem;
   resize: vertical;
+  overflow-y: auto;
+  field-sizing: content;
 }
 .portal-field-label {
   font-size: 0.75rem;
