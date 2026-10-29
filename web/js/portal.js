@@ -14,11 +14,11 @@
       title: "THE Impact 2027 · Portal 對齊填報",
       brand: "Portal 對齊填報",
       authHint:
-        "使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目、今年單位填報與去年參考；與一般填報頁、管理分派分開儲存。",
+        "使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目與今年單位填報；與一般填報頁、管理分派分開儲存。",
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
       note:
-        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿與去年參考。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
+        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
       importLive: "帶入今年填報",
       importLiveTitle: "一次帶入答案、選項、公開網址／檔案等到尚空欄位",
       importAll: "覆蓋帶入",
@@ -48,7 +48,6 @@
       excelSub: (parent) => (parent ? `Excel 子欄（隸屬 ${parent}）` : "Excel 數值子欄"),
       liveBadge: "今年填報有內容",
       liveTitle: "今年填報（本站單位／最終稿）",
-      priorTitle: "去年參考",
       officeTag: "永續辦／最終",
       unitTag: "單位",
       hasContent: "有內容",
@@ -61,7 +60,6 @@
       downloadFile: (name) => (name ? `下載檔案：${name}` : "下載已上傳檔案"),
       fileOnly: (name) => `檔案：${name}`,
       liveFile: (name) => (name ? `今年填報檔案：${name}` : "下載今年填報檔案"),
-      priorValue: "數值",
       yesNo: "是／否",
       evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
       evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
@@ -82,11 +80,11 @@
       title: "THE Impact 2027 · Portal-aligned fill",
       brand: "Portal-aligned fill",
       authHint:
-        "Sign in with your university Google account. This page follows WUR Portal fields and aligns site questions, this year’s unit fill, and last-year reference. It is stored separately from the fill and admin pages.",
+        "Sign in with your university Google account. This page follows WUR Portal fields and aligns site questions with this year’s unit fill. It is stored separately from the fill and admin pages.",
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
       note:
-        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
+        "Fill by <strong>WUR Portal</strong> rows. Shows this year’s unit / final fill. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
       importLive: "Import this year",
       importLiveTitle: "Import answers, options, public URL/file into empty fields in one step",
       importAll: "Overwrite import",
@@ -117,7 +115,6 @@
       excelSub: (parent) => (parent ? `Excel sub-field (under ${parent})` : "Excel numeric sub-field"),
       liveBadge: "This year has content",
       liveTitle: "This year (unit / final)",
-      priorTitle: "Last year",
       officeTag: "Office / final",
       unitTag: "Unit",
       hasContent: "has content",
@@ -130,7 +127,6 @@
       downloadFile: (name) => (name ? `Download file: ${name}` : "Download uploaded file"),
       fileOnly: (name) => `File: ${name}`,
       liveFile: (name) => (name ? `This year’s file: ${name}` : "Download this year’s file"),
-      priorValue: "Value",
       yesNo: "Yes / No",
       evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
       evidenceWarn:
@@ -434,39 +430,64 @@
     return bits;
   }
 
-  function appendEvidenceLinks(parent, answer) {
-    const url = publicEvidenceUrl(answer && answer.evidence);
-    const fileHref = fileDownloadHref(answer);
-    const fileName = String((answer && answer.evidenceFileName) || "").trim();
-    if (url) {
+  function appendEvidencePair(parent, { url, fileHref, fileName }) {
+    const hasUrl = !!url;
+    const hasFile = !!(fileHref || fileName);
+    if (!hasUrl && !hasFile) return;
+
+    const row = document.createElement("div");
+    row.className = "portal-ev-side";
+
+    if (hasUrl) {
       const a = document.createElement("a");
       a.href = url;
       a.target = "_blank";
       a.rel = "noopener";
       a.className = "portal-ev-link";
       try {
-        a.textContent = t("publicUrl") + "：" + new URL(url).hostname;
+        a.textContent = new URL(url).hostname;
       } catch (_) {
         a.textContent = t("publicUrl");
       }
-      parent.appendChild(a);
+      row.appendChild(a);
     }
-    if (fileHref || fileName) {
+
+    if (hasUrl && hasFile) {
+      const note = document.createElement("span");
+      note.textContent = t("alsoHasFile");
+      row.appendChild(note);
+      const a = document.createElement("a");
+      a.className = "portal-ev-link";
       if (fileHref) {
-        const a = document.createElement("a");
         a.href = fileHref;
         a.target = "_blank";
         a.rel = "noopener";
-        a.className = "portal-ev-link";
-        a.textContent = fileDownloadLabel(answer);
-        if (fileName) a.setAttribute("download", fileName);
-        parent.appendChild(a);
-      } else {
-        const span = document.createElement("span");
-        span.textContent = t("fileOnly", fileName);
-        parent.appendChild(span);
       }
+      a.textContent = t("downloadFileSide", fileName || "");
+      if (fileName) a.setAttribute("download", fileName);
+      row.appendChild(a);
+    } else if (hasFile) {
+      const a = document.createElement("a");
+      a.className = "portal-ev-link";
+      if (fileHref) {
+        a.href = fileHref;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.textContent = fileName || t("downloadFileSide", "");
+      if (fileName) a.setAttribute("download", fileName);
+      row.appendChild(a);
     }
+
+    parent.appendChild(row);
+  }
+
+  function appendEvidenceLinks(parent, answer) {
+    appendEvidencePair(parent, {
+      url: publicEvidenceUrl(answer && answer.evidence),
+      fileHref: fileDownloadHref(answer),
+      fileName: String((answer && answer.evidenceFileName) || "").trim(),
+    });
   }
 
   function priorPublicUrls(ref) {
@@ -516,112 +537,6 @@
     }
     patch(ref, patchBody);
     return true;
-  }
-
-  function priorLabelText(raw) {
-    const line = String(raw || "")
-      .split("\n")[0]
-      .trim();
-    if (!line) return t("priorValue");
-    if (lang === "zh") {
-      const zh = line.match(/[\u4e00-\u9fff].*$/);
-      if (zh) return zh[0].trim();
-    } else {
-      const en = line.match(/^[^\u4e00-\u9fff]+/);
-      if (en && en[0].trim()) return en[0].trim();
-    }
-    return line;
-  }
-
-  function clipPriorNote(raw) {
-    let text = String(raw || "").replace(/\s+/g, " ").trim();
-    if (!text) return "";
-    if (lang === "zh") {
-      const idx = text.search(/[\u4e00-\u9fff]/);
-      if (idx > 40) text = text.slice(idx);
-    }
-    return text.length > 160 ? text.slice(0, 160) + "…" : text;
-  }
-
-  function appendPriorBox(card, ref) {
-    const data = priorYear[ref];
-    if (!data) return;
-    const urls = priorPublicUrls(ref);
-    const files = Array.isArray(data.files) ? data.files.filter(Boolean) : [];
-    const values = Array.isArray(data.values)
-      ? data.values.filter((v) => v && v.value != null && String(v.value) !== "")
-      : [];
-    const note = String(data.note || "").trim();
-    if (
-      !data.yesNo &&
-      !data.public &&
-      !values.length &&
-      !urls.length &&
-      !files.length &&
-      !note
-    ) {
-      return;
-    }
-
-    const box = document.createElement("div");
-    box.className = "portal-prior";
-    const title = document.createElement("strong");
-    title.textContent = t("priorTitle");
-    box.appendChild(title);
-
-    const bits = [];
-    if (data.yesNo === "yes") bits.push("Yes");
-    if (data.yesNo === "no") bits.push("No");
-    if (data.public === "yes" || data.public === "public") bits.push(t("publicBit"));
-    if (data.public === "no" || data.public === "private") bits.push(t("privateBit"));
-    values.slice(0, 6).forEach((v) => {
-      bits.push(`${priorLabelText(v.label)}：${v.value}`);
-    });
-    if (bits.length) {
-      const summary = document.createElement("div");
-      summary.className = "portal-prior-summary";
-      summary.textContent = bits.join(" · ");
-      box.appendChild(summary);
-    }
-
-    const links = document.createElement("div");
-    links.className = "portal-live-links";
-    urls.forEach((url) => {
-      const a = document.createElement("a");
-      a.href = url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.className = "portal-ev-link";
-      try {
-        a.textContent = t("publicUrl") + "：" + new URL(url).hostname;
-      } catch (_) {
-        a.textContent = t("publicUrl");
-      }
-      links.appendChild(a);
-    });
-    files.forEach((f) => {
-      const a = document.createElement("a");
-      a.className = "portal-ev-link";
-      if (f.url) {
-        a.href = f.url;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.textContent = t("downloadFile", f.name || "");
-      if (f.name) a.setAttribute("download", f.name);
-      links.appendChild(a);
-    });
-    if (links.childNodes.length) box.appendChild(links);
-
-    if (note) {
-      const noteEl = document.createElement("div");
-      noteEl.className = "portal-prior-note";
-      noteEl.textContent = clipPriorNote(note);
-      if (note.length > 160) noteEl.title = note;
-      box.appendChild(noteEl);
-    }
-
-    card.appendChild(box);
   }
 
   function appendLiveBox(card, ref) {
@@ -870,7 +785,6 @@
       }
 
       appendLiveBox(card, f.ref);
-      appendPriorBox(card, f.ref);
 
       const grid = document.createElement("div");
       grid.className = "portal-grid";
