@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE Impact 2027 · Portal 對齊填報</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css?v=20261029g" />
+  <link rel="stylesheet" href="css/portal.css?v=20261029g" />
+</head>
+<body>
+  <div id="authGate" class="auth-gate">
+    <h1>Portal 對齊填報</h1>
+    <p id="authHint">使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目／去年參考；與一般填報頁、管理分派分開儲存。</p>
+    <button type="button" id="btnGoogle">使用 Google 登入</button>
+    <div id="authError" class="auth-error" hidden></div>
+    <p style="margin-top:1.25rem;font-size:0.85rem">
+      <a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>
+    </p>
+  </div>
+
+  <div id="portalApp" hidden>
+    <header class="topbar portal-topbar">
+      <div class="brand">Portal 對齊填報</div>
+      <div class="portal-meta" id="portalMeta">Impact 2027</div>
+      <div class="top-actions">
+        <span id="portalUser" class="portal-user"></span>
+        <button type="button" id="btnSave" class="fill-submit">儲存本頁</button>
+        <button type="button" id="btnSignOut" class="secondary">登出</button>
+      </div>
+    </header>
+
+    <div class="data-year-note">
+      依 <strong>WUR Portal</strong> 題列填寫；有對齊本站題號者會顯示中文題目與去年參考。資料存在 <code>portalFill</code>，不影響單位填報／管理分派。
+    </div>
+
+    <div id="saveBanner" class="submit-banner" hidden role="status" aria-live="assertive"></div>
+
+    <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG"></nav>
+
+    <main class="portal-main">
+      <div id="fieldList" class="portal-fields"></div>
+    </main>
+  </div>
+
+  <script src="js/firebase-config.js?v=20261029g"></script>
+  <script src="js/admin-allowlist.js?v=20261029g"></script>
+  <script src="js/auth.js?v=20261029g"></script>
+  <script src="js/ui.js?v=20261029g"></script>
+  <script src="js/portal.js?v=20261029g"></script>
+</body>
+</html>

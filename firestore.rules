@@ -101,5 +101,11 @@ service cloud.firestore {
       allow read: if true;
       allow create, update, delete: if request.auth != null;
     }
+
+    // Portal 對齊填報（與 units 填答分開，需登入）
+    match /portalFill/{docId} {
+      allow read, create, update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
   }
 }

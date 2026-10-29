@@ -1,0 +1,5505 @@
+{
+  "source": "WUR Portal PDF export + site questions.json alignment",
+  "count": 235,
+  "alignedCount": 208,
+  "fields": [
+    {
+      "id": "portal-1.2.1",
+      "ref": "1.2.1",
+      "sdg": 1,
+      "en": "Number of students",
+      "zh": "獲得財務援助之低收入學生",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數"
+        },
+        {
+          "en": "Number of low income students receiving financial aid",
+          "zh": "獲得財務援助之低收入學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg1-1.2.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.2.2",
+      "ref": "1.2.2",
+      "sdg": 1,
+      "en": "Number of low income students receiving financial aid 2,153 1.3 University anti-poverty programmes",
+      "zh": "Number of low income students receiving financial aid 2,153 1.3 University anti-poverty programmes",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-1.3.1",
+      "ref": "1.3.1",
+      "sdg": 1,
+      "en": "Does your university as a body have targets to admit students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country?",
+      "zh": "貴校是否訂有招收國內最低所得 20% 家庭學生（或更嚴格定義目標）之目標？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg1-1.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.3.2",
+      "ref": "1.3.2",
+      "sdg": 1,
+      "en": "Does your university as a body have graduation/completion targets for students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country? (domestic)",
+      "zh": "貴校是否訂有國內最低所得 20% 家庭學生（或更嚴格定義目標）之畢業／完成學業目標？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg1-1.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.3.3",
+      "ref": "1.3.3",
+      "sdg": 1,
+      "en": "Does your university as a body provide support (e.g. food, housing, transportation, legal services) for students from low income families to enable them to complete university?",
+      "zh": "貴校是否提供低收入家庭學生支持（如食物、住宿、交通、法律服務），以協助其完成大學學業？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費"
+        },
+        {
+          "en": "subsidised",
+          "zh": "補助／優惠"
+        }
+      ],
+      "siteQuestionId": "sdg1-1.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.3.4",
+      "ref": "1.3.4",
+      "sdg": 1,
+      "en": "Does your university as a body have programmes or initiatives to assist students who fall into the bottom 20% of household income group (or a more tightly defined target) in the country to successfully complete their studies?",
+      "zh": "貴校是否有計畫或措施，協助國內最低所得 20% 家庭學生（或更嚴格定義目標）順利完成學業？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg1-1.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.3.5",
+      "ref": "1.3.5",
+      "sdg": 1,
+      "en": "Does your university as a body have schemes to support poor students from low or lower-middle income countries (e.g. offering free education, grants)?",
+      "zh": "貴校是否有方案支持來自低度或中低所得國家之清寒學生（如免費教育、獎助金）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg1-1.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.4.1",
+      "ref": "1.4.1",
+      "sdg": 1,
+      "en": "Does your university as a body provide assistance in the local community supporting the start-up of financially and socially sustainable businesses through relevant education or resources? (e.g. mentorship programmes, training workshops, access to university facilities)? Yes Yes",
+      "zh": "貴校是否透過相關教育或資源（如導師制度、培訓工作坊、開放大學設施），協助地方社區創立財務與社會上可持續之事業？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費"
+        },
+        {
+          "en": "paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg1-1.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.4.2",
+      "ref": "1.4.2",
+      "sdg": 1,
+      "en": "Does your university as a body provide financial assistance to the local community assisting the start-up of financially and socially sustainable businesses?",
+      "zh": "貴校是否提供地方社區財務協助，支持創立財務與社會上可持續之事業？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg1-1.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.4.3",
+      "ref": "1.4.3",
+      "sdg": 1,
+      "en": "Does your university as a body organise training or programmes to improve access to basic services for all?",
+      "zh": "貴校是否辦理培訓或計畫，讓更多人能使用基本服務？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "directly",
+          "zh": "直接"
+        },
+        {
+          "en": "indirectly",
+          "zh": "間接"
+        }
+      ],
+      "siteQuestionId": "sdg1-1.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-1.4.4",
+      "ref": "1.4.4",
+      "sdg": 1,
+      "en": "Does your university as a body participate in policy making at local, regional, national and/or global level to implement programmes and policies to end poverty in all its dimensions?",
+      "zh": "貴校是否參與地方、區域、國家或全球層級之政策制定，以推動終結各面向貧窮之計畫與政策？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "local",
+          "zh": "地方"
+        },
+        {
+          "en": "regional",
+          "zh": "區域"
+        },
+        {
+          "en": "national",
+          "zh": "國家"
+        },
+        {
+          "en": "global",
+          "zh": "全球"
+        }
+      ],
+      "siteQuestionId": "sdg1-1.4.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.2.1",
+      "ref": "2.2.1",
+      "sdg": 2,
+      "en": "Does your university as a body measure the amount of food waste generated from food served within the university? If food provision is outsourced this will include requiring this data to be tracked.",
+      "zh": "貴校是否量測校內供餐所產生之食物浪費量？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "whole university",
+          "zh": "全校"
+        },
+        {
+          "en": "partial measurement",
+          "zh": "部分量測"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.3.1",
+      "ref": "2.3.1",
+      "sdg": 2,
+      "en": "Does your university as a body have a programme in place on student food insecurity/hunger?",
+      "zh": "貴校是否已有因應學生糧食不安全之計畫？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg2-2.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.3.2",
+      "ref": "2.3.2",
+      "sdg": 2,
+      "en": "Does your university as a body provide interventions to prevent or alleviate hunger among students? (e.g. including supply and access to food banks/pantries)",
+      "zh": "貴校是否提供措施，預防或減輕學生飢餓（例如食物銀行／食物儲備，讓學生能取得食物）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg2-2.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.3.3",
+      "ref": "2.3.3",
+      "sdg": 2,
+      "en": "Does your university as a body provide sustainable food choices for all on campus, including vegetarian and vegan food?",
+      "zh": "貴校是否為校園所有人提供永續飲食選擇，包括素食與純素？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "all food outlets",
+          "zh": "所有餐飲據點"
+        },
+        {
+          "en": "selected food outlets",
+          "zh": "部分餐飲據點"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.3.4",
+      "ref": "2.3.4",
+      "sdg": 2,
+      "en": "Does your university as a body provide healthy and affordable food choices for all on campus?",
+      "zh": "貴校是否為校園所有人提供健康且可負擔之飲食選擇？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "all food outlets",
+          "zh": "所有餐飲據點"
+        },
+        {
+          "en": "selected food outlets",
+          "zh": "部分餐飲據點"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.3.5",
+      "ref": "2.3.5",
+      "sdg": 2,
+      "en": "Does your university as a body provide interventions to prevent or alleviate hunger among staff? (e.g. including supply and access to food banks/pantries)",
+      "zh": "貴校是否提供措施，預防或減輕教職員飢餓（例如食物銀行／食物儲備，讓教職員能取得食物）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg2-2.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.4.1",
+      "ref": "2.4.1",
+      "sdg": 2,
+      "en": "Number of graduates",
+      "zh": "農業與水產養殖畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數"
+        },
+        {
+          "en": "Number of graduates from agriculture and aquaculture courses including sustainability aspects",
+          "zh": "含永續面向之農業與水產養殖課程畢業生人數"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.4.2",
+      "ref": "2.4.2",
+      "sdg": 2,
+      "en": "Number of graduates from agriculture and aquaculture courses including sustainability aspects 50/61 0 2.5 National Hunger",
+      "zh": "Number of graduates from agriculture and aquaculture courses including sustainability aspects 50/61 0 2.5 National Hunger",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-2.5.1",
+      "ref": "2.5.1",
+      "sdg": 2,
+      "en": "Does your university as a body provide access on food security and sustainable agriculture and aquaculture knowledge, skills or technology to local farmers and food producers?",
+      "zh": "貴校是否向地方農民與食品生產者提供糧食安全及永續農漁養殖的知識、技能或技術？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費"
+        },
+        {
+          "en": "paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.5.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.5.2",
+      "ref": "2.5.2",
+      "sdg": 2,
+      "en": "Does your university as a body provide events for local farmers and food producers to connect and transfer knowledge?",
+      "zh": "貴校是否辦理活動，供地方農民與食品生產者交流並移轉知識？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費"
+        },
+        {
+          "en": "paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.5.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.5.3",
+      "ref": "2.5.3",
+      "sdg": 2,
+      "en": "Does your university as a body provide access to university facilities (e.g. labs, technology, plant stocks) to local farmers and food producers to improve sustainable farming practices?",
+      "zh": "貴校是否開放大學設施（如實驗室、技術、種苗）予地方農民與食品生產者，以改善永續農業實務？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "free",
+          "zh": "免費"
+        },
+        {
+          "en": "paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.5.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.5.4",
+      "ref": "2.5.4",
+      "sdg": 2,
+      "en": "Does your university as a body prioritise purchase of products from local, sustainable sources?",
+      "zh": "貴校是否優先採購來自地方、永續來源之產品？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg2-2.5.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.2.1",
+      "ref": "3.2.1",
+      "sdg": 3,
+      "en": "Number of graduates 692 46/",
+      "zh": "健康專業領域畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數"
+        },
+        {
+          "en": "Number of graduates in health professions",
+          "zh": "健康專業領域畢業生人數"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.2.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.2.2",
+      "ref": "3.2.2",
+      "sdg": 3,
+      "en": "Number of graduates in health professions 100 3.3 Collaborations and health services",
+      "zh": "Number of graduates in health professions 100 3.3 Collaborations and health services",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-3.3.1",
+      "ref": "3.3.1",
+      "sdg": 3,
+      "en": "Does your university as a body have current collaborations with local, national or global health institutions to improve health & wellbeing outcomes?",
+      "zh": "貴校是否與地方、國家或全球健康機構有現行合作，以改善健康與福祉成果？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "local collaboration",
+          "zh": "地方合作"
+        },
+        {
+          "en": "national collaboration",
+          "zh": "國家合作"
+        },
+        {
+          "en": "global cooperation",
+          "zh": "全球合作"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.2",
+      "ref": "3.3.2",
+      "sdg": 3,
+      "en": "Does your university as a body deliver outreach programmes and projects in the local community (which can include student volunteering programmes) to improve or promote health & wellbeing including hygiene, nutrition, family planning, sports, exercise, aging well, and other health and wellbeing related topics? Yes Yes",
+      "zh": "貴校是否在地方社區辦理外展計畫與專案（可含學生志工），以改善或推廣健康與福祉（含衛生、營養、家庭計畫、運動、健身、健康老化等）？亦可包含對機構所在地流離失所或難民社區之外展。",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local communities",
+          "zh": "地方社區"
+        },
+        {
+          "en": "Disadvantaged people",
+          "zh": "弱勢族群"
+        },
+        {
+          "en": "Refugee/immigrant communities",
+          "zh": "難民／移民社區"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.3",
+      "ref": "3.3.3",
+      "sdg": 3,
+      "en": "Does your university as a body share sports facilities with the local community, for instance with local schools or with the general public?",
+      "zh": "貴校是否與地方社區共享運動設施（例如地方學校或一般大眾）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all facilities",
+          "zh": "所有設施免費開放"
+        },
+        {
+          "en": "Free access to some facilities",
+          "zh": "部分設施免費開放"
+        },
+        {
+          "en": "Charged access",
+          "zh": "付費使用"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.4",
+      "ref": "3.3.4",
+      "sdg": 3,
+      "en": "Does your university as a body provide students access to sexual and reproductive health-care services including information and education services?",
+      "zh": "貴校是否提供學生性與生殖健康照護服務（含資訊與教育）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access",
+          "zh": "免費使用"
+        },
+        {
+          "en": "Charged access",
+          "zh": "付費使用"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.5",
+      "ref": "3.3.5",
+      "sdg": 3,
+      "en": "Does your university as a body provide students with access to mental health support?",
+      "zh": "貴校是否提供學生心理健康支持服務？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Active promotion of good mental health",
+          "zh": "積極推廣心理健康"
+        },
+        {
+          "en": "Access to (or signposting to) free mental health support",
+          "zh": "提供（或轉介）免費心理健康支持"
+        },
+        {
+          "en": "Access to (or signposting to) charged mental health support",
+          "zh": "提供（或轉介）付費心理健康支持"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.6",
+      "ref": "3.3.6",
+      "sdg": 3,
+      "en": "Does your university as a body have a \"smoke-free\" policy?",
+      "zh": "貴校是否訂有「無菸」政策？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Smoking-free campus",
+          "zh": "無菸校園"
+        },
+        {
+          "en": "Smoking in designated areas",
+          "zh": "僅限指定區域吸菸"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-3.3.7",
+      "ref": "3.3.7",
+      "sdg": 3,
+      "en": "Does your university as a body provide staff with access to mental health support?",
+      "zh": "貴校是否提供教職員心理健康支持服務？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Active promotion of good mental health",
+          "zh": "積極推廣心理健康"
+        },
+        {
+          "en": "Access to (or signposting to) free mental health support",
+          "zh": "提供（或轉介）免費心理健康支持"
+        },
+        {
+          "en": "Access to (or signposting to) charged mental health support",
+          "zh": "提供（或轉介）付費心理健康支持"
+        }
+      ],
+      "siteQuestionId": "sdg3-3.3.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.2.1",
+      "ref": "4.2.1",
+      "sdg": 4,
+      "en": "Number of graduates",
+      "zh": "具相關教學資格之畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數"
+        },
+        {
+          "en": "Number of graduates who gained a qualification that entitled them to teach at primary school level",
+          "zh": "取得可於小學任教資格之畢業生人數"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.2.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.2.2",
+      "ref": "4.2.2",
+      "sdg": 4,
+      "en": "Number of graduates who gained a qualification that entitled them to teach at primary school level 0 4.3 Lifelong learning measures",
+      "zh": "Number of graduates who gained a qualification that entitled them to teach at primary school level 0 4.3 Lifelong learning measures",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-4.3.1",
+      "ref": "4.3.1",
+      "sdg": 4,
+      "en": "Does your university as a body provide free access to educational resources for those not studying at the university, e.g. computers, library, online courses, access to lectures, etc?",
+      "zh": "貴校是否為非在校就讀者提供免費教育資源？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free courses leading to certificate or award",
+          "zh": "可取得證書或獎項之免費課程"
+        },
+        {
+          "en": "Free access to campus facilities and equipment",
+          "zh": "免費使用校園設施與設備"
+        },
+        {
+          "en": "Free access to online resources",
+          "zh": "免費使用線上資源"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.3.2",
+      "ref": "4.3.2",
+      "sdg": 4,
+      "en": "Does your university as a body host events at university that are open to the general public: public lectures, community educational events?",
+      "zh": "貴校是否在校內舉辦對一般大眾開放之教育活動？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free events",
+          "zh": "免費活動"
+        },
+        {
+          "en": "Both changed and free",
+          "zh": "付費與免費皆有"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.3.3",
+      "ref": "4.3.3",
+      "sdg": 4,
+      "en": "Does your university as an educational body host events at university that are open to the general public: executive education programmes (this refers to short courses for people who are not attending the university; this specifically excludes courses like MBA) and/or vocational training? Yes Yes",
+      "zh": "貴校是否舉辦對一般大眾開放之活動：高階主管教育（指非在校生之短期課程，不含 MBA 等）或職業訓練？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期"
+        },
+        {
+          "en": "On programmed basis",
+          "zh": "有計畫／定期辦理"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.3.4",
+      "ref": "4.3.4",
+      "sdg": 4,
+      "en": "Does your university as a body undertake educational outreach activities (e.g. tailored lectures or demonstrations) beyond campus, e.g. in local schools, in the community, including voluntary student-run schemes?",
+      "zh": "貴校是否在校園外（地方學校、社區）辦理教育外展活動（如客製講座或示範）？可含學生志工方案。",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期"
+        },
+        {
+          "en": "On programmed basis",
+          "zh": "有計畫／定期辦理"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.3.5",
+      "ref": "4.3.5",
+      "sdg": 4,
+      "en": "Does your university as a body have a policy that ensures that access to these activities is accessible to all, regardless of ethnicity, religion, disability, immigration status or gender?",
+      "zh": "貴校是否訂有政策，確保上述活動不因族群、宗教、身心障礙、移民身分或性別而無法參與？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg4-4.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.4.1",
+      "ref": "4.4.1",
+      "sdg": 4,
+      "en": "Number of students starting a degree",
+      "zh": "第一代大學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students starting a degree",
+          "zh": "開始修讀學位之學生人數"
+        },
+        {
+          "en": "Number of first-generation students starting a degree",
+          "zh": "開始修讀學位之第一代大學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg4-4.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-4.4.2",
+      "ref": "4.4.2",
+      "sdg": 4,
+      "en": "Number of first-generation students starting a degree 4 Good Health and Wellbeing (SDG 3) 3.2 Number of students graduating in health professions",
+      "zh": "Number of first-generation students starting a degree 4 Good Health and Wellbeing (SDG 3) 3.2 Number of students graduating in health professions",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-4.4.3",
+      "ref": "4.4.3",
+      "sdg": 4,
+      "en": "Number of students",
+      "zh": "Number of students",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.2.1",
+      "ref": "5.2.1",
+      "sdg": 5,
+      "en": "Number of women starting a degree",
+      "zh": "第一代女性比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of women starting a degree",
+          "zh": "開始修讀學位之女性人數"
+        },
+        {
+          "en": "Number of first-generation women starting a degree",
+          "zh": "開始修讀學位之第一代女性大學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.2.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.2.2",
+      "ref": "5.2.2",
+      "sdg": 5,
+      "en": "Number of first-generation women starting a degree 2 5.3 Student access measures",
+      "zh": "Number of first-generation women starting a degree 2 5.3 Student access measures",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.2.3",
+      "ref": "5.2.3",
+      "sdg": 5,
+      "en": "Number of students starting a degree",
+      "zh": "Number of students starting a degree",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.2.4",
+      "ref": "5.2.4",
+      "sdg": 5,
+      "en": "Number of first-generation students starting a degree 4",
+      "zh": "Number of first-generation students starting a degree 4",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.2.5",
+      "ref": "5.2.5",
+      "sdg": 5,
+      "en": "Number of students",
+      "zh": "Number of students",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.3.1",
+      "ref": "5.3.1",
+      "sdg": 5,
+      "en": "Does your university as a body systematically measure/track women's application rate and acceptance or entry rate?",
+      "zh": "貴校是否系統性量測並追蹤女性申請率、錄取率或入學率？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.3.2",
+      "ref": "5.3.2",
+      "sdg": 5,
+      "en": "Does your university as a body have a policy (e.g. an Access and Participation plan) addressing women's applications, acceptance/entry, and participation at the university?",
+      "zh": "貴校是否訂有政策（例如協助入學與參與的計畫），處理女性申請、錄取、入學與參與？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.3.3",
+      "ref": "5.3.3",
+      "sdg": 5,
+      "en": "Does your university as a body provide women's access schemes (e.g. mentoring, scholarships, or other provisions)?",
+      "zh": "貴校是否提供協助女性入學或參與的方案（含導師制度、獎學金或其他措施）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Mentoring",
+          "zh": "輔導／Mentoring"
+        },
+        {
+          "en": "Scholarship",
+          "zh": "獎學金"
+        },
+        {
+          "en": "Other provision",
+          "zh": "其他措施"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.3.4",
+      "ref": "5.3.4",
+      "sdg": 5,
+      "en": "Does your university as a body encourage applications by women in subjects where they are underrepresented?",
+      "zh": "貴校是否鼓勵女性申請其代表性不足之學科？可透過大學外展，或與其他大學、社區團體、政府或 NGO 之區域／全國宣導合作。",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "through university outreach",
+          "zh": "透過大學外展"
+        },
+        {
+          "en": "through collaboration with other universities and/or community groups and/or government     and/or NGOs in regional or national campaigns",
+          "zh": "透過與其他大學、社區團體、政府或 NGO 之區域或全國性合作宣導"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.4.1",
+      "ref": "5.4.1",
+      "sdg": 5,
+      "en": "Number of senior academic staff",
+      "zh": "女性資深學術人員比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of senior academic staff",
+          "zh": "資深學術人員人數"
+        },
+        {
+          "en": "Number of female senior academic staff",
+          "zh": "女性資深學術人員人數"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.4.2",
+      "ref": "5.4.2",
+      "sdg": 5,
+      "en": "Number of female senior academic staff 12 5.5 Proportion of women receiving degrees",
+      "zh": "Number of female senior academic staff 12 5.5 Proportion of women receiving degrees",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.4.3",
+      "ref": "5.4.3",
+      "sdg": 5,
+      "en": "Number of academic staff",
+      "zh": "Number of academic staff",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.4.4",
+      "ref": "5.4.4",
+      "sdg": 5,
+      "en": "Number of employees",
+      "zh": "Number of employees",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-5.5.1",
+      "ref": "5.5.1",
+      "sdg": 5,
+      "en": "Number of graduates: Total 692 5.5.1.4 - Number of graduates by subject area (STEM, Medicine, Arts&Humanities/Social Sciences): Total 692 5.5.1.1 - Number of graduates: STEM 51 5.5.1.2 - Number of graduates: Medicine",
+      "zh": "女性獲頒學位比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates: Total",
+          "zh": "畢業生人數：合計"
+        },
+        {
+          "en": "Number of graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+          "zh": "依學科領域畢業生人數（STEM、醫學、藝術人文／社會科學）：合計"
+        },
+        {
+          "en": "Number of graduates: STEM",
+          "zh": "畢業生人數：STEM"
+        },
+        {
+          "en": "Number of graduates: Medicine",
+          "zh": "畢業生人數：醫學"
+        },
+        {
+          "en": "Number of graduates: Arts & Humanities / Social Sciences",
+          "zh": "畢業生人數：藝術人文／社會科學"
+        },
+        {
+          "en": "Number of female graduates by subject area (STEM, Medicine, Arts & Humanities / Social Sciences): Total",
+          "zh": "依學科領域女性畢業生人數（STEM、醫學、藝術人文／社會科學）：合計"
+        },
+        {
+          "en": "Number of female graduates: STEM",
+          "zh": "女性畢業生人數：STEM"
+        },
+        {
+          "en": "Number of female graduates: Medicine",
+          "zh": "女性畢業生人數：醫學"
+        },
+        {
+          "en": "Number of female graduates: Arts & Humanities / Social Sciences",
+          "zh": "女性畢業生人數：藝術人文／社會科學"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.5.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.1",
+      "ref": "5.6.1",
+      "sdg": 5,
+      "en": "Does your university as a body have a policy of non-discrimination against women?",
+      "zh": "貴校是否訂有禁止歧視女性之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.2",
+      "ref": "5.6.2",
+      "sdg": 5,
+      "en": "Does your university as a body have a policy of non-discrimination for transgender people?",
+      "zh": "貴校是否訂有對跨性別者不歧視之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.3",
+      "ref": "5.6.3",
+      "sdg": 5,
+      "en": "Does your university as a body have a maternity policy that support women's participation?",
+      "zh": "貴校是否訂有支持女性參與之孕產相關政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.4",
+      "ref": "5.6.4",
+      "sdg": 5,
+      "en": "Does your university as a body have accessible childcare facilities for students which allow recent mothers to attend university courses?",
+      "zh": "貴校是否提供學生可使用的托育設施，讓剛生產的母親也能修課？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.6.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.5",
+      "ref": "5.6.5",
+      "sdg": 5,
+      "en": "Does your university as a body have childcare facilities for staff and faculty?",
+      "zh": "貴校是否為教職員提供托育設施？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg5-5.6.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.6",
+      "ref": "5.6.6",
+      "sdg": 5,
+      "en": "Does your university as a body have women's mentoring schemes, in which at least 10% of female students participate?",
+      "zh": "貴校是否有女性導師制度方案，且至少 10% 女性學生參與？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.7",
+      "ref": "5.6.7",
+      "sdg": 5,
+      "en": "Does your university as a body have measurement/tracking of women's likelihood of graduating compared to men's, and schemes in place to close any gap?",
+      "zh": "貴校是否量測／追蹤女性相對男性之畢業可能性，並有縮小差距之方案？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.8",
+      "ref": "5.6.8",
+      "sdg": 5,
+      "en": "Does your university as a body have a policy that protects those reporting discrimination from educational or employment disadvantage?",
+      "zh": "貴校是否訂有政策，保護檢舉歧視者不致遭受教育或就業不利？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-5.6.9",
+      "ref": "5.6.9",
+      "sdg": 5,
+      "en": "Does your university as a body have a paternity policy that support women's participation by ensuring that non-gestational parents can participate in childcare duties?",
+      "zh": "貴校是否訂有陪產／育嬰相關政策，確保父親可參與育兒以支持女性參與？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg5-5.6.9",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.2.1",
+      "ref": "6.2.1",
+      "sdg": 6,
+      "en": "Does your university as a body measure the total volume of water used in the university that is taken from mains supply, desalinated, or extracted from rivers, lakes, or acquifers?",
+      "zh": "貴校是否量測自來水、淡化水，或自河川、湖泊、含水層抽取之總用水量？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Whole university",
+          "zh": "全校"
+        },
+        {
+          "en": "Partial measurement",
+          "zh": "部分量測"
+        }
+      ],
+      "siteQuestionId": "sdg6-6.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.3.1",
+      "ref": "6.3.1",
+      "sdg": 6,
+      "en": "Does your university as a body have a process in place to treat waste water?",
+      "zh": "貴校是否已有廢水處理程序？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.3.2",
+      "ref": "6.3.2",
+      "sdg": 6,
+      "en": "Does your university as a body have processes to prevent polluted water entering the water system, including pollution caused by accidents and incidents at the university?",
+      "zh": "貴校是否有程序防止污染水進入水系統（含校內事故與事件造成之污染）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.3.3",
+      "ref": "6.3.3",
+      "sdg": 6,
+      "en": "Does your university as a body provide free drinking water for students, staff and/or visitors, e.g. drinking water fountains)?",
+      "zh": "貴校是否為學生、教職員或訪客提供免費飲用水（如飲水機）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.3.4",
+      "ref": "6.3.4",
+      "sdg": 6,
+      "en": "Does your university as a body apply building standards to minimise water use? (relevant standards to be indicated)",
+      "zh": "貴校是否採用建築標準以最小化用水？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.3.5",
+      "ref": "6.3.5",
+      "sdg": 6,
+      "en": "Does your university as a body plant landscapes to minimise water usage?",
+      "zh": "貴校是否以最小化用水方式規劃景觀植栽（如耐旱植物）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.4.1",
+      "ref": "6.4.1",
+      "sdg": 6,
+      "en": "Does your university as a body have a policy to maximise water reuse across the university?",
+      "zh": "貴校是否訂有最大化全校水再利用之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.4.2",
+      "ref": "6.4.2",
+      "sdg": 6,
+      "en": "Does your university as a body measure the reuse of water across the university?",
+      "zh": "貴校是否量測全校水再利用情形？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.1",
+      "ref": "6.5.1",
+      "sdg": 6,
+      "en": "Does your university as a body provide educational opportunities for local communities to learn about good water management?",
+      "zh": "貴校是否為地方社區提供優良水資源管理之教育機會？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg6-6.5.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.3",
+      "ref": "6.5.3",
+      "sdg": 6,
+      "en": "Does your university as a body support water conservation off campus?",
+      "zh": "貴校是否支持校外實務節水？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.5.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.4",
+      "ref": "6.5.4",
+      "sdg": 6,
+      "en": "Does your university as a body, where water is extracted (for example from aquifers, lakes or rivers), utilise sustainable water extraction technologies on associated university grounds on and off campus?",
+      "zh": "若有取水（如自含水層、湖泊或河川），貴校是否在相關校地（校內外）使用永續取水技術？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.5.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.5",
+      "ref": "6.5.5",
+      "sdg": 6,
+      "en": "Does your university as a body cooperate with local, regional, national or global governments on water security?",
+      "zh": "貴校是否與地方、區域、國家或全球政府就水安全合作？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域"
+        },
+        {
+          "en": "National",
+          "zh": "國家"
+        }
+      ],
+      "siteQuestionId": "sdg6-6.5.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.6",
+      "ref": "6.5.6",
+      "sdg": 6,
+      "en": "Does your university as a body actively promote conscious water usage on campus?",
+      "zh": "貴校是否積極在校園推廣有意識之用水？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.5.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.5.7",
+      "ref": "6.5.7",
+      "sdg": 6,
+      "en": "Does your university as a body actively promote conscious water usage in the wider community?",
+      "zh": "貴校是否積極在更廣泛社區推廣有意識之用水？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg6-6.5.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.1",
+      "ref": "7.2.1",
+      "sdg": 7,
+      "en": "Does your university as a body have a policy in place for ensuring all renovations / new builds are following energy efficiency standards? (relevant standards to be indicated)",
+      "zh": "貴校是否訂有政策，確保所有整修或新建遵循能源效率標準？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.2",
+      "ref": "7.2.2",
+      "sdg": 7,
+      "en": "Does your university as a body have plans to upgrade existing buildings to higher energy efficiency?",
+      "zh": "貴校是否有計畫將既有建築升級至更高能源效率？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.3",
+      "ref": "7.2.3",
+      "sdg": 7,
+      "en": "Does your university as a body have a process for carbon management and reducing carbon dioxide emissions?",
+      "zh": "貴校是否有碳管理及減少二氧化碳排放之程序？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.4",
+      "ref": "7.2.4",
+      "sdg": 7,
+      "en": "Does your university as a body have an energy efficiency plan in place to reduce overall energy consumption?",
+      "zh": "貴校是否訂有能源效率計畫以降低整體能源消耗？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.5",
+      "ref": "7.2.5",
+      "sdg": 7,
+      "en": "Does your university as a body undergo energy reviews to identify areas where energy wastage is highest?",
+      "zh": "貴校是否進行能源檢視，以找出能源浪費最高之區域？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.2.6",
+      "ref": "7.2.6",
+      "sdg": 7,
+      "en": "Does your university as a body have a policy on divesting investments from carbon-intensive energy industries especially coal and oil?",
+      "zh": "貴校是否訂有自高碳密集能源產業（尤其煤與石油）撤資之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.3.1",
+      "ref": "7.3.1",
+      "sdg": 7,
+      "en": "Total energy used GJ",
+      "zh": "每平方公尺能源使用量",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量"
+        },
+        {
+          "en": "University floor space",
+          "zh": "大學樓地板面積"
+        }
+      ],
+      "siteQuestionId": "sdg7-7.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.3.2",
+      "ref": "7.3.2",
+      "sdg": 7,
+      "en": "University floor space m² 95,138 32/61 7.4 Energy and the community",
+      "zh": "University floor space m² 95,138 32/61 7.4 Energy and the community",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-7.4.1",
+      "ref": "7.4.1",
+      "sdg": 7,
+      "en": "Does your university as a body provide programmes for local community to learn about importance of energy efficiency and clean energy?",
+      "zh": "貴校是否提供地方社區認識能源效率與潔淨能源重要性之計畫？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.4.2",
+      "ref": "7.4.2",
+      "sdg": 7,
+      "en": "Does your university as a body promote a public pledge toward 100% renewable energy (petitions, meetings, discussions, events) beyond the university?",
+      "zh": "貴校是否推動校園外邁向 100% 再生能源之公開承諾？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.4.3",
+      "ref": "7.4.3",
+      "sdg": 7,
+      "en": "Does your university as a body provide direct services to local industry aimed at improving energy efficiency and clean energy (energy efficiency assessments, workshops, research renewable energy options)",
+      "zh": "貴校是否向地方產業提供直接服務，以改善能源效率與潔淨能源（能源效率評估、工作坊、再生能源選項研究）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg7-7.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.4.4",
+      "ref": "7.4.4",
+      "sdg": 7,
+      "en": "Does your university as a body inform and support government in clean energy and energy-efficient technology policy development?",
+      "zh": "貴校是否協助政府發展潔淨能源與節能技術政策？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域"
+        },
+        {
+          "en": "National",
+          "zh": "國家"
+        },
+        {
+          "en": "Global",
+          "zh": "全球"
+        }
+      ],
+      "siteQuestionId": "sdg7-7.4.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.4.5",
+      "ref": "7.4.5",
+      "sdg": 7,
+      "en": "Does your university as a body provide assistance for start-ups that foster and support a low-carbon economy/technology?",
+      "zh": "貴校是否協助推動低碳經濟或技術之新創？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg7-7.4.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.5.1",
+      "ref": "7.5.1",
+      "sdg": 7,
+      "en": "Total energy used GJ",
+      "zh": "低碳能源使用",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量"
+        },
+        {
+          "en": "Total energy used from low-carbon sources",
+          "zh": "低碳能源使用總量"
+        }
+      ],
+      "siteQuestionId": "sdg7-7.5.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-7.5.2",
+      "ref": "7.5.2",
+      "sdg": 7,
+      "en": "Total energy used from low-carbon sources GJ 0 Clean Water and Sanitation (SDG 6) 6.2 Water consumption per person",
+      "zh": "Total energy used from low-carbon sources GJ 0 Clean Water and Sanitation (SDG 6) 6.2 Water consumption per person",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-8.2.1",
+      "ref": "8.2.1",
+      "sdg": 8,
+      "en": "Does your university as a body pay all staff and faculty at least the living wage, defined as the local living wage (if government defines this) or the local poverty indicator for a family of four (expressed as an hourly wage)?",
+      "zh": "貴校是否支付全體教職員至少基本生活工資（以地方政府定義之生活工資，或以四口之家貧困指標換算之時薪）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.2",
+      "ref": "8.2.2",
+      "sdg": 8,
+      "en": "Does your university as a body recognise unions for all, including women & international staff?",
+      "zh": "貴校是否承認全體（含女性與國際員工）之工會（結社自由與集體協商）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.3",
+      "ref": "8.2.3",
+      "sdg": 8,
+      "en": "Does your university as a body have a policy on ending discrimination in the workplace (including discrimination based on religion, sexuality, gender, age)?",
+      "zh": "貴校是否訂有終結職場歧視之政策（含宗教、性傾向、性別、年齡或難民身分）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.4",
+      "ref": "8.2.4",
+      "sdg": 8,
+      "en": "Does your university as a body have a policy commitment against forced labour, modern slavery, human trafficking, and child labour?",
+      "zh": "貴校是否承諾反對強迫勞動、現代奴役、人口販運與童工？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.5",
+      "ref": "8.2.5",
+      "sdg": 8,
+      "en": "Does your university as a body have a policy on guaranteeing equivalent rights of workers when outsourcing activities to third parties?",
+      "zh": "貴校是否訂有政策，確保委外予第三方時勞工享有同等權利？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.6",
+      "ref": "8.2.6",
+      "sdg": 8,
+      "en": "Does your university as a body have a policy on pay scale equity including a commitment to measurement and elimination of gender pay gaps?",
+      "zh": "貴校是否訂有薪資尺度公平政策，並承諾量測與消除性別薪資差距？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.7",
+      "ref": "8.2.7",
+      "sdg": 8,
+      "en": "Does your university as a body measure/track pay scale gender equity?",
+      "zh": "貴校是否量測或追蹤薪資尺度之性別公平？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.8",
+      "ref": "8.2.8",
+      "sdg": 8,
+      "en": "Does your university as a body have a process for employees to appeal on employee rights and/or pay?",
+      "zh": "貴校是否有員工就權利或薪資提出申訴之程序？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.2.9",
+      "ref": "8.2.9",
+      "sdg": 8,
+      "en": "Does your university as a body recognise labour rights (freedom of association & collective bargaining) for all, including women & international staff?",
+      "zh": "貴校是否承認全體（含女性與國際員工）之勞動權利（結社自由與集體協商）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg8-8.2.9",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.3.1",
+      "ref": "8.3.1",
+      "sdg": 8,
+      "en": "Number of employees",
+      "zh": "每位員工支出",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數"
+        },
+        {
+          "en": "University expenditure",
+          "zh": "大學支出"
+        }
+      ],
+      "siteQuestionId": "sdg8-8.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.3.2",
+      "ref": "8.3.2",
+      "sdg": 8,
+      "en": "University expenditure TWD 2000000 TWD 762,645,553 8.4 Proportion of students taking work placements",
+      "zh": "University expenditure TWD 2000000 TWD 762,645,553 8.4 Proportion of students taking work placements",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-8.3.3",
+      "ref": "8.3.3",
+      "sdg": 8,
+      "en": "Number of academic staff",
+      "zh": "Number of academic staff",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-8.4.1",
+      "ref": "8.4.1",
+      "sdg": 8,
+      "en": "Number of students",
+      "zh": "有實習經驗之學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數"
+        },
+        {
+          "en": "Number of students with work placements for more than a month",
+          "zh": "實習超過一個月之學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg8-8.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.4.2",
+      "ref": "8.4.2",
+      "sdg": 8,
+      "en": "Number of students with work placements for more than a month 241 8.5 Proportion of employees on secure contracts",
+      "zh": "Number of students with work placements for more than a month 241 8.5 Proportion of employees on secure contracts",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-8.5.1",
+      "ref": "8.5.1",
+      "sdg": 8,
+      "en": "Number of employees 30/",
+      "zh": "具穩定合約之員工比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數"
+        },
+        {
+          "en": "Number of employees on contracts of over 24 months",
+          "zh": "合約超過 24 個月之員工人數"
+        }
+      ],
+      "siteQuestionId": "sdg8-8.5.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-8.5.2",
+      "ref": "8.5.2",
+      "sdg": 8,
+      "en": "Number of employees on contracts of over 24 months 0 Affordable and Clean Energy (SDG 7) 7.2 University measures towards affordable and clean energy",
+      "zh": "Number of employees on contracts of over 24 months 0 Affordable and Clean Energy (SDG 7) 7.2 University measures towards affordable and clean energy",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-9.3.1",
+      "ref": "9.3.1",
+      "sdg": 9,
+      "en": "Number of university spin-offs 0 9.4 Research income from industry and commerce",
+      "zh": "大學衍生企業數量",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of university spin-offs",
+          "zh": "大學衍生企業數量"
+        }
+      ],
+      "siteQuestionId": "sdg9-9.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-9.4.1",
+      "ref": "9.4.1",
+      "sdg": 9,
+      "en": "Research income from industry and commerce: Total TWD TWD 6,872,466 9.4.1.1 - Research income from industry and commerce by subject area: STEM TWD TWD 953,960 26/61 9.4.1.2 - Research income from industry and commerce by subject area: Medicine",
+      "zh": "每位學術人員之產業與商業研究收入",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Research income from industry and commerce by subject area: STEM",
+          "zh": "產業與商業研究收入（依領域）：STEM"
+        },
+        {
+          "en": "Research income from industry and commerce by subject area: Medicine",
+          "zh": "產業與商業研究收入（依領域）：醫學"
+        },
+        {
+          "en": "Research income from industry and commerce by subject area: Arts & Humanities / Social sciences",
+          "zh": "產業與商業研究收入（依領域）：藝術人文／社會科學"
+        },
+        {
+          "en": "Number of academic staff by subject area: STEM",
+          "zh": "學術人員人數（依領域）：STEM"
+        },
+        {
+          "en": "Number of academic staff by subject area: Medicine",
+          "zh": "學術人員人數（依領域）：醫學"
+        },
+        {
+          "en": "Number of academic staff by subject area: Arts & Humanities / Social sciences",
+          "zh": "學術人員人數（依領域）：藝術人文／社會科學"
+        }
+      ],
+      "siteQuestionId": "sdg9-9.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-9.4.3",
+      "ref": "9.4.3",
+      "sdg": 9,
+      "en": "Number of employees 363 9.4.2.4 - Number of academic staff 232 9.4.2.1 - Number of academic staff by subject area: STEM 7 9.4.2.2 - Number of academic staff by subject area: Medicine 14 9.4.2.3 - Number of academic staff by subject area: Arts & Humanities / Social",
+      "zh": "Number of employees 363 9.4.2.4 - Number of academic staff 232 9.4.2.1 - Number of academic staff by subject area: STEM 7 9.4.2.2 - Number of academic staff by subject area: Medicine 14 9.4.2.3 - Number of academic staff by subject area: Arts & Humanities / Social",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.2.1",
+      "ref": "10.2.1",
+      "sdg": 10,
+      "en": "Number of students starting a degree",
+      "zh": "第一代大學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students starting a degree",
+          "zh": "開始修讀學位之學生人數"
+        },
+        {
+          "en": "Number of first-generation students starting a degree",
+          "zh": "開始修讀學位之第一代大學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg10-10.2.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.2.2",
+      "ref": "10.2.2",
+      "sdg": 10,
+      "en": "Number of first generation students starting a degree 4 10.3 International Students from developing countries",
+      "zh": "Number of first generation students starting a degree 4 10.3 International Students from developing countries",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.2.3",
+      "ref": "10.2.3",
+      "sdg": 10,
+      "en": "Number of students",
+      "zh": "Number of students",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.3.1",
+      "ref": "10.3.1",
+      "sdg": 10,
+      "en": "Number of students",
+      "zh": "來自開發中國家之國際學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數"
+        },
+        {
+          "en": "Number of international students from developing countries",
+          "zh": "來自開發中國家之國際學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg10-10.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.3.2",
+      "ref": "10.3.2",
+      "sdg": 10,
+      "en": "Number of international students from developing countries 17 22/61 10.4 Proportion of students with disabilities",
+      "zh": "Number of international students from developing countries 17 22/61 10.4 Proportion of students with disabilities",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.4.1",
+      "ref": "10.4.1",
+      "sdg": 10,
+      "en": "Number of students",
+      "zh": "身心障礙學生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of students",
+          "zh": "學生人數"
+        },
+        {
+          "en": "Number of students with disability",
+          "zh": "身心障礙學生人數"
+        }
+      ],
+      "siteQuestionId": "sdg10-10.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.4.2",
+      "ref": "10.4.2",
+      "sdg": 10,
+      "en": "Number of students with disability 113 10.5 Proportion of employees with disabilities",
+      "zh": "Number of students with disability 113 10.5 Proportion of employees with disabilities",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.5.1",
+      "ref": "10.5.1",
+      "sdg": 10,
+      "en": "Number of employees",
+      "zh": "身心障礙員工比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數"
+        },
+        {
+          "en": "Number of employees with disability",
+          "zh": "身心障礙員工人數"
+        }
+      ],
+      "siteQuestionId": "sdg10-10.5.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.5.2",
+      "ref": "10.5.2",
+      "sdg": 10,
+      "en": "Number of employees with disability 5 10.6 Measures against discrimination",
+      "zh": "Number of employees with disability 5 10.6 Measures against discrimination",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-10.6.1",
+      "ref": "10.6.1",
+      "sdg": 10,
+      "en": "Does your university as a body have an admissions policy which is non- discriminatory or which details and explains the logic for any appropriate positive discrimination policies in admissions, which is publicly posted?",
+      "zh": "貴校是否訂有不歧視之招生政策，或對任何適當之積極差別待遇招生政策說明其邏輯？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.2",
+      "ref": "10.6.2",
+      "sdg": 10,
+      "en": "Does your university as a body measure/track applications & admissions of underrepresented (and potentially underrepresented) groups including ethnic minorities, low income students, non-traditional students, women, LGBT students, disabled students, and newly settled refugee students? Yes Yes",
+      "zh": "貴校是否量測並追蹤代表性不足（及潛在不足）群體之申請與入學（含少數族群、低收入、非傳統學生、女性、LGBT、身心障礙及新定居難民學生）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.3",
+      "ref": "10.6.3",
+      "sdg": 10,
+      "en": "Does your university as a body take planned actions to recruit students/staff/faculty from under-represented groups?",
+      "zh": "貴校是否採取有計畫之行動，招收代表性不足群體之學生與教職員？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.4",
+      "ref": "10.6.4",
+      "sdg": 10,
+      "en": "Does your university as a body have anti-discrimination policy?",
+      "zh": "貴校是否訂有涵蓋機構及其運作之反歧視政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.5",
+      "ref": "10.6.5",
+      "sdg": 10,
+      "en": "Does your university as a body have a diversity and equality committee, office and/or officer (or the equivalent) tasked by the administration or governing body to advise on and implement policies, programmes, and trainings related to diversity, equity, inclusion and human rights on campus? Yes Yes",
+      "zh": "貴校是否設有多元與平等委員會、辦公室或專責人員（或同等單位），由行政或治理單位責成，就校園多元、公平、包容與人權提供建議並推動政策、計畫與訓練？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.6",
+      "ref": "10.6.6",
+      "sdg": 10,
+      "en": "Does your university as a body provide mentoring/counselling/peer support programmes to support students, staff, faculty from underrepresented groups?",
+      "zh": "貴校是否提供導師制度、諮商或同儕支持計畫，支持代表性不足群體之學生與教職員？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.7",
+      "ref": "10.6.7",
+      "sdg": 10,
+      "en": "Does your university as a body provide accessible facilities for people with disabilities?'",
+      "zh": "貴校是否提供身心障礙者之無障礙設施？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.8",
+      "ref": "10.6.8",
+      "sdg": 10,
+      "en": "Does your university as a body provide support services for people with disabilities? (e.g. personal assistants, interpreters)",
+      "zh": "貴校是否提供身心障礙者支持服務？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.9",
+      "ref": "10.6.9",
+      "sdg": 10,
+      "en": "Does your university as a body provide access schemes for people with disabilities?",
+      "zh": "貴校是否提供身心障礙者協助方案（如導師制度或其他針對性支持）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Mentoring",
+          "zh": "輔導／Mentoring"
+        },
+        {
+          "en": "Other targeted support",
+          "zh": "其他針對性支持"
+        }
+      ],
+      "siteQuestionId": "sdg10-10.6.9",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.10",
+      "ref": "10.6.10",
+      "sdg": 10,
+      "en": "Does your university as a body have reasonable accommodation policy/strategy implemented, including adequately funded mechanism for persons with disability?",
+      "zh": "貴校是否訂有身心障礙者合理調整政策或策略，並有充足經費？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.10",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-10.6.11",
+      "ref": "10.6.11",
+      "sdg": 10,
+      "en": "Does your university as a body have anti-harassment policy?",
+      "zh": "貴校是否訂有涵蓋機構及其運作之反騷擾政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg10-10.6.11",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.1",
+      "ref": "11.2.1",
+      "sdg": 11,
+      "en": "Does your university as a body provide public access to buildings, monuments or natural heritage landscapes of cultural significance?",
+      "zh": "貴校是否開放具文化意義的建築、紀念物或自然遺產景觀給大眾使用？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all significant buildings",
+          "zh": "所有重要建築免費開放"
+        },
+        {
+          "en": "Some free access",
+          "zh": "部分免費開放"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.2",
+      "ref": "11.2.2",
+      "sdg": 11,
+      "en": "Does your university as a body provide public access to libraries including books and publications?",
+      "zh": "貴校是否開放圖書館（含書籍與出版品）給大眾使用？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Automatic free access",
+          "zh": "自動免費開放"
+        },
+        {
+          "en": "Access to all after application",
+          "zh": "申請後全面開放"
+        },
+        {
+          "en": "Access in some circumstances",
+          "zh": "特定情況下開放"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.3",
+      "ref": "11.2.3",
+      "sdg": 11,
+      "en": "Does your university as a body provide public access to museums, exhibition spaces / galleries and/or works of art and artifacts?",
+      "zh": "貴校是否開放博物館、展覽空間、藝廊，或藝術品與文物給大眾使用？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free access to all museums and galleries",
+          "zh": "所有博物館與藝廊免費開放"
+        },
+        {
+          "en": "Free access to some",
+          "zh": "部分免費開放"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.4",
+      "ref": "11.2.4",
+      "sdg": 11,
+      "en": "Does your university as a body provide free public access to open spaces and green spaces?",
+      "zh": "貴校是否免費開放空間與綠地給大眾使用？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Permanent free access",
+          "zh": "永久免費開放"
+        },
+        {
+          "en": "Occasional free access",
+          "zh": "偶爾免費開放"
+        },
+        {
+          "en": "Paid access",
+          "zh": "付費開放"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.5",
+      "ref": "11.2.5",
+      "sdg": 11,
+      "en": "Does your university as a body contribute to local arts, in terms of number of annual public performances of university choirs / theatre groups / orchestras etc?",
+      "zh": "貴校是否透過大學合唱團、劇團、管弦樂團等年度公開演出次數，對地方藝術作出貢獻（臨時或持續計畫皆可）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "More than 30 perfomancees",
+          "zh": "每年超過 30 場演出"
+        },
+        {
+          "en": "More than 15 perfomances",
+          "zh": "每年超過 15 場演出"
+        },
+        {
+          "en": "Ad-hoc only",
+          "zh": "僅臨時辦理"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.2.6",
+      "ref": "11.2.6",
+      "sdg": 11,
+      "en": "Does your university as a body deliver projects to record and/or preserve intangible cultural heritage such as local folklore, traditions, language, and knowledge? This can include the heritage of displaced communities.",
+      "zh": "貴校是否執行計畫以記錄並保存非物質文化遺產（如地方民俗、傳統、語言與知識）？可含流離失所社區之遺產。",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local or regional cultural heritage",
+          "zh": "地方或區域文化遺產"
+        },
+        {
+          "en": "National cultural heritage",
+          "zh": "國家文化遺產"
+        },
+        {
+          "en": "Heritage of displaced communities",
+          "zh": "流離失所社區之文化遺產"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.3.1",
+      "ref": "11.3.1",
+      "sdg": 11,
+      "en": "University expenditure TWD 2000000 TWD",
+      "zh": "藝術與遺產支出",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "University expenditure",
+          "zh": "大學支出"
+        },
+        {
+          "en": "University expenditure on arts and heritage",
+          "zh": "藝術與遺產相關支出"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.3.2",
+      "ref": "11.3.2",
+      "sdg": 11,
+      "en": "University expenditure on arts and heritage TWD 2000000 TWD 2,903,016 11.4 Sustainable practices",
+      "zh": "University expenditure on arts and heritage TWD 2000000 TWD 2,903,016 11.4 Sustainable practices",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-11.4.1",
+      "ref": "11.4.1",
+      "sdg": 11,
+      "en": "Does your university as a body measure and set targets for more sustainable commuting (walking, cycling or other non-motorized transport, vanpools, carpools, shuttlebus or public transportation, motorcycle, scooter or moped, or electric vehicles)? Yes Yes",
+      "zh": "貴校是否量測並設定更永續通勤目標（步行、自行車或其他非機動運輸、共乘、接駁／大眾運輸、機車／電動車等）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.2",
+      "ref": "11.4.2",
+      "sdg": 11,
+      "en": "Does your university as a body undertake actions to promote the % of more sustainable commuting (e.g. provision of free or subsidised buses or shared transport schemes, provision of bicycle parking & storage facilities, provision of cycle tracks, a bicycle and pedestrian plan or policy, bicycle sharing programme, free or Yes Yes",
+      "zh": "貴校是否採取行動推廣更永續之通勤？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.3",
+      "ref": "11.4.3",
+      "sdg": 11,
+      "en": "Does your university as a body promote or allow telecommuting or remote working for employees as a matter of policy or standard practice, and/or offer a condensed working week to reduce employee commuting?",
+      "zh": "貴校是否以政策或標準實務推廣／允許遠距工作，或提供壓縮工時以減少員工通勤？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.4",
+      "ref": "11.4.4",
+      "sdg": 11,
+      "en": "Does your university as a body provide affordable housing for employees?",
+      "zh": "貴校是否為員工提供可負擔住房？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Evaluating affordability",
+          "zh": "評估可負擔性"
+        },
+        {
+          "en": "Providing housing directly",
+          "zh": "直接提供住房"
+        },
+        {
+          "en": "Providing financial support",
+          "zh": "提供財務支持"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.4.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.5",
+      "ref": "11.4.5",
+      "sdg": 11,
+      "en": "Does your university as a body provide affordable housing for students?",
+      "zh": "貴校是否為學生提供可負擔住房？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Evaluating affordability",
+          "zh": "評估可負擔性"
+        },
+        {
+          "en": "Providing housing directly",
+          "zh": "直接提供住房"
+        },
+        {
+          "en": "Providing financial support",
+          "zh": "提供財務支持"
+        }
+      ],
+      "siteQuestionId": "sdg11-11.4.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.6",
+      "ref": "11.4.6",
+      "sdg": 11,
+      "en": "Does your university as a body prioritise pedestrian access on campus?",
+      "zh": "貴校是否在校園優先行人通行？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.7",
+      "ref": "11.4.7",
+      "sdg": 11,
+      "en": "Does your university as a body work with local authorities to address planning issues/development, including ensuring that local residents are able to access affordable housing?",
+      "zh": "貴校是否與地方主管機關合作處理規劃與發展議題，包括確保地方居民能取得可負擔住房？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.8",
+      "ref": "11.4.8",
+      "sdg": 11,
+      "en": "Does your university as a body build new buildings to sustainable standards?",
+      "zh": "貴校新建建築是否依永續標準興建？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-11.4.9",
+      "ref": "11.4.9",
+      "sdg": 11,
+      "en": "Does your university as a body build on brownfield sites, where possible",
+      "zh": "貴校是否在可能情況下於棕地興建？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg11-11.4.9",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.1",
+      "ref": "12.2.1",
+      "sdg": 12,
+      "en": "Does your university as a body have a policy on ethical sourcing of food and supplies?",
+      "zh": "貴校是否訂有食品與物資倫理採購政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.3",
+      "ref": "12.2.3",
+      "sdg": 12,
+      "en": "Does your university as a body have a policy, process or practice on waste disposal - Covering hazardous materials?",
+      "zh": "貴校是否訂有涵蓋危害物質之廢棄物處理政策、程序或實務？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.4",
+      "ref": "12.2.4",
+      "sdg": 12,
+      "en": "Does your university as a body have a policy on waste disposal - To measure the amount of waste sent to landfill and recycled?",
+      "zh": "貴校是否訂有廢棄物處理政策，以量測送往掩埋與回收之廢棄物量？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.5",
+      "ref": "12.2.5",
+      "sdg": 12,
+      "en": "Does your university as a body have policies around use minimisation - Of plastic?",
+      "zh": "貴校是否訂有塑膠使用最小化政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.6",
+      "ref": "12.2.6",
+      "sdg": 12,
+      "en": "Does your university as a body have policies around use minimisation - Of disposable items?",
+      "zh": "貴校是否訂有一次性用品使用最小化政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.7",
+      "ref": "12.2.7",
+      "sdg": 12,
+      "en": "Do these policies extend to outsourced services and the supply chain?",
+      "zh": "上述政策是否延伸至委外服務與供應鏈？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.2.8",
+      "ref": "12.2.8",
+      "sdg": 12,
+      "en": "Do these policies extend to outsourced suppliers and the supply chain",
+      "zh": "上述政策是否延伸至委外供應商與供應鏈（如設備、文具、營建合約供應商）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg12-12.2.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.3.1",
+      "ref": "12.3.1",
+      "sdg": 12,
+      "en": "Does your university as a body measure the amount of waste generated and recycled across the university?",
+      "zh": "貴校是否量測全校廢棄物產生量與回收量？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Whole university",
+          "zh": "全校"
+        },
+        {
+          "en": "Partial measurement",
+          "zh": "部分量測"
+        }
+      ],
+      "siteQuestionId": "sdg12-12.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-12.4.1",
+      "ref": "12.4.1",
+      "sdg": 12,
+      "en": "Publication of sustainability report",
+      "zh": "發布永續報告",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Annual",
+          "zh": "每年"
+        },
+        {
+          "en": "Bi-annual",
+          "zh": "每兩年"
+        },
+        {
+          "en": "Less Frequent",
+          "zh": "較不頻繁"
+        }
+      ],
+      "siteQuestionId": "sdg12-12.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.2.1",
+      "ref": "13.2.1",
+      "sdg": 13,
+      "en": "Does your university as a body measure the amount of low carbon energy used across the university?",
+      "zh": "貴校是否量測全校低碳能源使用量？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "whole university",
+          "zh": "全校"
+        },
+        {
+          "en": "partial measurement",
+          "zh": "部分量測"
+        }
+      ],
+      "siteQuestionId": "sdg13-13.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.3.1",
+      "ref": "13.3.1",
+      "sdg": 13,
+      "en": "Does your university as a body provide local education programmes or campaigns on climate change risks, impacts, mitigation, adaptation, impact reduction and early warning?",
+      "zh": "貴校是否提供地方教育計畫或宣導，涵蓋氣候變遷風險、衝擊、減緩、調適、衝擊減量與預警？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg13-13.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.3.2",
+      "ref": "13.3.2",
+      "sdg": 13,
+      "en": "Does your university as a body have a university Climate Action plan, shared with local government and/or local community groups?",
+      "zh": "貴校是否訂有氣候行動計畫，並與地方政府及地方社區團體共享？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg13-13.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.3.3",
+      "ref": "13.3.3",
+      "sdg": 13,
+      "en": "Does your university as a body participate in co-operative planning for climate change disasters, that may include the displacement of people both within a country and across borders, working with government?",
+      "zh": "貴校是否與政府參與氣候變遷災害合作規劃（可含國內及跨境人口流離）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域"
+        }
+      ],
+      "siteQuestionId": "sdg13-13.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.3.4",
+      "ref": "13.3.4",
+      "sdg": 13,
+      "en": "Does your university as a body inform and support local or regional government in local climate change disaster/risk early warning and monitoring?",
+      "zh": "貴校是否就地方氣候變遷災害或風險預警與監測，告知並支持地方或區域政府？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg13-13.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.3.5",
+      "ref": "13.3.5",
+      "sdg": 13,
+      "en": "Does your university as a body collaborate with NGOs on climate adaptation?",
+      "zh": "貴校是否與 NGO 就氣候調適合作？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg13-13.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.4.1",
+      "ref": "13.4.1",
+      "sdg": 13,
+      "en": "Does your university as a body have a target date by which it will become carbon neutral according to the Greenhouse Gas Protocols?",
+      "zh": "貴校是否依溫室氣體盤查議定書訂有達成碳中和之目標日期？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "scope 1",
+          "zh": "範疇 1"
+        },
+        {
+          "en": "scope 1 and 2",
+          "zh": "範疇 1 與 2"
+        },
+        {
+          "en": "Scope 1, 2 and 3 (partial)",
+          "zh": "範疇 1、2 與 3（部分）"
+        },
+        {
+          "en": "Scope 1, 2 and 3 (full)",
+          "zh": "範疇 1、2 與 3（完整）"
+        }
+      ],
+      "siteQuestionId": "sdg13-13.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.4.2",
+      "ref": "13.4.2",
+      "sdg": 13,
+      "en": "Achieve by e.g",
+      "zh": "達成日期",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Achieve by\n•\tDate for achieved prior to 2023 - 4 points\n•\tDate for achieved by: 2023-2029 - 3 points\n•\tDate for achieved by: 2030-2039 - 2 points\n•\tDate for achieved by: 2040-2049 - 1 point\n•\tDate for achieved by: 2050 or later - 0.5",
+          "zh": "達成期限\n• 2023 年前已達成 － 4 分\n• 2023-2029 達成 － 3 分\n• 2030-2039 達成 － 2 分\n• 2040-2049 達成 － 1 分\n• 2050 或之後達成 － 0.5 分"
+        }
+      ],
+      "siteQuestionId": "sdg13-13.4.2",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.2.1",
+      "ref": "14.2.1",
+      "sdg": 14,
+      "en": "Does your university as a body offer educational programmes on fresh-water ecosystems (water irrigation practices, water management/conservation) for local or national communities?",
+      "zh": "貴校是否為地方或全國社區提供淡水生態系教育計畫（灌溉實務、水資源管理／保育）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg14-14.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.2.2",
+      "ref": "14.2.2",
+      "sdg": 14,
+      "en": "Does your university as a body offer educational programme / outreach for local or national communities on sustainable management of fisheries, aquaculture and tourism?",
+      "zh": "貴校是否為地方或全國社區提供漁業、水產養殖與觀光永續管理之教育或外展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg14-14.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.2.3",
+      "ref": "14.2.3",
+      "sdg": 14,
+      "en": "Does your university as a body offer educational outreach activities for local or national communities to raise awareness about overfishing, illegal, unreported and unregulated fishing and destructive fishing practices?",
+      "zh": "貴校是否為地方或全國社區辦理教育外展，提升對過度捕撈、非法／未報告／未受規範捕撈及破壞性捕撈之認識？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg14-14.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.3.1",
+      "ref": "14.3.1",
+      "sdg": 14,
+      "en": "Does your university as a body support and/or organise events aimed to promote conservation and sustainable utilisation of the oceans, seas, lakes, rivers and marine resources?",
+      "zh": "貴校是否支持或舉辦活動，推廣海洋、海域、湖泊、河川與海洋資源之保育與永續利用？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.3.2",
+      "ref": "14.3.2",
+      "sdg": 14,
+      "en": "Does your university as a body have a policy to ensure that food on campus that comes from aquatic ecosystems is sustainably harvested?",
+      "zh": "貴校是否訂有政策，確保校園來自水生生態系之食品為永續採收？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.3.3",
+      "ref": "14.3.3",
+      "sdg": 14,
+      "en": "Does your university as a body work directly (research and/or engagement with industries) to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat?",
+      "zh": "貴校是否直接（研究或與產業合作）維護並擴展既有生態系及其動植物生物多樣性，尤其受威脅生態系？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.3.4",
+      "ref": "14.3.4",
+      "sdg": 14,
+      "en": "Does your university as a body work directly (research and/or engagement with industries) on technologies or practices that enable marine industry to minimise or prevent damage to aquatic ecosystems?",
+      "zh": "貴校是否直接（研究或與產業合作）發展技術或實務，使海洋產業能最小化或防止對水生生態系之損害？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.4.1",
+      "ref": "14.4.1",
+      "sdg": 14,
+      "en": "Does your university as a body have water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare, etc.)?",
+      "zh": "貴校是否訂有排水水質標準與指引（以維護水質、保護生態系、野生動物與人類健康福祉）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.4.2",
+      "ref": "14.4.2",
+      "sdg": 14,
+      "en": "Does your university as a body have an action plan in place to reduce plastic waste on campus?",
+      "zh": "貴校是否訂有減少校園塑膠廢棄物之行動計畫？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.4.3",
+      "ref": "14.4.3",
+      "sdg": 14,
+      "en": "Does your university as a body have a policy on preventing and reducing marine pollution of all kinds, in particular from land-based activities?",
+      "zh": "貴校是否訂有防止並減少各類海洋污染之政策（尤其陸域活動來源）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.5.1",
+      "ref": "14.5.1",
+      "sdg": 14,
+      "en": "Does your university as a body have a plan to minimise physical, chemical and/or biological alterations of related aquatic ecosystems?",
+      "zh": "貴校是否訂有計畫，最小化相關水生生態系之物理、化學與生物改變？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.5.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.5.2",
+      "ref": "14.5.2",
+      "sdg": 14,
+      "en": "Does your university as a body monitor the health of aquatic ecosystems?",
+      "zh": "貴校是否監測水生生態系健康？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.5.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.5.3",
+      "ref": "14.5.3",
+      "sdg": 14,
+      "en": "Does your university as a body develop and support programs and incentives that encourage and maintain good aquatic stewardship practices?",
+      "zh": "貴校是否發展並支持鼓勵與維持優良水域stewardship之計畫與誘因？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Ad hoc",
+          "zh": "臨時／不定期"
+        },
+        {
+          "en": "On-going",
+          "zh": "持續進行"
+        }
+      ],
+      "siteQuestionId": "sdg14-14.5.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.5.4",
+      "ref": "14.5.4",
+      "sdg": 14,
+      "en": "Does your university as a body collaborate with the local community, e.g. through partnerships, in efforts to maintain shared aquatic ecosystems?",
+      "zh": "貴校是否與地方社區合作維護共享水生生態系？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.5.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-14.5.5",
+      "ref": "14.5.5",
+      "sdg": 14,
+      "en": "Does your university as a body have implemented a watershed management strategy based on location specific diversity of aquatic species?",
+      "zh": "貴校是否已依在地水生物種多樣性實施集水區管理策略？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg14-14.5.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.1",
+      "ref": "15.2.1",
+      "sdg": 15,
+      "en": "Does your university as a body support and/or organise events aimed to promote conservation and sustainable utilisation of the land, including forests and wild land?",
+      "zh": "貴校是否支持或舉辦活動，推廣土地（含森林與荒地）之保育與永續利用？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.2",
+      "ref": "15.2.2",
+      "sdg": 15,
+      "en": "Does your university as a body have policies to ensure that food on campus is sustainably farmed?",
+      "zh": "貴校是否訂有政策，確保校園食品為永續耕作？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.3",
+      "ref": "15.2.3",
+      "sdg": 15,
+      "en": "Does your university as a body work directly to maintain and extend existing ecosystems and their biodiversity, of both plants and animals, especially ecosystems under threat?",
+      "zh": "貴校是否直接維護並擴展既有生態系及其動植物生物多樣性，尤其受威脅生態系？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.4",
+      "ref": "15.2.4",
+      "sdg": 15,
+      "en": "Does your university as a body offer educational programmes on ecosystems (looking at wild flora and fauna) for local or national communities?",
+      "zh": "貴校是否為地方或全國社區提供生態系教育計畫（關注野生動植物）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg15-15.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.5",
+      "ref": "15.2.5",
+      "sdg": 15,
+      "en": "Does your university as a body offer educational programme/outreach for local or national communities on sustainable management of land for agriculture?",
+      "zh": "貴校是否為地方或全國社區提供農業土地永續管理之教育／外展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg15-15.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.2.6",
+      "ref": "15.2.6",
+      "sdg": 15,
+      "en": "Does your university as a body offer educational programme/outreach for local or national communities on sustainable management of land for tourism?",
+      "zh": "貴校是否為地方或全國社區提供觀光土地永續管理之教育／外展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Free",
+          "zh": "免費"
+        },
+        {
+          "en": "Paid",
+          "zh": "付費"
+        }
+      ],
+      "siteQuestionId": "sdg15-15.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.3.1",
+      "ref": "15.3.1",
+      "sdg": 15,
+      "en": "Does your university as a body have a policy to ensure the conservation, restoration and sustainable use of terrestrial ecosystems associated with the university, in particular forests, mountains and drylands?",
+      "zh": "貴校是否訂有政策，確保與大學相關陸域生態系（尤其森林、山岳與旱地）之保育、復育與永續利用？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.3.2",
+      "ref": "15.3.2",
+      "sdg": 15,
+      "en": "Does your university as a body have a policy to identify, monitor and protect any IUCN Red Listed species and national conservation list species with habitats in areas affected by the operation of your university?",
+      "zh": "貴校是否訂有政策，識別、監測並保護受大學營運影響區域內之 IUCN 紅皮書物種及國家保育名錄物種？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.3.3",
+      "ref": "15.3.3",
+      "sdg": 15,
+      "en": "Does your university as a body include local biodiversity into any planning and development process (e.g. construction of new buildings)?",
+      "zh": "貴校是否在任何規劃與發展過程（如新建）納入地方生物多樣性？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.3.4",
+      "ref": "15.3.4",
+      "sdg": 15,
+      "en": "Does your university as a body have a policy to reduce the impact of alien species on Campus?",
+      "zh": "貴校是否訂有減少校園外來種衝擊之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.3.5",
+      "ref": "15.3.5",
+      "sdg": 15,
+      "en": "Does your university as a body collaborate with the local community, e.g. through partnerships, in efforts to maintain shared land ecosystems?",
+      "zh": "貴校是否與地方社區合作維護共享陸域生態系？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.4.1",
+      "ref": "15.4.1",
+      "sdg": 15,
+      "en": "Does your university as a body have water quality standards and guidelines for water discharges (to uphold water quality in order to protect ecosystems, wildlife, and human health and welfare, etc.)?",
+      "zh": "貴校是否訂有排水水質標準與指引（以維護水質、保護生態系、野生動物與人類健康福祉）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.4.2",
+      "ref": "15.4.2",
+      "sdg": 15,
+      "en": "Does your university as a body have a policy on reducing plastic waste on campus?",
+      "zh": "貴校是否訂有減少校園塑膠廢棄物之政策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-15.4.3",
+      "ref": "15.4.3",
+      "sdg": 15,
+      "en": "Does your university as a body have a policy, process or practice on waste disposal - covering hazardous materials?",
+      "zh": "貴校是否訂有涵蓋危害物質之廢棄物處理政策、程序或實務？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg15-15.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.1",
+      "ref": "16.2.1",
+      "sdg": 16,
+      "en": "Does your university as a body have elected representation on the university's highest governing body from:",
+      "zh": "貴校最高治理機關是否有來自學生（大學部與研究所）、faculty 與職員（非 faculty）之選舉代表？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "students (both undergraduate and graduate)",
+          "zh": "學生（大學部與研究所）"
+        },
+        {
+          "en": "faculty",
+          "zh": "教職員（faculty）"
+        },
+        {
+          "en": "staff (non-faculty employees)",
+          "zh": "職員（非 faculty）"
+        }
+      ],
+      "siteQuestionId": "sdg16-16.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.2",
+      "ref": "16.2.2",
+      "sdg": 16,
+      "en": "Does your university as a body recognise an independent students' union?",
+      "zh": "貴校是否承認獨立學生會？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Union provides governance input to university",
+          "zh": "學生會參與大學治理"
+        },
+        {
+          "en": "Union provides support for students",
+          "zh": "學生會提供學生支持"
+        },
+        {
+          "en": "Union provides social activities",
+          "zh": "學生會辦理社交活動"
+        }
+      ],
+      "siteQuestionId": "sdg16-16.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.3",
+      "ref": "16.2.3",
+      "sdg": 16,
+      "en": "Does your university as a body have written policies and procedures to identify local stakeholders external to the university and engage with them?",
+      "zh": "貴校是否訂有書面政策與程序，以識別校外地方利害關係人並與之互動？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.4",
+      "ref": "16.2.4",
+      "sdg": 16,
+      "en": "Does your university as a body ensure that local stakeholders in the university, including local residents, local government, and civil society representatives (which may include groups such as refugee resettlement agencies), have a meaningful mechanism or for participating in university decision making? Yes Yes",
+      "zh": "貴校是否確保大學之地方利害關係人（含地方居民、地方政府與公民社會代表，可含難民安置機構等）有有意義之機制參與大學決策？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.5",
+      "ref": "16.2.5",
+      "sdg": 16,
+      "en": "Does your university as a body have a publication of the university's principles and commitments on organized crime, corruption & bribery?",
+      "zh": "貴校是否公開大學對組織犯罪、貪腐與賄賂之原則與承諾？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.6",
+      "ref": "16.2.6",
+      "sdg": 16,
+      "en": "Does your university as a body have a policy on supporting academic freedom (freedom to choose areas of research and to speak and teach publicly about the area of their research)?",
+      "zh": "貴校是否訂有支持學術自由之政策（選擇研究領域，以及公開談論與教授其研究領域之自由）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Research freedom for senior academics",
+          "zh": "資深教師研究自由"
+        },
+        {
+          "en": "Research freedom for junior academics",
+          "zh": "初階教師研究自由"
+        },
+        {
+          "en": "Teaching freedom for senior academics",
+          "zh": "資深教師教學自由"
+        },
+        {
+          "en": "Teaching freedom for junior academics",
+          "zh": "初階教師教學自由"
+        }
+      ],
+      "siteQuestionId": "sdg16-16.2.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": true,
+        "hasPolicyReviewed": true
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.2.7",
+      "ref": "16.2.7",
+      "sdg": 16,
+      "en": "Does your university as a body have a publication of university financial data?",
+      "zh": "貴校是否公開大學財務資料？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.2.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.3.1",
+      "ref": "16.3.1",
+      "sdg": 16,
+      "en": "Does your university as a body provide specific expert advice to local, regional or national government (e.g. through policy guidance, participation in committees, provision of evidence)?",
+      "zh": "貴校是否向地方、區域或國家政府提供具體專家建議（如政策指引、參與委員會、提供證據）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Local",
+          "zh": "地方"
+        },
+        {
+          "en": "Regional",
+          "zh": "區域"
+        },
+        {
+          "en": "National",
+          "zh": "國家"
+        }
+      ],
+      "siteQuestionId": "sdg16-16.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.3.2",
+      "ref": "16.3.2",
+      "sdg": 16,
+      "en": "Does your university as a body provide outreach, general education, upskilling and capacity-building to policy- and law-makers on relevant topics e.g. economics, law, technology, migration and displacement, and climate change?",
+      "zh": "貴校是否向政策與立法者提供外展、通識、培力與能力建構（含經濟、法律、技術、移民與流離、氣候變遷等）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.3.3",
+      "ref": "16.3.3",
+      "sdg": 16,
+      "en": "Does your university as a body undertake policy-focused research in collaboration with government departments?",
+      "zh": "貴校是否與政府部門合作進行政策導向研究？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.3.4",
+      "ref": "16.3.4",
+      "sdg": 16,
+      "en": "Does your university as a body provide a neutral platform and \"safe\" space for different political stakeholders to come together to frankly discuss challenges?",
+      "zh": "貴校是否提供中立平台與「安全」空間，供不同政治利害關係人坦誠討論挑戰？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg16-16.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.4.1",
+      "ref": "16.4.1",
+      "sdg": 16,
+      "en": "Number of graduates 692 3/",
+      "zh": "法律畢業生比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of graduates",
+          "zh": "畢業生人數"
+        },
+        {
+          "en": "Number of graduates from law and enforcement related courses",
+          "zh": "法律與執法相關課程畢業生人數"
+        }
+      ],
+      "siteQuestionId": "sdg16-16.4.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-16.4.2",
+      "ref": "16.4.2",
+      "sdg": 16,
+      "en": "Number of total graduates from law and enforcement related courses 108 Life On Land (SDG 15) 15.2 Supporting land ecosystems through education",
+      "zh": "Number of total graduates from law and enforcement related courses 108 Life On Land (SDG 15) 15.2 Supporting land ecosystems through education",
+      "answerType": "continuous",
+      "options": [],
+      "siteQuestionId": "",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": false
+    },
+    {
+      "id": "portal-17.2.1",
+      "ref": "17.2.1",
+      "sdg": 17,
+      "en": "Does your university have direct involvement in, or input into, national government or regional nongovernment organisations SDG policy development - including identifying problems and challenges, developing policies and strategies, modelling likely futures with and without interventions, monitoring and reporting on Yes Yes",
+      "zh": "貴校是否直接參與或投入國家政府或區域非政府組織之 SDG 政策發展（含問題挑戰識別、政策策略研擬、介入前後情境模擬、監測報告與調適管理）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.2.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.2.2",
+      "ref": "17.2.2",
+      "sdg": 17,
+      "en": "Does your university as a body initiate and participate in cross-sectoral dialogue about the SDGs, e.g. conferences involving government/NGOs?",
+      "zh": "貴校是否發起並參與 SDG 跨部門對話（如含政府或 NGO 之會議）？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.2.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.2.3",
+      "ref": "17.2.3",
+      "sdg": 17,
+      "en": "Does your university as a body participate in international collaboration on gathering or measuring data for the SDGs?",
+      "zh": "貴校是否參與 SDG 資料蒐集或量測之國際合作？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.2.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.2.4",
+      "ref": "17.2.4",
+      "sdg": 17,
+      "en": "Does your university as a body, through international collaboration and research, review comparative approaches and develop international best practice on tackling the SDGs?",
+      "zh": "貴校是否透過國際合作與研究，檢視比較方法並發展因應 SDG 之國際最佳實務？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.2.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.2.5",
+      "ref": "17.2.5",
+      "sdg": 17,
+      "en": "Does your university as a body collaborate with NGOs to tackle the SDGs through:",
+      "zh": "貴校是否與 NGO 合作因應 SDG（透過：學生志工計畫、研究計畫或發展教育資源）？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "student volunteering programmes",
+          "zh": "學生志工計畫"
+        },
+        {
+          "en": "research programmes",
+          "zh": "研究計畫"
+        },
+        {
+          "en": "development of educational resources",
+          "zh": "發展教育資源"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.2.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.1",
+      "ref": "17.3.1",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG1",
+      "zh": "貴校是否單獨或於年報中公布 SDG1 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.2",
+      "ref": "17.3.2",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG2",
+      "zh": "貴校是否單獨或於年報中公布 SDG2 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.3",
+      "ref": "17.3.3",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG3",
+      "zh": "貴校是否單獨或於年報中公布 SDG3 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.4",
+      "ref": "17.3.4",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG4",
+      "zh": "貴校是否單獨或於年報中公布 SDG4 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.5",
+      "ref": "17.3.5",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG5",
+      "zh": "貴校是否單獨或於年報中公布 SDG5 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.5",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.6",
+      "ref": "17.3.6",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG6",
+      "zh": "貴校是否單獨或於年報中公布 SDG6 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.6",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.7",
+      "ref": "17.3.7",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG7",
+      "zh": "貴校是否單獨或於年報中公布 SDG7 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.7",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.8",
+      "ref": "17.3.8",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG8",
+      "zh": "貴校是否單獨或於年報中公布 SDG8 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.8",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.9",
+      "ref": "17.3.9",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG9",
+      "zh": "貴校是否單獨或於年報中公布 SDG9 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.9",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.10",
+      "ref": "17.3.10",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG10 57/",
+      "zh": "貴校是否單獨或於年報中公布 SDG10 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.10",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.11",
+      "ref": "17.3.11",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG11 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.11",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.12",
+      "ref": "17.3.12",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG12 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.12",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.13",
+      "ref": "17.3.13",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG13 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.13",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.14",
+      "ref": "17.3.14",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG14 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.14",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.15",
+      "ref": "17.3.15",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG15 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.15",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.16",
+      "ref": "17.3.16",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG16 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.16",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.3.17",
+      "ref": "17.3.17",
+      "sdg": 17,
+      "en": "Please indicate if your university publishes progress against SDG",
+      "zh": "貴校是否單獨或於年報中公布 SDG17 之進展？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "overall report",
+          "zh": "整體報告"
+        },
+        {
+          "en": "separate report",
+          "zh": "獨立報告"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.3.17",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.4.1",
+      "ref": "17.4.1",
+      "sdg": 17,
+      "en": "Does your university as a body have a commitment to meaningful education around the SDGs across the university, that is relevant and applicable to all students?",
+      "zh": "貴校是否承諾在全校推動與全體學生相關且適用之 SDG 有意義教育？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "education integrated across full curriculum",
+          "zh": "融入整體課程"
+        },
+        {
+          "en": "mandatory education for all",
+          "zh": "全體必修"
+        },
+        {
+          "en": "optional education for all",
+          "zh": "全體選修／可選"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.4.1",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.4.2",
+      "ref": "17.4.2",
+      "sdg": 17,
+      "en": "Does your university as a body have dedicated courses (full degrees, or electives) that address sustainability and the SDGs?",
+      "zh": "貴校是否設有專責課程（完整學位或選修）探討永續與 SDG？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.4.2",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.4.3",
+      "ref": "17.4.3",
+      "sdg": 17,
+      "en": "Does your university as body have dedicated outreach educational activities for the wider community, which could include alumni, local residents, displaced people?",
+      "zh": "貴校是否為更廣泛社區（可含校友、地方居民、流離失所者）辦理專責外展教育活動？",
+      "answerType": "picklist",
+      "options": [
+        {
+          "en": "Alumni",
+          "zh": "校友"
+        },
+        {
+          "en": "Local community",
+          "zh": "地方社區"
+        },
+        {
+          "en": "Displaced people and refugees",
+          "zh": "流離失所者與難民"
+        }
+      ],
+      "siteQuestionId": "sdg17-17.4.3",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-17.4.4",
+      "ref": "17.4.4",
+      "sdg": 17,
+      "en": "Does your university as a body measure the sustainability literacy of students?",
+      "zh": "本題探討貴校如何評估學生學習並保留永續關鍵概念的能力。2027 年不計分，僅作後續參考。\n貴校是否量測學生的永續素養？",
+      "answerType": "yesno",
+      "options": [],
+      "siteQuestionId": "sdg17-17.4.4",
+      "portal": {
+        "hasYesNo": true,
+        "hasPublic": true,
+        "hasComment": true,
+        "hasEvidence": true,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    }
+  ]
+}
