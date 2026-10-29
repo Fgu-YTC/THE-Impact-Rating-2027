@@ -59,6 +59,20 @@
   background: #eaf4ef;
   color: #1e4a3d;
 }
+.portal-live-line {
+  margin-top: 0.25rem;
+}
+.portal-live-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.2rem;
+}
+.portal-ev-link {
+  font-size: 0.82rem;
+  color: var(--accent);
+  word-break: break-word;
+}
 .portal-en {
   font-size: 0.92rem;
   line-height: 1.45;

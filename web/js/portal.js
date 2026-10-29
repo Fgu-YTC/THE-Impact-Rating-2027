@@ -48,19 +48,62 @@
   }
 
   function answerOf(ref) {
-    return { ...(remote[ref] || {}), ...(drafts[ref] || {}) };
+    return sanitizePortalAnswer({ ...(remote[ref] || {}), ...(drafts[ref] || {}) });
   }
 
   function patch(ref, part) {
     drafts[ref] = { ...(drafts[ref] || {}), ...part };
   }
 
+  function isStorageUrl(href) {
+    const s = String(href || "").trim().toLowerCase();
+    if (!s) return false;
+    return (
+      s.includes("firebasestorage.googleapis.com") ||
+      s.includes(".firebasestorage.app/") ||
+      s.includes("storage.googleapis.com/")
+    );
+  }
+
+  /** Portal Evidence URL：只放公開網頁；Storage 下載網址不當成網址欄 */
+  function publicEvidenceUrl(href) {
+    const s = String(href || "").trim();
+    if (!s || isStorageUrl(s)) return "";
+    return s;
+  }
+
+  function fileDownloadLabel(answer) {
+    const name = String((answer && answer.evidenceFileName) || "").trim();
+    return name ? `下載檔案：${name}` : "下載已上傳檔案";
+  }
+
+  function fileDownloadHref(answer) {
+    if (!answer) return "";
+    const direct = String(answer.evidenceFileUrl || "").trim();
+    if (direct) return direct;
+    if (isStorageUrl(answer.evidence)) return String(answer.evidence).trim();
+    return "";
+  }
+
+  function sanitizePortalAnswer(a) {
+    if (!a) return a;
+    const out = { ...a };
+    const raw = String(out.evidence || "").trim();
+    if (isStorageUrl(raw)) {
+      if (!out.evidenceFileUrl) out.evidenceFileUrl = raw;
+      out.evidence = "";
+    } else {
+      out.evidence = publicEvidenceUrl(raw);
+    }
+    return out;
+  }
+
   function answerHasContent(a) {
     if (!a) return false;
     if (a.yesNo || a.public) return true;
     if (String(a.comment || "").trim()) return true;
-    if (String(a.evidence || "").trim()) return true;
-    if (a.evidenceFileUrl || a.evidenceFileName) return true;
+    if (publicEvidenceUrl(a.evidence)) return true;
+    if (a.evidenceFileUrl || a.evidenceFileName || isStorageUrl(a.evidence)) return true;
     if (Array.isArray(a.options) && a.options.length) return true;
     const values = a.values || {};
     return Object.values(values).some((v) => v != null && String(v) !== "");
@@ -88,8 +131,8 @@
     return { preferred, all: hits };
   }
 
-  function summarizeAnswer(answer) {
-    if (!answer) return "";
+  function summarizeAnswerBits(answer) {
+    if (!answer) return [];
     const bits = [];
     if (answer.yesNo === "yes") bits.push("Yes");
     if (answer.yesNo === "no") bits.push("No");
@@ -101,12 +144,45 @@
       if (vals.length) bits.push("數字 " + vals.slice(0, 4).join("／"));
     }
     if (answer.options && answer.options.length) bits.push("勾選 " + answer.options.length + " 項");
-    if (String(answer.evidence || "").trim()) bits.push("有網址");
-    if (answer.evidenceFileName || answer.evidenceFileUrl) bits.push("有檔案");
     if (answer.public === "public") bits.push("公開");
     if (answer.public === "private") bits.push("不公開");
     if (String(answer.comment || "").trim()) bits.push("有備註");
-    return bits.join(" · ");
+    return bits;
+  }
+
+  function appendEvidenceLinks(parent, answer) {
+    const url = publicEvidenceUrl(answer && answer.evidence);
+    const fileHref = fileDownloadHref(answer);
+    const fileName = String((answer && answer.evidenceFileName) || "").trim();
+    if (url) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "portal-ev-link";
+      try {
+        a.textContent = "公開網址：" + new URL(url).hostname;
+      } catch (_) {
+        a.textContent = "公開網址";
+      }
+      parent.appendChild(a);
+    }
+    if (fileHref || fileName) {
+      if (fileHref) {
+        const a = document.createElement("a");
+        a.href = fileHref;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.className = "portal-ev-link";
+        a.textContent = fileDownloadLabel(answer);
+        if (fileName) a.setAttribute("download", fileName);
+        parent.appendChild(a);
+      } else {
+        const span = document.createElement("span");
+        span.textContent = `檔案：${fileName}`;
+        parent.appendChild(span);
+      }
+    }
   }
 
   function priorSummary(ref) {
@@ -129,14 +205,30 @@
     return bits.join(" · ");
   }
 
-  function liveSummary(ref) {
+  function appendLiveBox(card, ref) {
     const pack = liveForRef(ref);
-    if (!pack) return "";
-    const lines = pack.all.map((h) => {
+    if (!pack) return;
+    const box = document.createElement("div");
+    box.className = "portal-prior portal-live";
+    const title = document.createElement("strong");
+    title.textContent = "今年填報（本站單位／最終稿）";
+    box.appendChild(title);
+    pack.all.forEach((h) => {
+      const line = document.createElement("div");
+      line.className = "portal-live-line";
       const tag = h.kind === "office" ? "永續辦／最終" : "單位";
-      return `${h.unitName}（${tag}）：${summarizeAnswer(h.answer) || "有內容"}`;
+      const bits = summarizeAnswerBits(h.answer);
+      const head = document.createElement("span");
+      head.textContent =
+        `${h.unitName}（${tag}）` + (bits.length ? `：${bits.join(" · ")}` : "：有內容");
+      line.appendChild(head);
+      const links = document.createElement("div");
+      links.className = "portal-live-links";
+      appendEvidenceLinks(links, h.answer);
+      if (links.childNodes.length) line.appendChild(links);
+      box.appendChild(line);
     });
-    return lines.join("<br>");
+    card.appendChild(box);
   }
 
   function portalEmpty(ref) {
@@ -150,8 +242,12 @@
     if (answer.yesNo) out.yesNo = answer.yesNo;
     if (answer.public) out.public = answer.public;
     if (String(answer.comment || "").trim()) out.comment = String(answer.comment).slice(0, 1000);
-    if (String(answer.evidence || "").trim()) out.evidence = String(answer.evidence).trim();
-    else if (answer.evidenceFileUrl) out.evidence = String(answer.evidenceFileUrl).trim();
+    const pub = publicEvidenceUrl(answer.evidence);
+    if (pub) out.evidence = pub;
+    else out.evidence = "";
+    if (answer.evidenceFileName) out.evidenceFileName = String(answer.evidenceFileName);
+    if (answer.evidenceFileUrl) out.evidenceFileUrl = String(answer.evidenceFileUrl);
+    else if (isStorageUrl(answer.evidence)) out.evidenceFileUrl = String(answer.evidence).trim();
     if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
     if (Array.isArray(answer.options)) out.options = answer.options.slice();
     return out;
@@ -261,13 +357,7 @@
         card.appendChild(zh);
       }
 
-      const liveHtml = liveSummary(f.ref);
-      if (liveHtml) {
-        const box = document.createElement("div");
-        box.className = "portal-prior portal-live";
-        box.innerHTML = "<strong>今年填報（本站單位／最終稿）</strong>" + liveHtml;
-        card.appendChild(box);
-      }
+      appendLiveBox(card, f.ref);
 
       const prior = priorSummary(f.ref);
       if (prior) {
@@ -364,13 +454,46 @@
 
       if (portal.hasEvidence !== false) {
         const lab = document.createElement("label");
-        lab.textContent = "Evidence URL";
+        lab.textContent = "Evidence URL（公開網頁；勿貼 Storage 下載網址）";
         const input = document.createElement("input");
         input.type = "url";
         input.placeholder = "https://…";
-        input.value = ans.evidence || "";
-        input.addEventListener("change", () => patch(f.ref, { evidence: input.value }));
+        input.value = publicEvidenceUrl(ans.evidence) || "";
+        input.addEventListener("change", () => {
+          const next = publicEvidenceUrl(input.value);
+          if (input.value.trim() && !next) {
+            banner("warn", "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。");
+            input.value = "";
+          }
+          patch(f.ref, { evidence: next });
+        });
         lab.appendChild(input);
+        const fileHref = fileDownloadHref(ans);
+        const livePack = liveForRef(f.ref);
+        const liveFileHref = livePack ? fileDownloadHref(livePack.preferred.answer) : "";
+        const liveFileName = livePack
+          ? String(livePack.preferred.answer.evidenceFileName || "").trim()
+          : "";
+        if (fileHref || ans.evidenceFileName) {
+          const a = document.createElement("a");
+          a.className = "portal-ev-link";
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.href = fileHref || "#";
+          if (!fileHref) a.removeAttribute("href");
+          a.textContent = fileDownloadLabel(ans);
+          if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
+          lab.appendChild(a);
+        } else if (liveFileHref || liveFileName) {
+          const a = document.createElement("a");
+          a.className = "portal-ev-link";
+          a.target = "_blank";
+          a.rel = "noopener";
+          if (liveFileHref) a.href = liveFileHref;
+          a.textContent = liveFileName ? `今年填報檔案：${liveFileName}` : "下載今年填報檔案";
+          if (liveFileName) a.setAttribute("download", liveFileName);
+          lab.appendChild(a);
+        }
         grid.appendChild(lab);
       }
 
@@ -451,7 +574,11 @@
   async function loadRemote() {
     const { store, doc, getDoc } = await getDb();
     const snap = await getDoc(doc(store, "portalFill", "impact2027"));
-    remote = snap.exists() ? snap.data().answers || {} : {};
+    const raw = snap.exists() ? snap.data().answers || {} : {};
+    remote = {};
+    Object.keys(raw).forEach((ref) => {
+      remote[ref] = sanitizePortalAnswer(raw[ref] || {});
+    });
   }
 
   async function saveAll() {
@@ -463,7 +590,10 @@
       const { store, doc, setDoc } = await getDb();
       const merged = { ...remote };
       Object.keys(drafts).forEach((ref) => {
-        merged[ref] = { ...(merged[ref] || {}), ...drafts[ref] };
+        merged[ref] = sanitizePortalAnswer({ ...(merged[ref] || {}), ...drafts[ref] });
+      });
+      Object.keys(merged).forEach((ref) => {
+        merged[ref] = sanitizePortalAnswer(merged[ref] || {});
       });
       await setDoc(
         doc(store, "portalFill", "impact2027"),
