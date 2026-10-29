@@ -7,25 +7,33 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261029i" />
-  <link rel="stylesheet" href="css/portal.css?v=20261029i" />
+  <link rel="stylesheet" href="css/app.css?v=20261029j" />
+  <link rel="stylesheet" href="css/portal.css?v=20261029j" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
-    <h1>Portal 對齊填報</h1>
+    <div class="lang-toggle auth-lang" id="langToggleGate" aria-label="語言">
+      <button type="button" data-lang="zh">中文</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <h1 id="authTitle">Portal 對齊填報</h1>
     <p id="authHint">使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目、今年單位填報與去年參考；與一般填報頁、管理分派分開儲存。</p>
     <button type="button" id="btnGoogle">使用 Google 登入</button>
     <div id="authError" class="auth-error" hidden></div>
-    <p style="margin-top:1.25rem;font-size:0.85rem">
+    <p id="authLinks" style="margin-top:1.25rem;font-size:0.85rem">
       <a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>
     </p>
   </div>
 
   <div id="portalApp" hidden>
     <header class="topbar portal-topbar">
-      <div class="brand">Portal 對齊填報</div>
+      <div class="brand" id="portalBrand">Portal 對齊填報</div>
       <div class="portal-meta" id="portalMeta">Impact 2027</div>
       <div class="top-actions">
+        <div class="lang-toggle" id="langToggle" aria-label="語言">
+          <button type="button" data-lang="zh">中文</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
         <span id="portalUser" class="portal-user"></span>
         <button type="button" id="btnImportLive" class="secondary" title="只填 Portal 尚空的欄位">帶入今年填報</button>
         <button type="button" id="btnImportLiveAll" class="secondary" title="用今年填報覆蓋 Portal 欄位">覆蓋帶入</button>
@@ -34,7 +42,7 @@
       </div>
     </header>
 
-    <div class="data-year-note">
+    <div class="data-year-note" id="portalNote">
       依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿與去年參考。「帶入今年填報」只填空欄；資料存在 <code>portalFill</code>，不改單位填報。
     </div>
 
@@ -47,11 +55,11 @@
     </main>
   </div>
 
-  <script src="js/firebase-config.js?v=20261029i"></script>
-  <script src="js/admin-allowlist.js?v=20261029i"></script>
-  <script src="js/auth.js?v=20261029i"></script>
-  <script src="js/live.js?v=20261029i"></script>
-  <script src="js/ui.js?v=20261029i"></script>
-  <script src="js/portal.js?v=20261029i"></script>
+  <script src="js/firebase-config.js?v=20261029j"></script>
+  <script src="js/admin-allowlist.js?v=20261029j"></script>
+  <script src="js/auth.js?v=20261029j"></script>
+  <script src="js/live.js?v=20261029j"></script>
+  <script src="js/ui.js?v=20261029j"></script>
+  <script src="js/portal.js?v=20261029j"></script>
 </body>
 </html>

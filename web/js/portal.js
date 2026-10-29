@@ -7,6 +7,144 @@
   const fieldList = $("#fieldList");
   const sdgTabs = $("#sdgTabs");
   const saveBanner = $("#saveBanner");
+  let lang = window.THEUI ? THEUI.getLang() : "zh";
+
+  const I18N = {
+    zh: {
+      title: "THE Impact 2027 · Portal 對齊填報",
+      brand: "Portal 對齊填報",
+      authHint:
+        "使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目、今年單位填報與去年參考；與一般填報頁、管理分派分開儲存。",
+      btnGoogle: "使用 Google 登入",
+      authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
+      note:
+        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿與去年參考。「帶入今年填報」只填空欄；資料存在 <code>portalFill</code>，不改單位填報。",
+      importLive: "帶入今年填報",
+      importLiveTitle: "只填 Portal 尚空的欄位",
+      importAll: "覆蓋帶入",
+      importAllTitle: "用今年填報覆蓋 Portal 欄位",
+      importAllConfirm: "要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）",
+      save: "儲存本頁",
+      saving: "儲存中…",
+      signOut: "登出",
+      notAllowed: "此帳號不在白名單。",
+      noPermission: (email) => `此帳號沒有權限：${email || ""}`,
+      missingConfig: "尚未設定 Firebase。",
+      loginFail: "登入失敗，請再試一次。",
+      loadDraftWarn: (msg) => `讀取雲端草稿失敗，仍可先填；儲存時再試。${msg || ""}`,
+      loadUnitsWarn: (msg) => `讀取單位失敗。${msg || ""}`,
+      loadAnswersWarn: (msg) => `讀取填報失敗。${msg || ""}`,
+      saved: "已儲存到 Portal 對齊資料（不影響單位填報）。",
+      saveFail: (msg) => `儲存失敗：${msg}`,
+      imported: (n) => `已帶入 ${n} 題目前填報內容到 Portal 欄位（尚未按儲存）。`,
+      importEmpty: "沒有可帶入的空欄（可能尚未填報，或 Portal 已有內容）。",
+      importNone: "目前沒有可對齊的填報內容。",
+      meta: (sdg, total, aligned, live) =>
+        `Impact 2027 · SDG ${sdg} · ${total} 欄（對齊 ${aligned}｜今年填報有內容 ${live}）`,
+      aligned: "已對齊本站題目",
+      unaligned: "Portal 多出／子欄",
+      liveBadge: "今年填報有內容",
+      liveTitle: "今年填報（本站單位／最終稿）",
+      priorTitle: "去年參考（prior-year）",
+      officeTag: "永續辦／最終",
+      unitTag: "單位",
+      hasContent: "有內容",
+      numbers: "數字",
+      checked: (n) => `勾選 ${n} 項`,
+      publicBit: "公開",
+      privateBit: "不公開",
+      hasComment: "有備註",
+      publicUrl: "公開網址",
+      downloadFile: (name) => (name ? `下載檔案：${name}` : "下載已上傳檔案"),
+      fileOnly: (name) => `檔案：${name}`,
+      liveFile: (name) => (name ? `今年填報檔案：${name}` : "下載今年填報檔案"),
+      priorYesNo: (v) => `是／否：${v === "yes" ? "是" : v === "no" ? "否" : v}`,
+      priorNumbers: "數字：",
+      priorValue: "值",
+      priorEvidence: "證據網址有",
+      priorFile: (name) => `檔案：${name || "有"}`,
+      priorNote: "備註有",
+      yesNo: "是／否",
+      evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
+      evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
+      publicLabel: "公開／不公開／未定",
+      comments: "備註（最多 1000 字）",
+      policyCreated: "政策訂定年（yyyy）",
+      policyReviewed: "政策檢討年（yyyy）",
+      valueFallback: "數值",
+    },
+    en: {
+      title: "THE Impact 2027 · Portal-aligned fill",
+      brand: "Portal-aligned fill",
+      authHint:
+        "Sign in with your university Google account. This page follows WUR Portal fields and aligns site questions, this year’s unit fill, and last-year reference. It is stored separately from the fill and admin pages.",
+      btnGoogle: "Sign in with Google",
+      authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
+      note:
+        "Fill by <strong>WUR Portal</strong> rows. This year’s unit/final answers and last-year reference are shown. “Import this year” only fills empty fields. Data is stored in <code>portalFill</code> and does not change unit fill.",
+      importLive: "Import this year",
+      importLiveTitle: "Fill empty Portal fields only",
+      importAll: "Overwrite import",
+      importAllTitle: "Overwrite Portal fields with this year’s fill",
+      importAllConfirm:
+        "Overwrite filled Portal fields with this year’s answers? (Unit fill page is not changed.)",
+      save: "Save this page",
+      saving: "Saving…",
+      signOut: "Sign out",
+      notAllowed: "This account is not on the allowlist.",
+      noPermission: (email) => `This account is not allowed: ${email || ""}`,
+      missingConfig: "Firebase is not configured.",
+      loginFail: "Sign-in failed. Please try again.",
+      loadDraftWarn: (msg) => `Could not load cloud draft; you can still fill and retry save. ${msg || ""}`,
+      loadUnitsWarn: (msg) => `Could not load units. ${msg || ""}`,
+      loadAnswersWarn: (msg) => `Could not load answers. ${msg || ""}`,
+      saved: "Saved to Portal-aligned data (unit fill unchanged).",
+      saveFail: (msg) => `Save failed: ${msg}`,
+      imported: (n) => `Imported ${n} questions into Portal fields (not saved yet).`,
+      importEmpty: "No empty fields to import (nothing filled yet, or Portal already has content).",
+      importNone: "No aligned fill content to import.",
+      meta: (sdg, total, aligned, live) =>
+        `Impact 2027 · SDG ${sdg} · ${total} fields (aligned ${aligned} · this year ${live})`,
+      aligned: "Aligned to site question",
+      unaligned: "Portal-only / sub-field",
+      liveBadge: "This year has content",
+      liveTitle: "This year (unit / final)",
+      priorTitle: "Last year (prior-year)",
+      officeTag: "Office / final",
+      unitTag: "Unit",
+      hasContent: "has content",
+      numbers: "Numbers",
+      checked: (n) => `${n} selected`,
+      publicBit: "Public",
+      privateBit: "Private",
+      hasComment: "has comments",
+      publicUrl: "Public URL",
+      downloadFile: (name) => (name ? `Download file: ${name}` : "Download uploaded file"),
+      fileOnly: (name) => `File: ${name}`,
+      liveFile: (name) => (name ? `This year’s file: ${name}` : "Download this year’s file"),
+      priorYesNo: (v) => `Yes/No: ${v === "yes" ? "Yes" : v === "no" ? "No" : v}`,
+      priorNumbers: "Numbers: ",
+      priorValue: "Value",
+      priorEvidence: "Evidence URL",
+      priorFile: (name) => `File: ${name || "yes"}`,
+      priorNote: "has comments",
+      yesNo: "Yes / No",
+      evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
+      evidenceWarn:
+        "Use a public webpage URL. For uploaded files, use the download link below — do not paste Firebase Storage URLs.",
+      publicLabel: "Public / Private / Undefined",
+      comments: "Comments (max 1000 characters)",
+      policyCreated: "Policy created (yyyy)",
+      policyReviewed: "Policy reviewed (yyyy)",
+      valueFallback: "Value",
+    },
+  };
+
+  function t(key, ...args) {
+    const pack = I18N[lang] || I18N.zh;
+    const v = pack[key];
+    return typeof v === "function" ? v(...args) : v;
+  }
 
   function showAuthError(msg) {
     authError.hidden = !msg;
@@ -17,6 +155,37 @@
     saveBanner.hidden = false;
     saveBanner.className = "submit-banner " + (kind || "");
     saveBanner.textContent = text;
+  }
+
+  function applyChrome() {
+    document.documentElement.lang = lang === "en" ? "en" : "zh-Hant";
+    document.title = t("title");
+    const setText = (sel, key) => {
+      const el = $(sel);
+      if (el) el.textContent = t(key);
+    };
+    const setHtml = (sel, key) => {
+      const el = $(sel);
+      if (el) el.innerHTML = t(key);
+    };
+    setText("#authTitle", "brand");
+    setText("#authHint", "authHint");
+    setText("#btnGoogle", "btnGoogle");
+    setHtml("#authLinks", "authLinks");
+    setText("#portalBrand", "brand");
+    setHtml("#portalNote", "note");
+    const btnImport = $("#btnImportLive");
+    if (btnImport) {
+      btnImport.textContent = t("importLive");
+      btnImport.title = t("importLiveTitle");
+    }
+    const btnImportAll = $("#btnImportLiveAll");
+    if (btnImportAll) {
+      btnImportAll.textContent = t("importAll");
+      btnImportAll.title = t("importAllTitle");
+    }
+    setText("#btnSave", "save");
+    setText("#btnSignOut", "signOut");
   }
 
   const [portalPack, priorYear] = await Promise.all([
@@ -74,7 +243,12 @@
 
   function fileDownloadLabel(answer) {
     const name = String((answer && answer.evidenceFileName) || "").trim();
-    return name ? `下載檔案：${name}` : "下載已上傳檔案";
+    return t("downloadFile", name);
+  }
+
+  function optLabel(opt) {
+    if (!opt) return "";
+    return lang === "en" ? opt.en || opt.zh || "" : opt.zh || opt.en || "";
   }
 
   function fileDownloadHref(answer) {
@@ -141,12 +315,12 @@
         .sort()
         .map((k) => answer.values[k])
         .filter((v) => v != null && String(v) !== "");
-      if (vals.length) bits.push("數字 " + vals.slice(0, 4).join("／"));
+      if (vals.length) bits.push(t("numbers") + " " + vals.slice(0, 4).join("／"));
     }
-    if (answer.options && answer.options.length) bits.push("勾選 " + answer.options.length + " 項");
-    if (answer.public === "public") bits.push("公開");
-    if (answer.public === "private") bits.push("不公開");
-    if (String(answer.comment || "").trim()) bits.push("有備註");
+    if (answer.options && answer.options.length) bits.push(t("checked", answer.options.length));
+    if (answer.public === "public") bits.push(t("publicBit"));
+    if (answer.public === "private") bits.push(t("privateBit"));
+    if (String(answer.comment || "").trim()) bits.push(t("hasComment"));
     return bits;
   }
 
@@ -161,9 +335,9 @@
       a.rel = "noopener";
       a.className = "portal-ev-link";
       try {
-        a.textContent = "公開網址：" + new URL(url).hostname;
+        a.textContent = t("publicUrl") + "：" + new URL(url).hostname;
       } catch (_) {
-        a.textContent = "公開網址";
+        a.textContent = t("publicUrl");
       }
       parent.appendChild(a);
     }
@@ -179,7 +353,7 @@
         parent.appendChild(a);
       } else {
         const span = document.createElement("span");
-        span.textContent = `檔案：${fileName}`;
+        span.textContent = t("fileOnly", fileName);
         parent.appendChild(span);
       }
     }
@@ -189,19 +363,19 @@
     const data = priorYear[ref];
     if (!data) return "";
     const bits = [];
-    if (data.yesNo) bits.push(`是／否：${data.yesNo === "yes" ? "是" : data.yesNo === "no" ? "否" : data.yesNo}`);
+    if (data.yesNo) bits.push(t("priorYesNo", data.yesNo));
     if (Array.isArray(data.values) && data.values.length) {
       bits.push(
-        "數字：" +
+        t("priorNumbers") +
           data.values
-            .map((v) => `${(v.label || "").split("\n")[0] || "值"}=${v.value}`)
+            .map((v) => `${(v.label || "").split("\n")[0] || t("priorValue")}=${v.value}`)
             .slice(0, 4)
-            .join("；")
+            .join(lang === "en" ? "; " : "；")
       );
     }
-    if (Array.isArray(data.evidence) && data.evidence[0]) bits.push("證據網址有");
-    if (Array.isArray(data.files) && data.files[0]) bits.push(`檔案：${data.files[0].name || "有"}`);
-    if (data.note) bits.push("備註有");
+    if (Array.isArray(data.evidence) && data.evidence[0]) bits.push(t("priorEvidence"));
+    if (Array.isArray(data.files) && data.files[0]) bits.push(t("priorFile", data.files[0].name));
+    if (data.note) bits.push(t("priorNote"));
     return bits.join(" · ");
   }
 
@@ -211,16 +385,16 @@
     const box = document.createElement("div");
     box.className = "portal-prior portal-live";
     const title = document.createElement("strong");
-    title.textContent = "今年填報（本站單位／最終稿）";
+    title.textContent = t("liveTitle");
     box.appendChild(title);
     pack.all.forEach((h) => {
       const line = document.createElement("div");
       line.className = "portal-live-line";
-      const tag = h.kind === "office" ? "永續辦／最終" : "單位";
+      const tag = h.kind === "office" ? t("officeTag") : t("unitTag");
       const bits = summarizeAnswerBits(h.answer);
       const head = document.createElement("span");
       head.textContent =
-        `${h.unitName}（${tag}）` + (bits.length ? `：${bits.join(" · ")}` : "：有內容");
+        `${h.unitName}（${tag}）` + (bits.length ? `：${bits.join(" · ")}` : `：${t("hasContent")}`);
       line.appendChild(head);
       const links = document.createElement("div");
       links.className = "portal-live-links";
@@ -289,14 +463,7 @@
       n += 1;
     });
     renderFields();
-    banner(
-      n ? "ok" : "warn",
-      n
-        ? `已帶入 ${n} 題目前填報內容到 Portal 欄位（尚未按儲存）。`
-        : onlyEmpty
-          ? "沒有可帶入的空欄（可能尚未填報，或 Portal 已有內容）。"
-          : "目前沒有可對齊的填報內容。"
-    );
+    banner(n ? "ok" : "warn", n ? t("imported", n) : onlyEmpty ? t("importEmpty") : t("importNone"));
   }
 
   function renderTabs() {
@@ -321,7 +488,13 @@
     fieldList.innerHTML = "";
     const mine = fields.filter((f) => f.sdg === currentSdg);
     const liveCount = mine.filter((f) => liveForRef(f.ref)).length;
-    $("#portalMeta").textContent = `Impact 2027 · SDG ${currentSdg} · ${mine.length} 欄（對齊 ${mine.filter((f) => f.aligned).length}｜今年填報有內容 ${liveCount}）`;
+    $("#portalMeta").textContent = t(
+      "meta",
+      currentSdg,
+      mine.length,
+      mine.filter((f) => f.aligned).length,
+      liveCount
+    );
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
       const card = document.createElement("article");
@@ -336,25 +509,26 @@
       head.appendChild(ref);
       const badge = document.createElement("span");
       badge.className = "portal-badge" + (f.aligned ? "" : " warn");
-      badge.textContent = f.aligned ? "已對齊本站題目" : "Portal 多出／子欄";
+      badge.textContent = f.aligned ? t("aligned") : t("unaligned");
       head.appendChild(badge);
       if (liveForRef(f.ref)) {
         const liveBadge = document.createElement("span");
         liveBadge.className = "portal-badge live";
-        liveBadge.textContent = "今年填報有內容";
+        liveBadge.textContent = t("liveBadge");
         head.appendChild(liveBadge);
       }
       card.appendChild(head);
 
-      const en = document.createElement("div");
-      en.className = "portal-en";
-      en.textContent = f.en || "";
-      card.appendChild(en);
-      if (f.zh && f.zh !== f.en) {
-        const zh = document.createElement("div");
-        zh.className = "portal-zh";
-        zh.textContent = f.zh;
-        card.appendChild(zh);
+      const primary = document.createElement("div");
+      primary.className = "portal-en";
+      primary.textContent = (lang === "en" ? f.en || f.zh : f.zh || f.en) || "";
+      card.appendChild(primary);
+      const secondaryText = lang === "en" ? f.zh : f.en;
+      if (secondaryText && secondaryText !== primary.textContent) {
+        const secondary = document.createElement("div");
+        secondary.className = "portal-zh";
+        secondary.textContent = secondaryText;
+        card.appendChild(secondary);
       }
 
       appendLiveBox(card, f.ref);
@@ -363,7 +537,10 @@
       if (prior) {
         const box = document.createElement("div");
         box.className = "portal-prior";
-        box.innerHTML = "<strong>去年參考（prior-year）</strong>" + prior;
+        const strong = document.createElement("strong");
+        strong.textContent = t("priorTitle");
+        box.appendChild(strong);
+        box.appendChild(document.createTextNode(prior));
         card.appendChild(box);
       }
 
@@ -373,7 +550,7 @@
 
       if (portal.hasYesNo || f.answerType === "yesno" || f.answerType === "picklist") {
         const lab = document.createElement("label");
-        lab.textContent = "Yes / No";
+        lab.textContent = t("yesNo");
         const sel = document.createElement("select");
         sel.innerHTML =
           '<option value="">—</option><option value="yes">Yes</option><option value="no">No</option>';
@@ -404,17 +581,19 @@
             patch(f.ref, { options: [...next] });
           });
           lab.appendChild(cb);
-          lab.appendChild(document.createTextNode(opt.zh || opt.en || key));
+          lab.appendChild(document.createTextNode(optLabel(opt) || key));
           wrap.appendChild(lab);
         });
         grid.appendChild(wrap);
       }
 
       if (f.answerType === "continuous") {
-        const opts = (f.options || []).length ? f.options : [{ zh: "數值", en: "Value" }];
+        const opts = (f.options || []).length
+          ? f.options
+          : [{ zh: I18N.zh.valueFallback, en: I18N.en.valueFallback }];
         opts.forEach((opt, i) => {
           const lab = document.createElement("label");
-          lab.textContent = opt.zh || opt.en || `v${i}`;
+          lab.textContent = optLabel(opt) || `v${i}`;
           const input = document.createElement("input");
           input.type = "text";
           input.inputMode = "decimal";
@@ -431,7 +610,7 @@
 
       if (portal.hasPolicyCreated) {
         const lab = document.createElement("label");
-        lab.textContent = "Policy created (yyyy)";
+        lab.textContent = t("policyCreated");
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = "e.g. 2022";
@@ -442,7 +621,7 @@
       }
       if (portal.hasPolicyReviewed) {
         const lab = document.createElement("label");
-        lab.textContent = "Policy reviewed (yyyy)";
+        lab.textContent = t("policyReviewed");
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = "e.g. 2024";
@@ -454,7 +633,7 @@
 
       if (portal.hasEvidence !== false) {
         const lab = document.createElement("label");
-        lab.textContent = "Evidence URL（公開網頁；勿貼 Storage 下載網址）";
+        lab.textContent = t("evidenceUrl");
         const input = document.createElement("input");
         input.type = "url";
         input.placeholder = "https://…";
@@ -462,7 +641,7 @@
         input.addEventListener("change", () => {
           const next = publicEvidenceUrl(input.value);
           if (input.value.trim() && !next) {
-            banner("warn", "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。");
+            banner("warn", t("evidenceWarn"));
             input.value = "";
           }
           patch(f.ref, { evidence: next });
@@ -490,7 +669,7 @@
           a.target = "_blank";
           a.rel = "noopener";
           if (liveFileHref) a.href = liveFileHref;
-          a.textContent = liveFileName ? `今年填報檔案：${liveFileName}` : "下載今年填報檔案";
+          a.textContent = t("liveFile", liveFileName);
           if (liveFileName) a.setAttribute("download", liveFileName);
           lab.appendChild(a);
         }
@@ -499,7 +678,7 @@
 
       if (portal.hasPublic) {
         const lab = document.createElement("label");
-        lab.textContent = "Public / Private / Undefined";
+        lab.textContent = t("publicLabel");
         const sel = document.createElement("select");
         sel.innerHTML =
           '<option value="">—</option><option value="public">Public</option><option value="private">Private</option><option value="undefined">Undefined</option>';
@@ -516,7 +695,7 @@
         portal.hasPolicyCreated
       ) {
         const lab = document.createElement("label");
-        lab.textContent = "Comments（最多 1000 字）";
+        lab.textContent = t("comments");
         const ta = document.createElement("textarea");
         ta.maxLength = 1000;
         ta.value = ans.comment || "";
@@ -556,7 +735,7 @@
         });
         if (!app.hidden) renderFields();
       },
-      (err) => banner("warn", `讀取單位失敗。${THELive.explain(err)}`)
+      (err) => banner("warn", t("loadUnitsWarn", THELive.explain(err)))
     );
     THELive.listenAllAnswers(
       (packs) => {
@@ -567,7 +746,7 @@
         answersByUnit = next;
         if (!app.hidden) renderFields();
       },
-      (err) => banner("warn", `讀取填報失敗。${THELive.explain(err)}`)
+      (err) => banner("warn", t("loadAnswersWarn", THELive.explain(err)))
     );
   }
 
@@ -583,9 +762,8 @@
 
   async function saveAll() {
     const btn = $("#btnSave");
-    const label = btn.textContent;
     btn.disabled = true;
-    btn.textContent = "儲存中…";
+    btn.textContent = t("saving");
     try {
       const { store, doc, setDoc } = await getDb();
       const merged = { ...remote };
@@ -606,14 +784,37 @@
       );
       remote = merged;
       Object.keys(drafts).forEach((k) => delete drafts[k]);
-      banner("ok", "已儲存到 Portal 對齊資料（不影響單位填報）。");
+      banner("ok", t("saved"));
     } catch (err) {
-      banner("bad", `儲存失敗：${err && err.message ? err.message : err}`);
+      banner("bad", t("saveFail", err && err.message ? err.message : err));
     } finally {
       btn.disabled = false;
-      btn.textContent = label;
+      btn.textContent = t("save");
     }
   }
+
+  function syncLangToggles() {
+    document.querySelectorAll(".lang-toggle [data-lang]").forEach((b) => {
+      b.classList.toggle("active", b.dataset.lang === lang);
+    });
+  }
+
+  function onLangChange(next) {
+    lang = next;
+    syncLangToggles();
+    applyChrome();
+    if (!app.hidden) {
+      renderTabs();
+      renderFields();
+    }
+  }
+
+  if (window.THEUI) {
+    THEUI.bindLangToggle($("#langToggle"), onLangChange);
+    THEUI.bindLangToggle($("#langToggleGate"), onLangChange);
+  }
+  syncLangToggles();
+  applyChrome();
 
   $("#btnGoogle").addEventListener("click", async () => {
     showAuthError("");
@@ -621,11 +822,11 @@
       await THEAuth.signInWithGoogle();
     } catch (err) {
       if (err && err.message === "not_allowed") {
-        showAuthError(`此帳號沒有權限：${err.email || ""}`);
+        showAuthError(t("noPermission", err.email || ""));
       } else if (err && err.message === "missing_config") {
-        showAuthError("尚未設定 Firebase。");
+        showAuthError(t("missingConfig"));
       } else {
-        showAuthError("登入失敗，請再試一次。");
+        showAuthError(t("loginFail"));
       }
     }
   });
@@ -639,7 +840,7 @@
   const btnImportAll = $("#btnImportLiveAll");
   if (btnImportAll) {
     btnImportAll.addEventListener("click", () => {
-      if (!window.confirm("要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）")) return;
+      if (!window.confirm(t("importAllConfirm"))) return;
       importLive({ onlyEmpty: false });
     });
   }
@@ -648,7 +849,8 @@
     if (!user) {
       app.hidden = true;
       authGate.hidden = false;
-      if (reason === "not_allowed") showAuthError("此帳號不在白名單。");
+      applyChrome();
+      if (reason === "not_allowed") showAuthError(t("notAllowed"));
       return;
     }
     showAuthError("");
@@ -656,10 +858,11 @@
     app.hidden = false;
     window.__portalUserEmail = user.email || "";
     $("#portalUser").textContent = user.email || "";
+    applyChrome();
     try {
       await loadRemote();
     } catch (err) {
-      banner("warn", `讀取雲端草稿失敗，仍可先填；儲存時再試。${err && err.message ? err.message : ""}`);
+      banner("warn", t("loadDraftWarn", err && err.message ? err.message : ""));
     }
     watchLive();
     renderTabs();

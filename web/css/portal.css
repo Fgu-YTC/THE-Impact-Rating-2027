@@ -1,3 +1,7 @@
+.auth-gate .auth-lang {
+  justify-content: flex-end;
+  margin-bottom: 0.85rem;
+}
 .portal-topbar .portal-meta {
   color: var(--muted);
   font-size: 0.85rem;
