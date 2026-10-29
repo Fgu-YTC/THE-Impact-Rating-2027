@@ -76,10 +76,9 @@
       (questionsData.metrics || []).map((m) => [String(m.ref), m])
     );
     const selected = new Set();
-    /** 同一題最多可分派幾個單位 */
-    const MAX_ASSIGNEES_PER_QUESTION = 5;
     let currentSdg = 1;
     let filter = "all"; // all | assigned | unassigned
+    let assignBusy = false;
     const unitFilter = new Set();
     let lang = THEUI.getLang();
     let focusRef = null;
@@ -182,16 +181,20 @@
       }
     }
 
+    let lastAssignUnitId = "";
     function fillUnitSelect() {
+      const keep = unitSelect.value || lastAssignUnitId;
       THEUI.fillGroupedUnitSelect(unitSelect, units, {
         groupOrder: unitGroups,
-        selectedId: unitSelect.value,
+        selectedId: keep,
         placeholder: "選擇單位…",
       });
+      if (unitSelect.value) lastAssignUnitId = unitSelect.value;
       fillGroupSelects();
       renderUnitFilter();
       const btnSet = $("#btnSetUnitGroup");
       if (btnSet) btnSet.disabled = !unitSelect.value;
+      updateBottom();
     }
 
     function updateUnitFilterSummary() {
@@ -560,14 +563,11 @@
             badge.className = mark.filled ? "badge ok" : mark.returned ? "badge return" : "badge warn";
             badge.textContent = mark.text;
           } else if (who.length) {
-            badge.className = who.length >= MAX_ASSIGNEES_PER_QUESTION ? "badge warn" : "badge ok";
-            badge.textContent =
-              who.length >= MAX_ASSIGNEES_PER_QUESTION
-                ? `已滿 ${who.length}/${MAX_ASSIGNEES_PER_QUESTION}：${who.map(unitName).join("、")}`
-                : `已分配 ${who.length}/${MAX_ASSIGNEES_PER_QUESTION}：${who.map(unitName).join("、")}`;
+            badge.className = "badge ok";
+            badge.textContent = `已分配：${who.map(unitName).join("、")}`;
           } else {
             badge.className = "badge warn";
-            badge.textContent = `未分配（最多 ${MAX_ASSIGNEES_PER_QUESTION} 單位）`;
+            badge.textContent = "未分配";
           }
           meta.appendChild(ref);
           meta.appendChild(badge);
@@ -1177,8 +1177,9 @@
 
     function updateBottom() {
       $("#selectedCount").textContent = String(selected.size);
-      $("#btnAssign").disabled = !(selected.size && unitSelect.value);
-      $("#btnUnassign").disabled = !(selected.size && unitSelect.value);
+      const ready = selected.size && unitSelect.value;
+      $("#btnAssign").disabled = assignBusy || !ready;
+      $("#btnUnassign").disabled = assignBusy || !ready;
       $("#btnRemoveUnit").disabled = !unitSelect.value;
     }
 
@@ -1282,6 +1283,7 @@
     });
 
     unitSelect.addEventListener("change", () => {
+      if (unitSelect.value) lastAssignUnitId = unitSelect.value;
       updateBottom();
       fillGroupSelects();
       const btnSet = $("#btnSetUnitGroup");
@@ -1290,53 +1292,51 @@
 
     $("#btnAssign").addEventListener("click", async () => {
       const unitId = unitSelect.value;
-      if (!unitId || !selected.size) return;
+      if (!unitId || !selected.size || assignBusy) return;
       const ids = [...selected];
-      const blocked = [];
-      const okIds = ids.filter((qid) => {
-        const who = assignees(qid);
-        if (who.includes(unitId)) return true;
-        if (who.length >= MAX_ASSIGNEES_PER_QUESTION) {
-          const q = questions.find((item) => item.id === qid);
-          blocked.push((q && q.ref) || qid);
-          return false;
-        }
-        return true;
-      });
-      if (!okIds.length) {
-        showExportBanner(
-          "warn",
-          `這些題已達每題 ${MAX_ASSIGNEES_PER_QUESTION} 個單位上限：${blocked.join("、")}`
-        );
-        return;
-      }
+      const btn = $("#btnAssign");
+      const label = btn.textContent;
+      assignBusy = true;
+      btn.textContent = "分派中…";
+      updateBottom();
       try {
-        await THELive.assignQuestions(unitId, okIds);
-        // 重新分配：清掉舊退回紀錄
-        await THELive.clearReturnsForQuestions(okIds);
+        await THELive.assignQuestions(unitId, ids);
         selected.clear();
         updateBottom();
-        if (blocked.length) {
-          showExportBanner(
-            "warn",
-            `已分派 ${okIds.length} 題；以下已滿 ${MAX_ASSIGNEES_PER_QUESTION} 單位未寫入：${blocked.join("、")}`
-          );
+        // 退回紀錄清除失敗不應讓人以為分派沒寫入
+        try {
+          await THELive.clearReturnsForQuestions(ids);
+        } catch (_) {
+          /* ignore */
         }
       } catch (err) {
         showExportBanner("bad", `分派沒有寫入。${THELive.explain(err)}`);
+      } finally {
+        assignBusy = false;
+        btn.textContent = label;
+        updateBottom();
       }
     });
 
     $("#btnUnassign").addEventListener("click", async () => {
       const unitId = unitSelect.value;
-      if (!unitId || !selected.size) return;
+      if (!unitId || !selected.size || assignBusy) return;
       const ids = [...selected];
+      const btn = $("#btnUnassign");
+      const label = btn.textContent;
+      assignBusy = true;
+      btn.textContent = "取消中…";
+      updateBottom();
       try {
         await THELive.unassignQuestions(unitId, ids);
         selected.clear();
         updateBottom();
       } catch (err) {
         showExportBanner("bad", `取消分派沒有寫入。${THELive.explain(err)}`);
+      } finally {
+        assignBusy = false;
+        btn.textContent = label;
+        updateBottom();
       }
     });
 

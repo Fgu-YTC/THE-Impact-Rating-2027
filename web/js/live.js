@@ -405,20 +405,27 @@
     await fs.deleteDoc(fs.doc(store, "units", unitId, "returns", questionId));
   }
 
-  /** 重新分配前清掉各單位對該題的退回紀錄 */
+  /** 重新分配前清掉各單位對該題的退回紀錄（分批，避免一次超過 500 筆 batch 上限） */
   async function clearReturnsForQuestions(questionIds) {
     const ids = (questionIds || []).filter(Boolean);
     if (!ids.length) return;
     const { store, fs } = await db();
     const snap = await fs.getDocs(fs.collection(store, "units"));
     if (snap.empty) return;
-    const batch = fs.writeBatch(store);
+    const refs = [];
     snap.forEach(function (unitDoc) {
       ids.forEach(function (questionId) {
-        batch.delete(fs.doc(store, "units", unitDoc.id, "returns", questionId));
+        refs.push(fs.doc(store, "units", unitDoc.id, "returns", questionId));
       });
     });
-    await batch.commit();
+    const chunk = 450;
+    for (let i = 0; i < refs.length; i += chunk) {
+      const batch = fs.writeBatch(store);
+      refs.slice(i, i + chunk).forEach(function (ref) {
+        batch.delete(ref);
+      });
+      await batch.commit();
+    }
   }
 
   global.THELive = {
