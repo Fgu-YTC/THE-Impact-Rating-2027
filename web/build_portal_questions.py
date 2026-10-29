@@ -131,8 +131,11 @@ for ref, body in blocks:
                 "hasYesNo": answer_type in ("yesno", "picklist")
                 or bool(re.search(r"(?m)^Yes\b", body)),
                 "hasPublic": has_public or answer_type in ("yesno", "picklist"),
-                "hasComment": has_comment,
-                "hasEvidence": True,
+                # 連續數值題通常只要填數字，不需證據／備註
+                "hasComment": False if answer_type == "continuous" else has_comment,
+                "hasEvidence": False
+                if answer_type == "continuous"
+                else (has_evidence or answer_type in ("yesno", "picklist")),
                 "hasPolicyCreated": has_policy_created,
                 "hasPolicyReviewed": has_policy_reviewed,
             },

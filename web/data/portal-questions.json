@@ -25,7 +25,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -44,7 +44,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -428,7 +428,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -447,7 +447,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -578,7 +578,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -597,7 +597,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -841,7 +841,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -860,7 +860,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1023,7 +1023,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1042,7 +1042,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1061,7 +1061,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1089,7 +1089,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1108,7 +1108,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1127,7 +1127,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1146,7 +1146,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1165,7 +1165,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1291,7 +1291,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1310,7 +1310,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1329,7 +1329,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1348,7 +1348,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -1358,8 +1358,8 @@
       "id": "portal-5.5.1",
       "ref": "5.5.1",
       "sdg": 5,
-      "en": "Number of graduates: Total 692 5.5.1.4 - Number of graduates by subject area (STEM, Medicine, Arts&Humanities/Social Sciences): Total 692 5.5.1.1 - Number of graduates: STEM 51 5.5.1.2 - Number of graduates: Medicine",
-      "zh": "女性獲頒學位比例",
+      "en": "Number of graduates / female graduates by subject area",
+      "zh": "畢業生／女性畢業生人數（含學科領域）",
       "answerType": "continuous",
       "options": [
         {
@@ -1404,7 +1404,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2032,7 +2032,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2200,7 +2200,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2418,7 +2418,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2437,7 +2437,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2456,7 +2456,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2484,7 +2484,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2503,7 +2503,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2531,7 +2531,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2550,7 +2550,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2574,7 +2574,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2618,7 +2618,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2637,7 +2637,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2665,7 +2665,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2684,7 +2684,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2703,7 +2703,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2731,7 +2731,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2750,7 +2750,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2778,7 +2778,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2797,7 +2797,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2825,7 +2825,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -2844,7 +2844,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -3282,7 +3282,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -3882,8 +3882,8 @@
       "portal": {
         "hasYesNo": false,
         "hasPublic": false,
-        "hasComment": true,
-        "hasEvidence": true,
+        "hasComment": false,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -4790,7 +4790,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },
@@ -4809,7 +4809,7 @@
         "hasYesNo": false,
         "hasPublic": false,
         "hasComment": false,
-        "hasEvidence": true,
+        "hasEvidence": false,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false
       },

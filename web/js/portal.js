@@ -767,7 +767,7 @@
         grid.appendChild(lab);
       }
 
-      if (portal.hasEvidence !== false) {
+      if (portal.hasEvidence) {
         const wrap = document.createElement("div");
         wrap.className = "portal-evidence";
         const caption = document.createElement("div");
