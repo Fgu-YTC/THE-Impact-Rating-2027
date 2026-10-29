@@ -1,7 +1,7 @@
 {
   "source": "WUR Portal PDF export + site questions.json alignment",
   "count": 235,
-  "alignedCount": 235,
+  "alignedCount": 239,
   "fields": [
     {
       "id": "portal-1.2.1",
@@ -304,6 +304,34 @@
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false,
         "optionSelect": "single"
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-2.2.2",
+      "ref": "2.2.2",
+      "sdg": 2,
+      "en": "Campus food waste",
+      "zh": "校園食物浪費",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total food waste",
+          "zh": "食物浪費總量"
+        },
+        {
+          "en": "Campus population",
+          "zh": "校園人口數"
+        }
+      ],
+      "siteQuestionId": "sdg2-2.2.2",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
       },
       "aligned": true
     },
@@ -1767,6 +1795,34 @@
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false,
         "optionSelect": "single"
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-6.2.2",
+      "ref": "6.2.2",
+      "sdg": 6,
+      "en": "Water consumption per person",
+      "zh": "人均用水量",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Volume of water used in the university: Inbound (treated/extracted water)",
+          "zh": "大學用水量：進水量（處理／抽取水）"
+        },
+        {
+          "en": "Campus population",
+          "zh": "校園人口數"
+        }
+      ],
+      "siteQuestionId": "sdg6-6.2.2",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
       },
       "aligned": true
     },
@@ -3940,6 +3996,38 @@
       "aligned": true
     },
     {
+      "id": "portal-12.3.2",
+      "ref": "12.3.2",
+      "sdg": 12,
+      "en": "Proportion of waste recycled",
+      "zh": "廢棄物回收比例",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Amount of waste generated",
+          "zh": "廢棄物產生量"
+        },
+        {
+          "en": "Amount of waste recycled",
+          "zh": "廢棄物回收量"
+        },
+        {
+          "en": "Amount of waste sent to landfill",
+          "zh": "送往掩埋之廢棄物量"
+        }
+      ],
+      "siteQuestionId": "sdg12-12.3.2",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true
+    },
+    {
       "id": "portal-12.4.1",
       "ref": "12.4.1",
       "sdg": 12,
@@ -3998,6 +4086,34 @@
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false,
         "optionSelect": "single"
+      },
+      "aligned": true
+    },
+    {
+      "id": "portal-13.2.2",
+      "ref": "13.2.2",
+      "sdg": 13,
+      "en": "Low-carbon energy use",
+      "zh": "低碳能源使用",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Total energy used",
+          "zh": "能源使用總量"
+        },
+        {
+          "en": "Total energy used from low-carbon sources",
+          "zh": "低碳能源使用總量"
+        }
+      ],
+      "siteQuestionId": "sdg13-13.2.2",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
       },
       "aligned": true
     },
@@ -5820,5 +5936,7 @@
       "aligned": true
     }
   ],
-  "subFieldCount": 28
+  "subFieldCount": 28,
+  "fieldCount": 239,
+  "note": "WUR Portal PDF export + site questions.json alignment；補齊 2.2.2／6.2.2／12.3.2／13.2.2 連續數值題"
 }
