@@ -672,7 +672,8 @@
           "zh": "補助／優惠",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg1-1.3.4",
@@ -725,7 +726,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg1-1.4.2",
@@ -764,7 +766,8 @@
           "zh": "間接",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg1-1.4.4",
@@ -799,7 +802,8 @@
           "zh": "全球",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg2-2.2.1",
@@ -824,7 +828,8 @@
           "zh": "部分量測",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg2-2.2.2",
@@ -902,7 +907,8 @@
           "zh": "部分餐飲據點",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg2-2.3.4",
@@ -927,7 +933,8 @@
           "zh": "部分餐飲據點",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg2-2.3.5",
@@ -991,7 +998,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg2-2.5.2",
@@ -1016,7 +1024,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg2-2.5.3",
@@ -1041,7 +1050,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg2-2.5.4",
@@ -1110,7 +1120,8 @@
           "zh": "全球合作",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg3-3.3.2",
@@ -1140,7 +1151,8 @@
           "zh": "難民／移民社區",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg3-3.3.3",
@@ -1170,7 +1182,8 @@
           "zh": "付費使用",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg3-3.3.4",
@@ -1195,7 +1208,8 @@
           "zh": "付費使用",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg3-3.3.5",
@@ -1225,7 +1239,8 @@
           "zh": "提供（或轉介）付費心理健康支持",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg3-3.3.6",
@@ -1250,7 +1265,8 @@
           "zh": "僅限指定區域吸菸",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg3-3.3.7",
@@ -1280,7 +1296,8 @@
           "zh": "提供（或轉介）付費心理健康支持",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg4-4.2.1",
@@ -1335,7 +1352,8 @@
           "zh": "免費使用線上資源",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg4-4.3.2",
@@ -1360,7 +1378,8 @@
           "zh": "付費與免費皆有",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg4-4.3.3",
@@ -1385,7 +1404,8 @@
           "zh": "有計畫／定期辦理",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg4-4.3.4",
@@ -1410,7 +1430,8 @@
           "zh": "有計畫／定期辦理",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg4-4.3.5",
@@ -1532,7 +1553,8 @@
           "zh": "其他措施",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg5-5.3.4",
@@ -1557,7 +1579,8 @@
           "zh": "透過與其他大學、社區團體、政府或 NGO 之區域或全國性合作宣導",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg5-5.4.1",
@@ -1709,7 +1732,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg5-5.6.5",
@@ -1734,7 +1758,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg5-5.6.6",
@@ -1815,7 +1840,8 @@
           "zh": "部分量測",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg6-6.2.2",
@@ -1963,7 +1989,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg6-6.5.3",
@@ -2021,7 +2048,8 @@
           "zh": "國家",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg6-6.5.6",
@@ -2211,7 +2239,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg7-7.4.4",
@@ -2246,7 +2275,8 @@
           "zh": "全球",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg7-7.4.5",
@@ -2788,7 +2818,8 @@
           "zh": "其他針對性支持",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg10-10.6.10",
@@ -2846,7 +2877,8 @@
           "zh": "付費開放",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg11-11.2.2",
@@ -2876,7 +2908,8 @@
           "zh": "特定情況下開放",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg11-11.2.3",
@@ -2906,7 +2939,8 @@
           "zh": "付費開放",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg11-11.2.4",
@@ -2936,7 +2970,8 @@
           "zh": "付費開放",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg11-11.2.5",
@@ -2966,7 +3001,8 @@
           "zh": "僅臨時辦理",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg11-11.2.6",
@@ -2996,7 +3032,8 @@
           "zh": "流離失所社區之文化遺產",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg11-11.3.1",
@@ -3093,7 +3130,8 @@
           "zh": "提供財務支持",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg11-11.4.5",
@@ -3123,7 +3161,8 @@
           "zh": "提供財務支持",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg11-11.4.6",
@@ -3302,7 +3341,8 @@
           "zh": "部分量測",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg12-12.3.2",
@@ -3362,7 +3402,8 @@
           "zh": "較不頻繁",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg13-13.2.1",
@@ -3387,7 +3428,8 @@
           "zh": "部分量測",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg13-13.2.2",
@@ -3465,7 +3507,8 @@
           "zh": "區域",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg13-13.3.4",
@@ -3528,7 +3571,8 @@
           "zh": "範疇 1、2 與 3（完整）",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg13-13.4.2",
@@ -3573,7 +3617,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg14-14.2.2",
@@ -3598,7 +3643,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg14-14.2.3",
@@ -3623,7 +3669,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg14-14.3.1",
@@ -3774,7 +3821,8 @@
           "zh": "持續進行",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg14-14.5.4",
@@ -3869,7 +3917,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg15-15.2.5",
@@ -3894,7 +3943,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg15-15.2.6",
@@ -3919,7 +3969,8 @@
           "zh": "付費",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg15-15.3.1",
@@ -4061,7 +4112,8 @@
           "zh": "職員（非 faculty）",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg16-16.2.2",
@@ -4091,7 +4143,8 @@
           "zh": "學生會辦理社交活動",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg16-16.2.3",
@@ -4168,7 +4221,8 @@
           "zh": "初階教師教學自由",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg16-16.2.7",
@@ -4212,7 +4266,8 @@
           "zh": "國家",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg16-16.3.2",
@@ -4365,7 +4420,8 @@
           "zh": "發展教育資源",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg17-17.3.1",
@@ -4390,7 +4446,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.2",
@@ -4415,7 +4472,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.3",
@@ -4440,7 +4498,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.4",
@@ -4465,7 +4524,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.5",
@@ -4490,7 +4550,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.6",
@@ -4515,7 +4576,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.7",
@@ -4540,7 +4602,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.8",
@@ -4565,7 +4628,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.9",
@@ -4590,7 +4654,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.10",
@@ -4615,7 +4680,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.11",
@@ -4640,7 +4706,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.12",
@@ -4665,7 +4732,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.13",
@@ -4690,7 +4758,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.14",
@@ -4715,7 +4784,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.15",
@@ -4740,7 +4810,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.16",
@@ -4765,7 +4836,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.3.17",
@@ -4790,7 +4862,8 @@
           "zh": "獨立報告",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.4.1",
@@ -4820,7 +4893,8 @@
           "zh": "全體選修／可選",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "single"
     },
     {
       "id": "sdg17-17.4.2",
@@ -4864,7 +4938,8 @@
           "zh": "流離失所者與難民",
           "kind": "option"
         }
-      ]
+      ],
+      "optionSelect": "multi"
     },
     {
       "id": "sdg17-17.4.4",

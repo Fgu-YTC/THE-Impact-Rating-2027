@@ -295,19 +295,26 @@
     const ans = getAnswer() || {};
 
     if (q.answerType === "picklist" && q.options?.length) {
-      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang));
+      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang, opts.idPrefix || q.id));
       const wrap = document.createElement("div");
-      wrap.className = "option-list";
+      const single = (q.optionSelect || "multi") === "single";
+      wrap.className = "option-list" + (single ? " option-list-single" : " option-list-multi");
       q.options.forEach((opt, i) => {
         const lab = document.createElement("label");
         const cb = document.createElement("input");
-        cb.type = "checkbox";
+        cb.type = single ? "radio" : "checkbox";
+        if (single) cb.name = `${opts.idPrefix || q.id}-opts`;
         cb.disabled = disabled;
         cb.id = `${opts.idPrefix || q.id}-opt-${i}`;
         const selected = new Set(ans.options || []);
         cb.checked = selected.has(opt.en) || selected.has(opt.zh);
         cb.addEventListener("change", () => {
           const cur = getAnswer() || {};
+          if (single) {
+            const next = cb.checked ? [opt.en] : [];
+            onPatch({ options: next, yesNo: next.length ? cur.yesNo || "yes" : cur.yesNo || "" });
+            return;
+          }
           const next = new Set(cur.options || []);
           if (cb.checked) next.add(opt.en);
           else {
@@ -347,7 +354,7 @@
         fields.appendChild(row);
       });
     } else {
-      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang));
+      fields.appendChild(yesNoRow(ans, disabled, onPatch, lang, opts.idPrefix || q.id));
     }
 
     if (q.answerType === "continuous") return fields;
@@ -428,18 +435,30 @@
     const pubLab = document.createElement("label");
     pubLab.textContent = lang === "en" ? "Public" : "是否公開";
     const pubNote = appendHelp(pubLab, publicTip(lang));
-    const pub = document.createElement("select");
-    pub.disabled = disabled;
-    publicChoices(lang).forEach((item) => {
-      const o = document.createElement("option");
-      o.value = item.value;
-      o.textContent = item.label;
-      pub.appendChild(o);
-    });
-    pub.value = normalizePublic(ans.public);
-    pub.addEventListener("change", () => onPatch({ public: pub.value }));
+    const pubWrap = document.createElement("div");
+    pubWrap.className = "choice-list";
+    const pubName = `${opts.idPrefix || q.id}-public`;
+    const pubVal = normalizePublic(ans.public);
+    publicChoices(lang)
+      .filter((item) => item.value)
+      .forEach((item, i) => {
+        const lab = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = pubName;
+        input.value = item.value;
+        input.disabled = disabled;
+        input.id = `${pubName}-${i}`;
+        input.checked = pubVal === item.value;
+        input.addEventListener("change", () => {
+          if (input.checked) onPatch({ public: item.value });
+        });
+        lab.appendChild(input);
+        lab.appendChild(document.createTextNode(item.label));
+        pubWrap.appendChild(lab);
+      });
     pubRow.appendChild(pubLab);
-    pubRow.appendChild(pub);
+    pubRow.appendChild(pubWrap);
 
     fields.appendChild(evRow);
     fields.appendChild(evNote);
@@ -449,34 +468,42 @@
     return fields;
   }
 
-  function yesNoRow(ans, disabled, onPatch, lang) {
+  function yesNoRow(ans, disabled, onPatch, lang, idPrefix) {
     const row = document.createElement("div");
     row.className = "row";
     const lab = document.createElement("label");
     lab.textContent = lang === "en" ? "Yes / No" : "是／否";
-    const sel = document.createElement("select");
-    sel.disabled = disabled;
-    (lang === "en"
-      ? [
-          ["", "—"],
-          ["yes", "Yes"],
-          ["no", "No"],
-        ]
-      : [
-          ["", "—"],
-          ["yes", "是"],
-          ["no", "否"],
-        ]
-    ).forEach(([value, label]) => {
-      const o = document.createElement("option");
-      o.value = value;
-      o.textContent = label;
-      sel.appendChild(o);
+    const wrap = document.createElement("div");
+    wrap.className = "choice-list";
+    const name = `${idPrefix || "q"}-yesno`;
+    const choices =
+      lang === "en"
+        ? [
+            ["yes", "Yes"],
+            ["no", "No"],
+          ]
+        : [
+            ["yes", "是"],
+            ["no", "否"],
+          ];
+    choices.forEach(([value, label], i) => {
+      const item = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = name;
+      input.value = value;
+      input.disabled = disabled;
+      input.id = `${name}-${i}`;
+      input.checked = ans.yesNo === value;
+      input.addEventListener("change", () => {
+        if (input.checked) onPatch({ yesNo: value });
+      });
+      item.appendChild(input);
+      item.appendChild(document.createTextNode(label));
+      wrap.appendChild(item);
     });
-    sel.value = ans.yesNo || "";
-    sel.addEventListener("change", () => onPatch({ yesNo: sel.value }));
     row.appendChild(lab);
-    row.appendChild(sel);
+    row.appendChild(wrap);
     return row;
   }
 

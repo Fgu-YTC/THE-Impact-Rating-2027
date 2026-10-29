@@ -2,7 +2,7 @@
   const $ = (sel) => document.querySelector(sel);
 
   const [questionsData, methodologyZh, methodologyEn, priorYear] = await Promise.all([
-    fetch("data/questions.json").then((r) => r.json()),
+    fetch("data/questions.json?v=20261029n").then((r) => r.json()),
     fetch("data/methodology-zh.json").then((r) => r.json()),
     fetch("data/methodology-en.json").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),

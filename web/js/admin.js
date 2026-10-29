@@ -57,7 +57,7 @@
     booted = true;
 
     const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear, priorUnits] = await Promise.all([
-      fetch("data/questions.json").then((r) => r.json()),
+      fetch("data/questions.json?v=20261029n").then((r) => r.json()),
       fetch("data/methodology-zh.json").then((r) => r.json()),
       fetch("data/methodology-en.json").then((r) => r.json()),
       fetch("data/units.json").then((r) => r.json()),
