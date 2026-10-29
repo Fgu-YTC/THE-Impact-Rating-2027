@@ -327,13 +327,26 @@
     questionList.innerHTML = "";
     if (!currentUnitId) {
       emptyState.hidden = false;
-      emptyState.textContent = "請先選擇填寫單位。";
+      emptyState.textContent = lang === "en" ? "Select a unit first." : "請先選擇填寫單位。";
       return;
     }
-    const mine = assignmentsForUnit(currentUnitId).filter((q) => q.sdg === currentSdg);
+    const assigned = assignmentsForUnit(currentUnitId);
+    if (!assigned.length) {
+      emptyState.hidden = false;
+      emptyState.textContent =
+        lang === "en"
+          ? "This unit has no assigned questions yet."
+          : "此單位尚未被分派任何題目。請到管理頁勾選題目後按「分派給此單位」。";
+      return;
+    }
+    const mine = assigned.filter((q) => q.sdg === currentSdg);
     if (!mine.length) {
       emptyState.hidden = false;
-      emptyState.textContent = "此單位尚未被分派此 SDG 題目。";
+      const sdgs = sdgsForUnit(currentUnitId).join(", ");
+      emptyState.textContent =
+        lang === "en"
+          ? `No questions for this SDG. Assigned SDGs: ${sdgs || "—"}.`
+          : `此單位尚未被分派此 SDG 題目。目前有分派的 SDG：${sdgs || "—"}。`;
       return;
     }
     emptyState.hidden = true;
@@ -561,6 +574,7 @@
     activeMetricRef = null;
     watchUnit(currentUnitId);
     renderTabs();
+    // renderTabs 會把 currentSdg 設成此單位第一個有分派的 SDG
     renderQuestions();
     const first = assignmentsForUnit(currentUnitId).find((q) => q.sdg === currentSdg);
     if (first) selectQuestion(first);

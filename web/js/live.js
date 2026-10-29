@@ -8,8 +8,17 @@
     if (code.includes("permission-denied")) {
       return "Firestore 仍拒絕讀寫。請確認已發布含 units／answers／returns 的規則。";
     }
+    if (code.includes("not-found") || code.includes("unit-missing")) {
+      return "找不到這個單位，請重新整理後再分派。";
+    }
+    if (code.includes("questionIds-limit")) {
+      return "分派題數超過上限（每單位少於 400 題）。";
+    }
+    if (code.includes("assign-verify-failed")) {
+      return "分派寫入後核對失敗，請再試一次。";
+    }
     if (code.includes("unavailable") || code.includes("failed-precondition")) {
-      return "連不到 Firestore。請確認這個專案已建立 Firestore 資料庫。";
+      return "連不到 Firestore，或寫入後資料不一致。請確認已建立資料庫後再試。";
     }
     return code || "Firestore 讀寫失敗。";
   }
@@ -285,23 +294,64 @@
   }
 
   async function assignQuestions(unitId, questionIds) {
-    if (!questionIds.length) return;
+    const ids = [...new Set((questionIds || []).filter(Boolean).map(String))];
+    if (!unitId || !ids.length) return { added: 0, total: 0 };
     const { store, fs } = await db();
-    await fs.setDoc(
-      fs.doc(store, "units", unitId),
-      { questionIds: fs.arrayUnion.apply(null, questionIds) },
-      { merge: true }
-    );
+    const ref = fs.doc(store, "units", unitId);
+    const snap = await fs.getDoc(ref);
+    if (!snap.exists()) {
+      const err = new Error("unit-missing");
+      err.code = "not-found";
+      throw err;
+    }
+    const data = snap.data() || {};
+    const before = Array.isArray(data.questionIds) ? data.questionIds.map(String) : [];
+    const merged = [...new Set(before.concat(ids))];
+    if (merged.length >= 400) {
+      const err = new Error("questionIds-limit");
+      err.code = "invalid-argument";
+      throw err;
+    }
+    const payload = {
+      name: String(data.name || "").trim() || unitId,
+      questionIds: merged,
+    };
+    if (data.group) payload.group = String(data.group);
+    // 寫完整清單（含 name／group），避免只送 arrayUnion 時規則／合併結果難驗證
+    await fs.setDoc(ref, payload, { merge: true });
+    const verify = await fs.getDoc(ref);
+    const saved = ((verify.data() || {}).questionIds || []).map(String);
+    const missing = ids.filter(function (id) {
+      return saved.indexOf(id) < 0;
+    });
+    if (missing.length) {
+      const err = new Error("assign-verify-failed:" + missing.slice(0, 3).join(","));
+      err.code = "failed-precondition";
+      throw err;
+    }
+    return { added: merged.length - before.length, total: saved.length };
   }
 
   async function unassignQuestions(unitId, questionIds) {
-    if (!questionIds.length) return;
+    const ids = [...new Set((questionIds || []).filter(Boolean).map(String))];
+    if (!unitId || !ids.length) return { removed: 0, total: 0 };
     const { store, fs } = await db();
-    await fs.setDoc(
-      fs.doc(store, "units", unitId),
-      { questionIds: fs.arrayRemove.apply(null, questionIds) },
-      { merge: true }
-    );
+    const ref = fs.doc(store, "units", unitId);
+    const snap = await fs.getDoc(ref);
+    if (!snap.exists()) return { removed: 0, total: 0 };
+    const data = snap.data() || {};
+    const before = Array.isArray(data.questionIds) ? data.questionIds.map(String) : [];
+    const remove = new Set(ids);
+    const merged = before.filter(function (id) {
+      return !remove.has(id);
+    });
+    const payload = {
+      name: String(data.name || "").trim() || unitId,
+      questionIds: merged,
+    };
+    if (data.group) payload.group = String(data.group);
+    await fs.setDoc(ref, payload, { merge: true });
+    return { removed: before.length - merged.length, total: merged.length };
   }
 
   async function clearAssignments() {

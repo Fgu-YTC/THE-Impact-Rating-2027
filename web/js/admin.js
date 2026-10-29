@@ -1291,18 +1291,25 @@
     });
 
     $("#btnAssign").addEventListener("click", async () => {
-      const unitId = unitSelect.value;
+      const unitId = unitSelect.value || lastAssignUnitId;
       if (!unitId || !selected.size || assignBusy) return;
+      if (unitSelect.value !== unitId) unitSelect.value = unitId;
+      lastAssignUnitId = unitId;
       const ids = [...selected];
+      const unitLabel = unitName(unitId) || unitId;
       const btn = $("#btnAssign");
       const label = btn.textContent;
       assignBusy = true;
       btn.textContent = "分派中…";
       updateBottom();
       try {
-        await THELive.assignQuestions(unitId, ids);
+        const result = await THELive.assignQuestions(unitId, ids);
         selected.clear();
         updateBottom();
+        showExportBanner(
+          "ok",
+          `已分派給「${unitLabel}」：本次勾選 ${ids.length} 題（新增 ${result.added || 0}，目前共 ${result.total || 0} 題）。填報頁選此單位即可看到。`
+        );
         // 退回紀錄清除失敗不應讓人以為分派沒寫入
         try {
           await THELive.clearReturnsForQuestions(ids);
@@ -1319,18 +1326,25 @@
     });
 
     $("#btnUnassign").addEventListener("click", async () => {
-      const unitId = unitSelect.value;
+      const unitId = unitSelect.value || lastAssignUnitId;
       if (!unitId || !selected.size || assignBusy) return;
+      if (unitSelect.value !== unitId) unitSelect.value = unitId;
+      lastAssignUnitId = unitId;
       const ids = [...selected];
+      const unitLabel = unitName(unitId) || unitId;
       const btn = $("#btnUnassign");
       const label = btn.textContent;
       assignBusy = true;
       btn.textContent = "取消中…";
       updateBottom();
       try {
-        await THELive.unassignQuestions(unitId, ids);
+        const result = await THELive.unassignQuestions(unitId, ids);
         selected.clear();
         updateBottom();
+        showExportBanner(
+          "ok",
+          `已取消「${unitLabel}」分派：勾選 ${ids.length} 題（移除 ${result.removed || 0}，目前剩 ${result.total || 0} 題）。`
+        );
       } catch (err) {
         showExportBanner("bad", `取消分派沒有寫入。${THELive.explain(err)}`);
       } finally {
