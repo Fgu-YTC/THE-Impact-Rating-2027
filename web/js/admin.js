@@ -76,6 +76,8 @@
       (questionsData.metrics || []).map((m) => [String(m.ref), m])
     );
     const selected = new Set();
+    /** 同一題最多可分派幾個單位 */
+    const MAX_ASSIGNEES_PER_QUESTION = 5;
     let currentSdg = 1;
     let filter = "all"; // all | assigned | unassigned
     const unitFilter = new Set();
@@ -558,11 +560,14 @@
             badge.className = mark.filled ? "badge ok" : mark.returned ? "badge return" : "badge warn";
             badge.textContent = mark.text;
           } else if (who.length) {
-            badge.className = "badge ok";
-            badge.textContent = `已分配：${who.map(unitName).join("、")}`;
+            badge.className = who.length >= MAX_ASSIGNEES_PER_QUESTION ? "badge warn" : "badge ok";
+            badge.textContent =
+              who.length >= MAX_ASSIGNEES_PER_QUESTION
+                ? `已滿 ${who.length}/${MAX_ASSIGNEES_PER_QUESTION}：${who.map(unitName).join("、")}`
+                : `已分配 ${who.length}/${MAX_ASSIGNEES_PER_QUESTION}：${who.map(unitName).join("、")}`;
           } else {
             badge.className = "badge warn";
-            badge.textContent = "未分配";
+            badge.textContent = `未分配（最多 ${MAX_ASSIGNEES_PER_QUESTION} 單位）`;
           }
           meta.appendChild(ref);
           meta.appendChild(badge);
@@ -1287,12 +1292,36 @@
       const unitId = unitSelect.value;
       if (!unitId || !selected.size) return;
       const ids = [...selected];
+      const blocked = [];
+      const okIds = ids.filter((qid) => {
+        const who = assignees(qid);
+        if (who.includes(unitId)) return true;
+        if (who.length >= MAX_ASSIGNEES_PER_QUESTION) {
+          const q = questions.find((item) => item.id === qid);
+          blocked.push((q && q.ref) || qid);
+          return false;
+        }
+        return true;
+      });
+      if (!okIds.length) {
+        showExportBanner(
+          "warn",
+          `這些題已達每題 ${MAX_ASSIGNEES_PER_QUESTION} 個單位上限：${blocked.join("、")}`
+        );
+        return;
+      }
       try {
-        await THELive.assignQuestions(unitId, ids);
+        await THELive.assignQuestions(unitId, okIds);
         // 重新分配：清掉舊退回紀錄
-        await THELive.clearReturnsForQuestions(ids);
+        await THELive.clearReturnsForQuestions(okIds);
         selected.clear();
         updateBottom();
+        if (blocked.length) {
+          showExportBanner(
+            "warn",
+            `已分派 ${okIds.length} 題；以下已滿 ${MAX_ASSIGNEES_PER_QUESTION} 單位未寫入：${blocked.join("、")}`
+          );
+        }
       } catch (err) {
         showExportBanner("bad", `分派沒有寫入。${THELive.explain(err)}`);
       }
