@@ -24,6 +24,13 @@
       importAll: "覆蓋帶入",
       importAllTitle: "用今年填報覆蓋 Portal 欄位",
       importAllConfirm: "要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）",
+      importUrls: "帶入網址",
+      importUrlsTitle: "把今年填報／去年參考的公開網址填進尚空的證據欄",
+      importedUrls: (n) => `已帶入 ${n} 題公開網址到證據欄（尚未按儲存）。`,
+      importedWithUrls: (n, urlN) =>
+        `已帶入 ${n} 題目前填報內容到 Portal 欄位（另帶入 ${urlN} 題網址；尚未按儲存）。`,
+      importUrlsEmpty: "沒有可帶入的公開網址（或證據欄已有內容）。",
+      useThisUrl: "帶入此網址",
       save: "儲存本頁",
       saving: "儲存中…",
       signOut: "登出",
@@ -95,6 +102,13 @@
       importAllTitle: "Overwrite Portal fields with this year’s fill",
       importAllConfirm:
         "Overwrite filled Portal fields with this year’s answers? (Unit fill page is not changed.)",
+      importUrls: "Import URLs",
+      importUrlsTitle: "Fill empty evidence fields with public URLs from this year / last year",
+      importedUrls: (n) => `Imported ${n} public evidence URLs (not saved yet).`,
+      importedWithUrls: (n, urlN) =>
+        `Imported ${n} questions into Portal fields (plus ${urlN} evidence URLs; not saved yet).`,
+      importUrlsEmpty: "No public URLs to import (or evidence fields already filled).",
+      useThisUrl: "Use this URL",
       save: "Save this page",
       saving: "Saving…",
       signOut: "Sign out",
@@ -197,6 +211,11 @@
     if (btnImportAll) {
       btnImportAll.textContent = t("importAll");
       btnImportAll.title = t("importAllTitle");
+    }
+    const btnImportUrls = $("#btnImportUrls");
+    if (btnImportUrls) {
+      btnImportUrls.textContent = t("importUrls");
+      btnImportUrls.title = t("importUrlsTitle");
     }
     setText("#btnSave", "save");
     setText("#btnSignOut", "signOut");
@@ -471,6 +490,45 @@
     }
   }
 
+  function priorPublicUrls(ref) {
+    const data = priorYear[ref];
+    if (!data) return [];
+    const out = [];
+    const push = (href) => {
+      const u = publicEvidenceUrl(href);
+      if (u && !out.includes(u)) out.push(u);
+    };
+    (Array.isArray(data.evidence) ? data.evidence : []).forEach(push);
+    (Array.isArray(data.lines) ? data.lines : []).forEach((line) => {
+      (Array.isArray(line.evidence) ? line.evidence : []).forEach(push);
+    });
+    return out;
+  }
+
+  function bestEvidenceUrl(ref) {
+    const pack = liveForRef(ref);
+    if (pack) {
+      const live = publicEvidenceUrl(pack.preferred.answer && pack.preferred.answer.evidence);
+      if (live) return live;
+    }
+    return priorPublicUrls(ref)[0] || "";
+  }
+
+  function applyEvidenceUrl(ref, url) {
+    const next = publicEvidenceUrl(url);
+    if (!next) return false;
+    pendingFiles.delete(ref);
+    patch(ref, {
+      evidence: next,
+      evidenceKind: "url",
+      evidenceFileName: "",
+      evidenceFileUrl: "",
+      evidenceFilePath: "",
+      evidenceStoredName: "",
+    });
+    return true;
+  }
+
   function priorSummary(ref) {
     const data = priorYear[ref];
     if (!data) return "";
@@ -485,7 +543,14 @@
             .join(lang === "en" ? "; " : "；")
       );
     }
-    if (Array.isArray(data.evidence) && data.evidence[0]) bits.push(t("priorEvidence"));
+    const urls = priorPublicUrls(ref);
+    if (urls.length) {
+      try {
+        bits.push(t("priorEvidence") + "：" + new URL(urls[0]).hostname);
+      } catch (_) {
+        bits.push(t("priorEvidence"));
+      }
+    }
     if (Array.isArray(data.files) && data.files[0]) bits.push(t("priorFile", data.files[0].name));
     if (data.note) bits.push(t("priorNote"));
     return bits.join(" · ");
@@ -558,6 +623,17 @@
       if (!pack) return;
       const mapped = fromLiveAnswer(pack.preferred.answer);
       if (!mapped || !Object.keys(mapped).length) return;
+      if (!publicEvidenceUrl(mapped.evidence)) {
+        const priorUrl = priorPublicUrls(f.ref)[0];
+        if (priorUrl) {
+          mapped.evidence = priorUrl;
+          mapped.evidenceKind = "url";
+          mapped.evidenceFileName = "";
+          mapped.evidenceFileUrl = "";
+          mapped.evidenceFilePath = "";
+          mapped.evidenceStoredName = "";
+        }
+      }
       if (
         f.answerType === "picklist" &&
         (f.portal || {}).optionSelect === "single" &&
@@ -592,8 +668,43 @@
       }
       n += 1;
     });
+    // 即使其他欄已有內容，仍把尚空的公開網址帶進證據欄
+    const urlN = importEvidenceUrls({ onlyEmpty: true, silent: true });
     renderFields();
-    banner(n ? "ok" : "warn", n ? t("imported", n) : onlyEmpty ? t("importEmpty") : t("importNone"));
+    banner(
+      n || urlN ? "ok" : "warn",
+      n && urlN
+        ? t("importedWithUrls", n, urlN)
+        : n
+          ? t("imported", n)
+          : urlN
+            ? t("importedUrls", urlN)
+            : onlyEmpty
+              ? t("importEmpty")
+              : t("importNone")
+    );
+  }
+
+  function importEvidenceUrls({ onlyEmpty = true, silent = false } = {}) {
+    let n = 0;
+    fields.forEach((f) => {
+      if ((f.portal || {}).hasEvidence === false) return;
+      const cur = answerOf(f.ref);
+      if (onlyEmpty) {
+        if (publicEvidenceUrl(cur.evidence)) return;
+        if (cur.evidenceKind === "file" && (cur.evidenceFileName || cur.evidenceFileUrl || pendingFiles.has(f.ref))) {
+          return;
+        }
+      }
+      const url = bestEvidenceUrl(f.ref);
+      if (!url) return;
+      if (applyEvidenceUrl(f.ref, url)) n += 1;
+    });
+    if (!silent) {
+      renderFields();
+      banner(n ? "ok" : "warn", n ? t("importedUrls", n) : t("importUrlsEmpty"));
+    }
+    return n;
   }
 
   function renderTabs() {
@@ -801,6 +912,8 @@
           label: t("evidenceTypeUrl"),
           onChange: () => {
             clearEvidenceFields(f.ref, "url");
+            const suggest = bestEvidenceUrl(f.ref);
+            if (suggest) applyEvidenceUrl(f.ref, suggest);
             renderFields();
           },
         });
@@ -833,6 +946,24 @@
             patch(f.ref, { evidence: next, evidenceKind: "url" });
           });
           body.appendChild(input);
+          if (!publicEvidenceUrl(ans.evidence)) {
+            const suggest = bestEvidenceUrl(f.ref);
+            if (suggest) {
+              const btn = document.createElement("button");
+              btn.type = "button";
+              btn.className = "secondary portal-ev-clear";
+              try {
+                btn.textContent = `${t("useThisUrl")}（${new URL(suggest).hostname}）`;
+              } catch (_) {
+                btn.textContent = t("useThisUrl");
+              }
+              btn.addEventListener("click", () => {
+                applyEvidenceUrl(f.ref, suggest);
+                renderFields();
+              });
+              body.appendChild(btn);
+            }
+          }
         } else if (kind === "file") {
           const pending = pendingFiles.get(f.ref);
           const fileHref = fileDownloadHref(ans);
@@ -895,6 +1026,23 @@
             renderFields();
           });
           body.appendChild(clearBtn);
+        } else {
+          const suggest = bestEvidenceUrl(f.ref);
+          if (suggest) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "secondary portal-ev-clear";
+            try {
+              btn.textContent = `${t("useThisUrl")}（${new URL(suggest).hostname}）`;
+            } catch (_) {
+              btn.textContent = t("useThisUrl");
+            }
+            btn.addEventListener("click", () => {
+              applyEvidenceUrl(f.ref, suggest);
+              renderFields();
+            });
+            body.appendChild(btn);
+          }
         }
         wrap.appendChild(body);
         grid.appendChild(wrap);
@@ -1087,6 +1235,10 @@
       if (!window.confirm(t("importAllConfirm"))) return;
       importLive({ onlyEmpty: false });
     });
+  }
+  const btnImportUrls = $("#btnImportUrls");
+  if (btnImportUrls) {
+    btnImportUrls.addEventListener("click", () => importEvidenceUrls({ onlyEmpty: true }));
   }
 
   THEAuth.onAuth(async (user, reason) => {
