@@ -750,9 +750,19 @@
     });
   }
 
+  /** 父題連續數值已涵蓋的 Excel 子欄，不再重複開一張卡 */
+  function isRedundantSubField(f) {
+    if (!f || !f.subField || !f.parentRef || !f.valueKey) return false;
+    const parent = fields.find((p) => p.ref === f.parentRef && !p.subField);
+    if (!parent || parent.answerType !== "continuous") return false;
+    const idx = Number(String(f.valueKey).replace(/\D/g, ""));
+    if (!Number.isFinite(idx)) return false;
+    return Array.isArray(parent.options) && parent.options.length > idx;
+  }
+
   function renderFields() {
     fieldList.innerHTML = "";
-    const mine = fields.filter((f) => f.sdg === currentSdg);
+    const mine = fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
     const liveCount = mine.filter((f) => liveForRef(f.ref)).length;
     $("#portalMeta").textContent = t(
       "meta",
@@ -764,7 +774,10 @@
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
       const card = document.createElement("article");
-      card.className = "portal-card " + (f.aligned ? "aligned" : "unaligned");
+      card.className =
+        "portal-card " +
+        (f.subField ? "subfield " : "") +
+        (f.aligned ? "aligned" : "unaligned");
       card.dataset.ref = f.ref;
 
       const head = document.createElement("div");
@@ -775,7 +788,7 @@
       head.appendChild(ref);
       const badge = document.createElement("span");
       if (f.subField) {
-        badge.className = "portal-badge" + (f.aligned ? "" : " warn");
+        badge.className = "portal-badge soft";
         badge.textContent = t("excelSub", f.parentRef || "");
       } else {
         badge.className = "portal-badge" + (f.aligned ? "" : " warn");
@@ -791,13 +804,13 @@
       card.appendChild(head);
 
       const primary = document.createElement("div");
-      primary.className = "portal-en";
+      primary.className = "portal-title";
       primary.textContent = (lang === "en" ? f.en || f.zh : f.zh || f.en) || "";
       card.appendChild(primary);
       const secondaryText = lang === "en" ? f.zh : f.en;
       if (secondaryText && secondaryText !== primary.textContent) {
         const secondary = document.createElement("div");
-        secondary.className = "portal-zh";
+        secondary.className = "portal-sub";
         secondary.textContent = secondaryText;
         card.appendChild(secondary);
       }
@@ -827,7 +840,7 @@
         caption.textContent = t("yesNo");
         wrap.appendChild(caption);
         const row = document.createElement("div");
-        row.className = "portal-choice-row";
+        row.className = "portal-choice-row inline";
         ["yes", "no"].forEach((val) => {
           appendChoiceRow(row, {
             name: `yn-${f.ref}`,
@@ -848,7 +861,8 @@
         const row = document.createElement("div");
         const selected = new Set(ans.options || []);
         const single = (portal.optionSelect || "multi") === "single";
-        row.className = "portal-choice-row portal-opts" + (single ? "" : " portal-opts-multi");
+        row.className =
+          "portal-choice-row portal-opts" + (single ? "" : " inline portal-opts-multi");
         f.options.forEach((opt) => {
           const key = opt.en || opt.zh;
           const checked =
@@ -939,7 +953,7 @@
           type: "radio",
           value: "url",
           checked: kind === "url",
-          label: t("evidenceTypeUrl"),
+          label: lang === "en" ? "URL" : "網址",
           onChange: () => {
             clearEvidenceFields(f.ref, "url");
             const suggest = bestEvidenceUrl(f.ref);
@@ -952,7 +966,7 @@
           type: "radio",
           value: "file",
           checked: kind === "file",
-          label: t("evidenceTypeFile"),
+          label: lang === "en" ? "File" : "檔案",
           onChange: () => {
             clearEvidenceFields(f.ref, "file");
             renderFields();
@@ -981,9 +995,9 @@
             if (suggest) {
               const btn = document.createElement("button");
               btn.type = "button";
-              btn.className = "secondary portal-ev-clear";
+              btn.className = "portal-ev-action";
               try {
-                btn.textContent = `${t("useThisUrl")}（${new URL(suggest).hostname}）`;
+                btn.textContent = `${t("useThisUrl")} · ${new URL(suggest).hostname}`;
               } catch (_) {
                 btn.textContent = t("useThisUrl");
               }
@@ -1049,7 +1063,7 @@
         if (kind) {
           const clearBtn = document.createElement("button");
           clearBtn.type = "button";
-          clearBtn.className = "secondary portal-ev-clear";
+          clearBtn.className = "portal-ev-action muted";
           clearBtn.textContent = t("evidenceClear");
           clearBtn.addEventListener("click", () => {
             clearEvidenceFields(f.ref, "");
@@ -1061,9 +1075,9 @@
           if (suggest) {
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "secondary portal-ev-clear";
+            btn.className = "portal-ev-action";
             try {
-              btn.textContent = `${t("useThisUrl")}（${new URL(suggest).hostname}）`;
+              btn.textContent = `${t("useThisUrl")} · ${new URL(suggest).hostname}`;
             } catch (_) {
               btn.textContent = t("useThisUrl");
             }
@@ -1086,7 +1100,7 @@
         caption.textContent = t("publicLabel");
         wrap.appendChild(caption);
         const row = document.createElement("div");
-        row.className = "portal-choice-row";
+        row.className = "portal-choice-row inline";
         [
           { value: "public", label: "Public" },
           { value: "private", label: "Private" },
