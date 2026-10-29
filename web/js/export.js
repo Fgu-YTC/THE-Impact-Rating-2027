@@ -322,12 +322,27 @@
     return "";
   }
 
+  function hasEvidenceFile(answer) {
+    if (!answer) return false;
+    return !!(
+      answer.evidenceFileUrl ||
+      answer.evidenceFileName ||
+      answer.evidenceFilePath ||
+      answer.evidenceStoredName
+    );
+  }
+
+  /** 證據欄：有網址就只寫網址；沒有網址才退回檔案網址／檔名 */
   function evidenceCell(answer) {
-    const link = String(answer.evidence || "").trim();
+    const link = String((answer && answer.evidence) || "").trim();
     if (link) return link;
-    if (answer.evidenceFileUrl) return answer.evidenceFileUrl;
-    if (answer.evidenceFileName) return answer.evidenceFileName;
+    if (answer && answer.evidenceFileUrl) return answer.evidenceFileUrl;
+    if (answer && answer.evidenceFileName) return answer.evidenceFileName;
     return "";
+  }
+
+  function evidenceFileFlag(answer) {
+    return hasEvidenceFile(answer) ? "yes" : "";
   }
 
   function isGray(cell) {
@@ -420,6 +435,10 @@
     const commentHeader = ws.getCell(2, 8);
     commentHeader.value = "Comments";
     ws.getColumn(8).width = 42;
+    const fileFlagHeader = ws.getCell(2, 9);
+    fileFlagHeader.value = "是否同時提供證據檔案";
+    fileFlagHeader.alignment = { wrapText: true, vertical: "middle", horizontal: "center" };
+    ws.getColumn(9).width = 16;
 
     blocks.forEach((block) => {
       if (block.type !== "Indicator") return;
@@ -434,6 +453,7 @@
       }
       const evidence = evidenceCell(answer);
       const pub = publicCell(answer.public);
+      const fileFlag = evidenceFileFlag(answer);
       let evidenceOnQuestion = writeOpen(ws, block.rowNumber, 6, evidence);
       let publicOnQuestion = writeOpen(ws, block.rowNumber, 7, pub);
       if (evidence && !evidenceOnQuestion) {
@@ -449,6 +469,11 @@
         const cell = openCell(ws, block.rowNumber, 8) || ws.getCell(block.rowNumber, 8);
         cell.value = comment;
         cell.alignment = { wrapText: true, vertical: "top" };
+      }
+      if (fileFlag) {
+        const cell = openCell(ws, block.rowNumber, 9) || ws.getCell(block.rowNumber, 9);
+        cell.value = fileFlag;
+        cell.alignment = { horizontal: "center", vertical: "middle" };
       }
 
       let wroteContinuous = false;
