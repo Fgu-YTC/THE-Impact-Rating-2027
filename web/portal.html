@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>THE Impact 2027 · Portal 對齊填報</title>
+  <title>THE Impact 2027 · Portal 填報</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261029z" />
-  <link rel="stylesheet" href="css/portal.css?v=20261029z" />
+  <link rel="stylesheet" href="css/app.css?v=20261030a" />
+  <link rel="stylesheet" href="css/portal.css?v=20261030a" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -16,8 +16,8 @@
       <button type="button" data-lang="zh">中文</button>
       <button type="button" data-lang="en">EN</button>
     </div>
-    <h1 id="authTitle">Portal 對齊填報</h1>
-    <p id="authHint">使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目與今年單位填報；與一般填報頁、管理分派分開儲存。</p>
+    <h1 id="authTitle">Portal 填報</h1>
+    <p id="authHint">請使用學校 Google 帳號登入。</p>
     <button type="button" id="btnGoogle">使用 Google 登入</button>
     <div id="authError" class="auth-error" hidden></div>
     <p id="authLinks" style="margin-top:1.25rem;font-size:0.85rem">
@@ -27,7 +27,7 @@
 
   <div id="portalApp" hidden>
     <header class="topbar portal-topbar">
-      <div class="brand" id="portalBrand">Portal 對齊填報</div>
+      <div class="brand" id="portalBrand">Portal 填報</div>
       <div class="portal-meta" id="portalMeta">Impact 2027</div>
       <div class="top-actions">
         <div class="lang-toggle" id="langToggle" aria-label="語言">
@@ -35,15 +35,15 @@
           <button type="button" data-lang="en">EN</button>
         </div>
         <span id="portalUser" class="portal-user"></span>
-        <button type="button" id="btnImportLive" class="secondary" title="一次帶入答案與證據到尚空欄位">帶入今年填報</button>
-        <button type="button" id="btnImportLiveAll" class="secondary" title="用今年填報覆蓋 Portal 欄位">覆蓋帶入</button>
+        <button type="button" id="btnImportLive" class="secondary" title="把單位已填內容帶入空白題">帶入今年填報</button>
+        <button type="button" id="btnImportLiveAll" class="secondary" title="用單位填報覆蓋本頁已填內容">覆蓋帶入</button>
         <button type="button" id="btnSave" class="fill-submit">儲存本頁</button>
         <button type="button" id="btnSignOut" class="secondary">登出</button>
       </div>
     </header>
 
     <div class="data-year-note" id="portalNote">
-      依 <strong>WUR Portal</strong> 題列填寫。「帶入今年填報」一次帶入答案與證據（網址與檔案可同時保留）。資料存在 <code>portalFill</code>，不改單位填報。
+      依題號逐題填寫。可先「帶入今年填報」帶入單位已填內容，再檢查與補齊。
     </div>
 
     <div id="saveBanner" class="submit-banner" hidden role="status" aria-live="assertive"></div>
@@ -55,11 +55,11 @@
     </main>
   </div>
 
-  <script src="js/firebase-config.js?v=20261029z"></script>
-  <script src="js/admin-allowlist.js?v=20261029z"></script>
-  <script src="js/auth.js?v=20261029z"></script>
-  <script src="js/live.js?v=20261029z"></script>
-  <script src="js/ui.js?v=20261029z"></script>
-  <script src="js/portal.js?v=20261029z"></script>
+  <script src="js/firebase-config.js?v=20261030a"></script>
+  <script src="js/admin-allowlist.js?v=20261030a"></script>
+  <script src="js/auth.js?v=20261030a"></script>
+  <script src="js/live.js?v=20261030a"></script>
+  <script src="js/ui.js?v=20261030a"></script>
+  <script src="js/portal.js?v=20261030a"></script>
 </body>
 </html>

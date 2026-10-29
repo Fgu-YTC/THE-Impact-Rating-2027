@@ -11,19 +11,17 @@
 
   const I18N = {
     zh: {
-      title: "THE Impact 2027 · Portal 對齊填報",
-      brand: "Portal 對齊填報",
-      authHint:
-        "使用學校 Google 帳號登入。此頁依 WUR Portal 欄位排列，並對齊本站題目與今年單位填報；與一般填報頁、管理分派分開儲存。",
+      title: "THE Impact 2027 · Portal 填報",
+      brand: "Portal 填報",
+      authHint: "請使用學校 Google 帳號登入。",
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
-      note:
-        "依 <strong>WUR Portal</strong> 題列填寫。「帶入今年填報」一次帶入答案與證據（網址與檔案可同時保留）。資料存在 <code>portalFill</code>，不改單位填報。",
+      note: "依題號逐題填寫。可先「帶入今年填報」帶入單位已填內容，再檢查與補齊。",
       importLive: "帶入今年填報",
-      importLiveTitle: "一次帶入答案、選項、公開網址／檔案等到尚空欄位",
+      importLiveTitle: "把單位已填內容帶入空白題",
       importAll: "覆蓋帶入",
-      importAllTitle: "用今年填報覆蓋 Portal 欄位",
-      importAllConfirm: "要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）",
+      importAllTitle: "用單位填報覆蓋本頁已填內容",
+      importAllConfirm: "要用單位填報覆蓋本頁已填的內容嗎？",
       alsoHasFile: "此題另有檔案",
       downloadFileSide: (name) => (name ? `下載：${name}` : "下載檔案"),
       save: "儲存本頁",
@@ -31,39 +29,22 @@
       signOut: "登出",
       notAllowed: "此帳號不在白名單。",
       noPermission: (email) => `此帳號沒有權限：${email || ""}`,
-      missingConfig: "尚未設定 Firebase。",
+      missingConfig: "系統尚未設定完成。",
       loginFail: "登入失敗，請再試一次。",
-      loadDraftWarn: (msg) => `讀取雲端草稿失敗，仍可先填；儲存時再試。${msg || ""}`,
+      loadDraftWarn: (msg) => `讀取草稿失敗，仍可先填。${msg || ""}`,
       loadUnitsWarn: (msg) => `讀取單位失敗。${msg || ""}`,
       loadAnswersWarn: (msg) => `讀取填報失敗。${msg || ""}`,
-      saved: "已儲存到 Portal 對齊資料（不影響單位填報）。",
+      saved: "已儲存。",
       saveFail: (msg) => `儲存失敗：${msg}`,
-      imported: (n) => `已帶入 ${n} 題目前填報內容到 Portal 欄位（尚未按儲存）。`,
-      importEmpty: "沒有可帶入的空欄（可能尚未填報，或 Portal 已有內容）。",
-      importNone: "目前沒有可對齊的填報內容。",
-      meta: (sdg, total, aligned, live) =>
-        `Impact 2027 · SDG ${sdg} · ${total} 欄（對齊 ${aligned}｜今年填報有內容 ${live}）`,
-      aligned: "已對齊本站題目",
-      unaligned: "Portal 多出／子欄",
-      excelSub: (parent) => (parent ? `Excel 子欄（隸屬 ${parent}）` : "Excel 數值子欄"),
-      liveBadge: "今年填報有內容",
-      liveTitle: "今年填報（本站單位／最終稿）",
-      officeTag: "永續辦／最終",
-      unitTag: "單位",
-      hasContent: "有內容",
-      numbers: "數字",
-      checked: (n) => `勾選 ${n} 項`,
-      publicBit: "公開",
-      privateBit: "不公開",
-      hasComment: "有備註",
-      publicUrl: "公開網址",
-      downloadFile: (name) => (name ? `下載檔案：${name}` : "下載已上傳檔案"),
-      fileOnly: (name) => `檔案：${name}`,
-      liveFile: (name) => (name ? `今年填報檔案：${name}` : "下載今年填報檔案"),
+      imported: (n) => `已帶入 ${n} 題（記得按儲存）。`,
+      importEmpty: "沒有可帶入的空白題（尚未填報，或本頁已有內容）。",
+      importNone: "目前沒有可帶入的填報內容。",
+      meta: (sdg, filled, total) => `SDG ${sdg} · 已填 ${filled}/${total}`,
+      unaligned: "待確認",
+      excelSub: (parent) => (parent ? `附屬數值（${parent}）` : "附屬數值"),
       yesNo: "是／否",
-      evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
-      evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
-      evidenceMax: "提供證據（可同時填網址與檔案）",
+      evidenceWarn: "請填可公開開啟的網頁網址；檔案請用下方上傳／下載。",
+      evidenceMax: "提供證據（網址與檔案可同時填）",
       evidenceTypeUrl: "網址",
       evidenceTypeFile: "檔案",
       evidenceClear: "清除全部證據",
@@ -76,22 +57,20 @@
       policyCreated: "政策訂定年（yyyy）",
       policyReviewed: "政策檢討年（yyyy）",
       valueFallback: "數值",
+      downloadFile: (name) => (name ? `下載檔案：${name}` : "下載檔案"),
     },
     en: {
-      title: "THE Impact 2027 · Portal-aligned fill",
-      brand: "Portal-aligned fill",
-      authHint:
-        "Sign in with your university Google account. This page follows WUR Portal fields and aligns site questions with this year’s unit fill. It is stored separately from the fill and admin pages.",
+      title: "THE Impact 2027 · Portal fill",
+      brand: "Portal fill",
+      authHint: "Sign in with your university Google account.",
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
-      note:
-        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL and file can both be kept). Data is stored in <code>portalFill</code> and does not change unit fill.",
+      note: "Fill question by question. Use “Import this year” to pull unit answers, then review and complete.",
       importLive: "Import this year",
-      importLiveTitle: "Import answers, options, public URL/file into empty fields in one step",
+      importLiveTitle: "Import unit answers into empty questions",
       importAll: "Overwrite import",
-      importAllTitle: "Overwrite Portal fields with this year’s fill",
-      importAllConfirm:
-        "Overwrite filled Portal fields with this year’s answers? (Unit fill page is not changed.)",
+      importAllTitle: "Overwrite this page with unit answers",
+      importAllConfirm: "Overwrite filled answers on this page with unit fill?",
       alsoHasFile: "This question also has a file",
       downloadFileSide: (name) => (name ? `Download: ${name}` : "Download file"),
       save: "Save this page",
@@ -99,40 +78,22 @@
       signOut: "Sign out",
       notAllowed: "This account is not on the allowlist.",
       noPermission: (email) => `This account is not allowed: ${email || ""}`,
-      missingConfig: "Firebase is not configured.",
+      missingConfig: "Setup is incomplete.",
       loginFail: "Sign-in failed. Please try again.",
-      loadDraftWarn: (msg) => `Could not load cloud draft; you can still fill and retry save. ${msg || ""}`,
+      loadDraftWarn: (msg) => `Could not load draft; you can still fill. ${msg || ""}`,
       loadUnitsWarn: (msg) => `Could not load units. ${msg || ""}`,
       loadAnswersWarn: (msg) => `Could not load answers. ${msg || ""}`,
-      saved: "Saved to Portal-aligned data (unit fill unchanged).",
+      saved: "Saved.",
       saveFail: (msg) => `Save failed: ${msg}`,
-      imported: (n) => `Imported ${n} questions into Portal fields (not saved yet).`,
-      importEmpty: "No empty fields to import (nothing filled yet, or Portal already has content).",
-      importNone: "No aligned fill content to import.",
-      meta: (sdg, total, aligned, live) =>
-        `Impact 2027 · SDG ${sdg} · ${total} fields (aligned ${aligned} · this year ${live})`,
-      aligned: "Aligned to site question",
-      unaligned: "Portal-only / sub-field",
-      excelSub: (parent) => (parent ? `Excel sub-field (under ${parent})` : "Excel numeric sub-field"),
-      liveBadge: "This year has content",
-      liveTitle: "This year (unit / final)",
-      officeTag: "Office / final",
-      unitTag: "Unit",
-      hasContent: "has content",
-      numbers: "Numbers",
-      checked: (n) => `${n} selected`,
-      publicBit: "Public",
-      privateBit: "Private",
-      hasComment: "has comments",
-      publicUrl: "Public URL",
-      downloadFile: (name) => (name ? `Download file: ${name}` : "Download uploaded file"),
-      fileOnly: (name) => `File: ${name}`,
-      liveFile: (name) => (name ? `This year’s file: ${name}` : "Download this year’s file"),
+      imported: (n) => `Imported ${n} questions (remember to save).`,
+      importEmpty: "No empty questions to import (nothing filled yet, or this page already has content).",
+      importNone: "No unit answers available to import.",
+      meta: (sdg, filled, total) => `SDG ${sdg} · ${filled}/${total} filled`,
+      unaligned: "Check needed",
+      excelSub: (parent) => (parent ? `Related value (${parent})` : "Related value"),
       yesNo: "Yes / No",
-      evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
-      evidenceWarn:
-        "Use a public webpage URL. For uploaded files, use the download link below — do not paste Firebase Storage URLs.",
-      evidenceMax: "Provide evidence (URL and file can both be kept)",
+      evidenceWarn: "Use a public webpage URL; upload or download files below.",
+      evidenceMax: "Evidence (URL and file can both be kept)",
       evidenceTypeUrl: "URL",
       evidenceTypeFile: "File",
       evidenceClear: "Clear all evidence",
@@ -145,6 +106,7 @@
       policyCreated: "Policy created (yyyy)",
       policyReviewed: "Policy reviewed (yyyy)",
       valueFallback: "Value",
+      downloadFile: (name) => (name ? `Download file: ${name}` : "Download file"),
     },
   };
 
@@ -197,7 +159,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261029z").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261030a").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];
@@ -670,11 +632,8 @@
   function renderFields() {
     fieldList.innerHTML = "";
     const mine = fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
-    const liveCount = mine.filter((f) => liveForRef(f.ref)).length;
     const { filled, total } = sdgProgress(currentSdg);
-    $("#portalMeta").textContent =
-      t("meta", currentSdg, mine.length, mine.filter((f) => f.aligned).length, liveCount) +
-      (lang === "en" ? ` · filled ${filled}/${total}` : ` · 已填 ${filled}/${total}`);
+    $("#portalMeta").textContent = t("meta", currentSdg, filled, total);
     renderTabs();
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
@@ -691,20 +650,16 @@
       ref.className = "portal-ref";
       ref.textContent = f.ref;
       head.appendChild(ref);
-      const badge = document.createElement("span");
       if (f.subField) {
+        const badge = document.createElement("span");
         badge.className = "portal-badge soft";
         badge.textContent = t("excelSub", f.parentRef || "");
-      } else {
-        badge.className = "portal-badge" + (f.aligned ? "" : " warn");
-        badge.textContent = f.aligned ? t("aligned") : t("unaligned");
-      }
-      head.appendChild(badge);
-      if (liveForRef(f.ref)) {
-        const liveBadge = document.createElement("span");
-        liveBadge.className = "portal-badge live";
-        liveBadge.textContent = t("liveBadge");
-        head.appendChild(liveBadge);
+        head.appendChild(badge);
+      } else if (!f.aligned) {
+        const badge = document.createElement("span");
+        badge.className = "portal-badge warn";
+        badge.textContent = t("unaligned");
+        head.appendChild(badge);
       }
       card.appendChild(head);
 
