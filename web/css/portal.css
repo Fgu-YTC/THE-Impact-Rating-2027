@@ -123,6 +123,14 @@
   text-transform: uppercase;
   opacity: 0.8;
 }
+.portal-prior-summary {
+  margin-top: 0.05rem;
+}
+.portal-prior-note {
+  margin-top: 0.35rem;
+  color: #5c564c;
+  line-height: 1.45;
+}
 .portal-live-line + .portal-live-line {
   margin-top: 0.35rem;
   padding-top: 0.35rem;

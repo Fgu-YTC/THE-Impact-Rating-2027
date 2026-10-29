@@ -48,7 +48,7 @@
       excelSub: (parent) => (parent ? `Excel 子欄（隸屬 ${parent}）` : "Excel 數值子欄"),
       liveBadge: "今年填報有內容",
       liveTitle: "今年填報（本站單位／最終稿）",
-      priorTitle: "去年參考（prior-year）",
+      priorTitle: "去年參考",
       officeTag: "永續辦／最終",
       unitTag: "單位",
       hasContent: "有內容",
@@ -61,12 +61,7 @@
       downloadFile: (name) => (name ? `下載檔案：${name}` : "下載已上傳檔案"),
       fileOnly: (name) => `檔案：${name}`,
       liveFile: (name) => (name ? `今年填報檔案：${name}` : "下載今年填報檔案"),
-      priorYesNo: (v) => `是／否：${v === "yes" ? "是" : v === "no" ? "否" : v}`,
-      priorNumbers: "數字：",
-      priorValue: "值",
-      priorEvidence: "證據網址有",
-      priorFile: (name) => `檔案：${name || "有"}`,
-      priorNote: "備註有",
+      priorValue: "數值",
       yesNo: "是／否",
       evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
       evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
@@ -122,7 +117,7 @@
       excelSub: (parent) => (parent ? `Excel sub-field (under ${parent})` : "Excel numeric sub-field"),
       liveBadge: "This year has content",
       liveTitle: "This year (unit / final)",
-      priorTitle: "Last year (prior-year)",
+      priorTitle: "Last year",
       officeTag: "Office / final",
       unitTag: "Unit",
       hasContent: "has content",
@@ -135,12 +130,7 @@
       downloadFile: (name) => (name ? `Download file: ${name}` : "Download uploaded file"),
       fileOnly: (name) => `File: ${name}`,
       liveFile: (name) => (name ? `This year’s file: ${name}` : "Download this year’s file"),
-      priorYesNo: (v) => `Yes/No: ${v === "yes" ? "Yes" : v === "no" ? "No" : v}`,
-      priorNumbers: "Numbers: ",
       priorValue: "Value",
-      priorEvidence: "Evidence URL",
-      priorFile: (name) => `File: ${name || "yes"}`,
-      priorNote: "has comments",
       yesNo: "Yes / No",
       evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
       evidenceWarn:
@@ -528,31 +518,110 @@
     return true;
   }
 
-  function priorSummary(ref) {
+  function priorLabelText(raw) {
+    const line = String(raw || "")
+      .split("\n")[0]
+      .trim();
+    if (!line) return t("priorValue");
+    if (lang === "zh") {
+      const zh = line.match(/[\u4e00-\u9fff].*$/);
+      if (zh) return zh[0].trim();
+    } else {
+      const en = line.match(/^[^\u4e00-\u9fff]+/);
+      if (en && en[0].trim()) return en[0].trim();
+    }
+    return line;
+  }
+
+  function clipPriorNote(raw) {
+    let text = String(raw || "").replace(/\s+/g, " ").trim();
+    if (!text) return "";
+    if (lang === "zh") {
+      const idx = text.search(/[\u4e00-\u9fff]/);
+      if (idx > 40) text = text.slice(idx);
+    }
+    return text.length > 160 ? text.slice(0, 160) + "…" : text;
+  }
+
+  function appendPriorBox(card, ref) {
     const data = priorYear[ref];
-    if (!data) return "";
-    const bits = [];
-    if (data.yesNo) bits.push(t("priorYesNo", data.yesNo));
-    if (Array.isArray(data.values) && data.values.length) {
-      bits.push(
-        t("priorNumbers") +
-          data.values
-            .map((v) => `${(v.label || "").split("\n")[0] || t("priorValue")}=${v.value}`)
-            .slice(0, 4)
-            .join(lang === "en" ? "; " : "；")
-      );
-    }
+    if (!data) return;
     const urls = priorPublicUrls(ref);
-    if (urls.length) {
-      try {
-        bits.push(t("priorEvidence") + "：" + new URL(urls[0]).hostname);
-      } catch (_) {
-        bits.push(t("priorEvidence"));
-      }
+    const files = Array.isArray(data.files) ? data.files.filter(Boolean) : [];
+    const values = Array.isArray(data.values)
+      ? data.values.filter((v) => v && v.value != null && String(v.value) !== "")
+      : [];
+    const note = String(data.note || "").trim();
+    if (
+      !data.yesNo &&
+      !data.public &&
+      !values.length &&
+      !urls.length &&
+      !files.length &&
+      !note
+    ) {
+      return;
     }
-    if (Array.isArray(data.files) && data.files[0]) bits.push(t("priorFile", data.files[0].name));
-    if (data.note) bits.push(t("priorNote"));
-    return bits.join(" · ");
+
+    const box = document.createElement("div");
+    box.className = "portal-prior";
+    const title = document.createElement("strong");
+    title.textContent = t("priorTitle");
+    box.appendChild(title);
+
+    const bits = [];
+    if (data.yesNo === "yes") bits.push("Yes");
+    if (data.yesNo === "no") bits.push("No");
+    if (data.public === "yes" || data.public === "public") bits.push(t("publicBit"));
+    if (data.public === "no" || data.public === "private") bits.push(t("privateBit"));
+    values.slice(0, 6).forEach((v) => {
+      bits.push(`${priorLabelText(v.label)}：${v.value}`);
+    });
+    if (bits.length) {
+      const summary = document.createElement("div");
+      summary.className = "portal-prior-summary";
+      summary.textContent = bits.join(" · ");
+      box.appendChild(summary);
+    }
+
+    const links = document.createElement("div");
+    links.className = "portal-live-links";
+    urls.forEach((url) => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "portal-ev-link";
+      try {
+        a.textContent = t("publicUrl") + "：" + new URL(url).hostname;
+      } catch (_) {
+        a.textContent = t("publicUrl");
+      }
+      links.appendChild(a);
+    });
+    files.forEach((f) => {
+      const a = document.createElement("a");
+      a.className = "portal-ev-link";
+      if (f.url) {
+        a.href = f.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+      }
+      a.textContent = t("downloadFile", f.name || "");
+      if (f.name) a.setAttribute("download", f.name);
+      links.appendChild(a);
+    });
+    if (links.childNodes.length) box.appendChild(links);
+
+    if (note) {
+      const noteEl = document.createElement("div");
+      noteEl.className = "portal-prior-note";
+      noteEl.textContent = clipPriorNote(note);
+      if (note.length > 160) noteEl.title = note;
+      box.appendChild(noteEl);
+    }
+
+    card.appendChild(box);
   }
 
   function appendLiveBox(card, ref) {
@@ -801,17 +870,7 @@
       }
 
       appendLiveBox(card, f.ref);
-
-      const prior = priorSummary(f.ref);
-      if (prior) {
-        const box = document.createElement("div");
-        box.className = "portal-prior";
-        const strong = document.createElement("strong");
-        strong.textContent = t("priorTitle");
-        box.appendChild(strong);
-        box.appendChild(document.createTextNode(prior));
-        card.appendChild(box);
-      }
+      appendPriorBox(card, f.ref);
 
       const grid = document.createElement("div");
       grid.className = "portal-grid";
