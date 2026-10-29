@@ -139,6 +139,14 @@
   color: var(--accent);
   word-break: break-word;
 }
+.portal-ev-url {
+  display: block;
+  word-break: break-all;
+  line-height: 1.35;
+  margin-bottom: 0.15rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .portal-grid {
   display: grid;
   gap: 0.65rem;

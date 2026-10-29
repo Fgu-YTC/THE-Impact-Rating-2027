@@ -23,6 +23,7 @@
       importAllTitle: "用單位填報覆蓋本頁已填內容",
       importAllConfirm: "要用單位填報覆蓋本頁已填的內容嗎？",
       alsoHasFile: "此題另有檔案",
+      openUrl: "開啟網址",
       downloadFileSide: (name) => (name ? `下載：${name}` : "下載檔案"),
       save: "儲存本頁",
       saving: "儲存中…",
@@ -72,6 +73,7 @@
       importAllTitle: "Overwrite this page with unit answers",
       importAllConfirm: "Overwrite filled answers on this page with unit fill?",
       alsoHasFile: "This question also has a file",
+      openUrl: "Open URL",
       downloadFileSide: (name) => (name ? `Download: ${name}` : "Download file"),
       save: "Save this page",
       saving: "Saving…",
@@ -803,10 +805,21 @@
         urlLab.className = "portal-ev-mini";
         urlLab.textContent = t("evidenceTypeUrl");
         urlBlock.appendChild(urlLab);
+        const currentUrl = publicEvidenceUrl(ans.evidence) || "";
+        if (currentUrl) {
+          const a = document.createElement("a");
+          a.className = "portal-ev-link portal-ev-url";
+          a.href = currentUrl;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = currentUrl;
+          a.title = t("openUrl");
+          urlBlock.appendChild(a);
+        }
         const input = document.createElement("input");
         input.type = "url";
         input.placeholder = "https://…";
-        input.value = publicEvidenceUrl(ans.evidence) || "";
+        input.value = currentUrl;
         input.addEventListener("change", () => {
           const next = publicEvidenceUrl(input.value);
           if (input.value.trim() && !next) {
@@ -820,6 +833,7 @@
             evidenceKind: syncEvidenceKind(nextAns, f.ref),
             evidenceAlsoFile: !!(next && hasEvidenceFile(cur, f.ref)),
           });
+          renderFields();
         });
         urlBlock.appendChild(input);
         if (hasUrl) {
