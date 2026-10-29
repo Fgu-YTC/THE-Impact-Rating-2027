@@ -294,6 +294,9 @@
   z-index: 15;
 }
 .sdg-tabs button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
   border: 1px solid transparent;
   background: transparent;
   color: var(--muted);
@@ -302,11 +305,34 @@
   font-size: 0.8rem;
   cursor: pointer;
 }
+.sdg-tabs button .sdg-prog {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+.sdg-tabs button.partial {
+  color: var(--ink);
+  background: #fff;
+  border-color: var(--line);
+}
+.sdg-tabs button.done {
+  color: #1e4a3d;
+  background: #eef6f1;
+  border-color: #cfe3d8;
+}
+.sdg-tabs button.done .sdg-prog {
+  font-weight: 600;
+}
 .sdg-tabs button:hover {
   background: #fff;
   border-color: var(--line);
 }
 .sdg-tabs button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.sdg-tabs button.active.done {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;

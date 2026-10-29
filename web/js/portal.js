@@ -297,6 +297,7 @@
 
   function patch(ref, part) {
     drafts[ref] = { ...(drafts[ref] || {}), ...part };
+    renderTabs();
   }
 
   function isStorageUrl(href) {
@@ -616,24 +617,6 @@
     banner(n ? "ok" : "warn", n ? t("imported", n) : onlyEmpty ? t("importEmpty") : t("importNone"));
   }
 
-  function renderTabs() {
-    const sdgs = [...new Set(fields.map((f) => f.sdg))].sort((a, b) => a - b);
-    sdgTabs.innerHTML = "";
-    sdgs.forEach((n) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = `SDG ${n}`;
-      btn.classList.toggle("active", n === currentSdg);
-      btn.addEventListener("click", () => {
-        currentSdg = n;
-        renderTabs();
-        renderFields();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-      sdgTabs.appendChild(btn);
-    });
-  }
-
   /** 父題連續數值已涵蓋的 Excel 子欄，不再重複開一張卡 */
   function isRedundantSubField(f) {
     if (!f || !f.subField || !f.parentRef || !f.valueKey) return false;
@@ -644,17 +627,55 @@
     return Array.isArray(parent.options) && parent.options.length > idx;
   }
 
+  function sdgProgress(sdg) {
+    const mine = fields.filter((f) => f.sdg === sdg && !isRedundantSubField(f));
+    const filled = mine.filter((f) => !portalEmpty(f.ref)).length;
+    return { filled, total: mine.length };
+  }
+
+  function renderTabs() {
+    if (!sdgTabs) return;
+    const sdgs = [...new Set(fields.map((f) => f.sdg))].sort((a, b) => a - b);
+    const keepFocus = document.activeElement && sdgTabs.contains(document.activeElement);
+    const focusSdg = keepFocus ? Number(document.activeElement.dataset.sdg) : null;
+    sdgTabs.innerHTML = "";
+    sdgs.forEach((n) => {
+      const { filled, total } = sdgProgress(n);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.dataset.sdg = String(n);
+      btn.classList.toggle("active", n === currentSdg);
+      if (total > 0 && filled === total) btn.classList.add("done");
+      else if (filled > 0) btn.classList.add("partial");
+      const name = document.createElement("span");
+      name.className = "sdg-name";
+      name.textContent = `SDG ${n}`;
+      const prog = document.createElement("span");
+      prog.className = "sdg-prog";
+      prog.textContent = `${filled}/${total}`;
+      prog.title = lang === "en" ? `${filled} of ${total} filled` : `已填 ${filled}／共 ${total}`;
+      btn.appendChild(name);
+      btn.appendChild(prog);
+      btn.addEventListener("click", () => {
+        currentSdg = n;
+        renderTabs();
+        renderFields();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      sdgTabs.appendChild(btn);
+      if (focusSdg === n) btn.focus();
+    });
+  }
+
   function renderFields() {
     fieldList.innerHTML = "";
     const mine = fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
     const liveCount = mine.filter((f) => liveForRef(f.ref)).length;
-    $("#portalMeta").textContent = t(
-      "meta",
-      currentSdg,
-      mine.length,
-      mine.filter((f) => f.aligned).length,
-      liveCount
-    );
+    const { filled, total } = sdgProgress(currentSdg);
+    $("#portalMeta").textContent =
+      t("meta", currentSdg, mine.length, mine.filter((f) => f.aligned).length, liveCount) +
+      (lang === "en" ? ` · filled ${filled}/${total}` : ` · 已填 ${filled}/${total}`);
+    renderTabs();
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
       const card = document.createElement("article");
