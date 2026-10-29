@@ -93,7 +93,7 @@
     let renderQueued = false;
     let returnsByUnit = {};
 
-    const unitSelect = $("#assignUnit");
+    const manageUnitSelect = $("#manageUnitSelect");
     const sdgTabs = $("#sdgTabs");
     const questionList = $("#questionList");
     const methodTitle = $("#methodTitle");
@@ -104,6 +104,7 @@
     const manageGroupSelect = $("#manageGroupSelect");
     const newGroupName = $("#newGroupName");
     const editUnitGroup = $("#editUnitGroup");
+    const assignTargets = new Set();
 
     function syncChromeLang() {
       const note = $("#dataYearNote");
@@ -174,27 +175,85 @@
       fill(newUnitGroup, false);
       fill(manageGroupSelect, false);
       fill(editUnitGroup, false);
-      const unit = units.find((u) => u.id === unitSelect.value);
+      const unit = units.find((u) => u.id === (manageUnitSelect && manageUnitSelect.value));
       if (unit && editUnitGroup) {
         const g = unit.group || THEUI.inferUnitGroup(unit.name);
         if ([...editUnitGroup.options].some((o) => o.value === g)) editUnitGroup.value = g;
       }
     }
 
-    let lastAssignUnitId = "";
     function fillUnitSelect() {
-      const keep = unitSelect.value || lastAssignUnitId;
-      THEUI.fillGroupedUnitSelect(unitSelect, units, {
-        groupOrder: unitGroups,
-        selectedId: keep,
-        placeholder: "選擇單位…",
+      if (manageUnitSelect) {
+        const keep = manageUnitSelect.value;
+        THEUI.fillGroupedUnitSelect(manageUnitSelect, units, {
+          groupOrder: unitGroups,
+          selectedId: keep,
+          placeholder: "選擇單位…",
+        });
+      }
+      [...assignTargets].forEach((id) => {
+        if (!units.some((u) => u.id === id)) assignTargets.delete(id);
       });
-      if (unitSelect.value) lastAssignUnitId = unitSelect.value;
       fillGroupSelects();
       renderUnitFilter();
+      renderAssignUnitsList();
       const btnSet = $("#btnSetUnitGroup");
-      if (btnSet) btnSet.disabled = !unitSelect.value;
+      if (btnSet) btnSet.disabled = !(manageUnitSelect && manageUnitSelect.value);
       updateBottom();
+    }
+
+    function updateAssignUnitsSummary() {
+      const el = $("#assignUnitsSummary");
+      if (!el) return;
+      if (!assignTargets.size) {
+        el.textContent = "選單位（可多選）";
+        return;
+      }
+      const names = [...assignTargets].map((id) => unitName(id)).filter(Boolean);
+      if (names.length <= 3) {
+        el.textContent = names.join("、");
+        return;
+      }
+      el.textContent = `${names.slice(0, 2).join("、")} 等 ${names.length} 個單位`;
+    }
+
+    function renderAssignUnitsList() {
+      const list = $("#assignUnitsList");
+      if (!list) return;
+      list.innerHTML = "";
+      if (!units.length) {
+        const empty = document.createElement("div");
+        empty.className = "assign-units-empty";
+        empty.textContent = "尚無單位";
+        list.appendChild(empty);
+        updateAssignUnitsSummary();
+        return;
+      }
+      const grouped = THEUI.groupUnits(units, unitGroups);
+      grouped.forEach((row) => {
+        if (!row.units.length) return;
+        const head = document.createElement("div");
+        head.className = "assign-units-group";
+        head.textContent = row.group;
+        list.appendChild(head);
+        row.units.forEach((u) => {
+          const lab = document.createElement("label");
+          lab.className = "assign-units-item";
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = assignTargets.has(u.id);
+          cb.addEventListener("change", () => {
+            if (cb.checked) assignTargets.add(u.id);
+            else assignTargets.delete(u.id);
+            updateAssignUnitsSummary();
+            updateBottom();
+          });
+          lab.appendChild(cb);
+          lab.appendChild(document.createTextNode(u.name));
+          list.appendChild(lab);
+        });
+      });
+      updateAssignUnitsSummary();
     }
 
     function updateUnitFilterSummary() {
@@ -1177,10 +1236,13 @@
 
     function updateBottom() {
       $("#selectedCount").textContent = String(selected.size);
-      const ready = selected.size && unitSelect.value;
+      const ready = selected.size && assignTargets.size;
       $("#btnAssign").disabled = assignBusy || !ready;
       $("#btnUnassign").disabled = assignBusy || !ready;
-      $("#btnRemoveUnit").disabled = !unitSelect.value;
+      const manageId = manageUnitSelect && manageUnitSelect.value;
+      $("#btnRemoveUnit").disabled = !manageId;
+      const btnSet = $("#btnSetUnitGroup");
+      if (btnSet) btnSet.disabled = !manageId;
     }
 
     questionList.addEventListener("focusin", () => {
@@ -1282,42 +1344,89 @@
       });
     });
 
-    unitSelect.addEventListener("change", () => {
-      if (unitSelect.value) lastAssignUnitId = unitSelect.value;
+    if (manageUnitSelect) {
+      manageUnitSelect.addEventListener("change", () => {
+        updateBottom();
+        fillGroupSelects();
+      });
+    }
+
+    function pickAssignUnits(predicate) {
+      units.forEach((u) => {
+        if (predicate(u)) assignTargets.add(u.id);
+      });
+      renderAssignUnitsList();
       updateBottom();
-      fillGroupSelects();
-      const btnSet = $("#btnSetUnitGroup");
-      if (btnSet) btnSet.disabled = !unitSelect.value;
-    });
+    }
+
+    const btnAssignPickAll = $("#btnAssignPickAll");
+    if (btnAssignPickAll) {
+      btnAssignPickAll.addEventListener("click", (e) => {
+        e.preventDefault();
+        pickAssignUnits(() => true);
+      });
+    }
+    const btnAssignPickAdmin = $("#btnAssignPickAdmin");
+    if (btnAssignPickAdmin) {
+      btnAssignPickAdmin.addEventListener("click", (e) => {
+        e.preventDefault();
+        pickAssignUnits((u) => (u.group || THEUI.inferUnitGroup(u.name)) === "行政單位");
+      });
+    }
+    const btnAssignPickClear = $("#btnAssignPickClear");
+    if (btnAssignPickClear) {
+      btnAssignPickClear.addEventListener("click", (e) => {
+        e.preventDefault();
+        assignTargets.clear();
+        renderAssignUnitsList();
+        updateBottom();
+      });
+    }
 
     $("#btnAssign").addEventListener("click", async () => {
-      const unitId = unitSelect.value || lastAssignUnitId;
-      if (!unitId || !selected.size || assignBusy) return;
-      if (unitSelect.value !== unitId) unitSelect.value = unitId;
-      lastAssignUnitId = unitId;
+      const unitIds = [...assignTargets];
+      if (!unitIds.length || !selected.size || assignBusy) return;
       const ids = [...selected];
-      const unitLabel = unitName(unitId) || unitId;
+      const unitLabels = unitIds.map((id) => unitName(id) || id);
       const btn = $("#btnAssign");
       const label = btn.textContent;
       assignBusy = true;
-      btn.textContent = "分派中…";
       updateBottom();
+      let ok = 0;
+      let added = 0;
+      const failed = [];
       try {
-        const result = await THELive.assignQuestions(unitId, ids);
-        selected.clear();
-        updateBottom();
-        showExportBanner(
-          "ok",
-          `已分派給「${unitLabel}」：本次勾選 ${ids.length} 題（新增 ${result.added || 0}，目前共 ${result.total || 0} 題）。填報頁選此單位即可看到。`
-        );
-        // 退回紀錄清除失敗不應讓人以為分派沒寫入
+        for (let i = 0; i < unitIds.length; i += 1) {
+          const unitId = unitIds[i];
+          btn.textContent = `分派中… ${i + 1}/${unitIds.length}`;
+          try {
+            const result = await THELive.assignQuestions(unitId, ids);
+            ok += 1;
+            added += result.added || 0;
+          } catch (err) {
+            failed.push(`${unitName(unitId) || unitId}：${THELive.explain(err)}`);
+          }
+        }
         try {
           await THELive.clearReturnsForQuestions(ids);
         } catch (_) {
           /* ignore */
         }
-      } catch (err) {
-        showExportBanner("bad", `分派沒有寫入。${THELive.explain(err)}`);
+        selected.clear();
+        updateBottom();
+        if (failed.length && !ok) {
+          showExportBanner("bad", `分派沒有寫入。${failed[0]}`);
+        } else if (failed.length) {
+          showExportBanner(
+            "warn",
+            `已分派 ${ok}/${unitIds.length} 個單位（題目 ${ids.length}、新增約 ${added} 筆）；失敗：${failed.join("；")}`
+          );
+        } else {
+          showExportBanner(
+            "ok",
+            `已把 ${ids.length} 題分派給 ${ok} 個單位（${unitLabels.join("、")}）；合計新增約 ${added} 筆。`
+          );
+        }
       } finally {
         assignBusy = false;
         btn.textContent = label;
@@ -1326,27 +1435,44 @@
     });
 
     $("#btnUnassign").addEventListener("click", async () => {
-      const unitId = unitSelect.value || lastAssignUnitId;
-      if (!unitId || !selected.size || assignBusy) return;
-      if (unitSelect.value !== unitId) unitSelect.value = unitId;
-      lastAssignUnitId = unitId;
+      const unitIds = [...assignTargets];
+      if (!unitIds.length || !selected.size || assignBusy) return;
       const ids = [...selected];
-      const unitLabel = unitName(unitId) || unitId;
+      const unitLabels = unitIds.map((id) => unitName(id) || id);
       const btn = $("#btnUnassign");
       const label = btn.textContent;
       assignBusy = true;
-      btn.textContent = "取消中…";
       updateBottom();
+      let ok = 0;
+      let removed = 0;
+      const failed = [];
       try {
-        const result = await THELive.unassignQuestions(unitId, ids);
+        for (let i = 0; i < unitIds.length; i += 1) {
+          const unitId = unitIds[i];
+          btn.textContent = `取消中… ${i + 1}/${unitIds.length}`;
+          try {
+            const result = await THELive.unassignQuestions(unitId, ids);
+            ok += 1;
+            removed += result.removed || 0;
+          } catch (err) {
+            failed.push(`${unitName(unitId) || unitId}：${THELive.explain(err)}`);
+          }
+        }
         selected.clear();
         updateBottom();
-        showExportBanner(
-          "ok",
-          `已取消「${unitLabel}」分派：勾選 ${ids.length} 題（移除 ${result.removed || 0}，目前剩 ${result.total || 0} 題）。`
-        );
-      } catch (err) {
-        showExportBanner("bad", `取消分派沒有寫入。${THELive.explain(err)}`);
+        if (failed.length && !ok) {
+          showExportBanner("bad", `取消分派沒有寫入。${failed[0]}`);
+        } else if (failed.length) {
+          showExportBanner(
+            "warn",
+            `已取消 ${ok}/${unitIds.length} 個單位；失敗：${failed.join("；")}`
+          );
+        } else {
+          showExportBanner(
+            "ok",
+            `已取消 ${ok} 個單位（${unitLabels.join("、")}）對 ${ids.length} 題的分派；移除約 ${removed} 筆。`
+          );
+        }
       } finally {
         assignBusy = false;
         btn.textContent = label;
@@ -1479,7 +1605,7 @@
     });
 
     $("#btnRemoveUnit").addEventListener("click", async () => {
-      const unitId = unitSelect.value;
+      const unitId = manageUnitSelect && manageUnitSelect.value;
       if (!unitId) return;
       const unit = units.find((item) => item.id === unitId);
       const label = unit ? unit.name : unitId;
@@ -1490,7 +1616,8 @@
       if (!window.confirm(warn)) return;
       try {
         await THELive.removeUnit(unitId);
-        unitSelect.value = "";
+        assignTargets.delete(unitId);
+        if (manageUnitSelect) manageUnitSelect.value = "";
         updateBottom();
         showExportBanner("ok", `已刪除單位「${label}」。`);
       } catch (err) {
@@ -1552,7 +1679,7 @@
     });
 
     $("#btnSetUnitGroup").addEventListener("click", async () => {
-      const unitId = unitSelect.value;
+      const unitId = manageUnitSelect && manageUnitSelect.value;
       const group = editUnitGroup && editUnitGroup.value;
       if (!unitId || !group) return;
       const unit = units.find((u) => u.id === unitId);

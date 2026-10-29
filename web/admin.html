@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261029o" />
+  <link rel="stylesheet" href="css/app.css?v=20261030g" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -110,11 +110,20 @@
       <div id="exportBanner" class="submit-banner" hidden role="status" aria-live="assertive"></div>
 
       <div class="admin-bottom-main" data-for="assign">
-        <span class="admin-selected">已勾選 <strong id="selectedCount">0</strong></span>
-        <label class="admin-unit-label" for="assignUnit">分派給</label>
-        <select id="assignUnit"></select>
+        <span class="admin-selected">已勾選 <strong id="selectedCount">0</strong> 題</span>
+        <details class="assign-units-picker" id="assignUnitsPicker">
+          <summary>分派給：<span id="assignUnitsSummary">選單位（可多選）</span></summary>
+          <div class="assign-units-panel">
+            <div class="assign-units-tools">
+              <button type="button" id="btnAssignPickAll" class="secondary">全選</button>
+              <button type="button" id="btnAssignPickAdmin" class="secondary">全選行政單位</button>
+              <button type="button" id="btnAssignPickClear" class="secondary">清除</button>
+            </div>
+            <div id="assignUnitsList" class="assign-units-list"></div>
+          </div>
+        </details>
         <button type="button" id="btnAssign" disabled>送出分派</button>
-        <button type="button" id="btnUnassign" class="secondary" disabled>取消此單位分派</button>
+        <button type="button" id="btnUnassign" class="secondary" disabled>取消分派</button>
       </div>
 
       <div class="admin-bottom-main" data-for="review">
@@ -142,28 +151,29 @@
             <input type="text" id="newUnitName" placeholder="新增單位名稱" />
             <select id="newUnitGroup" aria-label="所屬分組"></select>
             <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
-            <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
           </div>
           <div class="admin-manage-row">
-            <span class="admin-manage-label">改分組</span>
+            <span class="admin-manage-label">管理</span>
+            <select id="manageUnitSelect" aria-label="選要管理的單位"></select>
             <select id="editUnitGroup" aria-label="變更所屬分組"></select>
-            <button type="button" id="btnSetUnitGroup" class="secondary" disabled>套用到選中單位</button>
+            <button type="button" id="btnSetUnitGroup" class="secondary" disabled>改分組</button>
+            <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
           </div>
         </div>
       </details>
     </footer>
   </div>
 
-  <script src="js/firebase-config.js?v=20261029o"></script>
-  <script src="js/admin-allowlist.js?v=20261029o"></script>
-  <script src="js/storage.js?v=20261029o"></script>
-  <script src="js/live.js?v=20261029o"></script>
-  <script src="js/ui.js?v=20261029o"></script>
-  <script src="js/methodology.js?v=20261029o"></script>
-  <script src="js/auth.js?v=20261029o"></script>
-  <script src="js/export.js?v=20261029o"></script>
-  <script src="js/submit.js?v=20261029o"></script>
-  <script src="js/admin.js?v=20261029o"></script>
-  <script src="js/ask.js?v=20261029o"></script>
+  <script src="js/firebase-config.js?v=20261030g"></script>
+  <script src="js/admin-allowlist.js?v=20261030g"></script>
+  <script src="js/storage.js?v=20261030g"></script>
+  <script src="js/live.js?v=20261030g"></script>
+  <script src="js/ui.js?v=20261030g"></script>
+  <script src="js/methodology.js?v=20261030g"></script>
+  <script src="js/auth.js?v=20261030g"></script>
+  <script src="js/export.js?v=20261030g"></script>
+  <script src="js/submit.js?v=20261030g"></script>
+  <script src="js/admin.js?v=20261030g"></script>
+  <script src="js/ask.js?v=20261030g"></script>
 </body>
 </html>
