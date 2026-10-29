@@ -360,13 +360,17 @@
 
   function requestRender() {
     if (holdRender) renderQueued = true;
-    else renderQuestions();
+    else {
+      renderTabs();
+      renderQuestions();
+    }
   }
 
   /** 退回開關等必須立刻重繪，不能被輸入框 focus 的 holdRender 卡住 */
   function forceRender() {
     holdRender = false;
     renderQueued = false;
+    renderTabs();
     renderQuestions();
   }
 
@@ -574,7 +578,10 @@
     holdRender = false;
     if (renderQueued) {
       renderQueued = false;
+      renderTabs();
       renderQuestions();
+    } else {
+      updateUnitProgressLabel();
     }
   });
 
@@ -584,6 +591,7 @@
     returns = {};
     drafts = {};
     pendingFiles.clear();
+    updateUnitProgressLabel();
     if (!unitId) return;
     const stops = [];
     stops.push(
@@ -592,6 +600,8 @@
         (map) => {
           if (unitId !== currentUnitId) return;
           remoteAnswers = map || {};
+          // 答案從雲端到齊後必須重算幾分之幾（不可只重繪畫面）
+          renderTabs();
           requestRender();
         },
         (err) => showSubmitBanner("bad", `讀取填答失敗。${THELive.explain(err)}`)
