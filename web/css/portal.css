@@ -246,6 +246,14 @@
   font-size: 0.8rem;
   color: var(--ok);
 }
+.portal-ev-side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
 .portal-ev-action {
   align-self: flex-start;
   border: 0;

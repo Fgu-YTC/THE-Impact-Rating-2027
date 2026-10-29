@@ -18,19 +18,14 @@
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
       note:
-        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿與去年參考。「帶入今年填報」只填空欄；資料存在 <code>portalFill</code>，不改單位填報。",
+        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿與去年參考。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
       importLive: "帶入今年填報",
-      importLiveTitle: "只填 Portal 尚空的欄位",
+      importLiveTitle: "一次帶入答案、選項、公開網址／檔案等到尚空欄位",
       importAll: "覆蓋帶入",
       importAllTitle: "用今年填報覆蓋 Portal 欄位",
       importAllConfirm: "要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）",
-      importUrls: "帶入網址",
-      importUrlsTitle: "把今年填報／去年參考的公開網址填進尚空的證據欄",
-      importedUrls: (n) => `已帶入 ${n} 題公開網址到證據欄（尚未按儲存）。`,
-      importedWithUrls: (n, urlN) =>
-        `已帶入 ${n} 題目前填報內容到 Portal 欄位（另帶入 ${urlN} 題網址；尚未按儲存）。`,
-      importUrlsEmpty: "沒有可帶入的公開網址（或證據欄已有內容）。",
-      useThisUrl: "帶入此網址",
+      alsoHasFile: "此題另有檔案",
+      downloadFileSide: (name) => (name ? `下載：${name}` : "下載檔案"),
       save: "儲存本頁",
       saving: "儲存中…",
       signOut: "登出",
@@ -96,20 +91,15 @@
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
       note:
-        "Fill by <strong>WUR Portal</strong> rows. This year’s unit/final answers and last-year reference are shown. “Import this year” only fills empty fields. Data is stored in <code>portalFill</code> and does not change unit fill.",
+        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
       importLive: "Import this year",
-      importLiveTitle: "Fill empty Portal fields only",
+      importLiveTitle: "Import answers, options, public URL/file into empty fields in one step",
       importAll: "Overwrite import",
       importAllTitle: "Overwrite Portal fields with this year’s fill",
       importAllConfirm:
         "Overwrite filled Portal fields with this year’s answers? (Unit fill page is not changed.)",
-      importUrls: "Import URLs",
-      importUrlsTitle: "Fill empty evidence fields with public URLs from this year / last year",
-      importedUrls: (n) => `Imported ${n} public evidence URLs (not saved yet).`,
-      importedWithUrls: (n, urlN) =>
-        `Imported ${n} questions into Portal fields (plus ${urlN} evidence URLs; not saved yet).`,
-      importUrlsEmpty: "No public URLs to import (or evidence fields already filled).",
-      useThisUrl: "Use this URL",
+      alsoHasFile: "This question also has a file",
+      downloadFileSide: (name) => (name ? `Download: ${name}` : "Download file"),
       save: "Save this page",
       saving: "Saving…",
       signOut: "Sign out",
@@ -214,11 +204,6 @@
       btnImportAll.textContent = t("importAll");
       btnImportAll.title = t("importAllTitle");
     }
-    const btnImportUrls = $("#btnImportUrls");
-    if (btnImportUrls) {
-      btnImportUrls.textContent = t("importUrls");
-      btnImportUrls.title = t("importUrlsTitle");
-    }
     setText("#btnSave", "save");
     setText("#btnSignOut", "signOut");
   }
@@ -256,6 +241,7 @@
       evidenceFileUrl: "",
       evidenceFilePath: "",
       evidenceStoredName: "",
+      evidenceAlsoFile: false,
     };
     if (keepKind) next.evidenceKind = keepKind;
     else next.evidenceKind = "";
@@ -340,21 +326,21 @@
     if (isStorageUrl(raw)) {
       if (!out.evidenceFileUrl) out.evidenceFileUrl = raw;
       out.evidence = "";
-      if (!out.evidenceKind) out.evidenceKind = "file";
     } else {
       out.evidence = publicEvidenceUrl(raw);
     }
-    if (out.evidenceKind === "url") {
-      out.evidenceFileName = "";
-      out.evidenceFileUrl = "";
-      out.evidenceFilePath = "";
-      out.evidenceStoredName = "";
-    } else if (out.evidenceKind === "file") {
-      out.evidence = "";
-    } else if (out.evidence) {
+    const hasUrl = !!out.evidence;
+    const hasFileMeta = !!(out.evidenceFileName || out.evidenceFileUrl || out.evidenceFilePath);
+    // 有公開網址就以網址為主；檔案可當附帶下載保留
+    if (hasUrl) {
       out.evidenceKind = "url";
-    } else if (out.evidenceFileName || out.evidenceFileUrl) {
+      out.evidenceAlsoFile = hasFileMeta;
+    } else if (hasFileMeta) {
       out.evidenceKind = "file";
+      out.evidenceAlsoFile = false;
+    } else if (out.evidenceKind !== "url" && out.evidenceKind !== "file") {
+      out.evidenceKind = "";
+      out.evidenceAlsoFile = false;
     }
     return out;
   }
@@ -517,18 +503,28 @@
     return priorPublicUrls(ref)[0] || "";
   }
 
-  function applyEvidenceUrl(ref, url) {
+  function applyEvidenceUrl(ref, url, fileMeta) {
     const next = publicEvidenceUrl(url);
     if (!next) return false;
-    pendingFiles.delete(ref);
-    patch(ref, {
+    const patchBody = {
       evidence: next,
       evidenceKind: "url",
-      evidenceFileName: "",
-      evidenceFileUrl: "",
-      evidenceFilePath: "",
-      evidenceStoredName: "",
-    });
+    };
+    if (fileMeta && (fileMeta.evidenceFileName || fileMeta.evidenceFileUrl)) {
+      patchBody.evidenceFileName = fileMeta.evidenceFileName || "";
+      patchBody.evidenceFileUrl = fileMeta.evidenceFileUrl || "";
+      patchBody.evidenceFilePath = fileMeta.evidenceFilePath || "";
+      patchBody.evidenceStoredName = fileMeta.evidenceStoredName || "";
+      patchBody.evidenceAlsoFile = true;
+    } else {
+      pendingFiles.delete(ref);
+      patchBody.evidenceFileName = "";
+      patchBody.evidenceFileUrl = "";
+      patchBody.evidenceFilePath = "";
+      patchBody.evidenceStoredName = "";
+      patchBody.evidenceAlsoFile = false;
+    }
+    patch(ref, patchBody);
     return true;
   }
 
@@ -615,20 +611,43 @@
     if (answer.public) out.public = answer.public;
     if (String(answer.comment || "").trim()) out.comment = String(answer.comment).slice(0, 1000);
     const pub = publicEvidenceUrl(answer.evidence);
+    const fileName = String(answer.evidenceFileName || "").trim();
+    const fileUrl = String(
+      answer.evidenceFileUrl || (isStorageUrl(answer.evidence) ? answer.evidence : "")
+    ).trim();
+    const hasFile = !!(fileName || fileUrl);
+    // 只帶「有提交的」證據：網址優先；若同時有檔案，網址為主並保留檔案供旁側下載
     if (pub) {
       out.evidence = pub;
       out.evidenceKind = "url";
-      out.evidenceFileName = "";
-      out.evidenceFileUrl = "";
-      out.evidenceFilePath = "";
-      out.evidenceStoredName = "";
-    } else {
+      if (hasFile) {
+        out.evidenceFileName = fileName;
+        out.evidenceFileUrl = fileUrl;
+        out.evidenceFilePath = answer.evidenceFilePath || "";
+        out.evidenceStoredName = answer.evidenceStoredName || "";
+        out.evidenceAlsoFile = true;
+      } else {
+        out.evidenceFileName = "";
+        out.evidenceFileUrl = "";
+        out.evidenceFilePath = "";
+        out.evidenceStoredName = "";
+        out.evidenceAlsoFile = false;
+      }
+    } else if (hasFile) {
       out.evidence = "";
-      if (answer.evidenceFileName) out.evidenceFileName = String(answer.evidenceFileName);
-      if (answer.evidenceFileUrl) out.evidenceFileUrl = String(answer.evidenceFileUrl);
-      else if (isStorageUrl(answer.evidence)) out.evidenceFileUrl = String(answer.evidence).trim();
-      if (out.evidenceFileName || out.evidenceFileUrl) out.evidenceKind = "file";
-      else out.evidenceKind = "";
+      out.evidenceKind = "file";
+      out.evidenceFileName = fileName;
+      out.evidenceFileUrl = fileUrl;
+      out.evidenceFilePath = answer.evidenceFilePath || "";
+      out.evidenceStoredName = answer.evidenceStoredName || "";
+      out.evidenceAlsoFile = false;
+    } else {
+      const priorUrl = field ? priorPublicUrls(field.ref)[0] || priorPublicUrls(field.parentRef || "")[0] : "";
+      if (priorUrl) {
+        out.evidence = priorUrl;
+        out.evidenceKind = "url";
+        out.evidenceAlsoFile = false;
+      }
     }
     if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
     if (Array.isArray(answer.options)) out.options = answer.options.slice();
@@ -648,17 +667,6 @@
         if (priorVal) mapped = { values: { v0: priorVal } };
       }
       if (!mapped || !Object.keys(mapped).length) return;
-      if (!f.subField && !publicEvidenceUrl(mapped.evidence)) {
-        const priorUrl = priorPublicUrls(f.ref)[0] || priorPublicUrls(f.parentRef || "")[0];
-        if (priorUrl) {
-          mapped.evidence = priorUrl;
-          mapped.evidenceKind = "url";
-          mapped.evidenceFileName = "";
-          mapped.evidenceFileUrl = "";
-          mapped.evidenceFilePath = "";
-          mapped.evidenceStoredName = "";
-        }
-      }
       if (
         f.answerType === "picklist" &&
         (f.portal || {}).optionSelect === "single" &&
@@ -682,10 +690,22 @@
             });
             if (added) next.values = merged;
             else delete next.values;
+          } else if (k === "evidenceAlsoFile") {
+            // keep with evidence import
           } else if (cur[k] != null && String(cur[k]) !== "") {
             delete next[k];
           }
         });
+        // 證據：若已有網址或檔案就不覆蓋
+        if (publicEvidenceUrl(cur.evidence) || cur.evidenceFileName || cur.evidenceFileUrl) {
+          delete next.evidence;
+          delete next.evidenceKind;
+          delete next.evidenceFileName;
+          delete next.evidenceFileUrl;
+          delete next.evidenceFilePath;
+          delete next.evidenceStoredName;
+          delete next.evidenceAlsoFile;
+        }
         if (!Object.keys(next).length) return;
         patch(f.ref, next);
       } else {
@@ -693,43 +713,8 @@
       }
       n += 1;
     });
-    // 即使其他欄已有內容，仍把尚空的公開網址帶進證據欄
-    const urlN = importEvidenceUrls({ onlyEmpty: true, silent: true });
     renderFields();
-    banner(
-      n || urlN ? "ok" : "warn",
-      n && urlN
-        ? t("importedWithUrls", n, urlN)
-        : n
-          ? t("imported", n)
-          : urlN
-            ? t("importedUrls", urlN)
-            : onlyEmpty
-              ? t("importEmpty")
-              : t("importNone")
-    );
-  }
-
-  function importEvidenceUrls({ onlyEmpty = true, silent = false } = {}) {
-    let n = 0;
-    fields.forEach((f) => {
-      if ((f.portal || {}).hasEvidence === false) return;
-      const cur = answerOf(f.ref);
-      if (onlyEmpty) {
-        if (publicEvidenceUrl(cur.evidence)) return;
-        if (cur.evidenceKind === "file" && (cur.evidenceFileName || cur.evidenceFileUrl || pendingFiles.has(f.ref))) {
-          return;
-        }
-      }
-      const url = bestEvidenceUrl(f.ref);
-      if (!url) return;
-      if (applyEvidenceUrl(f.ref, url)) n += 1;
-    });
-    if (!silent) {
-      renderFields();
-      banner(n ? "ok" : "warn", n ? t("importedUrls", n) : t("importUrlsEmpty"));
-    }
-    return n;
+    banner(n ? "ok" : "warn", n ? t("imported", n) : onlyEmpty ? t("importEmpty") : t("importNone"));
   }
 
   function renderTabs() {
@@ -955,9 +940,21 @@
           checked: kind === "url",
           label: lang === "en" ? "URL" : "網址",
           onChange: () => {
-            clearEvidenceFields(f.ref, "url");
-            const suggest = bestEvidenceUrl(f.ref);
-            if (suggest) applyEvidenceUrl(f.ref, suggest);
+            const pack = liveForRef(f.ref);
+            const live = pack && pack.preferred.answer;
+            if (live) {
+              const mapped = fromLiveAnswer(live, f) || {};
+              const pub = publicEvidenceUrl(mapped.evidence) || publicEvidenceUrl(live.evidence);
+              if (pub) {
+                applyEvidenceUrl(f.ref, pub, mapped.evidenceAlsoFile ? mapped : null);
+              } else {
+                clearEvidenceFields(f.ref, "url");
+              }
+            } else {
+              const prior = bestEvidenceUrl(f.ref);
+              if (prior) applyEvidenceUrl(f.ref, prior);
+              else clearEvidenceFields(f.ref, "url");
+            }
             renderFields();
           },
         });
@@ -968,7 +965,26 @@
           checked: kind === "file",
           label: lang === "en" ? "File" : "檔案",
           onChange: () => {
-            clearEvidenceFields(f.ref, "file");
+            pendingFiles.delete(f.ref);
+            const pack = liveForRef(f.ref);
+            const live = pack && pack.preferred.answer;
+            const fileName = live ? String(live.evidenceFileName || "").trim() : "";
+            const fileUrl = live
+              ? String(live.evidenceFileUrl || (isStorageUrl(live.evidence) ? live.evidence : "")).trim()
+              : "";
+            if (fileName || fileUrl) {
+              patch(f.ref, {
+                evidenceKind: "file",
+                evidence: "",
+                evidenceAlsoFile: false,
+                evidenceFileName: fileName,
+                evidenceFileUrl: fileUrl,
+                evidenceFilePath: (live && live.evidenceFilePath) || "",
+                evidenceStoredName: (live && live.evidenceStoredName) || "",
+              });
+            } else {
+              clearEvidenceFields(f.ref, "file");
+            }
             renderFields();
           },
         });
@@ -976,6 +992,10 @@
 
         const body = document.createElement("div");
         body.className = "portal-evidence-body";
+        const alsoFile =
+          !!ans.evidenceAlsoFile ||
+          (kind === "url" && !!(ans.evidenceFileName || ans.evidenceFileUrl || ans.evidenceFilePath));
+
         if (kind === "url") {
           const input = document.createElement("input");
           input.type = "url";
@@ -987,26 +1007,31 @@
               banner("warn", t("evidenceWarn"));
               input.value = "";
             }
-            patch(f.ref, { evidence: next, evidenceKind: "url" });
+            patch(f.ref, {
+              evidence: next,
+              evidenceKind: next ? "url" : "",
+              evidenceAlsoFile: next ? alsoFile : false,
+            });
           });
           body.appendChild(input);
-          if (!publicEvidenceUrl(ans.evidence)) {
-            const suggest = bestEvidenceUrl(f.ref);
-            if (suggest) {
-              const btn = document.createElement("button");
-              btn.type = "button";
-              btn.className = "portal-ev-action";
-              try {
-                btn.textContent = `${t("useThisUrl")} · ${new URL(suggest).hostname}`;
-              } catch (_) {
-                btn.textContent = t("useThisUrl");
-              }
-              btn.addEventListener("click", () => {
-                applyEvidenceUrl(f.ref, suggest);
-                renderFields();
-              });
-              body.appendChild(btn);
+          if (alsoFile) {
+            const side = document.createElement("div");
+            side.className = "portal-ev-side";
+            const note = document.createElement("span");
+            note.textContent = t("alsoHasFile");
+            side.appendChild(note);
+            const fileHref = fileDownloadHref(ans);
+            if (fileHref || ans.evidenceFileName) {
+              const a = document.createElement("a");
+              a.className = "portal-ev-link";
+              a.target = "_blank";
+              a.rel = "noopener";
+              if (fileHref) a.href = fileHref;
+              a.textContent = t("downloadFileSide", ans.evidenceFileName || "");
+              if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
+              side.appendChild(a);
             }
+            body.appendChild(side);
           }
         } else if (kind === "file") {
           const pending = pendingFiles.get(f.ref);
@@ -1025,22 +1050,6 @@
             a.textContent = fileDownloadLabel(ans);
             if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
             body.appendChild(a);
-          } else {
-            const livePack = liveForRef(f.ref);
-            const liveFileHref = livePack ? fileDownloadHref(livePack.preferred.answer) : "";
-            const liveFileName = livePack
-              ? String(livePack.preferred.answer.evidenceFileName || "").trim()
-              : "";
-            if (liveFileHref || liveFileName) {
-              const a = document.createElement("a");
-              a.className = "portal-ev-link";
-              a.target = "_blank";
-              a.rel = "noopener";
-              if (liveFileHref) a.href = liveFileHref;
-              a.textContent = t("liveFile", liveFileName);
-              if (liveFileName) a.setAttribute("download", liveFileName);
-              body.appendChild(a);
-            }
           }
           const file = document.createElement("input");
           file.type = "file";
@@ -1051,6 +1060,7 @@
             patch(f.ref, {
               evidenceKind: "file",
               evidence: "",
+              evidenceAlsoFile: false,
               evidenceFileName: chosen.name,
               evidenceFileUrl: "",
               evidenceFilePath: "",
@@ -1070,23 +1080,6 @@
             renderFields();
           });
           body.appendChild(clearBtn);
-        } else {
-          const suggest = bestEvidenceUrl(f.ref);
-          if (suggest) {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "portal-ev-action";
-            try {
-              btn.textContent = `${t("useThisUrl")} · ${new URL(suggest).hostname}`;
-            } catch (_) {
-              btn.textContent = t("useThisUrl");
-            }
-            btn.addEventListener("click", () => {
-              applyEvidenceUrl(f.ref, suggest);
-              renderFields();
-            });
-            body.appendChild(btn);
-          }
         }
         wrap.appendChild(body);
         grid.appendChild(wrap);
@@ -1279,10 +1272,6 @@
       if (!window.confirm(t("importAllConfirm"))) return;
       importLive({ onlyEmpty: false });
     });
-  }
-  const btnImportUrls = $("#btnImportUrls");
-  if (btnImportUrls) {
-    btnImportUrls.addEventListener("click", () => importEvidenceUrls({ onlyEmpty: true }));
   }
 
   THEAuth.onAuth(async (user, reason) => {
