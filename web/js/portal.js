@@ -43,6 +43,8 @@
       meta: (sdg, filled, total) => `SDG ${sdg} · 已填 ${filled}/${total}`,
       unaligned: "待確認",
       excelSub: (parent) => (parent ? `附屬數值（${parent}）` : "附屬數值"),
+      fromUnits: (names) => (names && names.length ? `來源：${names.join("、")}` : ""),
+      fromUnitsNone: "尚無單位填報",
       yesNo: "是／否",
       evidenceWarn: "請填可公開開啟的網頁網址；檔案請用下方上傳／下載。",
       evidenceMax: "提供證據（網址與檔案可同時填）",
@@ -93,6 +95,8 @@
       meta: (sdg, filled, total) => `SDG ${sdg} · ${filled}/${total} filled`,
       unaligned: "Check needed",
       excelSub: (parent) => (parent ? `Related value (${parent})` : "Related value"),
+      fromUnits: (names) => (names && names.length ? `From: ${names.join(", ")}` : ""),
+      fromUnitsNone: "No unit fill yet",
       yesNo: "Yes / No",
       evidenceWarn: "Use a public webpage URL; upload or download files below.",
       evidenceMax: "Evidence (URL and file can both be kept)",
@@ -161,7 +165,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261030a").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261030f").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];
@@ -652,6 +656,15 @@
       ref.className = "portal-ref";
       ref.textContent = f.ref;
       head.appendChild(ref);
+      const livePack = liveForRef(f.ref);
+      const sourceNames = livePack
+        ? [...new Set(livePack.all.map((h) => h.unitName).filter(Boolean))]
+        : [];
+      const source = document.createElement("span");
+      source.className = "portal-source" + (sourceNames.length ? "" : " empty");
+      source.textContent = sourceNames.length ? t("fromUnits", sourceNames) : t("fromUnitsNone");
+      if (sourceNames.length) source.title = sourceNames.join(lang === "en" ? ", " : "、");
+      head.appendChild(source);
       if (f.subField) {
         const badge = document.createElement("span");
         badge.className = "portal-badge soft";

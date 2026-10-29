@@ -71,6 +71,21 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
 }
+.portal-source {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #1e4a3d;
+  background: #eef6f1;
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+  line-height: 1.25;
+  max-width: 100%;
+}
+.portal-source.empty {
+  color: var(--muted);
+  background: #f3f1ec;
+  font-weight: 400;
+}
 .portal-badge {
   font-size: 0.68rem;
   line-height: 1.2;
