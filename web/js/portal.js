@@ -50,6 +50,7 @@
         `Impact 2027 · SDG ${sdg} · ${total} 欄（對齊 ${aligned}｜今年填報有內容 ${live}）`,
       aligned: "已對齊本站題目",
       unaligned: "Portal 多出／子欄",
+      excelSub: (parent) => (parent ? `Excel 子欄（隸屬 ${parent}）` : "Excel 數值子欄"),
       liveBadge: "今年填報有內容",
       liveTitle: "今年填報（本站單位／最終稿）",
       priorTitle: "去年參考（prior-year）",
@@ -128,6 +129,7 @@
         `Impact 2027 · SDG ${sdg} · ${total} fields (aligned ${aligned} · this year ${live})`,
       aligned: "Aligned to site question",
       unaligned: "Portal-only / sub-field",
+      excelSub: (parent) => (parent ? `Excel sub-field (under ${parent})` : "Excel numeric sub-field"),
       liveBadge: "This year has content",
       liveTitle: "This year (unit / final)",
       priorTitle: "Last year (prior-year)",
@@ -418,6 +420,7 @@
     const field = fields.find((f) => f.ref === ref);
     const qid = field && field.siteQuestionId;
     if (!qid) return null;
+    // siteQuestionId may be parent indicator for Excel sub-fields
     const hits = [];
     units.forEach((u) => {
       const office = (officeByUnit[u.id] || {})[qid];
@@ -587,8 +590,26 @@
     return !answerHasContent(a) && !a.policyCreated && !a.policyReviewed;
   }
 
-  function fromLiveAnswer(answer) {
+  function priorValueForSub(field) {
+    if (!field) return "";
+    const data = priorYear[field.parentRef] || priorYear[field.ref];
+    if (!data || !Array.isArray(data.values)) return "";
+    const idx = Number(String(field.valueKey || "v0").replace(/\D/g, "")) || 0;
+    const entry = data.values[idx];
+    return entry && entry.value != null && String(entry.value) !== "" ? String(entry.value) : "";
+  }
+
+  function fromLiveAnswer(answer, field) {
     if (!answer) return null;
+    // Excel 子欄：只帶入父題對應的那一個數值
+    if (field && field.subField && field.valueKey) {
+      const raw =
+        answer.values && answer.values[field.valueKey] != null
+          ? answer.values[field.valueKey]
+          : priorValueForSub(field);
+      if (raw == null || String(raw) === "") return null;
+      return { values: { v0: String(raw) } };
+    }
     const out = {};
     if (answer.yesNo) out.yesNo = answer.yesNo;
     if (answer.public) out.public = answer.public;
@@ -617,14 +638,18 @@
   function importLive({ onlyEmpty }) {
     let n = 0;
     fields.forEach((f) => {
-      if (!f.siteQuestionId) return;
+      if (!f.siteQuestionId && !(f.subField && f.parentRef)) return;
       if (onlyEmpty && !portalEmpty(f.ref)) return;
+      let mapped = null;
       const pack = liveForRef(f.ref);
-      if (!pack) return;
-      const mapped = fromLiveAnswer(pack.preferred.answer);
+      if (pack) mapped = fromLiveAnswer(pack.preferred.answer, f);
+      if ((!mapped || !Object.keys(mapped).length) && f.subField) {
+        const priorVal = priorValueForSub(f);
+        if (priorVal) mapped = { values: { v0: priorVal } };
+      }
       if (!mapped || !Object.keys(mapped).length) return;
-      if (!publicEvidenceUrl(mapped.evidence)) {
-        const priorUrl = priorPublicUrls(f.ref)[0];
+      if (!f.subField && !publicEvidenceUrl(mapped.evidence)) {
+        const priorUrl = priorPublicUrls(f.ref)[0] || priorPublicUrls(f.parentRef || "")[0];
         if (priorUrl) {
           mapped.evidence = priorUrl;
           mapped.evidenceKind = "url";
@@ -749,8 +774,13 @@
       ref.textContent = f.ref;
       head.appendChild(ref);
       const badge = document.createElement("span");
-      badge.className = "portal-badge" + (f.aligned ? "" : " warn");
-      badge.textContent = f.aligned ? t("aligned") : t("unaligned");
+      if (f.subField) {
+        badge.className = "portal-badge" + (f.aligned ? "" : " warn");
+        badge.textContent = t("excelSub", f.parentRef || "");
+      } else {
+        badge.className = "portal-badge" + (f.aligned ? "" : " warn");
+        badge.textContent = f.aligned ? t("aligned") : t("unaligned");
+      }
       head.appendChild(badge);
       if (liveForRef(f.ref)) {
         const liveBadge = document.createElement("span");
