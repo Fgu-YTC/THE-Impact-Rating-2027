@@ -18,7 +18,7 @@
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
       note:
-        "依 <strong>WUR Portal</strong> 題列填寫；會顯示本站今年單位填報／最終稿。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
+        "依 <strong>WUR Portal</strong> 題列填寫。「帶入今年填報」一次帶入答案與證據（有網址優先；若同時有檔案會註明並可下載）。資料存在 <code>portalFill</code>，不改單位填報。",
       importLive: "帶入今年填報",
       importLiveTitle: "一次帶入答案、選項、公開網址／檔案等到尚空欄位",
       importAll: "覆蓋帶入",
@@ -84,7 +84,7 @@
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
       note:
-        "Fill by <strong>WUR Portal</strong> rows. Shows this year’s unit / final fill. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
+        "Fill by <strong>WUR Portal</strong> rows. “Import this year” brings answers and evidence in one step (URL preferred; if a file also exists it is noted with a download). Data is stored in <code>portalFill</code> and does not change unit fill.",
       importLive: "Import this year",
       importLiveTitle: "Import answers, options, public URL/file into empty fields in one step",
       importAll: "Overwrite import",
@@ -411,85 +411,6 @@
     return { preferred, all: hits };
   }
 
-  function summarizeAnswerBits(answer) {
-    if (!answer) return [];
-    const bits = [];
-    if (answer.yesNo === "yes") bits.push("Yes");
-    if (answer.yesNo === "no") bits.push("No");
-    if (answer.values) {
-      const vals = Object.keys(answer.values)
-        .sort()
-        .map((k) => answer.values[k])
-        .filter((v) => v != null && String(v) !== "");
-      if (vals.length) bits.push(t("numbers") + " " + vals.slice(0, 4).join("／"));
-    }
-    if (answer.options && answer.options.length) bits.push(t("checked", answer.options.length));
-    if (answer.public === "public") bits.push(t("publicBit"));
-    if (answer.public === "private") bits.push(t("privateBit"));
-    if (String(answer.comment || "").trim()) bits.push(t("hasComment"));
-    return bits;
-  }
-
-  function appendEvidencePair(parent, { url, fileHref, fileName }) {
-    const hasUrl = !!url;
-    const hasFile = !!(fileHref || fileName);
-    if (!hasUrl && !hasFile) return;
-
-    const row = document.createElement("div");
-    row.className = "portal-ev-side";
-
-    if (hasUrl) {
-      const a = document.createElement("a");
-      a.href = url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.className = "portal-ev-link";
-      try {
-        a.textContent = new URL(url).hostname;
-      } catch (_) {
-        a.textContent = t("publicUrl");
-      }
-      row.appendChild(a);
-    }
-
-    if (hasUrl && hasFile) {
-      const note = document.createElement("span");
-      note.textContent = t("alsoHasFile");
-      row.appendChild(note);
-      const a = document.createElement("a");
-      a.className = "portal-ev-link";
-      if (fileHref) {
-        a.href = fileHref;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.textContent = t("downloadFileSide", fileName || "");
-      if (fileName) a.setAttribute("download", fileName);
-      row.appendChild(a);
-    } else if (hasFile) {
-      const a = document.createElement("a");
-      a.className = "portal-ev-link";
-      if (fileHref) {
-        a.href = fileHref;
-        a.target = "_blank";
-        a.rel = "noopener";
-      }
-      a.textContent = fileName || t("downloadFileSide", "");
-      if (fileName) a.setAttribute("download", fileName);
-      row.appendChild(a);
-    }
-
-    parent.appendChild(row);
-  }
-
-  function appendEvidenceLinks(parent, answer) {
-    appendEvidencePair(parent, {
-      url: publicEvidenceUrl(answer && answer.evidence),
-      fileHref: fileDownloadHref(answer),
-      fileName: String((answer && answer.evidenceFileName) || "").trim(),
-    });
-  }
-
   function priorPublicUrls(ref) {
     const data = priorYear[ref];
     if (!data) return [];
@@ -537,32 +458,6 @@
     }
     patch(ref, patchBody);
     return true;
-  }
-
-  function appendLiveBox(card, ref) {
-    const pack = liveForRef(ref);
-    if (!pack) return;
-    const box = document.createElement("div");
-    box.className = "portal-prior portal-live";
-    const title = document.createElement("strong");
-    title.textContent = t("liveTitle");
-    box.appendChild(title);
-    pack.all.forEach((h) => {
-      const line = document.createElement("div");
-      line.className = "portal-live-line";
-      const tag = h.kind === "office" ? t("officeTag") : t("unitTag");
-      const bits = summarizeAnswerBits(h.answer);
-      const head = document.createElement("span");
-      head.textContent =
-        `${h.unitName}（${tag}）` + (bits.length ? `：${bits.join(" · ")}` : `：${t("hasContent")}`);
-      line.appendChild(head);
-      const links = document.createElement("div");
-      links.className = "portal-live-links";
-      appendEvidenceLinks(links, h.answer);
-      if (links.childNodes.length) line.appendChild(links);
-      box.appendChild(line);
-    });
-    card.appendChild(box);
   }
 
   function portalEmpty(ref) {
@@ -783,8 +678,6 @@
         secondary.textContent = secondaryText;
         card.appendChild(secondary);
       }
-
-      appendLiveBox(card, f.ref);
 
       const grid = document.createElement("div");
       grid.className = "portal-grid";
