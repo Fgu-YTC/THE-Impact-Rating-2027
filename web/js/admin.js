@@ -835,17 +835,18 @@
               unitId: pack.unitId,
               unitName: pack.unitName || unitName(pack.unitId),
               sourceUnitName: pack.unitName || unitName(pack.unitId),
-              updatedAt: pack.updatedAt,
+              updatedAt: (original && original.updatedAt) || pack.updatedAt,
               answer: original,
               office: false,
             };
           }
+          const answer = office || original;
           return {
             unitId: pack.unitId,
             unitName: pack.unitName || unitName(pack.unitId),
             sourceUnitName: (office && office.sourceUnitName) || pack.unitName || unitName(pack.unitId),
-            updatedAt: (office && office.updatedAt) || pack.updatedAt,
-            answer: office || original,
+            updatedAt: (answer && answer.updatedAt) || (office && office.updatedAt) || pack.updatedAt,
+            answer,
             office: !!office,
           };
         })
@@ -917,7 +918,9 @@
           ? { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" }
           : { public: "公開", private: "不公開", undefined: "未定", yes: "公開", no: "不公開" };
       if (answer.public) addAnswerRow(list, lang === "en" ? "Public" : "是否公開", pub[answer.public] || answer.public);
-      if (String(answer.evidence || "").trim()) {
+      const hasEvidenceUrl = !!String(answer.evidence || "").trim();
+      const hasEvidenceFile = !!(answer.evidenceFileUrl || answer.evidenceFileName || answer.evidenceFilePath);
+      if (hasEvidenceUrl) {
         addAnswerRow(list, lang === "en" ? "Evidence" : "證據", linkNode(answer.evidence, answer.evidence));
       }
       if (answer.evidenceFileUrl) {
@@ -931,6 +934,18 @@
         );
       } else if (answer.evidenceFileName) {
         addAnswerRow(list, lang === "en" ? "File" : "檔案", answer.evidenceFileName);
+      }
+      // Yes／有勾選但沒證據：明確標出，避免誤以為檢視頁漏顯示
+      if (
+        q.answerType !== "continuous" &&
+        (answer.yesNo === "yes" || (answer.options && answer.options.length)) &&
+        !hasEvidenceUrl &&
+        !hasEvidenceFile
+      ) {
+        const miss = document.createElement("span");
+        miss.className = "submitted-missing";
+        miss.textContent = lang === "en" ? "Not provided" : "未提供";
+        addAnswerRow(list, lang === "en" ? "Evidence" : "證據", miss);
       }
       if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
     }

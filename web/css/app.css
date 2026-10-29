@@ -815,6 +815,10 @@ button:disabled {
 }
 .submitted-row dt { color: var(--muted); }
 .submitted-row dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.submitted-missing {
+  color: #9a3412;
+  font-weight: 600;
+}
 .submitted-empty { color: var(--muted); font-size: 0.82rem; margin-top: 0.45rem; }
 .fill-editors {
   margin-top: 0.15rem;
