@@ -51,6 +51,14 @@
   background: var(--warn-bg);
   color: var(--warn);
 }
+.portal-badge.live {
+  background: #e2f0e6;
+  color: var(--ok);
+}
+.portal-live {
+  background: #eaf4ef;
+  color: #1e4a3d;
+}
 .portal-en {
   font-size: 0.92rem;
   line-height: 1.45;

@@ -1,4 +1,4 @@
-/** Portal-aligned fill page — separate from unit fill / admin assign */
+/** Portal-aligned fill page — reads unit fill for reference/import; writes only portalFill */
 (async function () {
   const $ = (sel) => document.querySelector(sel);
   const authGate = $("#authGate");
@@ -27,7 +27,11 @@
   let currentSdg = fields[0] ? fields[0].sdg : 1;
   const drafts = {};
   let remote = {};
-  let saveTimer = null;
+  let units = [];
+  let answersByUnit = {};
+  let officeByUnit = {};
+  const officeStops = [];
+  let liveReady = false;
   let dbCtx = null;
 
   async function getDb() {
@@ -49,10 +53,60 @@
 
   function patch(ref, part) {
     drafts[ref] = { ...(drafts[ref] || {}), ...part };
-    if (saveTimer) clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      saveBanner.hidden = true;
-    }, 800);
+  }
+
+  function answerHasContent(a) {
+    if (!a) return false;
+    if (a.yesNo || a.public) return true;
+    if (String(a.comment || "").trim()) return true;
+    if (String(a.evidence || "").trim()) return true;
+    if (a.evidenceFileUrl || a.evidenceFileName) return true;
+    if (Array.isArray(a.options) && a.options.length) return true;
+    const values = a.values || {};
+    return Object.values(values).some((v) => v != null && String(v) !== "");
+  }
+
+  function liveForRef(ref) {
+    const field = fields.find((f) => f.ref === ref);
+    const qid = field && field.siteQuestionId;
+    if (!qid) return null;
+    const hits = [];
+    units.forEach((u) => {
+      const office = (officeByUnit[u.id] || {})[qid];
+      const ans = (answersByUnit[u.id] || {})[qid];
+      if (office && answerHasContent(office)) {
+        hits.push({ unitId: u.id, unitName: u.name, answer: office, kind: "office" });
+      } else if (ans && answerHasContent(ans)) {
+        hits.push({ unitId: u.id, unitName: u.name, answer: ans, kind: "unit" });
+      }
+    });
+    if (!hits.length) return null;
+    const preferred =
+      hits.find((h) => h.kind === "office" && /永續/.test(h.unitName)) ||
+      hits.find((h) => h.kind === "office") ||
+      hits[0];
+    return { preferred, all: hits };
+  }
+
+  function summarizeAnswer(answer) {
+    if (!answer) return "";
+    const bits = [];
+    if (answer.yesNo === "yes") bits.push("Yes");
+    if (answer.yesNo === "no") bits.push("No");
+    if (answer.values) {
+      const vals = Object.keys(answer.values)
+        .sort()
+        .map((k) => answer.values[k])
+        .filter((v) => v != null && String(v) !== "");
+      if (vals.length) bits.push("數字 " + vals.slice(0, 4).join("／"));
+    }
+    if (answer.options && answer.options.length) bits.push("勾選 " + answer.options.length + " 項");
+    if (String(answer.evidence || "").trim()) bits.push("有網址");
+    if (answer.evidenceFileName || answer.evidenceFileUrl) bits.push("有檔案");
+    if (answer.public === "public") bits.push("公開");
+    if (answer.public === "private") bits.push("不公開");
+    if (String(answer.comment || "").trim()) bits.push("有備註");
+    return bits.join(" · ");
   }
 
   function priorSummary(ref) {
@@ -73,6 +127,80 @@
     if (Array.isArray(data.files) && data.files[0]) bits.push(`檔案：${data.files[0].name || "有"}`);
     if (data.note) bits.push("備註有");
     return bits.join(" · ");
+  }
+
+  function liveSummary(ref) {
+    const pack = liveForRef(ref);
+    if (!pack) return "";
+    const lines = pack.all.map((h) => {
+      const tag = h.kind === "office" ? "永續辦／最終" : "單位";
+      return `${h.unitName}（${tag}）：${summarizeAnswer(h.answer) || "有內容"}`;
+    });
+    return lines.join("<br>");
+  }
+
+  function portalEmpty(ref) {
+    const a = answerOf(ref);
+    return !answerHasContent(a) && !a.policyCreated && !a.policyReviewed;
+  }
+
+  function fromLiveAnswer(answer) {
+    if (!answer) return null;
+    const out = {};
+    if (answer.yesNo) out.yesNo = answer.yesNo;
+    if (answer.public) out.public = answer.public;
+    if (String(answer.comment || "").trim()) out.comment = String(answer.comment).slice(0, 1000);
+    if (String(answer.evidence || "").trim()) out.evidence = String(answer.evidence).trim();
+    else if (answer.evidenceFileUrl) out.evidence = String(answer.evidenceFileUrl).trim();
+    if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
+    if (Array.isArray(answer.options)) out.options = answer.options.slice();
+    return out;
+  }
+
+  function importLive({ onlyEmpty }) {
+    let n = 0;
+    fields.forEach((f) => {
+      if (!f.siteQuestionId) return;
+      if (onlyEmpty && !portalEmpty(f.ref)) return;
+      const pack = liveForRef(f.ref);
+      if (!pack) return;
+      const mapped = fromLiveAnswer(pack.preferred.answer);
+      if (!mapped || !Object.keys(mapped).length) return;
+      if (onlyEmpty) {
+        const cur = answerOf(f.ref);
+        const next = { ...mapped };
+        Object.keys(next).forEach((k) => {
+          if (k === "values") {
+            const merged = { ...(cur.values || {}) };
+            let added = false;
+            Object.keys(next.values || {}).forEach((vk) => {
+              if (merged[vk] == null || String(merged[vk]) === "") {
+                merged[vk] = next.values[vk];
+                added = true;
+              }
+            });
+            if (added) next.values = merged;
+            else delete next.values;
+          } else if (cur[k] != null && String(cur[k]) !== "") {
+            delete next[k];
+          }
+        });
+        if (!Object.keys(next).length) return;
+        patch(f.ref, next);
+      } else {
+        patch(f.ref, mapped);
+      }
+      n += 1;
+    });
+    renderFields();
+    banner(
+      n ? "ok" : "warn",
+      n
+        ? `已帶入 ${n} 題目前填報內容到 Portal 欄位（尚未按儲存）。`
+        : onlyEmpty
+          ? "沒有可帶入的空欄（可能尚未填報，或 Portal 已有內容）。"
+          : "目前沒有可對齊的填報內容。"
+    );
   }
 
   function renderTabs() {
@@ -96,7 +224,8 @@
   function renderFields() {
     fieldList.innerHTML = "";
     const mine = fields.filter((f) => f.sdg === currentSdg);
-    $("#portalMeta").textContent = `Impact 2027 · SDG ${currentSdg} · ${mine.length} 欄（對齊 ${mine.filter((f) => f.aligned).length}）`;
+    const liveCount = mine.filter((f) => liveForRef(f.ref)).length;
+    $("#portalMeta").textContent = `Impact 2027 · SDG ${currentSdg} · ${mine.length} 欄（對齊 ${mine.filter((f) => f.aligned).length}｜今年填報有內容 ${liveCount}）`;
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
       const card = document.createElement("article");
@@ -113,6 +242,12 @@
       badge.className = "portal-badge" + (f.aligned ? "" : " warn");
       badge.textContent = f.aligned ? "已對齊本站題目" : "Portal 多出／子欄";
       head.appendChild(badge);
+      if (liveForRef(f.ref)) {
+        const liveBadge = document.createElement("span");
+        liveBadge.className = "portal-badge live";
+        liveBadge.textContent = "今年填報有內容";
+        head.appendChild(liveBadge);
+      }
       card.appendChild(head);
 
       const en = document.createElement("div");
@@ -126,11 +261,19 @@
         card.appendChild(zh);
       }
 
+      const liveHtml = liveSummary(f.ref);
+      if (liveHtml) {
+        const box = document.createElement("div");
+        box.className = "portal-prior portal-live";
+        box.innerHTML = "<strong>今年填報（本站單位／最終稿）</strong>" + liveHtml;
+        card.appendChild(box);
+      }
+
       const prior = priorSummary(f.ref);
       if (prior) {
         const box = document.createElement("div");
         box.className = "portal-prior";
-        box.innerHTML = "<strong>去年參考（本站 prior-year）</strong>" + prior;
+        box.innerHTML = "<strong>去年參考（prior-year）</strong>" + prior;
         card.appendChild(box);
       }
 
@@ -178,9 +321,7 @@
       }
 
       if (f.answerType === "continuous") {
-        const opts = (f.options || []).length
-          ? f.options
-          : [{ zh: "數值", en: "Value" }];
+        const opts = (f.options || []).length ? f.options : [{ zh: "數值", en: "Value" }];
         opts.forEach((opt, i) => {
           const lab = document.createElement("label");
           lab.textContent = opt.zh || opt.en || `v${i}`;
@@ -266,6 +407,47 @@
     });
   }
 
+  function watchLive() {
+    if (!window.THELive || liveReady) return;
+    liveReady = true;
+    THELive.listenUnits(
+      (next) => {
+        units = next || [];
+        while (officeStops.length) {
+          const stop = officeStops.pop();
+          try {
+            stop();
+          } catch (_) {}
+        }
+        units.forEach((u) => {
+          officeStops.push(
+            THELive.listenUnitOffice(
+              u.id,
+              (map) => {
+                officeByUnit = { ...officeByUnit, [u.id]: map || {} };
+                if (!app.hidden) renderFields();
+              },
+              () => {}
+            )
+          );
+        });
+        if (!app.hidden) renderFields();
+      },
+      (err) => banner("warn", `讀取單位失敗。${THELive.explain(err)}`)
+    );
+    THELive.listenAllAnswers(
+      (packs) => {
+        const next = {};
+        (packs || []).forEach((p) => {
+          next[p.unitId] = p.answers || {};
+        });
+        answersByUnit = next;
+        if (!app.hidden) renderFields();
+      },
+      (err) => banner("warn", `讀取填報失敗。${THELive.explain(err)}`)
+    );
+  }
+
   async function loadRemote() {
     const { store, doc, getDoc } = await getDb();
     const snap = await getDoc(doc(store, "portalFill", "impact2027"));
@@ -320,6 +502,17 @@
 
   $("#btnSignOut").addEventListener("click", () => THEAuth.signOut());
   $("#btnSave").addEventListener("click", saveAll);
+  const btnImport = $("#btnImportLive");
+  if (btnImport) {
+    btnImport.addEventListener("click", () => importLive({ onlyEmpty: true }));
+  }
+  const btnImportAll = $("#btnImportLiveAll");
+  if (btnImportAll) {
+    btnImportAll.addEventListener("click", () => {
+      if (!window.confirm("要用目前填報覆蓋 Portal 已填欄位嗎？（仍不會改到單位填報頁）")) return;
+      importLive({ onlyEmpty: false });
+    });
+  }
 
   THEAuth.onAuth(async (user, reason) => {
     if (!user) {
@@ -338,6 +531,7 @@
     } catch (err) {
       banner("warn", `讀取雲端草稿失敗，仍可先填；儲存時再試。${err && err.message ? err.message : ""}`);
     }
+    watchLive();
     renderTabs();
     renderFields();
   });
