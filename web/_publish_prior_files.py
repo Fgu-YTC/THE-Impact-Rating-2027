@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Stage final-2026 evidence files and rewrite prior-year.json download links for a GitHub Release."""
+"""Stage final-2026 evidence files and rewrite prior-year.json download links for a GitHub Release.
+
+Release 資產名用 ASCII（ref__n.ext），JSON 的 name 保留原檔名供畫面顯示與代理下載。
+"""
 import json
 import os
 import re
 import shutil
 import sys
+from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_prior_year as b
@@ -53,7 +57,7 @@ def main():
             dest = os.path.join(STAGE, asset)
             shutil.copy2(local, dest)
             staged.append(dest)
-            url = f"https://github.com/{REPO}/releases/download/{TAG}/{asset}"
+            url = f"https://github.com/{REPO}/releases/download/{TAG}/{quote(asset)}"
             entries.append(
                 {
                     "name": b.file_label(os.path.basename(local), ref),
@@ -63,6 +67,7 @@ def main():
         prior.setdefault(ref, {})["files"] = entries
     with open(b.OUT_CONTENT, "w", encoding="utf-8") as handle:
         json.dump(prior, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
     print(f"staged {len(staged)} -> {STAGE}")
     print(f"tag {TAG}")
 

@@ -243,3 +243,49 @@ exports.askMethodology = onRequest(
     res.json({ answer: answer || "沒有取得回答。" });
   }
 );
+
+const PRIOR_URL_OK = /^https:\/\/github\.com\/Fgu-YTC\/THE-Impact-Rating-2027\/releases\/download\/prior-year-2026\//;
+
+/** 代理去年證據下載，讓瀏覽器存成原檔名（GitHub release 資產名僅 ASCII） */
+exports.priorDownload = onRequest(
+  {
+    region: "asia-east1",
+    cors: true,
+    timeoutSeconds: 120,
+    memory: "1GiB",
+  },
+  async (req, res) => {
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+    const name = String((req.query && req.query.name) || "").trim().slice(0, 180);
+    const url = String((req.query && req.query.url) || "").trim();
+    if (!name || !url || !PRIOR_URL_OK.test(url)) {
+      res.status(400).send("bad request");
+      return;
+    }
+    try {
+      const upstream = await fetch(url, { redirect: "follow" });
+      if (!upstream.ok) {
+        res.status(502).send("upstream");
+        return;
+      }
+      const ascii = name.replace(/[^\x20-\x7E]+/g, "_").replace(/["\\]/g, "_") || "evidence.bin";
+      const star = encodeURIComponent(name).replace(/['()]/g, escape);
+      res.setHeader(
+        "Content-Type",
+        upstream.headers.get("content-type") || "application/octet-stream"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="${ascii}"; filename*=UTF-8''${star}`
+      );
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      const buf = Buffer.from(await upstream.arrayBuffer());
+      res.status(200).send(buf);
+    } catch (err) {
+      res.status(502).send("download failed");
+    }
+  }
+);

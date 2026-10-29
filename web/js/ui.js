@@ -537,12 +537,22 @@
     list.appendChild(row);
   }
 
-  function priorLink(href, text) {
+  const PRIOR_DOWNLOAD_API =
+    "https://asia-east1-fgu-the-impact-rating.cloudfunctions.net/priorDownload";
+
+  function priorLink(href, text, downloadName) {
     const a = document.createElement("a");
-    a.href = href;
+    const name = String(downloadName || text || "").trim();
+    // 經 Cloud Function 代理，才能用原檔名下載（GitHub release 檔名無中文）
+    if (name && href && /github\.com\/.+\/releases\/download\//i.test(href)) {
+      a.href = `${PRIOR_DOWNLOAD_API}?name=${encodeURIComponent(name)}&url=${encodeURIComponent(href)}`;
+    } else {
+      a.href = href;
+    }
     a.target = "_blank";
     a.rel = "noopener";
     a.textContent = text || href;
+    if (name) a.setAttribute("download", name);
     return a;
   }
 
@@ -638,7 +648,8 @@
     (data.evidence || []).forEach((href) => priorRow(list, evidenceLabel, priorLink(href)));
     (data.files || []).forEach((item) => {
       if (item && typeof item === "object" && item.url) {
-        priorRow(list, fileLabel, priorLink(item.url, item.name || item.url));
+        const label = item.name || item.url;
+        priorRow(list, fileLabel, priorLink(item.url, label, item.name || ""));
       } else if (item && typeof item === "object" && item.name) {
         priorRow(list, fileLabel, item.name);
       } else if (item) {
