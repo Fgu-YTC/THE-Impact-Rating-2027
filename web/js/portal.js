@@ -67,6 +67,13 @@
       yesNo: "是／否",
       evidenceUrl: "證據網址（公開網頁；勿貼 Storage 下載網址）",
       evidenceWarn: "請填公開網頁網址；已上傳檔案請用下方下載連結，不要貼 Firebase Storage 網址。",
+      evidenceMax: "提供證據（最多 1 項）",
+      evidenceChoose: "選擇證據類型",
+      evidenceTypeUrl: "網址：連到線上證據",
+      evidenceTypeFile: "檔案：上傳一個證據檔",
+      evidenceClear: "清除證據",
+      evidencePending: (name) => `待上傳：${name}`,
+      evidenceUploading: "上傳證據中…",
       publicLabel: "公開／不公開／未定",
       comments: "備註（最多 1000 字）",
       policyCreated: "政策訂定年（yyyy）",
@@ -132,6 +139,13 @@
       evidenceUrl: "Evidence URL (public page; do not paste Storage download URLs)",
       evidenceWarn:
         "Use a public webpage URL. For uploaded files, use the download link below — do not paste Firebase Storage URLs.",
+      evidenceMax: "Provide Evidence (Maximum 1)",
+      evidenceChoose: "Choose Evidence Type",
+      evidenceTypeUrl: "Url: Link to online evidence",
+      evidenceTypeFile: "File: Upload a file for evidence",
+      evidenceClear: "Clear evidence",
+      evidencePending: (name) => `Pending upload: ${name}`,
+      evidenceUploading: "Uploading evidence…",
       publicLabel: "Public / Private / Undefined",
       comments: "Comments (max 1000 characters)",
       policyCreated: "Policy created (yyyy)",
@@ -195,6 +209,7 @@
   const fields = portalPack.fields || [];
   let currentSdg = fields[0] ? fields[0].sdg : 1;
   const drafts = {};
+  const pendingFiles = new Map();
   let remote = {};
   let units = [];
   let answersByUnit = {};
@@ -202,6 +217,44 @@
   const officeStops = [];
   let liveReady = false;
   let dbCtx = null;
+  let storageCtx = null;
+
+  function evidenceKindOf(ans, ref) {
+    if (!ans) return "";
+    if (ans.evidenceKind === "url" || ans.evidenceKind === "file") return ans.evidenceKind;
+    if (publicEvidenceUrl(ans.evidence)) return "url";
+    if (pendingFiles.has(ref) || ans.evidenceFileName || ans.evidenceFileUrl) return "file";
+    return "";
+  }
+
+  function clearEvidenceFields(ref, keepKind) {
+    pendingFiles.delete(ref);
+    const next = {
+      evidence: "",
+      evidenceFileName: "",
+      evidenceFileUrl: "",
+      evidenceFilePath: "",
+      evidenceStoredName: "",
+    };
+    if (keepKind) next.evidenceKind = keepKind;
+    else next.evidenceKind = "";
+    patch(ref, next);
+  }
+
+  function appendChoiceRow(parent, { name, type, value, checked, label, onChange }) {
+    const lab = document.createElement("label");
+    lab.className = "portal-choice";
+    const input = document.createElement("input");
+    input.type = type;
+    input.name = name;
+    input.value = value;
+    input.checked = !!checked;
+    input.addEventListener("change", onChange);
+    lab.appendChild(input);
+    lab.appendChild(document.createTextNode(label));
+    parent.appendChild(lab);
+    return lab;
+  }
 
   async function getDb() {
     if (dbCtx) return dbCtx;
@@ -266,10 +319,69 @@
     if (isStorageUrl(raw)) {
       if (!out.evidenceFileUrl) out.evidenceFileUrl = raw;
       out.evidence = "";
+      if (!out.evidenceKind) out.evidenceKind = "file";
     } else {
       out.evidence = publicEvidenceUrl(raw);
     }
+    if (out.evidenceKind === "url") {
+      out.evidenceFileName = "";
+      out.evidenceFileUrl = "";
+      out.evidenceFilePath = "";
+      out.evidenceStoredName = "";
+    } else if (out.evidenceKind === "file") {
+      out.evidence = "";
+    } else if (out.evidence) {
+      out.evidenceKind = "url";
+    } else if (out.evidenceFileName || out.evidenceFileUrl) {
+      out.evidenceKind = "file";
+    }
     return out;
+  }
+
+  async function getStorage() {
+    if (storageCtx) return storageCtx;
+    const { initializeApp, getApps } = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"
+    );
+    const { getStorage, ref, uploadBytes, getDownloadURL } = await import(
+      "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"
+    );
+    const appInstance = getApps().length ? getApps()[0] : initializeApp(window.FIREBASE_CONFIG);
+    storageCtx = { bucket: getStorage(appInstance), ref, uploadBytes, getDownloadURL };
+    return storageCtx;
+  }
+
+  function safeFileName(name) {
+    return String(name || "file").replace(/[\\/:*?"<>|#]/g, "_").trim() || "file";
+  }
+
+  async function uploadPendingEvidence(merged) {
+    if (!pendingFiles.size) return;
+    const { bucket, ref, uploadBytes, getDownloadURL } = await getStorage();
+    for (const [refId, file] of pendingFiles.entries()) {
+      if (!file) continue;
+      const stored = `${Date.now()}_${safeFileName(file.name)}`;
+      const path = `evidence/portal/${refId}/${stored}`;
+      await uploadBytes(ref(bucket, path), file, {
+        contentType: file.type || "application/octet-stream",
+      });
+      let url = "";
+      try {
+        url = await getDownloadURL(ref(bucket, path));
+      } catch (_) {
+        url = "";
+      }
+      merged[refId] = sanitizePortalAnswer({
+        ...(merged[refId] || {}),
+        evidenceKind: "file",
+        evidence: "",
+        evidenceFileName: file.name,
+        evidenceStoredName: stored,
+        evidenceFilePath: path,
+        evidenceFileUrl: url,
+      });
+    }
+    pendingFiles.clear();
   }
 
   function answerHasContent(a) {
@@ -417,11 +529,21 @@
     if (answer.public) out.public = answer.public;
     if (String(answer.comment || "").trim()) out.comment = String(answer.comment).slice(0, 1000);
     const pub = publicEvidenceUrl(answer.evidence);
-    if (pub) out.evidence = pub;
-    else out.evidence = "";
-    if (answer.evidenceFileName) out.evidenceFileName = String(answer.evidenceFileName);
-    if (answer.evidenceFileUrl) out.evidenceFileUrl = String(answer.evidenceFileUrl);
-    else if (isStorageUrl(answer.evidence)) out.evidenceFileUrl = String(answer.evidence).trim();
+    if (pub) {
+      out.evidence = pub;
+      out.evidenceKind = "url";
+      out.evidenceFileName = "";
+      out.evidenceFileUrl = "";
+      out.evidenceFilePath = "";
+      out.evidenceStoredName = "";
+    } else {
+      out.evidence = "";
+      if (answer.evidenceFileName) out.evidenceFileName = String(answer.evidenceFileName);
+      if (answer.evidenceFileUrl) out.evidenceFileUrl = String(answer.evidenceFileUrl);
+      else if (isStorageUrl(answer.evidence)) out.evidenceFileUrl = String(answer.evidence).trim();
+      if (out.evidenceFileName || out.evidenceFileUrl) out.evidenceKind = "file";
+      else out.evidenceKind = "";
+    }
     if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
     if (Array.isArray(answer.options)) out.options = answer.options.slice();
     return out;
@@ -549,41 +671,55 @@
       const portal = f.portal || {};
 
       if (portal.hasYesNo || f.answerType === "yesno" || f.answerType === "picklist") {
-        const lab = document.createElement("label");
-        lab.textContent = t("yesNo");
-        const sel = document.createElement("select");
-        sel.innerHTML =
-          '<option value="">—</option><option value="yes">Yes</option><option value="no">No</option>';
-        sel.value = ans.yesNo || "";
-        sel.addEventListener("change", () => patch(f.ref, { yesNo: sel.value }));
-        lab.appendChild(sel);
-        grid.appendChild(lab);
+        const wrap = document.createElement("div");
+        wrap.className = "portal-choice-group";
+        const caption = document.createElement("div");
+        caption.className = "portal-field-label";
+        caption.textContent = t("yesNo");
+        wrap.appendChild(caption);
+        const row = document.createElement("div");
+        row.className = "portal-choice-row";
+        ["yes", "no"].forEach((val) => {
+          appendChoiceRow(row, {
+            name: `yn-${f.ref}`,
+            type: "radio",
+            value: val,
+            checked: ans.yesNo === val,
+            label: val === "yes" ? "Yes" : "No",
+            onChange: () => patch(f.ref, { yesNo: val }),
+          });
+        });
+        wrap.appendChild(row);
+        grid.appendChild(wrap);
       }
 
       if (f.answerType === "picklist" && (f.options || []).length) {
         const wrap = document.createElement("div");
-        wrap.className = "portal-opts";
+        wrap.className = "portal-choice-group";
+        const row = document.createElement("div");
+        row.className = "portal-choice-row portal-opts";
         const selected = new Set(ans.options || []);
         f.options.forEach((opt) => {
           const key = opt.en || opt.zh;
-          const lab = document.createElement("label");
-          const cb = document.createElement("input");
-          cb.type = "checkbox";
-          cb.checked = selected.has(opt.en) || selected.has(opt.zh);
-          cb.addEventListener("change", () => {
-            const next = new Set(answerOf(f.ref).options || []);
-            if (cb.checked) next.add(key);
-            else {
-              next.delete(opt.en);
-              next.delete(opt.zh);
-              next.delete(key);
-            }
-            patch(f.ref, { options: [...next] });
+          appendChoiceRow(row, {
+            name: `opt-${f.ref}`,
+            type: "checkbox",
+            value: key,
+            checked: selected.has(opt.en) || selected.has(opt.zh) || selected.has(key),
+            label: optLabel(opt) || key,
+            onChange: (ev) => {
+              const next = new Set(answerOf(f.ref).options || []);
+              if (ev.target.checked) next.add(key);
+              else {
+                next.delete(opt.en);
+                next.delete(opt.zh);
+                next.delete(key);
+              }
+              patch(f.ref, { options: [...next] });
+            },
           });
-          lab.appendChild(cb);
-          lab.appendChild(document.createTextNode(optLabel(opt) || key));
-          wrap.appendChild(lab);
         });
+        wrap.appendChild(row);
         grid.appendChild(wrap);
       }
 
@@ -632,60 +768,148 @@
       }
 
       if (portal.hasEvidence !== false) {
-        const lab = document.createElement("label");
-        lab.textContent = t("evidenceUrl");
-        const input = document.createElement("input");
-        input.type = "url";
-        input.placeholder = "https://…";
-        input.value = publicEvidenceUrl(ans.evidence) || "";
-        input.addEventListener("change", () => {
-          const next = publicEvidenceUrl(input.value);
-          if (input.value.trim() && !next) {
-            banner("warn", t("evidenceWarn"));
-            input.value = "";
-          }
-          patch(f.ref, { evidence: next });
+        const wrap = document.createElement("div");
+        wrap.className = "portal-evidence";
+        const caption = document.createElement("div");
+        caption.className = "portal-field-label";
+        caption.textContent = t("evidenceMax");
+        wrap.appendChild(caption);
+
+        const kind = evidenceKindOf(ans, f.ref);
+        const typeRow = document.createElement("div");
+        typeRow.className = "portal-choice-row";
+        appendChoiceRow(typeRow, {
+          name: `evkind-${f.ref}`,
+          type: "radio",
+          value: "url",
+          checked: kind === "url",
+          label: t("evidenceTypeUrl"),
+          onChange: () => {
+            clearEvidenceFields(f.ref, "url");
+            renderFields();
+          },
         });
-        lab.appendChild(input);
-        const fileHref = fileDownloadHref(ans);
-        const livePack = liveForRef(f.ref);
-        const liveFileHref = livePack ? fileDownloadHref(livePack.preferred.answer) : "";
-        const liveFileName = livePack
-          ? String(livePack.preferred.answer.evidenceFileName || "").trim()
-          : "";
-        if (fileHref || ans.evidenceFileName) {
-          const a = document.createElement("a");
-          a.className = "portal-ev-link";
-          a.target = "_blank";
-          a.rel = "noopener";
-          a.href = fileHref || "#";
-          if (!fileHref) a.removeAttribute("href");
-          a.textContent = fileDownloadLabel(ans);
-          if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
-          lab.appendChild(a);
-        } else if (liveFileHref || liveFileName) {
-          const a = document.createElement("a");
-          a.className = "portal-ev-link";
-          a.target = "_blank";
-          a.rel = "noopener";
-          if (liveFileHref) a.href = liveFileHref;
-          a.textContent = t("liveFile", liveFileName);
-          if (liveFileName) a.setAttribute("download", liveFileName);
-          lab.appendChild(a);
+        appendChoiceRow(typeRow, {
+          name: `evkind-${f.ref}`,
+          type: "radio",
+          value: "file",
+          checked: kind === "file",
+          label: t("evidenceTypeFile"),
+          onChange: () => {
+            clearEvidenceFields(f.ref, "file");
+            renderFields();
+          },
+        });
+        wrap.appendChild(typeRow);
+
+        const body = document.createElement("div");
+        body.className = "portal-evidence-body";
+        if (kind === "url") {
+          const input = document.createElement("input");
+          input.type = "url";
+          input.placeholder = "https://…";
+          input.value = publicEvidenceUrl(ans.evidence) || "";
+          input.addEventListener("change", () => {
+            const next = publicEvidenceUrl(input.value);
+            if (input.value.trim() && !next) {
+              banner("warn", t("evidenceWarn"));
+              input.value = "";
+            }
+            patch(f.ref, { evidence: next, evidenceKind: "url" });
+          });
+          body.appendChild(input);
+        } else if (kind === "file") {
+          const pending = pendingFiles.get(f.ref);
+          const fileHref = fileDownloadHref(ans);
+          if (pending) {
+            const tip = document.createElement("div");
+            tip.className = "portal-ev-pending";
+            tip.textContent = t("evidencePending", pending.name);
+            body.appendChild(tip);
+          } else if (fileHref || ans.evidenceFileName) {
+            const a = document.createElement("a");
+            a.className = "portal-ev-link";
+            a.target = "_blank";
+            a.rel = "noopener";
+            if (fileHref) a.href = fileHref;
+            a.textContent = fileDownloadLabel(ans);
+            if (ans.evidenceFileName) a.setAttribute("download", ans.evidenceFileName);
+            body.appendChild(a);
+          } else {
+            const livePack = liveForRef(f.ref);
+            const liveFileHref = livePack ? fileDownloadHref(livePack.preferred.answer) : "";
+            const liveFileName = livePack
+              ? String(livePack.preferred.answer.evidenceFileName || "").trim()
+              : "";
+            if (liveFileHref || liveFileName) {
+              const a = document.createElement("a");
+              a.className = "portal-ev-link";
+              a.target = "_blank";
+              a.rel = "noopener";
+              if (liveFileHref) a.href = liveFileHref;
+              a.textContent = t("liveFile", liveFileName);
+              if (liveFileName) a.setAttribute("download", liveFileName);
+              body.appendChild(a);
+            }
+          }
+          const file = document.createElement("input");
+          file.type = "file";
+          file.addEventListener("change", () => {
+            const chosen = file.files && file.files[0];
+            if (!chosen) return;
+            pendingFiles.set(f.ref, chosen);
+            patch(f.ref, {
+              evidenceKind: "file",
+              evidence: "",
+              evidenceFileName: chosen.name,
+              evidenceFileUrl: "",
+              evidenceFilePath: "",
+              evidenceStoredName: "",
+            });
+            renderFields();
+          });
+          body.appendChild(file);
         }
-        grid.appendChild(lab);
+        if (kind) {
+          const clearBtn = document.createElement("button");
+          clearBtn.type = "button";
+          clearBtn.className = "secondary portal-ev-clear";
+          clearBtn.textContent = t("evidenceClear");
+          clearBtn.addEventListener("click", () => {
+            clearEvidenceFields(f.ref, "");
+            renderFields();
+          });
+          body.appendChild(clearBtn);
+        }
+        wrap.appendChild(body);
+        grid.appendChild(wrap);
       }
 
       if (portal.hasPublic) {
-        const lab = document.createElement("label");
-        lab.textContent = t("publicLabel");
-        const sel = document.createElement("select");
-        sel.innerHTML =
-          '<option value="">—</option><option value="public">Public</option><option value="private">Private</option><option value="undefined">Undefined</option>';
-        sel.value = ans.public || "";
-        sel.addEventListener("change", () => patch(f.ref, { public: sel.value }));
-        lab.appendChild(sel);
-        grid.appendChild(lab);
+        const wrap = document.createElement("div");
+        wrap.className = "portal-choice-group";
+        const caption = document.createElement("div");
+        caption.className = "portal-field-label";
+        caption.textContent = t("publicLabel");
+        wrap.appendChild(caption);
+        const row = document.createElement("div");
+        row.className = "portal-choice-row";
+        [
+          { value: "public", label: "Public" },
+          { value: "private", label: "Private" },
+          { value: "undefined", label: "Undefined" },
+        ].forEach((item) => {
+          appendChoiceRow(row, {
+            name: `pub-${f.ref}`,
+            type: "radio",
+            value: item.value,
+            checked: ans.public === item.value,
+            label: item.label,
+            onChange: () => patch(f.ref, { public: item.value }),
+          });
+        });
+        wrap.appendChild(row);
+        grid.appendChild(wrap);
       }
 
       if (
@@ -763,7 +987,7 @@
   async function saveAll() {
     const btn = $("#btnSave");
     btn.disabled = true;
-    btn.textContent = t("saving");
+    btn.textContent = pendingFiles.size ? t("evidenceUploading") : t("saving");
     try {
       const { store, doc, setDoc } = await getDb();
       const merged = { ...remote };
@@ -773,6 +997,10 @@
       Object.keys(merged).forEach((ref) => {
         merged[ref] = sanitizePortalAnswer(merged[ref] || {});
       });
+      if (pendingFiles.size) {
+        btn.textContent = t("evidenceUploading");
+        await uploadPendingEvidence(merged);
+      }
       await setDoc(
         doc(store, "portalFill", "impact2027"),
         {
@@ -785,6 +1013,7 @@
       remote = merged;
       Object.keys(drafts).forEach((k) => delete drafts[k]);
       banner("ok", t("saved"));
+      renderFields();
     } catch (err) {
       banner("bad", t("saveFail", err && err.message ? err.message : err));
     } finally {
