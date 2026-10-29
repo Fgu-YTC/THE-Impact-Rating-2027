@@ -42,6 +42,74 @@
     return false;
   }
 
+  const DEFAULT_UNIT_GROUPS = ["院", "行政單位"];
+
+  function inferUnitGroup(name) {
+    if (global.THELive && THELive.inferUnitGroup) return THELive.inferUnitGroup(name);
+    const n = String(name || "");
+    if (/院$/.test(n) || n.includes("學院")) return "院";
+    return "行政單位";
+  }
+
+  /** 依分組順序整理單位；回傳 [{ group, units }] */
+  function groupUnits(units, groupOrder) {
+    const order = (groupOrder && groupOrder.length ? groupOrder : DEFAULT_UNIT_GROUPS).slice();
+    const buckets = new Map();
+    order.forEach((g) => buckets.set(g, []));
+    const orphan = [];
+    (units || []).forEach((u) => {
+      const g = String(u.group || "").trim() || inferUnitGroup(u.name);
+      if (buckets.has(g)) buckets.get(g).push(u);
+      else orphan.push({ u, g });
+    });
+    orphan.forEach(({ u, g }) => {
+      if (!buckets.has(g)) {
+        buckets.set(g, []);
+        order.push(g);
+      }
+      buckets.get(g).push(u);
+    });
+    return order
+      .map((g) => ({
+        group: g,
+        units: (buckets.get(g) || []).slice().sort((a, b) =>
+          String(a.name).localeCompare(String(b.name), "zh-Hant")
+        ),
+      }))
+      .filter((row) => row.units.length || (groupOrder || []).includes(row.group));
+  }
+
+  /** 下拉選單用 optgroup 分組 */
+  function fillGroupedUnitSelect(selectEl, units, opts) {
+    if (!selectEl) return;
+    const options = opts || {};
+    const prev = options.selectedId != null ? options.selectedId : selectEl.value;
+    const groups = groupUnits(units, options.groupOrder);
+    const ph =
+      options.placeholder ||
+      (options.lang === "en" ? "Select a unit…" : "選擇單位…");
+    selectEl.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = ph;
+    selectEl.appendChild(placeholder);
+    groups.forEach((row) => {
+      if (!row.units.length) return;
+      const og = document.createElement("optgroup");
+      og.label = row.group;
+      row.units.forEach((u) => {
+        const opt = document.createElement("option");
+        opt.value = u.id;
+        opt.textContent = u.name;
+        og.appendChild(opt);
+      });
+      selectEl.appendChild(og);
+    });
+    if (prev && [...selectEl.options].some((o) => o.value === prev)) {
+      selectEl.value = prev;
+    }
+  }
+
   /** 這題實際要問的句子；數值題則列出要填的欄位 */
   function questionAsk(q, lang) {
     const primary = lang === "en" ? q.en : q.zh;
@@ -735,6 +803,10 @@
     setLang,
     bindLangToggle,
     isTextSelecting,
+    DEFAULT_UNIT_GROUPS,
+    inferUnitGroup,
+    groupUnits,
+    fillGroupedUnitSelect,
     renderQuestionCopy,
     questionAsk,
     parentRef,

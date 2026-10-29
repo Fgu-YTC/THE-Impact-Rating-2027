@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261028j" />
+  <link rel="stylesheet" href="css/app.css?v=20261029a" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -127,27 +127,43 @@
       </div>
 
       <details class="admin-more" data-for="assign">
-        <summary>單位管理</summary>
-        <div class="admin-more-body">
+        <summary>單位／分組管理</summary>
+        <div class="admin-more-body admin-unit-manage">
           <button type="button" id="btnClearAssignments" class="secondary">清除全部分配</button>
-          <input type="text" id="newUnitName" placeholder="新增單位名稱" />
-          <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
-          <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
+          <div class="admin-manage-row">
+            <span class="admin-manage-label">分組</span>
+            <select id="manageGroupSelect" aria-label="現有分組"></select>
+            <input type="text" id="newGroupName" placeholder="新分組名稱" />
+            <button type="button" id="btnAddGroup" class="secondary">新增分組</button>
+            <button type="button" id="btnRemoveGroup" class="secondary">刪除分組</button>
+          </div>
+          <div class="admin-manage-row">
+            <span class="admin-manage-label">單位</span>
+            <input type="text" id="newUnitName" placeholder="新增單位名稱" />
+            <select id="newUnitGroup" aria-label="所屬分組"></select>
+            <button type="button" id="btnAddUnit" class="secondary">新增單位</button>
+            <button type="button" id="btnRemoveUnit" class="secondary" disabled>刪除單位</button>
+          </div>
+          <div class="admin-manage-row">
+            <span class="admin-manage-label">改分組</span>
+            <select id="editUnitGroup" aria-label="變更所屬分組"></select>
+            <button type="button" id="btnSetUnitGroup" class="secondary" disabled>套用到選中單位</button>
+          </div>
         </div>
       </details>
     </footer>
   </div>
 
-  <script src="js/firebase-config.js?v=20261028j"></script>
-  <script src="js/admin-allowlist.js?v=20261028j"></script>
-  <script src="js/storage.js?v=20261028j"></script>
-  <script src="js/live.js?v=20261028j"></script>
-  <script src="js/ui.js?v=20261028j"></script>
-  <script src="js/methodology.js?v=20261028j"></script>
-  <script src="js/auth.js?v=20261028j"></script>
-  <script src="js/export.js?v=20261028j"></script>
-  <script src="js/submit.js?v=20261028j"></script>
-  <script src="js/admin.js?v=20261028j"></script>
-  <script src="js/ask.js?v=20261028j"></script>
+  <script src="js/firebase-config.js?v=20261029a"></script>
+  <script src="js/admin-allowlist.js?v=20261029a"></script>
+  <script src="js/storage.js?v=20261029a"></script>
+  <script src="js/live.js?v=20261029a"></script>
+  <script src="js/ui.js?v=20261029a"></script>
+  <script src="js/methodology.js?v=20261029a"></script>
+  <script src="js/auth.js?v=20261029a"></script>
+  <script src="js/export.js?v=20261029a"></script>
+  <script src="js/submit.js?v=20261029a"></script>
+  <script src="js/admin.js?v=20261029a"></script>
+  <script src="js/ask.js?v=20261029a"></script>
 </body>
 </html>

@@ -44,9 +44,13 @@
               id: item.id,
               name: data.name || item.id,
               questionIds: Array.isArray(data.questionIds) ? data.questionIds : [],
+              group: String(data.group || "").trim(),
             });
           });
           units.sort(function (a, b) {
+            const ga = String(a.group || "");
+            const gb = String(b.group || "");
+            if (ga !== gb) return ga.localeCompare(gb, "zh-Hant");
             return String(a.name).localeCompare(String(b.name), "zh-Hant");
           });
           onData(units);
@@ -137,12 +141,23 @@
     const byUnit = {};
     (localUnits || []).forEach(function (unit) {
       if (!unit || !unit.id || !unit.name) return;
-      byUnit[unit.id] = { name: String(unit.name).slice(0, 79), questionIds: [] };
+      const name = String(unit.name).slice(0, 79);
+      byUnit[unit.id] = {
+        name: name,
+        questionIds: [],
+        group: String(unit.group || inferUnitGroup(name)).slice(0, 39),
+      };
     });
     Object.entries(assignmentMap || {}).forEach(function (entry) {
       const questionId = entry[0];
       (entry[1] || []).forEach(function (unitId) {
-        if (!byUnit[unitId]) byUnit[unitId] = { name: unitId, questionIds: [] };
+        if (!byUnit[unitId]) {
+          byUnit[unitId] = {
+            name: unitId,
+            questionIds: [],
+            group: inferUnitGroup(unitId),
+          };
+        }
         if (!byUnit[unitId].questionIds.includes(questionId)) byUnit[unitId].questionIds.push(questionId);
       });
     });
@@ -156,12 +171,101 @@
     return true;
   }
 
-  async function addUnit(id, name) {
+  function inferUnitGroup(name) {
+    const n = String(name || "");
+    if (/院$/.test(n) || n.includes("學院")) return "院";
+    return "行政單位";
+  }
+
+  async function addUnit(id, name, group) {
     const { store, fs } = await db();
+    const g = String(group || inferUnitGroup(name)).trim().slice(0, 39) || "行政單位";
     await fs.setDoc(fs.doc(store, "units", id), {
       name: String(name).slice(0, 79),
       questionIds: [],
+      group: g,
     });
+  }
+
+  async function setUnitGroup(unitId, group) {
+    if (!unitId) return;
+    const { store, fs } = await db();
+    const g = String(group || "").trim().slice(0, 39);
+    if (!g) throw new Error("請選擇分組");
+    await fs.setDoc(fs.doc(store, "units", unitId), { group: g }, { merge: true });
+  }
+
+  /** 補上缺少的 group；並確保 meta/unitGroups 有預設分組 */
+  async function ensureUnitGroups(units) {
+    const { store, fs } = await db();
+    const metaRef = fs.doc(store, "meta", "unitGroups");
+    const metaSnap = await fs.getDoc(metaRef);
+    let groups = ["院", "行政單位"];
+    if (metaSnap.exists()) {
+      const raw = (metaSnap.data() || {}).groups;
+      if (Array.isArray(raw) && raw.length) {
+        groups = raw.map(function (g) {
+          return String(g || "").trim();
+        }).filter(Boolean);
+      }
+    } else {
+      await fs.setDoc(metaRef, { groups: groups });
+    }
+    const need = (units || []).filter(function (u) {
+      return u && u.id && !String(u.group || "").trim();
+    });
+    if (need.length) {
+      const batch = fs.writeBatch(store);
+      need.forEach(function (u) {
+        batch.set(
+          fs.doc(store, "units", u.id),
+          { group: inferUnitGroup(u.name) },
+          { merge: true }
+        );
+      });
+      await batch.commit();
+    }
+    return groups;
+  }
+
+  function listenUnitGroups(onData, onError) {
+    return listenWith(function (ctx) {
+      const { store, fs } = ctx;
+      return fs.onSnapshot(
+        fs.doc(store, "meta", "unitGroups"),
+        function (snap) {
+          let groups = ["院", "行政單位"];
+          if (snap.exists()) {
+            const raw = (snap.data() || {}).groups;
+            if (Array.isArray(raw) && raw.length) {
+              groups = raw
+                .map(function (g) {
+                  return String(g || "").trim();
+                })
+                .filter(Boolean);
+            }
+          }
+          onData(groups);
+        },
+        onError || function () {}
+      );
+    }, onError);
+  }
+
+  async function saveUnitGroups(groups) {
+    const { store, fs } = await db();
+    const cleaned = (groups || [])
+      .map(function (g) {
+        return String(g || "").trim().slice(0, 39);
+      })
+      .filter(Boolean);
+    const uniq = [];
+    cleaned.forEach(function (g) {
+      if (!uniq.includes(g)) uniq.push(g);
+    });
+    if (!uniq.length) throw new Error("至少保留一個分組");
+    await fs.setDoc(fs.doc(store, "meta", "unitGroups"), { groups: uniq });
+    return uniq;
   }
 
   async function removeUnit(unitId) {
@@ -326,6 +430,11 @@
     listenAllAnswers,
     seedIfEmpty,
     addUnit,
+    setUnitGroup,
+    inferUnitGroup,
+    ensureUnitGroups,
+    listenUnitGroups,
+    saveUnitGroups,
     removeUnit,
     assignQuestions,
     unassignQuestions,

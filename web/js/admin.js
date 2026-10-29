@@ -66,6 +66,8 @@
     ]);
 
     let units = [];
+    let unitGroups = THEUI.DEFAULT_UNIT_GROUPS.slice();
+    let ensuredGroups = false;
     const localUnits = (THEStorage.getUnitsOverride() || unitsFile).filter(
       (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
     );
@@ -97,6 +99,10 @@
     const methodBody = $("#methodBody");
     const filterBar = $("#filterBar");
     const newUnitName = $("#newUnitName");
+    const newUnitGroup = $("#newUnitGroup");
+    const manageGroupSelect = $("#manageGroupSelect");
+    const newGroupName = $("#newGroupName");
+    const editUnitGroup = $("#editUnitGroup");
 
     function syncChromeLang() {
       const note = $("#dataYearNote");
@@ -143,21 +149,47 @@
       renderMethod();
     }
 
+    function fillGroupSelects() {
+      const opts = unitGroups.length ? unitGroups : THEUI.DEFAULT_UNIT_GROUPS;
+      const fill = (sel, includeEmpty) => {
+        if (!sel) return;
+        const prev = sel.value;
+        sel.innerHTML = "";
+        if (includeEmpty) {
+          const ph = document.createElement("option");
+          ph.value = "";
+          ph.textContent = "選擇分組…";
+          sel.appendChild(ph);
+        }
+        opts.forEach((g) => {
+          const o = document.createElement("option");
+          o.value = g;
+          o.textContent = g;
+          sel.appendChild(o);
+        });
+        if (prev && [...sel.options].some((o) => o.value === prev)) sel.value = prev;
+        else if (!includeEmpty && opts[0]) sel.value = opts[0];
+      };
+      fill(newUnitGroup, false);
+      fill(manageGroupSelect, false);
+      fill(editUnitGroup, false);
+      const unit = units.find((u) => u.id === unitSelect.value);
+      if (unit && editUnitGroup) {
+        const g = unit.group || THEUI.inferUnitGroup(unit.name);
+        if ([...editUnitGroup.options].some((o) => o.value === g)) editUnitGroup.value = g;
+      }
+    }
+
     function fillUnitSelect() {
-      const prev = unitSelect.value;
-      unitSelect.innerHTML = "";
-      const ph = document.createElement("option");
-      ph.value = "";
-      ph.textContent = "選擇單位…";
-      unitSelect.appendChild(ph);
-      units.forEach((u) => {
-        const o = document.createElement("option");
-        o.value = u.id;
-        o.textContent = u.name;
-        unitSelect.appendChild(o);
+      THEUI.fillGroupedUnitSelect(unitSelect, units, {
+        groupOrder: unitGroups,
+        selectedId: unitSelect.value,
+        placeholder: "選擇單位…",
       });
-      if ([...unitSelect.options].some((o) => o.value === prev)) unitSelect.value = prev;
+      fillGroupSelects();
       renderUnitFilter();
+      const btnSet = $("#btnSetUnitGroup");
+      if (btnSet) btnSet.disabled = !unitSelect.value;
     }
 
     function updateUnitFilterSummary() {
@@ -200,28 +232,36 @@
         updateUnitFilterSummary();
         return;
       }
-      units.forEach((u) => {
-        const lab = document.createElement("label");
-        const cb = document.createElement("input");
-        cb.type = "checkbox";
-        cb.checked = unitFilter.has(u.id);
-        cb.addEventListener("change", () => {
-          if (cb.checked) unitFilter.add(u.id);
-          else unitFilter.delete(u.id);
-          updateUnitFilterSummary();
-          applyUnitFilterNavigation();
+      const grouped = THEUI.groupUnits(units, unitGroups);
+      grouped.forEach((row) => {
+        if (!row.units.length) return;
+        const head = document.createElement("div");
+        head.className = "unit-filter-group-title";
+        head.textContent = row.group;
+        list.appendChild(head);
+        row.units.forEach((u) => {
+          const lab = document.createElement("label");
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = unitFilter.has(u.id);
+          cb.addEventListener("change", () => {
+            if (cb.checked) unitFilter.add(u.id);
+            else unitFilter.delete(u.id);
+            updateUnitFilterSummary();
+            applyUnitFilterNavigation();
+          });
+          lab.appendChild(cb);
+          const prog = unitFillProgress(u.id);
+          const due = prog.due || (u.questionIds || []).length;
+          const label =
+            due > 0 ? `${u.name}（${prog.filled}/${due}）` : `${u.name}（0）`;
+          lab.appendChild(document.createTextNode(label));
+          lab.title =
+            due > 0
+              ? `${u.name}：已填 ${prog.filled}／分派 ${due}`
+              : `${u.name}：尚未分派題目`;
+          list.appendChild(lab);
         });
-        lab.appendChild(cb);
-        const prog = unitFillProgress(u.id);
-        const due = prog.due || (u.questionIds || []).length;
-        const label =
-          due > 0 ? `${u.name}（${prog.filled}/${due}）` : `${u.name}（0）`;
-        lab.appendChild(document.createTextNode(label));
-        lab.title =
-          due > 0
-            ? `${u.name}：已填 ${prog.filled}／分派 ${due}`
-            : `${u.name}：尚未分派題目`;
-        list.appendChild(lab);
       });
       updateUnitFilterSummary();
     }
@@ -1236,7 +1276,12 @@
       });
     });
 
-    unitSelect.addEventListener("change", updateBottom);
+    unitSelect.addEventListener("change", () => {
+      updateBottom();
+      fillGroupSelects();
+      const btnSet = $("#btnSetUnitGroup");
+      if (btnSet) btnSet.disabled = !unitSelect.value;
+    });
 
     $("#btnAssign").addEventListener("click", async () => {
       const unitId = unitSelect.value;
@@ -1378,9 +1423,13 @@
       const name = (newUnitName.value || "").trim();
       if (!name) return;
       const id = "unit-" + Date.now();
+      const group =
+        (newUnitGroup && newUnitGroup.value) ||
+        THEUI.inferUnitGroup(name);
       try {
-        await THELive.addUnit(id, name);
+        await THELive.addUnit(id, name, group);
         newUnitName.value = "";
+        showExportBanner("ok", `已新增單位「${name}」（${group}）。`);
       } catch (err) {
         showExportBanner("bad", `單位沒有新增。${THELive.explain(err)}`);
       }
@@ -1403,6 +1452,73 @@
         showExportBanner("ok", `已刪除單位「${label}」。`);
       } catch (err) {
         showExportBanner("bad", `單位沒有刪除。${THELive.explain(err)}`);
+      }
+    });
+
+    $("#btnAddGroup").addEventListener("click", async () => {
+      const name = (newGroupName && newGroupName.value || "").trim();
+      if (!name) {
+        showExportBanner("warn", "請先輸入新分組名稱。");
+        return;
+      }
+      if (unitGroups.includes(name)) {
+        showExportBanner("warn", `分組「${name}」已經存在。`);
+        return;
+      }
+      try {
+        const next = await THELive.saveUnitGroups(unitGroups.concat(name));
+        unitGroups = next;
+        if (newGroupName) newGroupName.value = "";
+        fillGroupSelects();
+        fillUnitSelect();
+        showExportBanner("ok", `已新增分組「${name}」。`);
+      } catch (err) {
+        showExportBanner("bad", `分組沒有新增。${THELive.explain(err)}`);
+      }
+    });
+
+    $("#btnRemoveGroup").addEventListener("click", async () => {
+      const name = manageGroupSelect && manageGroupSelect.value;
+      if (!name) return;
+      const still = units.filter(
+        (u) => (u.group || THEUI.inferUnitGroup(u.name)) === name
+      );
+      if (still.length) {
+        showExportBanner(
+          "warn",
+          `還有 ${still.length} 個單位在「${name}」，請先改分組再刪。`
+        );
+        return;
+      }
+      if (unitGroups.length <= 1) {
+        showExportBanner("warn", "至少要保留一個分組。");
+        return;
+      }
+      if (!window.confirm(`要刪除分組「${name}」嗎？`)) return;
+      try {
+        const next = await THELive.saveUnitGroups(
+          unitGroups.filter((g) => g !== name)
+        );
+        unitGroups = next;
+        fillGroupSelects();
+        fillUnitSelect();
+        showExportBanner("ok", `已刪除分組「${name}」。`);
+      } catch (err) {
+        showExportBanner("bad", `分組沒有刪除。${THELive.explain(err)}`);
+      }
+    });
+
+    $("#btnSetUnitGroup").addEventListener("click", async () => {
+      const unitId = unitSelect.value;
+      const group = editUnitGroup && editUnitGroup.value;
+      if (!unitId || !group) return;
+      const unit = units.find((u) => u.id === unitId);
+      const label = unit ? unit.name : unitId;
+      try {
+        await THELive.setUnitGroup(unitId, group);
+        showExportBanner("ok", `「${label}」已改到「${group}」。`);
+      } catch (err) {
+        showExportBanner("bad", `分組沒有更新。${THELive.explain(err)}`);
       }
     });
 
@@ -1494,9 +1610,28 @@
       };
     }
 
+    THELive.listenUnitGroups(
+      (groups) => {
+        unitGroups = groups && groups.length ? groups : THEUI.DEFAULT_UNIT_GROUPS.slice();
+        fillUnitSelect();
+      },
+      () => {}
+    );
+
     THELive.listenUnits(
       (next) => {
         units = next || [];
+        if (!ensuredGroups) {
+          ensuredGroups = true;
+          THELive.ensureUnitGroups(units)
+            .then((groups) => {
+              if (groups && groups.length) unitGroups = groups;
+              fillUnitSelect();
+            })
+            .catch((err) =>
+              showExportBanner("warn", `單位分組尚未同步。${THELive.explain(err)}`)
+            );
+        }
         fillUnitSelect();
         refreshStats();
         renderTabs();

@@ -9,6 +9,7 @@
   ]);
 
   let units = [];
+  let unitGroups = THEUI.DEFAULT_UNIT_GROUPS.slice();
   const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
   const metricsByRef = Object.fromEntries(
     (questionsData.metrics || []).map((m) => [String(m.ref), m])
@@ -162,19 +163,12 @@
   });
 
   function renderUnitOptions() {
-    const prev = currentUnitId;
-    unitSelect.innerHTML = "";
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = lang === "en" ? "Select a unit…" : "選擇單位…";
-    unitSelect.appendChild(placeholder);
-    units.forEach((u) => {
-      const opt = document.createElement("option");
-      opt.value = u.id;
-      opt.textContent = u.name;
-      unitSelect.appendChild(opt);
+    THEUI.fillGroupedUnitSelect(unitSelect, units, {
+      groupOrder: unitGroups,
+      lang,
+      selectedId: currentUnitId,
+      placeholder: lang === "en" ? "Select a unit…" : "選擇單位…",
     });
-    if (prev && units.some((u) => u.id === prev)) unitSelect.value = prev;
   }
 
   function assignmentsForUnit(unitId) {
@@ -573,9 +567,26 @@
     else renderMethod();
   });
 
+  let ensuredGroups = false;
+  THELive.listenUnitGroups(
+    (groups) => {
+      unitGroups = groups && groups.length ? groups : THEUI.DEFAULT_UNIT_GROUPS.slice();
+      renderUnitOptions();
+    },
+    () => {}
+  );
   THELive.listenUnits(
     (next) => {
       units = next || [];
+      if (!ensuredGroups) {
+        ensuredGroups = true;
+        THELive.ensureUnitGroups(units)
+          .then((groups) => {
+            if (groups && groups.length) unitGroups = groups;
+            renderUnitOptions();
+          })
+          .catch(() => {});
+      }
       renderUnitOptions();
       if (tourActive) {
         // 教學中單位清單更新時，維持永續辦示範，避免又變空白

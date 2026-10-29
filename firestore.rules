@@ -2,12 +2,14 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isUnit(data) {
-      return data.keys().hasOnly(['name', 'questionIds'])
+      return data.keys().hasAll(['name', 'questionIds'])
+        && data.keys().hasOnly(['name', 'questionIds', 'group'])
         && data.name is string
         && data.name.size() > 0
         && data.name.size() < 80
         && data.questionIds is list
-        && data.questionIds.size() < 400;
+        && data.questionIds.size() < 400
+        && (!('group' in data) || (data.group is string && data.group.size() > 0 && data.group.size() < 40));
     }
 
     function isAnswer(data) {
@@ -92,6 +94,12 @@ service cloud.firestore {
 
     match /{path=**}/returns/{questionId} {
       allow read: if true;
+    }
+
+    // 單位分組名稱（院／行政單位等）
+    match /meta/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
     }
   }
 }
