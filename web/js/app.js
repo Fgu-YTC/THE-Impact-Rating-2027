@@ -199,21 +199,37 @@
 
   function renderTabs() {
     sdgTabs.innerHTML = "";
-    if (!currentUnitId) return;
+    if (!currentUnitId) {
+      updateUnitProgressLabel();
+      return;
+    }
     const list = sdgsForUnit(currentUnitId);
     if (!list.length) {
       currentSdg = null;
+      updateUnitProgressLabel();
       return;
     }
     if (!currentSdg || !list.includes(currentSdg)) currentSdg = list[0];
     list.forEach((n) => {
+      const { filled, total } = unitProgress(currentUnitId, n);
       const chip = document.createElement("div");
       chip.className = "sdg-chip has-items" + (n === currentSdg ? " active" : "");
+      if (total > 0 && filled === total) chip.classList.add("done");
+      else if (filled > 0) chip.classList.add("partial");
 
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "sdg-tab";
-      btn.textContent = `SDG${n}`;
+      const name = document.createElement("span");
+      name.className = "sdg-name";
+      name.textContent = `SDG${n}`;
+      const prog = document.createElement("span");
+      prog.className = "sdg-prog";
+      prog.textContent = `${filled}/${total}`;
+      prog.title =
+        lang === "en" ? `${filled} of ${total} filled` : `已填 ${filled}／共 ${total}`;
+      btn.appendChild(name);
+      btn.appendChild(prog);
       btn.addEventListener("click", () => showSdgOverview(n));
 
       const help = document.createElement("button");
@@ -231,6 +247,7 @@
       chip.appendChild(help);
       sdgTabs.appendChild(chip);
     });
+    updateUnitProgressLabel();
   }
 
   function selectQuestion(q) {
@@ -301,6 +318,8 @@
 
   function saveAnswer(qid, patch) {
     drafts[qid] = { ...(drafts[qid] || {}), ...patch };
+    renderTabs();
+    updateUnitProgressLabel();
   }
 
   function answerHasContent(answer) {
@@ -309,6 +328,34 @@
     if (String(answer.evidence || "").trim() || answer.evidenceFileName || answer.evidenceFileUrl) return true;
     if (answer.options && answer.options.length) return true;
     return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
+  }
+
+  function questionLooksFilled(qid) {
+    return answerHasContent(getAnswer(qid)) || pendingFiles.has(qid);
+  }
+
+  function unitProgress(unitId, sdg) {
+    const mine = assignmentsForUnit(unitId).filter((q) => sdg == null || q.sdg === sdg);
+    const filled = mine.filter((q) => questionLooksFilled(q.id)).length;
+    return { filled, total: mine.length };
+  }
+
+  function updateUnitProgressLabel() {
+    const el = $("#unitProgress");
+    if (!el) return;
+    if (!currentUnitId) {
+      el.textContent = "";
+      el.hidden = true;
+      return;
+    }
+    const { filled, total } = unitProgress(currentUnitId);
+    el.hidden = !total;
+    el.textContent =
+      lang === "en" ? `Filled ${filled}/${total}` : `已填 ${filled}/${total}`;
+    el.title =
+      lang === "en"
+        ? `${filled} of ${total} assigned questions filled`
+        : `已填 ${filled} 題，共分派 ${total} 題`;
   }
 
   function requestRender() {

@@ -131,13 +131,43 @@ button:disabled {
   border-color: var(--accent);
   background: var(--accent-soft);
 }
+.unit-progress {
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 0.35rem;
+}
 .sdg-tabs .sdg-tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
   background: transparent;
   color: var(--muted);
   border: 0;
   padding: 0.32rem 0.4rem;
   font-size: 0.85rem;
   box-shadow: none;
+}
+.sdg-tabs .sdg-prog {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+.sdg-chip.partial:not(.active) {
+  border-color: var(--line);
+  background: #fff;
+}
+.sdg-chip.done:not(.active) {
+  border-color: #cfe3d8;
+  background: #eef6f1;
+}
+.sdg-chip.done:not(.active) .sdg-tab {
+  color: #1e4a3d;
+}
+.sdg-chip.done .sdg-prog {
+  font-weight: 600;
 }
 .sdg-chip.active .sdg-tab {
   color: var(--accent);
