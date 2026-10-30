@@ -46,6 +46,28 @@ a:hover { text-decoration: underline; }
   backdrop-filter: blur(8px);
 }
 
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 36px;
+  line-height: 0;
+  text-decoration: none;
+}
+.brand-mark:hover {
+  text-decoration: none;
+  opacity: 0.88;
+}
+.brand-mark img {
+  display: block;
+  height: 36px;
+  width: auto;
+  max-width: 132px;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 4px;
+}
+
 .brand {
   font-family: var(--font-display);
   font-weight: 600;
@@ -869,6 +891,15 @@ button:disabled {
 .fields .row label { color: var(--muted); }
 .fields textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
 .fields input[type="file"] { font-size: 0.8rem; }
+.field-warn {
+  margin: -0.15rem 0 0.55rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  background: #fff3c4;
+  color: #5c4300;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
 .file-name { margin-top: 0.25rem; color: var(--muted); font-size: 0.78rem; }
 .file-download { display: inline-block; margin-top: 0.35rem; font-size: 0.82rem; }
 .submit-banner {

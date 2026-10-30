@@ -47,6 +47,9 @@
       fromUnitsNone: "尚無單位填報",
       yesNo: "是／否",
       evidenceWarn: "請填可公開開啟的網頁網址；檔案請用下方上傳／下載。",
+      publicNeedsUrl: "選 Public 必須有可開啟的 https:// 佐證網址；只有檔案請改 Private。",
+      publicNeedsUrlSave: (list) =>
+        `尚未儲存。以下題目選了 Public 但沒有可開啟網址：${list}。請補網址，或改選 Private／Undefined。`,
       evidenceMax: "提供證據（網址與檔案可同時填）",
       evidenceTypeUrl: "網址",
       evidenceTypeFile: "檔案",
@@ -99,6 +102,9 @@
       fromUnitsNone: "No unit fill yet",
       yesNo: "Yes / No",
       evidenceWarn: "Use a public webpage URL; upload or download files below.",
+      publicNeedsUrl: "Public needs an openable https:// evidence URL; use Private for files only.",
+      publicNeedsUrlSave: (list) =>
+        `Not saved. Public without an openable URL: ${list}. Add a URL, or choose Private / Undefined.`,
       evidenceMax: "Evidence (URL and file can both be kept)",
       evidenceTypeUrl: "URL",
       evidenceTypeFile: "File",
@@ -509,14 +515,8 @@
       out.evidenceFilePath = answer.evidenceFilePath || "";
       out.evidenceStoredName = answer.evidenceStoredName || "";
       out.evidenceAlsoFile = false;
-    } else {
-      const priorUrl = field ? priorPublicUrls(field.ref)[0] || priorPublicUrls(field.parentRef || "")[0] : "";
-      if (priorUrl) {
-        out.evidence = priorUrl;
-        out.evidenceKind = "url";
-        out.evidenceAlsoFile = false;
-      }
     }
+    // 帶入今年填報：單位沒交證據就不補去年網址，避免 Portal 出現「來源單位」與舊連結錯配
     if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
     if (Array.isArray(answer.options)) out.options = answer.options.slice();
     return out;
@@ -960,10 +960,19 @@
             value: item.value,
             checked: ans.public === item.value,
             label: item.label,
-            onChange: () => patch(f.ref, { public: item.value }),
+            onChange: () => {
+              patch(f.ref, { public: item.value });
+              renderFields();
+            },
           });
         });
         wrap.appendChild(row);
+        if (ans.public === "public" && !publicEvidenceUrl(ans.evidence)) {
+          const warn = document.createElement("div");
+          warn.className = "field-warn";
+          warn.textContent = t("publicNeedsUrl");
+          wrap.appendChild(warn);
+        }
         grid.appendChild(wrap);
       }
 
@@ -1052,17 +1061,29 @@
 
   async function saveAll() {
     const btn = $("#btnSave");
+    const merged = { ...remote };
+    Object.keys(drafts).forEach((ref) => {
+      merged[ref] = sanitizePortalAnswer({ ...(merged[ref] || {}), ...drafts[ref] });
+    });
+    Object.keys(merged).forEach((ref) => {
+      merged[ref] = sanitizePortalAnswer(merged[ref] || {});
+    });
+    const publicMissingUrl = fields
+      .filter((f) => (f.portal || {}).hasPublic)
+      .filter((f) => {
+        const a = merged[f.ref] || {};
+        return a.public === "public" && !publicEvidenceUrl(a.evidence);
+      })
+      .map((f) => f.ref);
+    if (publicMissingUrl.length) {
+      banner("bad", t("publicNeedsUrlSave", publicMissingUrl.join("、")));
+      renderFields();
+      return;
+    }
     btn.disabled = true;
     btn.textContent = pendingFiles.size ? t("evidenceUploading") : t("saving");
     try {
       const { store, doc, setDoc } = await getDb();
-      const merged = { ...remote };
-      Object.keys(drafts).forEach((ref) => {
-        merged[ref] = sanitizePortalAnswer({ ...(merged[ref] || {}), ...drafts[ref] });
-      });
-      Object.keys(merged).forEach((ref) => {
-        merged[ref] = sanitizePortalAnswer(merged[ref] || {});
-      });
       if (pendingFiles.size) {
         btn.textContent = t("evidenceUploading");
         await uploadPendingEvidence(merged);
