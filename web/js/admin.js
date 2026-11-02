@@ -725,6 +725,7 @@
     function renderAdminReturnStatus(item) {
       return THEUI.renderReturnStatus(item.ret, lang, item.unitName, {
         onConfirmNoReassign: async () => {
+          await THELive.clearAnswers(item.unitId, [item.questionId]);
           await THELive.clearReturn(item.unitId, item.questionId);
         },
       });

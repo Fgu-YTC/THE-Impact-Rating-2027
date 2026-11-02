@@ -455,6 +455,18 @@
     await fs.deleteDoc(fs.doc(store, "units", unitId, "returns", questionId));
   }
 
+  /** 刪除單位對指定題的 answers（退回／取消分派後清掉殘留） */
+  async function clearAnswers(unitId, questionIds) {
+    const ids = [...new Set((questionIds || []).filter(Boolean).map(String))];
+    if (!unitId || !ids.length) return;
+    const { store, fs } = await db();
+    const batch = fs.writeBatch(store);
+    ids.forEach(function (questionId) {
+      batch.delete(fs.doc(store, "units", unitId, "answers", questionId));
+    });
+    await batch.commit();
+  }
+
   /** 重新分配前清掉各單位對該題的退回紀錄（分批，避免一次超過 500 筆 batch 上限） */
   async function clearReturnsForQuestions(questionIds) {
     const ids = (questionIds || []).filter(Boolean);
@@ -500,6 +512,7 @@
     saveOfficeAnswers,
     saveReturn,
     clearReturn,
+    clearAnswers,
     clearReturnsForQuestions,
   };
 })(window);

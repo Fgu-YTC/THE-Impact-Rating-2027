@@ -47,9 +47,11 @@
       fromUnitsNone: "尚無單位填報",
       yesNo: "是／否",
       evidenceWarn: "請填可公開開啟的網頁網址；檔案請用下方上傳／下載。",
-      publicNeedsUrl: "選 Public 必須有可開啟的 https:// 佐證網址；只有檔案請改 Private。",
+      publicNeedsUrl: "選 Public 必須有可開啟的 https:// 公開網址（公開 PDF 的網址也可）。只有上傳檔、沒有公開網址時請選 Private。",
       publicNeedsUrlSave: (list) =>
         `尚未儲存。以下題目選了 Public 但沒有可開啟網址：${list}。請補網址，或改選 Private／Undefined。`,
+      publicAutoPrivate: (list) =>
+        `以下題目只有檔案、沒有公開網址，已自動改為 Private 後儲存：${list}。若檔案其實已公開，請補上公開網址再改回 Public。`,
       evidenceMax: "提供證據（網址與檔案可同時填）",
       evidenceTypeUrl: "網址",
       evidenceTypeFile: "檔案",
@@ -102,9 +104,11 @@
       fromUnitsNone: "No unit fill yet",
       yesNo: "Yes / No",
       evidenceWarn: "Use a public webpage URL; upload or download files below.",
-      publicNeedsUrl: "Public needs an openable https:// evidence URL; use Private for files only.",
+      publicNeedsUrl: "Public needs an openable https:// public URL (a public PDF link is fine). File-only uploads should be Private.",
       publicNeedsUrlSave: (list) =>
         `Not saved. Public without an openable URL: ${list}. Add a URL, or choose Private / Undefined.`,
+      publicAutoPrivate: (list) =>
+        `Saved as Private (file only, no public URL): ${list}. If the file is already public, add its public URL and set Public again.`,
       evidenceMax: "Evidence (URL and file can both be kept)",
       evidenceTypeUrl: "URL",
       evidenceTypeFile: "File",
@@ -482,7 +486,6 @@
     }
     const out = {};
     if (answer.yesNo) out.yesNo = answer.yesNo;
-    if (answer.public) out.public = answer.public;
     if (String(answer.comment || "").trim()) out.comment = String(answer.comment).slice(0, 1000);
     const pub = publicEvidenceUrl(answer.evidence);
     const fileName = String(answer.evidenceFileName || "").trim();
@@ -516,6 +519,10 @@
       out.evidenceStoredName = answer.evidenceStoredName || "";
       out.evidenceAlsoFile = false;
     }
+    // Public 需有可開啟公開網址；單位若勾 Public 卻只有檔案，帶入時改 Private，避免卡儲存
+    if (answer.public === "public" && pub) out.public = "public";
+    else if (answer.public === "public") out.public = "private";
+    else if (answer.public) out.public = answer.public;
     // 帶入今年填報：單位沒交證據就不補去年網址，避免 Portal 出現「來源單位」與舊連結錯配
     if (answer.values && typeof answer.values === "object") out.values = { ...answer.values };
     if (Array.isArray(answer.options)) out.options = answer.options.slice();
@@ -1068,18 +1075,18 @@
     Object.keys(merged).forEach((ref) => {
       merged[ref] = sanitizePortalAnswer(merged[ref] || {});
     });
-    const publicMissingUrl = fields
+    const publicAutoPrivate = [];
+    fields
       .filter((f) => (f.portal || {}).hasPublic)
-      .filter((f) => {
+      .forEach((f) => {
         const a = merged[f.ref] || {};
-        return a.public === "public" && !publicEvidenceUrl(a.evidence);
-      })
-      .map((f) => f.ref);
-    if (publicMissingUrl.length) {
-      banner("bad", t("publicNeedsUrlSave", publicMissingUrl.join("、")));
-      renderFields();
-      return;
-    }
+        if (a.public === "public" && !publicEvidenceUrl(a.evidence)) {
+          a.public = "private";
+          merged[f.ref] = a;
+          drafts[f.ref] = { ...(drafts[f.ref] || {}), public: "private" };
+          publicAutoPrivate.push(f.ref);
+        }
+      });
     btn.disabled = true;
     btn.textContent = pendingFiles.size ? t("evidenceUploading") : t("saving");
     try {
@@ -1099,7 +1106,11 @@
       );
       remote = merged;
       Object.keys(drafts).forEach((k) => delete drafts[k]);
-      banner("ok", t("saved"));
+      if (publicAutoPrivate.length) {
+        banner("warn", `${t("saved")} ${t("publicAutoPrivate", publicAutoPrivate.join("、"))}`);
+      } else {
+        banner("ok", t("saved"));
+      }
       renderFields();
     } catch (err) {
       banner("bad", t("saveFail", err && err.message ? err.message : err));
