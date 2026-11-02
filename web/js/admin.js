@@ -151,6 +151,34 @@
       renderMethod();
     }
 
+    function scrollToFocusedQuestion() {
+      if (!focusQuestionId) return;
+      const el = questionList.querySelector(`.q-card[data-qid="${CSS.escape(focusQuestionId)}"]`);
+      if (!el) return;
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    /** 檢視 → 填寫：跳到該題的改寫／最終填報 */
+    function goFillQuestion(q) {
+      if (!q) return;
+      focusQuestionId = q.id;
+      focusRef = q.ref || null;
+      focusMetricRef = q.metricRef || null;
+      applyMode("fill");
+      scrollToFocusedQuestion();
+    }
+
+    function fillJumpLabel(q) {
+      const targets = fillTargets(q);
+      const kind = targets[0] && targets[0].kind;
+      if (lang === "en") {
+        return kind === "rewrite" ? "Go to rewrite" : "Go to final fill";
+      }
+      return kind === "rewrite" ? "前往改寫" : "前往最終填報";
+    }
+
     function fillGroupSelects() {
       const opts = unitGroups.length ? unitGroups : THEUI.DEFAULT_UNIT_GROUPS;
       const fill = (sel, includeEmpty) => {
@@ -596,6 +624,7 @@
 
         group.forEach((q) => {
           const card = document.createElement("article");
+          card.dataset.qid = q.id;
           card.className =
             "q-card" +
             (selected.has(q.id) ? " selected" : "") +
@@ -648,6 +677,21 @@
             showQuestionMethodology(q);
           });
           meta.appendChild(methodBtn);
+          if (mode === "review" && (who.length || submissionsFor(q.id).length || fillTargets(q).length)) {
+            const jumpBtn = document.createElement("button");
+            jumpBtn.type = "button";
+            jumpBtn.className = "secondary q-fill-jump-btn";
+            jumpBtn.textContent = fillJumpLabel(q);
+            jumpBtn.title =
+              lang === "en"
+                ? "Open this question in Fill mode"
+                : "切換到填寫模式，編輯此題的改寫／最終填報";
+            jumpBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              goFillQuestion(q);
+            });
+            meta.appendChild(jumpBtn);
+          }
           body.appendChild(meta);
           body.appendChild(
             THEUI.renderQuestionCopy(q, lang, {
@@ -811,9 +855,24 @@
       if (multi) {
         const tip = document.createElement("p");
         tip.className = "multi-unit-tip";
-        tip.textContent = editable
-          ? "此題有兩個以上單位。請先對照各單位答案，再於下方「最終填報」合併寫出匯出用的那一份。"
-          : "此題有兩個以上單位答案，可並排對照。合併請到「填寫」模式寫「最終填報」。";
+        if (editable) {
+          tip.textContent =
+            "此題有兩個以上單位。請先對照各單位答案，再於下方「最終填報」合併寫出匯出用的那一份。";
+        } else {
+          tip.appendChild(
+            document.createTextNode("此題有兩個以上單位答案，可並排對照。合併請到「填寫」模式寫「最終填報」。")
+          );
+          const jump = document.createElement("button");
+          jump.type = "button";
+          jump.className = "secondary q-fill-jump-btn";
+          jump.textContent = fillJumpLabel(q);
+          jump.style.marginLeft = "0.5rem";
+          jump.addEventListener("click", (e) => {
+            e.stopPropagation();
+            goFillQuestion(q);
+          });
+          tip.appendChild(jump);
+        }
         wrap.appendChild(tip);
       }
 

@@ -1151,6 +1151,12 @@ button:disabled {
   align-items: center;
   gap: 0.65rem 0.9rem;
 }
+#adminApp .q-fill-jump-btn {
+  margin-left: 0.25rem;
+}
+#adminApp .multi-unit-tip .q-fill-jump-btn {
+  vertical-align: baseline;
+}
 #adminApp .mode-toggle {
   border: 1px solid var(--line);
   border-radius: 999px;
