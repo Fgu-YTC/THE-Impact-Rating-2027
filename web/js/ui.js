@@ -703,11 +703,13 @@
     return line;
   }
 
-  /** 唯讀：單位已退回 */
-  function renderReturnStatus(ret, lang, unitLabel) {
+  /** 唯讀：單位已退回（管理頁可附「確認不重新分配」） */
+  function renderReturnStatus(ret, lang, unitLabel, opts) {
     if (!ret || !String(ret.suggestion || "").trim()) return null;
+    const options = opts || {};
     const box = document.createElement("div");
     box.className = "return-box returned";
+    box.addEventListener("click", (e) => e.stopPropagation());
     const head = document.createElement("div");
     head.className = "return-head";
     head.textContent = lang === "en"
@@ -723,9 +725,40 @@
     tip.className = "return-reassign-tip";
     tip.textContent =
       lang === "en"
-        ? "Reassign: select this question, choose a unit, then Assign."
-        : "重新分配：勾選此題、選單位後按「送出分派」。";
+        ? "Reassign: select this question, choose a unit, then Assign. Or confirm you will not reassign."
+        : "可重新分配：勾選此題、選單位後按「送出分派」。若不改派，按下方確認即可從已退回清單移除。";
     box.appendChild(tip);
+    if (typeof options.onConfirmNoReassign === "function") {
+      const actions = document.createElement("div");
+      actions.className = "return-actions";
+      const status = document.createElement("span");
+      status.className = "return-status";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "secondary return-confirm-btn";
+      btn.textContent = lang === "en" ? "Confirm: do not reassign" : "確認不重新分配";
+      btn.title =
+        lang === "en"
+          ? "Clear this return record. The question stays unassigned."
+          : "清除此筆退回紀錄；題目維持未分派，也不再出現在「已退回」。";
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        btn.disabled = true;
+        status.textContent = lang === "en" ? "Saving…" : "處理中…";
+        try {
+          await options.onConfirmNoReassign();
+          status.textContent = lang === "en" ? "Done" : "已確認";
+        } catch (err) {
+          status.textContent =
+            (err && err.message) || (lang === "en" ? "Failed" : "失敗");
+          btn.disabled = false;
+        }
+      });
+      actions.appendChild(btn);
+      actions.appendChild(status);
+      box.appendChild(actions);
+    }
     return box;
   }
 

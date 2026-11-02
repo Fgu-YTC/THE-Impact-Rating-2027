@@ -661,14 +661,14 @@
             const prior = THEUI.renderPriorYear(priorYear[q.ref], q);
             if (prior) body.appendChild(prior);
             returnsFor(q.id).forEach((item) => {
-              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              const view = renderAdminReturnStatus(item);
               if (view) body.appendChild(view);
             });
             body.appendChild(THEUI.renderAnswerPreview(q, lang));
           }
           if (mode === "review") {
             returnsFor(q.id).forEach((item) => {
-              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              const view = renderAdminReturnStatus(item);
               if (view) body.appendChild(view);
             });
             if (who.length || submissionsFor(q.id).length) {
@@ -683,7 +683,7 @@
               work.appendChild(renderMultiUnitPanel(q, { editable: true, originalOnly: true }));
             }
             returnsFor(q.id).forEach((item) => {
-              const view = THEUI.renderReturnStatus(item.ret, lang, item.unitName);
+              const view = renderAdminReturnStatus(item);
               if (view) work.appendChild(view);
             });
             work.appendChild(
@@ -722,12 +722,20 @@
       return submissionsFor(q.id, { originalOnly: true }).length > 1;
     }
 
+    function renderAdminReturnStatus(item) {
+      return THEUI.renderReturnStatus(item.ret, lang, item.unitName, {
+        onConfirmNoReassign: async () => {
+          await THELive.clearReturn(item.unitId, item.questionId);
+        },
+      });
+    }
+
     function returnsFor(questionId) {
       const out = [];
       Object.keys(returnsByUnit || {}).forEach((unitId) => {
         const ret = (returnsByUnit[unitId] || {})[questionId];
         if (ret && String(ret.suggestion || "").trim()) {
-          out.push({ unitId, unitName: unitName(unitId), ret });
+          out.push({ unitId, unitName: unitName(unitId), questionId, ret });
         }
       });
       return out;

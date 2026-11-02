@@ -694,6 +694,10 @@ button:disabled {
   align-items: center;
   margin-top: 0.4rem;
 }
+.return-confirm-btn {
+  font-size: 0.82rem;
+  padding: 0.35rem 0.7rem;
+}
 .return-status {
   font-size: 0.78rem;
   color: #6a4a38;
