@@ -896,6 +896,27 @@ button:disabled {
 .fields .row label { color: var(--muted); }
 .fields textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
 .fields input[type="file"] { font-size: 0.8rem; }
+.evidence-block-na {
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.65rem 0.35rem;
+  border-radius: 8px;
+  background: #f0ebe3;
+  border: 1px dashed #cfc4b4;
+  opacity: 0.72;
+  pointer-events: none;
+}
+.evidence-block-na .evidence-na-note {
+  font-size: 0.82rem;
+  color: #6a5f52;
+  font-weight: 600;
+  margin: 0 0 0.45rem;
+}
+.evidence-block-na input,
+.evidence-block-na textarea,
+.evidence-block-na .choice-list {
+  background: #e8e2d8 !important;
+  color: #8a8074 !important;
+}
 .field-warn {
   margin: -0.15rem 0 0.55rem;
   padding: 0.45rem 0.65rem;

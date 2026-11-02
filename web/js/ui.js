@@ -357,7 +357,20 @@
       fields.appendChild(yesNoRow(ans, disabled, onPatch, lang, opts.idPrefix || q.id));
     }
 
-    if (q.answerType === "continuous") return fields;
+    // 連續數值題：備註／證據／上傳／公開不需填，顯示但反灰停用
+    const evidenceLocked = q.answerType === "continuous" || disabled;
+    const evidenceBlock = document.createElement("div");
+    evidenceBlock.className = "evidence-block" + (q.answerType === "continuous" ? " evidence-block-na" : "");
+
+    if (q.answerType === "continuous") {
+      const na = document.createElement("div");
+      na.className = "evidence-na-note";
+      na.textContent =
+        lang === "en"
+          ? "Continuous metrics: comments / evidence / public are not required."
+          : "數值題不需填寫備註、證據與是否公開。";
+      evidenceBlock.appendChild(na);
+    }
 
     const commentRow = document.createElement("div");
     commentRow.className = "row";
@@ -365,13 +378,15 @@
     commentLab.textContent = lang === "en" ? "Comments" : "備註";
     const comment = document.createElement("textarea");
     comment.maxLength = 1000;
-    comment.disabled = disabled;
+    comment.disabled = evidenceLocked;
     comment.placeholder = lang === "en" ? "Comments, max 1000 characters" : "備註，最多 1000 字";
-    comment.value = ans.comment || "";
-    comment.addEventListener("change", () => onPatch({ comment: comment.value }));
+    comment.value = q.answerType === "continuous" ? "" : ans.comment || "";
+    if (!evidenceLocked) {
+      comment.addEventListener("change", () => onPatch({ comment: comment.value }));
+    }
     commentRow.appendChild(commentLab);
     commentRow.appendChild(comment);
-    fields.appendChild(commentRow);
+    evidenceBlock.appendChild(commentRow);
 
     const evRow = document.createElement("div");
     evRow.className = "row";
@@ -380,12 +395,16 @@
     const evNote = appendHelp(evLab, evidenceTip(lang));
     const ev = document.createElement("input");
     ev.type = "text";
-    ev.disabled = disabled;
+    ev.disabled = evidenceLocked;
     ev.placeholder = "https://";
-    ev.value = ans.evidence || "";
-    ev.addEventListener("change", () => onPatch({ evidence: ev.value }));
+    ev.value = q.answerType === "continuous" ? "" : ans.evidence || "";
+    if (!evidenceLocked) {
+      ev.addEventListener("change", () => onPatch({ evidence: ev.value }));
+    }
     evRow.appendChild(evLab);
     evRow.appendChild(ev);
+    evidenceBlock.appendChild(evRow);
+    evidenceBlock.appendChild(evNote);
 
     const fileRow = document.createElement("div");
     fileRow.className = "row";
@@ -394,13 +413,13 @@
     const fileWrap = document.createElement("div");
     const file = document.createElement("input");
     file.type = "file";
-    file.disabled = disabled;
+    file.disabled = evidenceLocked;
     const fileName = document.createElement("div");
     fileName.className = "file-name";
-    fileName.textContent = opts.pendingName || "";
-    const savedName = ans.evidenceFileName || "";
-    const savedUrl = ans.evidenceFileUrl || "";
-    if (!opts.pendingName && (savedName || savedUrl || ans.evidenceFilePath)) {
+    fileName.textContent = evidenceLocked ? "" : opts.pendingName || "";
+    const savedName = evidenceLocked ? "" : ans.evidenceFileName || "";
+    const savedUrl = evidenceLocked ? "" : ans.evidenceFileUrl || "";
+    if (!evidenceLocked && !opts.pendingName && (savedName || savedUrl || ans.evidenceFilePath)) {
       const link = document.createElement("a");
       link.className = "file-download";
       link.target = "_blank";
@@ -419,16 +438,19 @@
         }).catch(() => {});
       }
     }
-    file.addEventListener("change", () => {
-      const chosen = file.files && file.files[0];
-      fileName.textContent = chosen ? chosen.name : "";
-      onPatch({ evidenceFileName: chosen ? chosen.name : "" });
-      if (opts.onFile) opts.onFile(chosen || null);
-    });
+    if (!evidenceLocked) {
+      file.addEventListener("change", () => {
+        const chosen = file.files && file.files[0];
+        fileName.textContent = chosen ? chosen.name : "";
+        onPatch({ evidenceFileName: chosen ? chosen.name : "" });
+        if (opts.onFile) opts.onFile(chosen || null);
+      });
+    }
     fileWrap.appendChild(file);
     fileWrap.appendChild(fileName);
     fileRow.appendChild(fileLab);
     fileRow.appendChild(fileWrap);
+    evidenceBlock.appendChild(fileRow);
 
     const pubRow = document.createElement("div");
     pubRow.className = "row";
@@ -438,7 +460,7 @@
     const pubWrap = document.createElement("div");
     pubWrap.className = "choice-list";
     const pubName = `${opts.idPrefix || q.id}-public`;
-    const pubVal = normalizePublic(ans.public);
+    const pubVal = evidenceLocked ? "" : normalizePublic(ans.public);
     publicChoices(lang)
       .filter((item) => item.value)
       .forEach((item, i) => {
@@ -447,24 +469,24 @@
         input.type = "radio";
         input.name = pubName;
         input.value = item.value;
-        input.disabled = disabled;
+        input.disabled = evidenceLocked;
         input.id = `${pubName}-${i}`;
         input.checked = pubVal === item.value;
-        input.addEventListener("change", () => {
-          if (input.checked) onPatch({ public: item.value });
-        });
+        if (!evidenceLocked) {
+          input.addEventListener("change", () => {
+            if (input.checked) onPatch({ public: item.value });
+          });
+        }
         lab.appendChild(input);
         lab.appendChild(document.createTextNode(item.label));
         pubWrap.appendChild(lab);
       });
     pubRow.appendChild(pubLab);
     pubRow.appendChild(pubWrap);
+    evidenceBlock.appendChild(pubRow);
+    evidenceBlock.appendChild(pubNote);
 
-    fields.appendChild(evRow);
-    fields.appendChild(evNote);
-    fields.appendChild(fileRow);
-    fields.appendChild(pubRow);
-    fields.appendChild(pubNote);
+    fields.appendChild(evidenceBlock);
     return fields;
   }
 
