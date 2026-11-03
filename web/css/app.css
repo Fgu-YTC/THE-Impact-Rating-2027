@@ -750,24 +750,29 @@ body > .layout.with-bottom {
   margin-left: 0.35rem;
   vertical-align: middle;
 }
-/* 今年／去年維持上下滿版（填報頁、管理頁皆同） */
+/* 今年／去年上下排列，寬度拉滿題目區可用空白 */
 .fill-compare {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
   margin-top: 0.65rem;
-  max-width: min(100%, 40rem);
+  max-width: none;
   width: 100%;
   align-items: start;
 }
 .fill-compare .fields {
   max-width: none;
+  width: 100%;
+}
+.fill-compare .fields .row {
+  grid-template-columns: minmax(5.5rem, 7rem) minmax(0, 1fr);
 }
 .fill-compare .fields textarea,
 .fill-compare .fields input[type="url"],
 .fill-compare .fields input[type="text"],
 .fill-compare .fields input[type="file"] {
-  max-width: min(100%, 28rem);
+  max-width: none;
+  width: 100%;
 }
 .fill-compare-side {
   min-width: 0;
@@ -1067,28 +1072,18 @@ body > .layout.with-bottom {
   line-height: 1.55;
 }
 
-/* 方法論收合：仍上下滿版，略加寬；多單位維持左填報右對照 */
-.layout.method-collapsed .fields {
-  max-width: min(100%, 40rem);
-}
-.layout.method-collapsed .fields textarea,
-.layout.method-collapsed .fields input[type="url"],
-.layout.method-collapsed .fields input[type="text"],
-.layout.method-collapsed .fields input[type="file"] {
-  max-width: min(100%, 32rem);
-}
-.layout.method-collapsed .fill-compare {
-  max-width: min(100%, 40rem);
-  grid-template-columns: 1fr;
+/* 方法論收合／展開：填報區都拉滿；多單位維持左填報右對照 */
+.layout.method-collapsed .fill-compare,
+.layout:not(.method-collapsed) .fill-compare {
+  max-width: none;
+  width: 100%;
 }
 .layout.method-collapsed .multi-unit-work.has-units {
   grid-template-columns: minmax(24rem, 36rem) minmax(0, 1fr);
 }
-.layout.method-collapsed .multi-unit-work.has-units .fill-compare {
-  max-width: none;
-}
 .layout.method-collapsed .q-format {
-  max-width: min(100%, 40rem);
+  max-width: none;
+  width: 100%;
 }
 .submitted-card.submitted-final {
   background: #eef6f2;
