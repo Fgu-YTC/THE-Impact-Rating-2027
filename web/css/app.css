@@ -962,9 +962,9 @@ body > .layout.with-bottom {
   width: 100%;
   max-width: none;
 }
-/* 管理「填寫」多單位：左最終填報（上下滿版）、右各單位答案 */
+/* 管理「填寫」多單位：左最終填報、右各單位答案（2–3 欄） */
 .multi-unit-work.has-units {
-  grid-template-columns: minmax(22rem, 36rem) minmax(0, 1fr);
+  grid-template-columns: minmax(20rem, 30rem) minmax(0, 1fr);
 }
 .multi-unit-fill-col,
 .multi-unit-units-col {
@@ -986,14 +986,24 @@ body > .layout.with-bottom {
   margin-top: 0;
 }
 .multi-unit-work.has-units .submitted.multi {
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 26rem));
-  justify-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.7rem;
+  align-items: start;
 }
 .multi-unit-work.has-units .submitted-card {
-  max-width: 26rem;
+  max-width: none;
   width: 100%;
   height: auto;
+}
+/* 方法論收合、畫面夠寬：單位答案改 3 欄 */
+.layout.method-collapsed .multi-unit-work.has-units .submitted.multi {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 1200px) {
+  .multi-unit-work.has-units .submitted.multi,
+  .layout.method-collapsed .multi-unit-work.has-units .submitted.multi {
+    grid-template-columns: 1fr;
+  }
 }
 .multi-unit-panel {
   margin-top: 0.35rem;
@@ -1055,14 +1065,24 @@ body > .layout.with-bottom {
   max-width: min(100%, 40rem);
 }
 #adminApp.mode-review .submitted.multi {
-  grid-template-columns: repeat(auto-fill, minmax(22rem, 28rem));
-  justify-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   align-items: start;
+  max-width: min(100%, 56rem);
 }
 #adminApp.mode-review .submitted-card {
-  max-width: 28rem;
+  max-width: none;
   height: auto;
+}
+#adminApp.mode-review .layout.method-collapsed .submitted.multi {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: none;
+}
+@media (max-width: 1100px) {
+  #adminApp.mode-review .submitted.multi {
+    grid-template-columns: 1fr;
+    max-width: 36rem;
+  }
 }
 #adminApp.mode-review .submitted-row {
   grid-template-columns: minmax(4.5rem, 6rem) minmax(0, 1fr);
@@ -1079,7 +1099,7 @@ body > .layout.with-bottom {
   width: 100%;
 }
 .layout.method-collapsed .multi-unit-work.has-units {
-  grid-template-columns: minmax(24rem, 36rem) minmax(0, 1fr);
+  grid-template-columns: minmax(22rem, 30rem) minmax(0, 1fr);
 }
 .layout.method-collapsed .q-format {
   max-width: none;
