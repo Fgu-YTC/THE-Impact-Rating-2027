@@ -209,6 +209,9 @@
             : "收合頂部 SDG 與篩選";
       }
       updateChromeSummary();
+      requestAnimationFrame(() => {
+        if (typeof syncAdminBottomPad === "function") syncAdminBottomPad();
+      });
     }
 
     function focusQuestion(q) {
@@ -1543,6 +1546,7 @@
       renderTabs();
       renderQuestions();
       updateChromeSummary();
+      requestAnimationFrame(syncAdminBottomPad);
     }
 
     document.querySelectorAll("#modeToggle button").forEach((btn) => {
@@ -1558,7 +1562,22 @@
       $("#btnRemoveUnit").disabled = !manageId;
       const btnSet = $("#btnSetUnitGroup");
       if (btnSet) btnSet.disabled = !manageId;
+      syncAdminBottomPad();
     }
+
+    /** 依底欄實高預留空間，避免分派／填寫／檢視底條切到題目 */
+    function syncAdminBottomPad() {
+      const bar = document.querySelector("#adminApp .admin-bottombar");
+      if (!bar || !appRoot || appRoot.hidden) return;
+      const h = Math.max(52, Math.ceil(bar.getBoundingClientRect().height));
+      appRoot.style.setProperty("--admin-bottom-h", `${h}px`);
+    }
+    window.addEventListener("resize", syncAdminBottomPad);
+    const bottombarEl = document.querySelector("#adminApp .admin-bottombar");
+    if (bottombarEl && typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => syncAdminBottomPad()).observe(bottombarEl);
+    }
+    requestAnimationFrame(syncAdminBottomPad);
 
     questionList.addEventListener("focusin", () => {
       if (mode === "fill") holdRender = true;

@@ -43,9 +43,22 @@ body > .layout {
   flex: 1 1 auto;
   min-height: 0;
   height: auto;
+  /* 填報頁底欄 fixed 時預留高度 */
+  margin-bottom: 0;
+}
+body:has(> .bottombar) {
+  --page-bottom-h: 4.75rem;
+  padding-bottom: var(--page-bottom-h);
+  box-sizing: border-box;
 }
 body > .bottombar {
-  flex-shrink: 0;
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 40;
+  background: rgba(255, 252, 247, 0.98);
 }
 
 a { color: var(--accent); text-decoration: none; }
@@ -1631,44 +1644,55 @@ body > .layout.with-bottom,
   min-height: 0;
   overflow: auto;
 }
-/* 管理頁：頂欄／工具列／主區／底欄四列，底欄不重疊題目 */
+/* 管理頁：主區撐滿；底欄 fixed，高度用 --admin-bottom-h 預留，避免切到題目 */
 #adminApp:not([hidden]) {
+  --admin-bottom-h: 4.75rem;
   flex: 1 1 auto;
   min-height: 0;
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  padding-bottom: var(--admin-bottom-h);
+  box-sizing: border-box;
 }
 #adminApp .admin-topbar,
 #adminApp .admin-chrome {
   flex-shrink: 0;
 }
 #adminApp .admin-layout {
+  flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+  height: auto !important;
 }
 #adminApp .admin-topbar {
   position: relative;
 }
 #adminApp .admin-bottombar {
-  position: relative !important;
-  bottom: auto !important;
-  flex-shrink: 0;
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
   gap: 0.55rem 0.75rem;
   align-items: center;
   max-width: 100%;
   box-sizing: border-box;
-  z-index: 5;
+  z-index: 40;
+  background: rgba(255, 252, 247, 0.98);
+  box-shadow: 0 -1px 0 var(--line);
 }
 #adminApp.mode-review .admin-bottombar,
-#adminApp.mode-assign .admin-bottombar {
+#adminApp.mode-assign .admin-bottombar,
+#adminApp.mode-fill .admin-bottombar {
   min-height: 0;
   padding-top: 0.55rem;
   padding-bottom: 0.55rem;
 }
 #adminApp .admin-layout .pane {
-  /* 最後一題捲到底時不要貼死邊緣 */
-  padding-bottom: 2.75rem;
+  padding-bottom: 1.5rem;
 }
 #adminApp .admin-bottom-main {
   display: flex;
@@ -1918,8 +1942,6 @@ body > .layout.with-bottom,
 }
 
 .bottombar {
-  position: relative !important;
-  bottom: auto !important;
   z-index: 20;
   min-height: var(--bottom-h);
   display: flex;
@@ -1929,10 +1951,7 @@ body > .layout.with-bottom,
   padding: 0.75rem 1.25rem;
   background: rgba(255, 252, 247, 0.96);
   border-top: 1px solid var(--line);
-}
-body > .bottombar {
-  /* 填報頁底欄：佔自己一列，不蓋住左側題目 */
-  position: relative !important;
+  box-sizing: border-box;
 }
 .fill-submit {
   margin-left: auto;
