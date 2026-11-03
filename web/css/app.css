@@ -755,14 +755,15 @@ body > .layout.with-bottom {
   grid-template-columns: 1fr;
   gap: 0.75rem 1rem;
   margin-top: 0.65rem;
-  max-width: none;
+  max-width: min(100%, 42rem);
   width: 100%;
   align-items: start;
 }
-/* 寬螢幕：今年填報｜去年參考並排，吃掉右側空白 */
+/* 填報頁寬螢幕：今年｜去年並排（有上限，避免拉太散） */
 @media (min-width: 960px) {
   .fill-compare {
-    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.9fr);
+    grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.85fr);
+    max-width: min(100%, 56rem);
   }
 }
 .fill-compare .fields {
@@ -956,21 +957,23 @@ body > .layout.with-bottom {
 }
 .multi-unit-work {
   display: grid;
-  gap: 0.75rem 1rem;
+  gap: 0.75rem 1.1rem;
   margin-top: 0.55rem;
   align-items: start;
   width: 100%;
   max-width: none;
 }
-/* 左：填報格；右：各單位答案 */
+/* 左：最終填報（夠寬）；右：各單位答案（多欄卡片） */
 .multi-unit-work.has-units {
-  grid-template-columns: minmax(17rem, 26rem) minmax(0, 1fr);
+  grid-template-columns: minmax(22rem, 34rem) minmax(0, 1fr);
 }
 .multi-unit-fill-col,
 .multi-unit-units-col {
   min-width: 0;
 }
-.multi-unit-work .fill-compare {
+/* 左側已是填報欄：今年／去年改直向，避免再切成過窄三欄 */
+.multi-unit-work.has-units .fill-compare {
+  grid-template-columns: 1fr !important;
   max-width: none;
   margin-top: 0;
 }
@@ -978,10 +981,15 @@ body > .layout.with-bottom {
   max-width: none;
   margin-top: 0;
 }
-.multi-unit-work .submitted.multi,
-.multi-unit-work .submitted-card {
-  max-width: none;
+.multi-unit-work.has-units .submitted.multi {
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 26rem));
+  justify-content: start;
+  gap: 0.7rem;
+}
+.multi-unit-work.has-units .submitted-card {
+  max-width: 26rem;
   width: 100%;
+  height: auto;
 }
 .multi-unit-panel {
   margin-top: 0.35rem;
@@ -1034,22 +1042,23 @@ body > .layout.with-bottom {
   min-width: 0;
 }
 
-/* —— 檢視：邊條收合後用多欄卡片填滿空白，長備註較好讀 —— */
+/* —— 檢視：單位卡固定寬並排，不拉成超寬空白卡 —— */
 #adminApp.mode-review .multi-unit-panel {
   max-width: none;
   width: 100%;
 }
 #adminApp.mode-review .multi-unit-tip {
-  max-width: min(100%, 52rem);
+  max-width: min(100%, 40rem);
 }
 #adminApp.mode-review .submitted.multi {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 28rem));
+  justify-content: start;
   gap: 0.75rem;
-  align-items: stretch;
+  align-items: start;
 }
 #adminApp.mode-review .submitted-card {
-  max-width: none;
-  height: 100%;
+  max-width: 28rem;
+  height: auto;
 }
 #adminApp.mode-review .submitted-row {
   grid-template-columns: minmax(4.5rem, 6rem) minmax(0, 1fr);
@@ -1058,13 +1067,10 @@ body > .layout.with-bottom {
   max-height: 10rem;
   line-height: 1.55;
 }
-#adminApp.mode-review .q-card {
-  max-width: none;
-}
 
-/* 方法論收合：欄位與對照區吃滿可用寬度 */
+/* 方法論收合：填報頁對照加寬；多單位填寫維持左直右多欄 */
 .layout.method-collapsed .fields {
-  max-width: none;
+  max-width: min(100%, 40rem);
 }
 .layout.method-collapsed .fields textarea,
 .layout.method-collapsed .fields input[type="url"],
@@ -1073,17 +1079,18 @@ body > .layout.with-bottom {
   max-width: none;
 }
 .layout.method-collapsed .fill-compare {
-  max-width: none;
-  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 1fr);
+  max-width: min(100%, 60rem);
+  grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.9fr);
 }
 .layout.method-collapsed .multi-unit-work.has-units {
-  grid-template-columns: minmax(18rem, 32rem) minmax(0, 1fr);
+  grid-template-columns: minmax(24rem, 36rem) minmax(0, 1fr);
+}
+.layout.method-collapsed .multi-unit-work.has-units .fill-compare {
+  grid-template-columns: 1fr !important;
+  max-width: none;
 }
 .layout.method-collapsed .q-format {
-  max-width: min(100%, 56rem);
-}
-.layout.method-collapsed .q-card {
-  max-width: none;
+  max-width: min(100%, 48rem);
 }
 .submitted-card.submitted-final {
   background: #eef6f2;
