@@ -236,7 +236,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261103c").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261103d").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];
@@ -482,6 +482,16 @@
     return Object.values(values).some((v) => v != null && String(v) !== "");
   }
 
+  /** 子欄只看對應 valueKey（如 5.4.4 只要員工人數）；避免會計只填支出卻被當成待整合 */
+  function answerHasRelevantContent(answer, field) {
+    if (!answer) return false;
+    if (field && field.subField && field.valueKey) {
+      const raw = answer.values && answer.values[field.valueKey];
+      return raw != null && String(raw).trim() !== "";
+    }
+    return answerHasContent(answer);
+  }
+
   function liveForRef(ref) {
     const field = fields.find((f) => f.ref === ref);
     const qid = field && field.siteQuestionId;
@@ -491,9 +501,9 @@
     units.forEach((u) => {
       const office = (officeByUnit[u.id] || {})[qid];
       const ans = (answersByUnit[u.id] || {})[qid];
-      if (office && answerHasContent(office)) {
+      if (office && answerHasRelevantContent(office, field)) {
         hits.push({ unitId: u.id, unitName: u.name, answer: office, kind: "office" });
-      } else if (ans && answerHasContent(ans)) {
+      } else if (ans && answerHasRelevantContent(ans, field)) {
         hits.push({ unitId: u.id, unitName: u.name, answer: ans, kind: "unit" });
       }
     });
