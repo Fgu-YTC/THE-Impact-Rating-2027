@@ -1467,6 +1467,62 @@
       "subField": true
     },
     {
+      "id": "portal-5.4.3",
+      "ref": "5.4.3",
+      "sdg": 5,
+      "en": "Number of academic staff",
+      "zh": "教學研究人員人數",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of academic staff",
+          "zh": "教學研究人員人數"
+        }
+      ],
+      "siteQuestionId": null,
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true,
+      "sharedDenom": "academicStaff",
+      "excelNote": "正式 Portal 5.4 區必填；與 8.3.3、9.4.2.4 同值"
+    },
+    {
+      "id": "portal-5.4.4",
+      "ref": "5.4.4",
+      "sdg": 5,
+      "en": "Number of employees",
+      "zh": "員工人數",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of employees",
+          "zh": "員工人數"
+        }
+      ],
+      "siteQuestionId": "sdg8-8.3.1",
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true,
+      "subField": true,
+      "parentRef": "8.3.1",
+      "valueKey": "v0",
+      "excelSubLabel": "Number of employees",
+      "sharedDenom": "employees",
+      "excelNote": "正式 Portal 5.4 區必填；與 8.3.1／8.5.1／9.4.3／10.5.1 同值"
+    },
+    {
       "id": "portal-5.5.1",
       "ref": "5.5.1",
       "sdg": 5,
@@ -2621,16 +2677,16 @@
       "id": "portal-8.3.3",
       "ref": "8.3.3",
       "sdg": 8,
-      "en": "Number of employees",
-      "zh": "員工人數",
+      "en": "Number of academic staff",
+      "zh": "教學研究人員人數",
       "answerType": "continuous",
       "options": [
         {
-          "en": "Number of employees",
-          "zh": "員工人數"
+          "en": "Number of academic staff",
+          "zh": "教學研究人員人數"
         }
       ],
-      "siteQuestionId": "sdg8-8.3.1",
+      "siteQuestionId": null,
       "portal": {
         "hasYesNo": false,
         "hasPublic": false,
@@ -2640,10 +2696,8 @@
         "hasPolicyReviewed": false
       },
       "aligned": true,
-      "subField": true,
-      "parentRef": "8.3.1",
-      "valueKey": "v0",
-      "excelSubLabel": "Number of employees"
+      "subField": false,
+      "sharedDenom": "academicStaff"
     },
     {
       "id": "portal-8.4.1",
@@ -2826,6 +2880,32 @@
       "aligned": true
     },
     {
+      "id": "portal-9.4.2.4",
+      "ref": "9.4.2.4",
+      "sdg": 9,
+      "en": "Number of academic staff",
+      "zh": "教學研究人員人數",
+      "answerType": "continuous",
+      "options": [
+        {
+          "en": "Number of academic staff",
+          "zh": "教學研究人員人數"
+        }
+      ],
+      "siteQuestionId": null,
+      "portal": {
+        "hasYesNo": false,
+        "hasPublic": false,
+        "hasComment": false,
+        "hasEvidence": false,
+        "hasPolicyCreated": false,
+        "hasPolicyReviewed": false
+      },
+      "aligned": true,
+      "sharedDenom": "academicStaff",
+      "excelNote": "正式 Portal 9.4 區；與 5.4.3、8.3.3 同值"
+    },
+    {
       "id": "portal-9.4.3",
       "ref": "9.4.3",
       "sdg": 9,
@@ -2851,7 +2931,8 @@
       "subField": true,
       "parentRef": "8.3.1",
       "valueKey": "v0",
-      "excelSubLabel": "Number of employees"
+      "excelSubLabel": "Number of employees",
+      "sharedDenom": "employees"
     },
     {
       "id": "portal-10.2.1",

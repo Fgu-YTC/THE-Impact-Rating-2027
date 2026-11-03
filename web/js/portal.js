@@ -67,6 +67,7 @@
       evidencePending: (name) => `待上傳：${name}`,
       evidenceUploading: "上傳證據中…",
       evidenceNaNote: "已選 No，無需填證據／公開／備註。",
+      sharedDenom: (refs) => (refs ? `正式 Portal 共用分母（同值：${refs}）` : "正式 Portal 共用分母"),
       publicLabel: "公開／不公開／未定",
       comments: "備註（最多 1000 字）",
       policyCreated: "政策訂定年（yyyy）",
@@ -131,6 +132,8 @@
       evidencePending: (name) => `Pending upload: ${name}`,
       evidenceUploading: "Uploading evidence…",
       evidenceNaNote: "No selected — evidence / public / comments not required.",
+      sharedDenom: (refs) =>
+        refs ? `Official portal shared value (same as ${refs})` : "Official portal shared value",
       publicLabel: "Public / Private / Undefined",
       comments: "Comments (max 1000 characters)",
       policyCreated: "Policy created (yyyy)",
@@ -233,7 +236,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261103a").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261103b").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];
@@ -699,11 +702,12 @@
     banner(n ? "ok" : "warn", n ? t("imported", n) : onlyEmpty ? t("importEmpty") : t("importNone"));
   }
 
-  /** 父題連續數值已涵蓋的 Excel 子欄，不再重複開一張卡 */
+  /** 同 SDG 內、父題連續數值已涵蓋的子欄才隱藏；跨 SDG 共用分母（如 5.4.4／8.3.1）仍顯示以便對正式 Portal 提交 */
   function isRedundantSubField(f) {
     if (!f || !f.subField || !f.parentRef || !f.valueKey) return false;
     const parent = fields.find((p) => p.ref === f.parentRef && !p.subField);
     if (!parent || parent.answerType !== "continuous") return false;
+    if (Number(parent.sdg) !== Number(f.sdg)) return false;
     const idx = Number(String(f.valueKey).replace(/\D/g, ""));
     if (!Number.isFinite(idx)) return false;
     return Array.isArray(parent.options) && parent.options.length > idx;
@@ -819,6 +823,16 @@
         const badge = document.createElement("span");
         badge.className = "portal-badge warn";
         badge.textContent = t("unaligned");
+        head.appendChild(badge);
+      }
+      if (f.sharedDenom) {
+        const peers = fields
+          .filter((x) => x.sharedDenom === f.sharedDenom && x.ref !== f.ref)
+          .map((x) => x.ref);
+        const badge = document.createElement("span");
+        badge.className = "portal-badge soft";
+        badge.textContent = t("sharedDenom", peers.join("、"));
+        badge.title = f.excelNote || badge.textContent;
         head.appendChild(badge);
       }
       card.appendChild(head);
@@ -1224,10 +1238,6 @@
     fields.forEach((f) => {
       if (isRedundantSubField(f) && out[f.ref] != null) delete out[f.ref];
     });
-    // 舊資料可能殘留的 Excel 多餘子欄
-    ["5.4.3", "5.4.4"].forEach((ref) => {
-      if (out[ref] != null) delete out[ref];
-    });
     return out;
   }
 
@@ -1247,7 +1257,6 @@
     const merged = stripRedundantAnswers({ ...remote });
     Object.keys(drafts).forEach((ref) => {
       if (fields.some((f) => f.ref === ref && isRedundantSubField(f))) return;
-      if (ref === "5.4.3" || ref === "5.4.4") return;
       merged[ref] = sanitizePortalAnswer({ ...(merged[ref] || {}), ...drafts[ref] });
     });
     Object.keys(merged).forEach((ref) => {
