@@ -1000,7 +1000,7 @@ body > .layout.with-bottom {
   display: grid;
   gap: 0.65rem;
 }
-/* 多單位直向排列；寬度跟 panel 走，避免橫向大片留白 */
+/* 多單位預設直向；檢視模式另有多欄規則 */
 .submitted.multi {
   grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
@@ -1015,6 +1015,54 @@ body > .layout.with-bottom {
   background: #f3f8f5;
   border: 1px solid #c9dfd2;
   min-width: 0;
+}
+
+/* —— 檢視：邊條收合後用多欄卡片填滿空白，長備註較好讀 —— */
+#adminApp.mode-review .multi-unit-panel {
+  max-width: none;
+  width: 100%;
+}
+#adminApp.mode-review .multi-unit-tip {
+  max-width: min(100%, 52rem);
+}
+#adminApp.mode-review .submitted.multi {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+#adminApp.mode-review .submitted-card {
+  max-width: none;
+  height: 100%;
+}
+#adminApp.mode-review .submitted-row {
+  grid-template-columns: minmax(4.5rem, 6rem) minmax(0, 1fr);
+}
+#adminApp.mode-review .submitted-comment-body {
+  max-height: 10rem;
+  line-height: 1.55;
+}
+#adminApp.mode-review .q-card {
+  max-width: none;
+}
+
+/* 方法論收合：填寫／分派欄位一併加寬，吃掉右側空白 */
+.layout.method-collapsed .fields {
+  max-width: min(100%, 48rem);
+}
+.layout.method-collapsed .fields textarea,
+.layout.method-collapsed .fields input[type="url"],
+.layout.method-collapsed .fields input[type="text"],
+.layout.method-collapsed .fields input[type="file"] {
+  max-width: min(100%, 40rem);
+}
+.layout.method-collapsed .fill-compare {
+  max-width: min(100%, 48rem);
+}
+.layout.method-collapsed .multi-unit-work.has-units {
+  grid-template-columns: minmax(18rem, 32rem) minmax(0, 1fr);
+}
+.layout.method-collapsed .q-format {
+  max-width: min(100%, 52rem);
 }
 .submitted-card.submitted-final {
   background: #eef6f2;
