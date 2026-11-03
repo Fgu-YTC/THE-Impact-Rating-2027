@@ -17,6 +17,10 @@
       btnGoogle: "使用 Google 登入",
       authLinks: '<a href="index.html">填報頁</a> · <a href="admin.html">管理頁</a>',
       note: "依題號逐題填寫。可先「帶入今年填報」帶入單位已填內容，再檢查與補齊。",
+      priorLink: "THE 2026 影響力評級（佛大）",
+      priorOverall: (rank) => `總榜 ${rank}`,
+      priorSdg: (sdg, rank) => `SDG ${sdg}：${rank}`,
+      priorSdgNone: (sdg) => `SDG ${sdg}：無公開名次`,
       importLive: "帶入今年填報",
       importLiveTitle: "把單位已填內容帶入空白題",
       importAll: "覆蓋帶入",
@@ -74,6 +78,10 @@
       btnGoogle: "Sign in with Google",
       authLinks: '<a href="index.html">Fill page</a> · <a href="admin.html">Admin</a>',
       note: "Fill question by question. Use “Import this year” to pull unit answers, then review and complete.",
+      priorLink: "THE 2026 Impact Ratings (FGU)",
+      priorOverall: (rank) => `Overall ${rank}`,
+      priorSdg: (sdg, rank) => `SDG ${sdg}: ${rank}`,
+      priorSdgNone: (sdg) => `SDG ${sdg}: no published band`,
       importLive: "Import this year",
       importLiveTitle: "Import unit answers into empty questions",
       importAll: "Overwrite import",
@@ -130,6 +138,50 @@
     const pack = I18N[lang] || I18N.zh;
     const v = pack[key];
     return typeof v === "function" ? v(...args) : v;
+  }
+
+  /** Fo Guang University · Sustainability Impact Ratings 2026（THE 校頁公開名次） */
+  const PRIOR_IMPACT_2026 = {
+    year: 2026,
+    profileUrl: "https://www.timeshighereducation.com/world-university-rankings/fo-guang-university",
+    overall: "1001–1500th",
+    sdg: {
+      1: "401–600th",
+      2: "601+",
+      3: "801–1000th",
+      4: "1001+",
+      5: "801–1000th",
+      6: "601+",
+      7: "801+",
+      8: "601–800th",
+      9: "601–800th",
+      10: "601–800th",
+      11: "601–800th",
+      12: "601+",
+      13: "601–800th",
+      14: "401+",
+      15: "401–600th",
+      16: "401–600th",
+      17: "1001–1500th",
+    },
+  };
+
+  function renderPriorRankBar() {
+    const bar = $("#priorRankBar");
+    if (!bar) return;
+    const link = $("#priorRankLink");
+    const overall = $("#priorRankOverall");
+    const sdgEl = $("#priorRankSdg");
+    if (link) {
+      link.href = PRIOR_IMPACT_2026.profileUrl;
+      link.textContent = t("priorLink");
+    }
+    if (overall) overall.textContent = t("priorOverall", PRIOR_IMPACT_2026.overall);
+    const band = PRIOR_IMPACT_2026.sdg[currentSdg];
+    if (sdgEl) {
+      sdgEl.textContent = band ? t("priorSdg", currentSdg, band) : t("priorSdgNone", currentSdg);
+    }
+    bar.hidden = false;
   }
 
   function showAuthError(msg) {
@@ -628,9 +680,22 @@
       const prog = document.createElement("span");
       prog.className = "sdg-prog";
       prog.textContent = `${filled}/${total}`;
-      prog.title = lang === "en" ? `${filled} of ${total} filled` : `已填 ${filled}／共 ${total}`;
+      const band = PRIOR_IMPACT_2026.sdg[n];
+      prog.title = [
+        lang === "en" ? `${filled} of ${total} filled` : `已填 ${filled}／共 ${total}`,
+        band ? (lang === "en" ? `2026: ${band}` : `2026 名次：${band}`) : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
       btn.appendChild(name);
       btn.appendChild(prog);
+      if (band) {
+        const rank = document.createElement("span");
+        rank.className = "sdg-prior-rank";
+        rank.textContent = band.replace(/th$/i, "");
+        rank.title = lang === "en" ? `2026 Impact: ${band}` : `2026 影響力評級：${band}`;
+        btn.appendChild(rank);
+      }
       btn.addEventListener("click", () => {
         currentSdg = n;
         renderTabs();
@@ -647,6 +712,7 @@
     const mine = fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
     const { filled, total } = sdgProgress(currentSdg);
     $("#portalMeta").textContent = t("meta", currentSdg, filled, total);
+    renderPriorRankBar();
     renderTabs();
     mine.forEach((f) => {
       const ans = answerOf(f.ref);

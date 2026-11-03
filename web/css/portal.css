@@ -21,6 +21,37 @@
   color: var(--muted);
   margin-right: 0.15rem;
 }
+.prior-rank-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.55rem;
+  max-width: min(1480px, 96vw);
+  margin: 0 auto;
+  padding: 0.35rem 1.1rem 0.15rem;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+.prior-rank-bar a {
+  font-weight: 600;
+  color: #1e4a3d;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, #1e4a3d 35%, transparent);
+}
+.prior-rank-bar a:hover {
+  border-bottom-color: #1e4a3d;
+}
+.prior-rank-sep {
+  opacity: 0.45;
+}
+.sdg-tabs .sdg-prior-rank {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.15;
+  margin-top: 0.1rem;
+}
 .portal-main {
   max-width: min(1480px, 96vw);
   margin: 0 auto;
