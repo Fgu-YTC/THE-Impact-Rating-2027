@@ -484,7 +484,6 @@
         const r = qs.filter((q) => questionHasReturn(q)).length;
         window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f, returned: r };
       }
-      updateReturnFilterChrome();
     }
 
     function questionHasReturn(q) {
@@ -494,68 +493,21 @@
       return true;
     }
 
-    /** 有退回題目的 SDG 清單（含題數） */
+    /** 有退回題目的 SDG 清單 */
     function sdgsWithReturns() {
       const out = [];
       for (let n = 1; n <= 17; n++) {
         const c = window.__sdgCounts?.[n];
-        if (c && c.returned > 0) out.push({ sdg: n, count: c.returned });
+        if (c && c.returned > 0) out.push(n);
       }
       return out;
     }
 
-    function updateReturnFilterChrome() {
-      const hits = sdgsWithReturns();
-      const totalQ = hits.reduce((sum, item) => sum + item.count, 0);
-      filterBar.querySelectorAll('button[data-filter="returned"]').forEach((btn) => {
-        const base = lang === "en" ? "Returned" : "已退回";
-        btn.textContent = totalQ ? `${base} ${totalQ}` : base;
-        btn.title = hits.length
-          ? (lang === "en"
-              ? `Returned in SDG ${hits.map((h) => h.sdg).join(", ")}`
-              : `有退回的 SDG：${hits.map((h) => h.sdg).join("、")}`)
-          : base;
-      });
-
-      const box = $("#returnFilterSummary");
-      if (!box) return;
-      if (filter !== "returned") {
-        box.hidden = true;
-        box.innerHTML = "";
-        return;
-      }
-      box.hidden = false;
-      box.innerHTML = "";
-      if (!hits.length) {
-        box.textContent =
-          lang === "en" ? "No returned questions right now." : "目前沒有已退回的題目。";
-        return;
-      }
-      const lead = document.createElement("span");
-      lead.textContent =
-        lang === "en"
-          ? `${totalQ} returned · jump to: `
-          : `共 ${totalQ} 題已退回 · 點 SDG 查看：`;
-      box.appendChild(lead);
-      hits.forEach((item, i) => {
-        if (i) box.appendChild(document.createTextNode("、"));
-        const a = document.createElement("button");
-        a.type = "button";
-        a.className = "return-sdg-jump" + (Number(currentSdg) === item.sdg ? " active" : "");
-        a.textContent = `SDG${item.sdg}（${item.count}）`;
-        a.addEventListener("click", () => showSdgOverview(item.sdg));
-        box.appendChild(a);
-      });
-    }
-
     function applyReturnedFilterNavigation() {
-      if (filter !== "returned") {
-        updateReturnFilterChrome();
-        return;
-      }
+      if (filter !== "returned") return;
       const hits = sdgsWithReturns();
-      if (hits.length && !hits.some((h) => h.sdg === Number(currentSdg))) {
-        currentSdg = hits[0].sdg;
+      if (hits.length && !hits.includes(Number(currentSdg))) {
+        currentSdg = hits[0];
         selected.clear();
         focusRef = null;
         focusMetricRef = null;
@@ -563,7 +515,6 @@
         renderMethod();
         updateBottom();
       }
-      updateReturnFilterChrome();
     }
 
     function showSdgOverview(n) {
@@ -576,7 +527,6 @@
       renderQuestions();
       renderMethod();
       updateBottom();
-      updateReturnFilterChrome();
       const pane = document.querySelector(".pane-right");
       if (pane && typeof pane.scrollIntoView === "function") {
         pane.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -610,16 +560,6 @@
           btn.textContent = c.assigned
             ? `SDG${n} ${c.filled}/${c.assigned}`
             : `SDG${n}`;
-        }
-        if (c.returned > 0) {
-          const mark = document.createElement("span");
-          mark.className = "sdg-return-mark";
-          mark.textContent = returnMode ? `退${c.returned}` : String(c.returned);
-          mark.title =
-            lang === "en"
-              ? `${c.returned} returned question(s)`
-              : `${c.returned} 題已退回`;
-          btn.appendChild(mark);
         }
         if (returnMode && c.returned > 0) {
           btn.title =
@@ -712,28 +652,12 @@
       if (!list.length) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        if (filter === "returned") {
-          const hits = sdgsWithReturns();
-          if (!hits.length) {
-            empty.textContent = lang === "en" ? "No returned questions." : "目前沒有已退回的題目。";
-          } else {
-            empty.textContent =
-              lang === "en"
-                ? `No returns in SDG${currentSdg}. See: `
-                : `本 SDG${currentSdg} 沒有退回。有退回的：`;
-            hits.forEach((item, i) => {
-              if (i) empty.appendChild(document.createTextNode("、"));
-              const a = document.createElement("button");
-              a.type = "button";
-              a.className = "return-sdg-jump";
-              a.textContent = `SDG${item.sdg}（${item.count}）`;
-              a.addEventListener("click", () => showSdgOverview(item.sdg));
-              empty.appendChild(a);
-            });
-          }
-        } else {
-          empty.textContent = "此篩選下沒有題目。";
-        }
+        empty.textContent =
+          filter === "returned"
+            ? lang === "en"
+              ? "No returned questions in this SDG."
+              : "此 SDG 沒有已退回的題目。"
+            : "此篩選下沒有題目。";
         questionList.appendChild(empty);
         return;
       }
