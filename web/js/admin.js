@@ -986,7 +986,6 @@
           jump.type = "button";
           jump.className = "secondary q-fill-jump-btn";
           jump.textContent = fillJumpLabel(q);
-          jump.style.marginLeft = "0.5rem";
           jump.addEventListener("click", (e) => {
             e.stopPropagation();
             goFillQuestion(q);
