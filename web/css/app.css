@@ -1477,12 +1477,12 @@ body > .layout.with-bottom,
 #adminApp .admin-chrome-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.65rem;
   padding: 0.35rem 1.15rem;
   min-height: 2.1rem;
 }
 #adminApp .admin-chrome-summary {
+  flex: 1 1 auto;
   font-size: 0.82rem;
   color: var(--muted);
   min-width: 0;
@@ -1496,12 +1496,14 @@ body > .layout.with-bottom,
 }
 #adminApp .admin-chrome-toggle {
   flex-shrink: 0;
+  margin-left: auto; /* 展開／收合都固定右側同一位置 */
   padding: 0.22rem 0.65rem;
   font-size: 0.78rem;
   border-radius: 999px;
 }
 #adminApp:not(.chrome-collapsed) .admin-chrome-summary {
-  display: none;
+  visibility: hidden; /* 佔位，讓按鈕位置與收合時一致 */
+  pointer-events: none;
 }
 #adminApp.chrome-collapsed .admin-chrome-body {
   display: none;
