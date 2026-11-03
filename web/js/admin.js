@@ -136,10 +136,80 @@
     THEUI.bindLangToggle($("#langToggle"), (next) => {
       lang = next;
       syncChromeLang();
+      updateChromeSummary();
+      const chromeBtn = $("#btnToggleChrome");
+      if (chromeBtn) {
+        setChromeCollapsed(appRoot.classList.contains("chrome-collapsed"));
+      }
       renderQuestions();
       renderMethod();
     });
     syncChromeLang();
+
+    const CHROME_KEY = "theImpactAdminChromeCollapsed";
+
+    function modeLabel() {
+      if (mode === "fill") return lang === "en" ? "Fill" : "填寫";
+      if (mode === "review") return lang === "en" ? "Review" : "檢視";
+      return lang === "en" ? "Assign" : "分派";
+    }
+
+    function filterLabel() {
+      const map =
+        lang === "en"
+          ? {
+              all: "All",
+              assigned: "Assigned",
+              unassigned: "Unassigned",
+              returned: "Returned",
+              filled: "Filled",
+              unfilled: "Unfilled",
+            }
+          : {
+              all: "全部",
+              assigned: "已分配",
+              unassigned: "未分配",
+              returned: "已退回",
+              filled: "已填寫",
+              unfilled: "未填寫",
+            };
+      return map[filter] || map.all;
+    }
+
+    function updateChromeSummary() {
+      const el = $("#adminChromeSummary");
+      if (!el) return;
+      const bits = [modeLabel(), `SDG${currentSdg}`, filterLabel()];
+      if (unitFilter.size) {
+        bits.push(lang === "en" ? `${unitFilter.size} units` : `${unitFilter.size} 單位`);
+      }
+      el.innerHTML = bits
+        .map((bit, i) => (i === 1 ? `<strong>${bit}</strong>` : bit))
+        .join(" · ");
+    }
+
+    function setChromeCollapsed(collapsed) {
+      appRoot.classList.toggle("chrome-collapsed", collapsed);
+      try {
+        localStorage.setItem(CHROME_KEY, collapsed ? "1" : "0");
+      } catch (_) {
+        /* ignore quota */
+      }
+      const btn = $("#btnToggleChrome");
+      if (btn) {
+        const en = lang === "en";
+        btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+        btn.textContent = collapsed ? (en ? "Expand" : "展開") : en ? "Collapse" : "收合";
+        btn.title = collapsed
+          ? en
+            ? "Expand SDG tabs and filters"
+            : "展開頂部 SDG 與篩選"
+          : en
+            ? "Collapse SDG tabs and filters"
+            : "收合頂部 SDG 與篩選";
+      }
+      updateChromeSummary();
+    }
 
     function focusQuestion(q) {
       const same = focusQuestionId === q.id;
@@ -427,6 +497,7 @@
       }
       renderTabs();
       renderQuestions();
+      updateChromeSummary();
     }
 
     function questionIsFilled(questionId) {
@@ -540,6 +611,7 @@
       renderQuestions();
       renderMethod();
       updateBottom();
+      updateChromeSummary();
       const pane = document.querySelector(".pane-right");
       if (pane && typeof pane.scrollIntoView === "function") {
         pane.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1462,6 +1534,7 @@
       applyHighlightFilterNavigation();
       renderTabs();
       renderQuestions();
+      updateChromeSummary();
     }
 
     document.querySelectorAll("#modeToggle button").forEach((btn) => {
@@ -1577,8 +1650,31 @@
         applyHighlightFilterNavigation();
         renderTabs();
         renderQuestions();
+        updateChromeSummary();
       });
     });
+
+    const btnToggleChrome = $("#btnToggleChrome");
+    if (btnToggleChrome) {
+      let preferCollapsed = false;
+      try {
+        preferCollapsed = localStorage.getItem(CHROME_KEY) === "1";
+      } catch (_) {
+        preferCollapsed = false;
+      }
+      setChromeCollapsed(preferCollapsed);
+      btnToggleChrome.addEventListener("click", () => {
+        setChromeCollapsed(!appRoot.classList.contains("chrome-collapsed"));
+      });
+    }
+    const chromeSummary = $("#adminChromeSummary");
+    if (chromeSummary) {
+      chromeSummary.style.cursor = "pointer";
+      chromeSummary.title = "點一下展開頂部";
+      chromeSummary.addEventListener("click", () => {
+        if (appRoot.classList.contains("chrome-collapsed")) setChromeCollapsed(false);
+      });
+    }
 
     if (manageUnitSelect) {
       manageUnitSelect.addEventListener("change", () => {

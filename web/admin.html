@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261103l" />
+  <link rel="stylesheet" href="css/app.css?v=20261103m" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -63,37 +63,50 @@
       </div>
     </header>
 
-    <div class="admin-chrome">
-      <div
-        id="dataYearNote"
-        class="data-year-note admin-year-note"
-        title="數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。"
-      >資料年度：Impact 2027 · <strong>113 學年度</strong></div>
+    <div class="admin-chrome" id="adminChrome">
+      <div class="admin-chrome-bar">
+        <div class="admin-chrome-summary" id="adminChromeSummary">SDG 篩選</div>
+        <button
+          type="button"
+          class="secondary admin-chrome-toggle"
+          id="btnToggleChrome"
+          aria-expanded="true"
+          aria-controls="adminChromeBody"
+          title="收合頂部 SDG 與篩選"
+        >收合</button>
+      </div>
+      <div class="admin-chrome-body" id="adminChromeBody">
+        <div
+          id="dataYearNote"
+          class="data-year-note admin-year-note"
+          title="數字題以 113 學年為準；政策／措施須於該學年度結束前已生效。若該題方法論另有註明，以該題為準。"
+        >資料年度：Impact 2027 · <strong>113 學年度</strong></div>
 
-      <nav class="sdg-tabs admin-sdg-tabs" id="sdgTabs" aria-label="SDG1-17"></nav>
+        <nav class="sdg-tabs admin-sdg-tabs" id="sdgTabs" aria-label="SDG1-17"></nav>
 
-      <div class="admin-toolbar">
-        <div class="filter-bar" id="filterBar">
-          <button type="button" data-filter="all" class="active">全部</button>
-          <button type="button" data-filter="unassigned" data-for="assign">未分配</button>
-          <button type="button" data-filter="assigned" data-for="assign">已分配</button>
-          <button type="button" data-filter="returned" data-for="assign">已退回</button>
-          <button type="button" data-filter="filled" data-for="review">已填寫</button>
-          <button type="button" data-filter="unfilled" data-for="review">未填寫</button>
-          <button type="button" data-filter="returned" data-for="review">已退回</button>
-          <button type="button" id="btnSelectUnassigned" class="secondary filter-action" data-for="assign">勾選本 SDG 未分配</button>
-          <button type="button" id="btnReloadAnswers" class="secondary filter-action" data-for="review">重新讀取填答</button>
-        </div>
-        <div class="unit-filter" id="unitFilter" data-for="browse">
-          <div class="unit-filter-head">
-            <button type="button" id="btnToggleUnitFilter" class="secondary unit-filter-toggle" aria-expanded="false" aria-controls="unitFilterBody">
-              篩選單位
-            </button>
-            <span id="unitFilterSummary" class="unit-filter-summary">未篩選</span>
-            <button type="button" id="btnClearUnitFilter" class="secondary">清除</button>
+        <div class="admin-toolbar">
+          <div class="filter-bar" id="filterBar">
+            <button type="button" data-filter="all" class="active">全部</button>
+            <button type="button" data-filter="unassigned" data-for="assign">未分配</button>
+            <button type="button" data-filter="assigned" data-for="assign">已分配</button>
+            <button type="button" data-filter="returned" data-for="assign">已退回</button>
+            <button type="button" data-filter="filled" data-for="review">已填寫</button>
+            <button type="button" data-filter="unfilled" data-for="review">未填寫</button>
+            <button type="button" data-filter="returned" data-for="review">已退回</button>
+            <button type="button" id="btnSelectUnassigned" class="secondary filter-action" data-for="assign">勾選本 SDG 未分配</button>
+            <button type="button" id="btnReloadAnswers" class="secondary filter-action" data-for="review">重新讀取填答</button>
           </div>
-          <div class="unit-filter-body" id="unitFilterBody" hidden>
-            <div id="unitFilterList"></div>
+          <div class="unit-filter" id="unitFilter" data-for="browse">
+            <div class="unit-filter-head">
+              <button type="button" id="btnToggleUnitFilter" class="secondary unit-filter-toggle" aria-expanded="false" aria-controls="unitFilterBody">
+                篩選單位
+              </button>
+              <span id="unitFilterSummary" class="unit-filter-summary">未篩選</span>
+              <button type="button" id="btnClearUnitFilter" class="secondary">清除</button>
+            </div>
+            <div class="unit-filter-body" id="unitFilterBody" hidden>
+              <div id="unitFilterList"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -187,7 +200,7 @@
   <script src="js/auth.js?v=20261030h"></script>
   <script src="js/export.js?v=20261030h"></script>
   <script src="js/submit.js?v=20261030h"></script>
-  <script src="js/admin.js?v=20261103i"></script>
+  <script src="js/admin.js?v=20261103j"></script>
   <script src="js/ask.js?v=20261030h"></script>
 </body>
 </html>

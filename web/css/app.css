@@ -20,6 +20,7 @@
 html, body {
   margin: 0;
   height: 100%;
+  overflow: hidden; /* html 也要鎖，否則底欄仍可能随頁面捲動卡在中間 */
   color: var(--ink);
   background:
     radial-gradient(1200px 500px at 10% -10%, #e7f1ec 0%, transparent 55%),
@@ -27,11 +28,10 @@ html, body {
     var(--bg);
   font-family: var(--font-body);
 }
-/* 頂欄／分頁／主區／底欄用 flex 分高，避免 sticky 底欄蓋住題目 */
+/* 頂欄／分頁／主區／底欄用 flex 分高，避免底欄蓋住題目 */
 body {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 body > .topbar,
 body > .data-year-note,
@@ -1450,8 +1450,43 @@ body > .layout.with-bottom,
   border-bottom: 1px solid var(--line);
   background: rgba(255, 252, 247, 0.88);
 }
+#adminApp .admin-chrome-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.35rem 1.15rem;
+  min-height: 2.1rem;
+}
+#adminApp .admin-chrome-summary {
+  font-size: 0.82rem;
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#adminApp .admin-chrome-summary strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+#adminApp .admin-chrome-toggle {
+  flex-shrink: 0;
+  padding: 0.22rem 0.65rem;
+  font-size: 0.78rem;
+  border-radius: 999px;
+}
+#adminApp:not(.chrome-collapsed) .admin-chrome-summary {
+  display: none;
+}
+#adminApp.chrome-collapsed .admin-chrome-body {
+  display: none;
+}
+#adminApp.chrome-collapsed .admin-chrome-bar {
+  border-bottom: 0;
+}
 #adminApp .admin-year-note {
-  padding: 0.35rem 1.25rem;
+  padding: 0.15rem 1.25rem 0.35rem;
   font-size: 0.8rem;
   background: transparent;
   border-bottom: 0;
@@ -1586,6 +1621,9 @@ body > .layout.with-bottom,
   flex: 1 1 auto;
   min-height: 0;
 }
+#adminApp .admin-topbar {
+  position: relative;
+}
 #adminApp .admin-bottombar {
   position: relative;
   flex-shrink: 0;
@@ -1593,6 +1631,12 @@ body > .layout.with-bottom,
   align-items: center;
   max-width: 100%;
   box-sizing: border-box;
+}
+#adminApp.mode-review .admin-bottombar,
+#adminApp.mode-assign .admin-bottombar {
+  min-height: 0;
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
 }
 #adminApp .admin-bottom-main {
   display: flex;
