@@ -913,16 +913,15 @@
           }
           if (mode === "fill") {
             const work = document.createElement("div");
-            work.className = "multi-unit-work";
             const multi = isMultiUnitQuestion(q);
-            if (multi) {
-              work.appendChild(renderMultiUnitPanel(q, { editable: true, originalOnly: true }));
-            }
+            work.className = "multi-unit-work" + (multi ? " has-units" : "");
+            const fillCol = document.createElement("div");
+            fillCol.className = "multi-unit-fill-col";
             returnsFor(q.id).forEach((item) => {
               const view = renderAdminReturnStatus(item);
-              if (view) work.appendChild(view);
+              if (view) fillCol.appendChild(view);
             });
-            work.appendChild(
+            fillCol.appendChild(
               THEUI.renderFillCompare({
                 lang,
                 priorUnit: THEUI.renderPriorUnit(priorUnits[q.ref]),
@@ -930,6 +929,15 @@
                 fields: renderFillEditors(q),
               })
             );
+            work.appendChild(fillCol);
+            if (multi) {
+              const unitsCol = document.createElement("div");
+              unitsCol.className = "multi-unit-units-col";
+              unitsCol.appendChild(
+                renderMultiUnitPanel(q, { editable: true, originalOnly: true })
+              );
+              work.appendChild(unitsCol);
+            }
             body.appendChild(work);
           }
           if (mode === "assign") {
@@ -1049,7 +1057,7 @@
         tip.className = "multi-unit-tip";
         if (editable) {
           tip.textContent =
-            "此題有兩個以上單位。請先對照各單位答案，再於下方「最終填報」合併寫出匯出用的那一份。";
+            "此題有兩個以上單位。請對照右側各單位答案，在左側「最終填報」合併寫出匯出用的那一份。";
         } else {
           tip.appendChild(
             document.createTextNode("此題有兩個以上單位答案，可並排對照。合併請到「填寫」模式寫「最終填報」。")
