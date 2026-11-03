@@ -582,10 +582,30 @@
     return !answerHasContent(a) && !a.policyCreated && !a.policyReviewed;
   }
 
+  function normalizePriorLabel(s) {
+    return String(s || "")
+      .toLowerCase()
+      .replace(/[\u4e00-\u9fff／/：:\s]+/g, " ")
+      .replace(/[^a-z0-9& ]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  /** 去年欄位順序常與今年不同，優先用英文標籤對；對不到才退回 index */
   function priorValueForSub(field) {
     if (!field) return "";
     const data = priorYear[field.parentRef] || priorYear[field.ref];
     if (!data || !Array.isArray(data.values)) return "";
+    const want = normalizePriorLabel(
+      field.excelSubLabel || field.en || ((field.options || [])[0] && field.options[0].en) || ""
+    );
+    if (want) {
+      const hit = data.values.find((entry) => {
+        const lab = normalizePriorLabel(entry && entry.label);
+        return lab === want || lab.includes(want) || want.includes(lab);
+      });
+      if (hit && hit.value != null && String(hit.value) !== "") return String(hit.value);
+    }
     const idx = Number(String(field.valueKey || "v0").replace(/\D/g, "")) || 0;
     const entry = data.values[idx];
     return entry && entry.value != null && String(entry.value) !== "" ? String(entry.value) : "";
