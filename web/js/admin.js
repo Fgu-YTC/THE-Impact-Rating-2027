@@ -481,8 +481,89 @@
         const aQs = qs.filter((q) => assignees(q.id).length);
         const a = aQs.length;
         const f = aQs.filter((q) => questionIsFilled(q.id)).length;
-        window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f };
+        const r = qs.filter((q) => questionHasReturn(q)).length;
+        window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f, returned: r };
       }
+      updateReturnFilterChrome();
+    }
+
+    function questionHasReturn(q) {
+      const returned = returnsFor(q.id);
+      if (!returned.length) return false;
+      if (unitFilter.size) return returned.some((item) => unitFilter.has(item.unitId));
+      return true;
+    }
+
+    /** 有退回題目的 SDG 清單（含題數） */
+    function sdgsWithReturns() {
+      const out = [];
+      for (let n = 1; n <= 17; n++) {
+        const c = window.__sdgCounts?.[n];
+        if (c && c.returned > 0) out.push({ sdg: n, count: c.returned });
+      }
+      return out;
+    }
+
+    function updateReturnFilterChrome() {
+      const hits = sdgsWithReturns();
+      const totalQ = hits.reduce((sum, item) => sum + item.count, 0);
+      filterBar.querySelectorAll('button[data-filter="returned"]').forEach((btn) => {
+        const base = lang === "en" ? "Returned" : "已退回";
+        btn.textContent = totalQ ? `${base} ${totalQ}` : base;
+        btn.title = hits.length
+          ? (lang === "en"
+              ? `Returned in SDG ${hits.map((h) => h.sdg).join(", ")}`
+              : `有退回的 SDG：${hits.map((h) => h.sdg).join("、")}`)
+          : base;
+      });
+
+      const box = $("#returnFilterSummary");
+      if (!box) return;
+      if (filter !== "returned") {
+        box.hidden = true;
+        box.innerHTML = "";
+        return;
+      }
+      box.hidden = false;
+      box.innerHTML = "";
+      if (!hits.length) {
+        box.textContent =
+          lang === "en" ? "No returned questions right now." : "目前沒有已退回的題目。";
+        return;
+      }
+      const lead = document.createElement("span");
+      lead.textContent =
+        lang === "en"
+          ? `${totalQ} returned · jump to: `
+          : `共 ${totalQ} 題已退回 · 點 SDG 查看：`;
+      box.appendChild(lead);
+      hits.forEach((item, i) => {
+        if (i) box.appendChild(document.createTextNode("、"));
+        const a = document.createElement("button");
+        a.type = "button";
+        a.className = "return-sdg-jump" + (Number(currentSdg) === item.sdg ? " active" : "");
+        a.textContent = `SDG${item.sdg}（${item.count}）`;
+        a.addEventListener("click", () => showSdgOverview(item.sdg));
+        box.appendChild(a);
+      });
+    }
+
+    function applyReturnedFilterNavigation() {
+      if (filter !== "returned") {
+        updateReturnFilterChrome();
+        return;
+      }
+      const hits = sdgsWithReturns();
+      if (hits.length && !hits.some((h) => h.sdg === Number(currentSdg))) {
+        currentSdg = hits[0].sdg;
+        selected.clear();
+        focusRef = null;
+        focusMetricRef = null;
+        focusQuestionId = null;
+        renderMethod();
+        updateBottom();
+      }
+      updateReturnFilterChrome();
     }
 
     function showSdgOverview(n) {
@@ -495,6 +576,7 @@
       renderQuestions();
       renderMethod();
       updateBottom();
+      updateReturnFilterChrome();
       const pane = document.querySelector(".pane-right");
       if (pane && typeof pane.scrollIntoView === "function") {
         pane.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -504,12 +586,17 @@
     function renderTabs() {
       sdgTabs.innerHTML = "";
       const unitSdgs = sdgsForUnitFilter();
+      const returnMode = filter === "returned";
       for (let n = 1; n <= 17; n++) {
-        const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0 };
+        const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0, returned: 0 };
         const chip = document.createElement("div");
         chip.className = "sdg-chip" + (n === currentSdg ? " active" : "");
         if (c.total) chip.classList.add("has-items");
-        if (unitSdgs) {
+        if (c.returned > 0) chip.classList.add("has-returns");
+        if (returnMode) {
+          if (c.returned > 0) chip.classList.add("return-hit");
+          else chip.classList.add("return-dim");
+        } else if (unitSdgs) {
           if (unitSdgs.includes(n)) chip.classList.add("unit-hit");
           else chip.classList.add("unit-dim");
         }
@@ -517,13 +604,33 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "sdg-tab";
-        btn.textContent = c.assigned
-          ? `SDG${n} ${c.filled}/${c.assigned}`
-          : `SDG${n}`;
-        if (unitSdgs && unitSdgs.includes(n)) {
+        if (returnMode) {
+          btn.textContent = `SDG${n}`;
+        } else {
+          btn.textContent = c.assigned
+            ? `SDG${n} ${c.filled}/${c.assigned}`
+            : `SDG${n}`;
+        }
+        if (c.returned > 0) {
+          const mark = document.createElement("span");
+          mark.className = "sdg-return-mark";
+          mark.textContent = returnMode ? `退${c.returned}` : String(c.returned);
+          mark.title =
+            lang === "en"
+              ? `${c.returned} returned question(s)`
+              : `${c.returned} 題已退回`;
+          btn.appendChild(mark);
+        }
+        if (returnMode && c.returned > 0) {
+          btn.title =
+            lang === "en"
+              ? `${c.returned} returned in SDG${n}`
+              : `SDG${n} 有 ${c.returned} 題已退回`;
+        } else if (unitSdgs && unitSdgs.includes(n)) {
           btn.title = `篩選單位有題可看 · 填寫 ${c.filled}/${c.assigned} · 題數 ${c.total}`;
         } else {
           btn.title = `填寫進度 ${c.filled || 0}/${c.assigned || 0}（本 SDG 共 ${c.total} 題）`;
+          if (c.returned > 0) btn.title += ` · 已退回 ${c.returned} 題`;
         }
         btn.addEventListener("click", () => showSdgOverview(n));
 
@@ -605,7 +712,28 @@
       if (!list.length) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent = "此篩選下沒有題目。";
+        if (filter === "returned") {
+          const hits = sdgsWithReturns();
+          if (!hits.length) {
+            empty.textContent = lang === "en" ? "No returned questions." : "目前沒有已退回的題目。";
+          } else {
+            empty.textContent =
+              lang === "en"
+                ? `No returns in SDG${currentSdg}. See: `
+                : `本 SDG${currentSdg} 沒有退回。有退回的：`;
+            hits.forEach((item, i) => {
+              if (i) empty.appendChild(document.createTextNode("、"));
+              const a = document.createElement("button");
+              a.type = "button";
+              a.className = "return-sdg-jump";
+              a.textContent = `SDG${item.sdg}（${item.count}）`;
+              a.addEventListener("click", () => showSdgOverview(item.sdg));
+              empty.appendChild(a);
+            });
+          }
+        } else {
+          empty.textContent = "此篩選下沒有題目。";
+        }
         questionList.appendChild(empty);
         return;
       }
@@ -1350,6 +1478,8 @@
       filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.filter === filter);
       });
+      applyReturnedFilterNavigation();
+      renderTabs();
       renderQuestions();
     }
 
@@ -1463,6 +1593,8 @@
       btn.addEventListener("click", () => {
         filter = btn.dataset.filter;
         filterBar.querySelectorAll("button[data-filter]").forEach((b) => b.classList.toggle("active", b === btn));
+        applyReturnedFilterNavigation();
+        renderTabs();
         renderQuestions();
       });
     });
