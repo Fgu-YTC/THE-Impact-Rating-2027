@@ -753,9 +753,26 @@ body > .layout.with-bottom {
 .fill-compare {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.7rem;
+  gap: 0.75rem 1rem;
   margin-top: 0.65rem;
-  max-width: 40rem;
+  max-width: none;
+  width: 100%;
+  align-items: start;
+}
+/* 寬螢幕：今年填報｜去年參考並排，吃掉右側空白 */
+@media (min-width: 960px) {
+  .fill-compare {
+    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.9fr);
+  }
+}
+.fill-compare .fields {
+  max-width: none;
+}
+.fill-compare .fields textarea,
+.fill-compare .fields input[type="url"],
+.fill-compare .fields input[type="text"],
+.fill-compare .fields input[type="file"] {
+  max-width: none;
 }
 .fill-compare-side {
   min-width: 0;
@@ -1045,24 +1062,28 @@ body > .layout.with-bottom {
   max-width: none;
 }
 
-/* 方法論收合：填寫／分派欄位一併加寬，吃掉右側空白 */
+/* 方法論收合：欄位與對照區吃滿可用寬度 */
 .layout.method-collapsed .fields {
-  max-width: min(100%, 48rem);
+  max-width: none;
 }
 .layout.method-collapsed .fields textarea,
 .layout.method-collapsed .fields input[type="url"],
 .layout.method-collapsed .fields input[type="text"],
 .layout.method-collapsed .fields input[type="file"] {
-  max-width: min(100%, 40rem);
+  max-width: none;
 }
 .layout.method-collapsed .fill-compare {
-  max-width: min(100%, 48rem);
+  max-width: none;
+  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 1fr);
 }
 .layout.method-collapsed .multi-unit-work.has-units {
   grid-template-columns: minmax(18rem, 32rem) minmax(0, 1fr);
 }
 .layout.method-collapsed .q-format {
-  max-width: min(100%, 52rem);
+  max-width: min(100%, 56rem);
+}
+.layout.method-collapsed .q-card {
+  max-width: none;
 }
 .submitted-card.submitted-final {
   background: #eef6f2;
@@ -1176,7 +1197,7 @@ body > .layout.with-bottom {
   display: grid;
   gap: 0.45rem;
   margin-top: 0.5rem;
-  max-width: 36rem;
+  max-width: min(100%, 42rem);
 }
 .fields .row {
   display: grid;
@@ -1200,11 +1221,11 @@ body > .layout.with-bottom {
 .fields input[type="url"],
 .fields input[type="text"] {
   width: 100%;
-  max-width: 28rem;
+  max-width: min(100%, 36rem);
   box-sizing: border-box;
 }
 .fields textarea { min-height: 4.2rem; resize: vertical; }
-.fields input[type="file"] { font-size: 0.8rem; max-width: 28rem; }
+.fields input[type="file"] { font-size: 0.8rem; max-width: min(100%, 36rem); }
 .evidence-block-na {
   margin-top: 0.35rem;
   padding: 0.55rem 0.65rem 0.35rem;
