@@ -411,6 +411,7 @@
     const fileLab = document.createElement("label");
     fileLab.textContent = lang === "en" ? "Upload" : "上傳檔案";
     const fileWrap = document.createElement("div");
+    fileWrap.className = "file-wrap";
     const file = document.createElement("input");
     file.type = "file";
     file.disabled = evidenceLocked;
@@ -419,6 +420,8 @@
     fileName.textContent = evidenceLocked ? "" : opts.pendingName || "";
     const savedName = evidenceLocked ? "" : ans.evidenceFileName || "";
     const savedUrl = evidenceLocked ? "" : ans.evidenceFileUrl || "";
+    const hasSavedFile =
+      !evidenceLocked && !!(savedName || savedUrl || ans.evidenceFilePath || opts.pendingName);
     if (!evidenceLocked && !opts.pendingName && (savedName || savedUrl || ans.evidenceFilePath)) {
       const link = document.createElement("a");
       link.className = "file-download";
@@ -444,10 +447,34 @@
         fileName.textContent = chosen ? chosen.name : "";
         onPatch({ evidenceFileName: chosen ? chosen.name : "" });
         if (opts.onFile) opts.onFile(chosen || null);
+        if (typeof opts.onAfterFileChange === "function") opts.onAfterFileChange();
       });
     }
     fileWrap.appendChild(file);
     fileWrap.appendChild(fileName);
+    if (!evidenceLocked && hasSavedFile) {
+      const clearFile = document.createElement("button");
+      clearFile.type = "button";
+      clearFile.className = "secondary file-clear-btn";
+      clearFile.textContent = lang === "en" ? "Clear file" : "清除檔案";
+      clearFile.title =
+        lang === "en"
+          ? "Remove the uploaded / previously submitted file"
+          : "清除已上傳或上次提交的檔案（傳錯可按此清空）";
+      clearFile.addEventListener("click", () => {
+        file.value = "";
+        fileName.textContent = "";
+        if (opts.onFile) opts.onFile(null);
+        onPatch({
+          evidenceFileName: "",
+          evidenceFileUrl: "",
+          evidenceFilePath: "",
+          evidenceStoredName: "",
+        });
+        if (typeof opts.onAfterFileChange === "function") opts.onAfterFileChange();
+      });
+      fileWrap.appendChild(clearFile);
+    }
     fileRow.appendChild(fileLab);
     fileRow.appendChild(fileWrap);
     evidenceBlock.appendChild(fileRow);

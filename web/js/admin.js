@@ -128,6 +128,9 @@
             ? "Not a premium model — please wait patiently."
             : "非高階模型，使用時請耐心等候。";
       }
+      if (window.THEPaneSplit && typeof window.THEPaneSplit.refreshLabels === "function") {
+        window.THEPaneSplit.refreshLabels();
+      }
     }
 
     THEUI.bindLangToggle($("#langToggle"), (next) => {
@@ -566,6 +569,9 @@
 
     function showQuestionMethodology(q) {
       focusQuestion(q);
+      if (window.THEPaneSplit && typeof window.THEPaneSplit.expand === "function") {
+        window.THEPaneSplit.expand();
+      }
       const pane = document.querySelector(".pane-right");
       if (pane && typeof pane.scrollIntoView === "function") {
         pane.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1313,6 +1319,7 @@
             if (file) fillFiles.set(key, file);
             else fillFiles.delete(key);
           },
+          onAfterFileChange: () => requestFillRender(),
         });
         block.appendChild(fields);
         wrap.appendChild(block);

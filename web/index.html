@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/app.css?v=20261102b" />
+  <link rel="stylesheet" href="css/app.css?v=20261103d" />
 </head>
 <body>
   <header class="topbar">
@@ -46,8 +46,12 @@
       <div id="emptyState" class="empty"></div>
       <div id="questionList"></div>
     </section>
+    <button type="button" class="pane-split" aria-label="調整方法論窗格寬度" title="拖曳調整寬度"></button>
     <aside class="pane pane-right" aria-label="方法論">
-      <h2 id="methodTitle">方法論</h2>
+      <div class="method-head">
+        <h2 id="methodTitle">方法論</h2>
+        <button type="button" class="secondary method-toggle" aria-expanded="true">縮小</button>
+      </div>
       <div class="method-body" id="methodBody"></div>
       <form id="methodAsk" class="method-ask" hidden>
         <button type="submit" id="methodAskBtn">問 Gemini</button>
@@ -94,11 +98,12 @@
   <script src="js/firebase-config.js?v=20261030e"></script>
   <script src="js/storage.js?v=20261030e"></script>
   <script src="js/live.js?v=20261030e"></script>
-  <script src="js/ui.js?v=20261102b"></script>
+  <script src="js/ui.js?v=20261103d"></script>
+  <script src="js/pane-split.js?v=20261103c"></script>
   <script src="js/methodology.js?v=20261030e"></script>
   <script src="js/submit.js?v=20261030e"></script>
   <script src="js/tour.js?v=20261030e"></script>
-  <script src="js/app.js?v=20261030e"></script>
+  <script src="js/app.js?v=20261103d"></script>
   <script src="js/ask.js?v=20261030e"></script>
 </body>
 </html>

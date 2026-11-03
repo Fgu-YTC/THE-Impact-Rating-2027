@@ -69,6 +69,9 @@
         ? "Not a premium model — please wait patiently."
         : "非高階模型，使用時請耐心等候。";
     }
+    if (window.THEPaneSplit && typeof window.THEPaneSplit.refreshLabels === "function") {
+      window.THEPaneSplit.refreshLabels();
+    }
   }
 
   let tourAutoShown = false;
@@ -306,6 +309,9 @@
 
   function showQuestionMethodology(q) {
     selectQuestion(q);
+    if (window.THEPaneSplit && typeof window.THEPaneSplit.expand === "function") {
+      window.THEPaneSplit.expand();
+    }
     const pane = document.querySelector(".pane-right");
     if (pane && typeof pane.scrollIntoView === "function") {
       pane.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -556,6 +562,7 @@
               if (file) pendingFiles.set(q.id, file);
               else pendingFiles.delete(q.id);
             },
+            onAfterFileChange: () => forceRender(),
           });
           card.appendChild(
             THEUI.renderFillCompare({
