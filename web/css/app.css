@@ -750,21 +750,15 @@ body > .layout.with-bottom {
   margin-left: 0.35rem;
   vertical-align: middle;
 }
+/* 今年／去年維持上下滿版（填報頁、管理頁皆同） */
 .fill-compare {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem 1rem;
+  gap: 0.75rem;
   margin-top: 0.65rem;
-  max-width: min(100%, 42rem);
+  max-width: min(100%, 40rem);
   width: 100%;
   align-items: start;
-}
-/* 填報頁寬螢幕：今年｜去年並排（有上限，避免拉太散） */
-@media (min-width: 960px) {
-  .fill-compare {
-    grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.85fr);
-    max-width: min(100%, 56rem);
-  }
 }
 .fill-compare .fields {
   max-width: none;
@@ -773,7 +767,7 @@ body > .layout.with-bottom {
 .fill-compare .fields input[type="url"],
 .fill-compare .fields input[type="text"],
 .fill-compare .fields input[type="file"] {
-  max-width: none;
+  max-width: min(100%, 28rem);
 }
 .fill-compare-side {
   min-width: 0;
@@ -963,19 +957,24 @@ body > .layout.with-bottom {
   width: 100%;
   max-width: none;
 }
-/* 左：最終填報（夠寬）；右：各單位答案（多欄卡片） */
+/* 管理「填寫」多單位：左最終填報（上下滿版）、右各單位答案 */
 .multi-unit-work.has-units {
-  grid-template-columns: minmax(22rem, 34rem) minmax(0, 1fr);
+  grid-template-columns: minmax(22rem, 36rem) minmax(0, 1fr);
 }
 .multi-unit-fill-col,
 .multi-unit-units-col {
   min-width: 0;
 }
-/* 左側已是填報欄：今年／去年改直向，避免再切成過窄三欄 */
 .multi-unit-work.has-units .fill-compare {
-  grid-template-columns: 1fr !important;
+  grid-template-columns: 1fr;
   max-width: none;
   margin-top: 0;
+}
+.multi-unit-work.has-units .fill-compare .fields textarea,
+.multi-unit-work.has-units .fill-compare .fields input[type="url"],
+.multi-unit-work.has-units .fill-compare .fields input[type="text"],
+.multi-unit-work.has-units .fill-compare .fields input[type="file"] {
+  max-width: none;
 }
 .multi-unit-work .multi-unit-panel {
   max-width: none;
@@ -1068,7 +1067,7 @@ body > .layout.with-bottom {
   line-height: 1.55;
 }
 
-/* 方法論收合：填報頁對照加寬；多單位填寫維持左直右多欄 */
+/* 方法論收合：仍上下滿版，略加寬；多單位維持左填報右對照 */
 .layout.method-collapsed .fields {
   max-width: min(100%, 40rem);
 }
@@ -1076,21 +1075,20 @@ body > .layout.with-bottom {
 .layout.method-collapsed .fields input[type="url"],
 .layout.method-collapsed .fields input[type="text"],
 .layout.method-collapsed .fields input[type="file"] {
-  max-width: none;
+  max-width: min(100%, 32rem);
 }
 .layout.method-collapsed .fill-compare {
-  max-width: min(100%, 60rem);
-  grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.9fr);
+  max-width: min(100%, 40rem);
+  grid-template-columns: 1fr;
 }
 .layout.method-collapsed .multi-unit-work.has-units {
   grid-template-columns: minmax(24rem, 36rem) minmax(0, 1fr);
 }
 .layout.method-collapsed .multi-unit-work.has-units .fill-compare {
-  grid-template-columns: 1fr !important;
   max-width: none;
 }
 .layout.method-collapsed .q-format {
-  max-width: min(100%, 48rem);
+  max-width: min(100%, 40rem);
 }
 .submitted-card.submitted-final {
   background: #eef6f2;
