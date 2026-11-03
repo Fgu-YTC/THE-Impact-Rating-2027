@@ -248,6 +248,24 @@ button:disabled {
   color: var(--muted);
   font-weight: 400;
 }
+.sdg-chip.has-unassigned:not(.active) .sdg-tab {
+  color: #6a5418;
+}
+.sdg-chip.unassign-hit:not(.active) {
+  border-color: #e2d2a2;
+  background: #fff6df;
+}
+.sdg-chip.unassign-hit:not(.active) .sdg-tab {
+  color: #6a5418;
+  font-weight: 700;
+}
+.sdg-chip.unassign-dim:not(.active) {
+  opacity: 0.35;
+}
+.sdg-chip.unassign-dim:not(.active) .sdg-tab {
+  color: var(--muted);
+  font-weight: 400;
+}
 
 .layout {
   --method-pane-w: 320px;

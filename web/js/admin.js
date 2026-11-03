@@ -482,7 +482,8 @@
         const a = aQs.length;
         const f = aQs.filter((q) => questionIsFilled(q.id)).length;
         const r = qs.filter((q) => questionHasReturn(q)).length;
-        window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f, returned: r };
+        const u = Math.max(0, qs.length - a);
+        window.__sdgCounts[n] = { total: qs.length, assigned: a, filled: f, returned: r, unassigned: u };
       }
     }
 
@@ -503,9 +504,21 @@
       return out;
     }
 
-    function applyReturnedFilterNavigation() {
-      if (filter !== "returned") return;
-      const hits = sdgsWithReturns();
+    /** 有未分配題目的 SDG 清單 */
+    function sdgsWithUnassigned() {
+      const out = [];
+      for (let n = 1; n <= 17; n++) {
+        const c = window.__sdgCounts?.[n];
+        if (c && c.unassigned > 0) out.push(n);
+      }
+      return out;
+    }
+
+    function applyHighlightFilterNavigation() {
+      let hits = [];
+      if (filter === "returned") hits = sdgsWithReturns();
+      else if (filter === "unassigned") hits = sdgsWithUnassigned();
+      else return;
       if (hits.length && !hits.includes(Number(currentSdg))) {
         currentSdg = hits[0];
         selected.clear();
@@ -537,15 +550,25 @@
       sdgTabs.innerHTML = "";
       const unitSdgs = sdgsForUnitFilter();
       const returnMode = filter === "returned";
+      const unassignedMode = filter === "unassigned";
       for (let n = 1; n <= 17; n++) {
-        const c = window.__sdgCounts?.[n] || { total: 0, assigned: 0, returned: 0 };
+        const c = window.__sdgCounts?.[n] || {
+          total: 0,
+          assigned: 0,
+          returned: 0,
+          unassigned: 0,
+        };
         const chip = document.createElement("div");
         chip.className = "sdg-chip" + (n === currentSdg ? " active" : "");
         if (c.total) chip.classList.add("has-items");
         if (c.returned > 0) chip.classList.add("has-returns");
+        if (c.unassigned > 0) chip.classList.add("has-unassigned");
         if (returnMode) {
           if (c.returned > 0) chip.classList.add("return-hit");
           else chip.classList.add("return-dim");
+        } else if (unassignedMode) {
+          if (c.unassigned > 0) chip.classList.add("unassign-hit");
+          else chip.classList.add("unassign-dim");
         } else if (unitSdgs) {
           if (unitSdgs.includes(n)) chip.classList.add("unit-hit");
           else chip.classList.add("unit-dim");
@@ -554,7 +577,7 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "sdg-tab";
-        if (returnMode) {
+        if (returnMode || unassignedMode) {
           btn.textContent = `SDG${n}`;
         } else {
           btn.textContent = c.assigned
@@ -566,11 +589,17 @@
             lang === "en"
               ? `${c.returned} returned in SDG${n}`
               : `SDG${n} 有 ${c.returned} 題已退回`;
+        } else if (unassignedMode && c.unassigned > 0) {
+          btn.title =
+            lang === "en"
+              ? `${c.unassigned} unassigned in SDG${n}`
+              : `SDG${n} 有 ${c.unassigned} 題未分配`;
         } else if (unitSdgs && unitSdgs.includes(n)) {
           btn.title = `篩選單位有題可看 · 填寫 ${c.filled}/${c.assigned} · 題數 ${c.total}`;
         } else {
           btn.title = `填寫進度 ${c.filled || 0}/${c.assigned || 0}（本 SDG 共 ${c.total} 題）`;
           if (c.returned > 0) btn.title += ` · 已退回 ${c.returned} 題`;
+          if (c.unassigned > 0) btn.title += ` · 未分配 ${c.unassigned} 題`;
         }
         btn.addEventListener("click", () => showSdgOverview(n));
 
@@ -1431,7 +1460,7 @@
       filterBar.querySelectorAll("button[data-filter]").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.filter === filter);
       });
-      applyReturnedFilterNavigation();
+      applyHighlightFilterNavigation();
       renderTabs();
       renderQuestions();
     }
@@ -1546,7 +1575,7 @@
       btn.addEventListener("click", () => {
         filter = btn.dataset.filter;
         filterBar.querySelectorAll("button[data-filter]").forEach((b) => b.classList.toggle("active", b === btn));
-        applyReturnedFilterNavigation();
+        applyHighlightFilterNavigation();
         renderTabs();
         renderQuestions();
       });
