@@ -135,6 +135,26 @@
   background: #e2f0e6;
   color: var(--ok);
 }
+.portal-badge.merge {
+  background: #f8e8d8;
+  color: #9a4d12;
+  font-weight: 600;
+}
+.portal-admin-jump {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #9a4d12 35%, #fff);
+  color: #9a4d12;
+  background: #fffaf5;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.portal-admin-jump:hover {
+  background: #f8e8d8;
+}
 .portal-title {
   font-size: 0.95rem;
   line-height: 1.45;

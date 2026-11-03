@@ -46,6 +46,8 @@
       importNone: "目前沒有可帶入的填報內容。",
       meta: (sdg, filled, total) => `SDG ${sdg} · 已填 ${filled}/${total}`,
       unaligned: "待確認",
+      needsMerge: "待整合",
+      goAdminFill: "去管理頁改寫／最終填報",
       excelSub: (parent) => (parent ? `附屬數值（${parent}）` : "附屬數值"),
       fromUnits: (names) => (names && names.length ? `來源：${names.join("、")}` : ""),
       fromUnitsNone: "尚無單位填報",
@@ -107,6 +109,8 @@
       importNone: "No unit answers available to import.",
       meta: (sdg, filled, total) => `SDG ${sdg} · ${filled}/${total} filled`,
       unaligned: "Check needed",
+      needsMerge: "Needs merge",
+      goAdminFill: "Open admin rewrite / final fill",
       excelSub: (parent) => (parent ? `Related value (${parent})` : "Related value"),
       fromUnits: (names) => (names && names.length ? `From: ${names.join(", ")}` : ""),
       fromUnitsNone: "No unit fill yet",
@@ -464,6 +468,21 @@
     return { preferred, all: hits };
   }
 
+  /** 兩個以上單位有內容，且尚無永續辦最終稿 → 待整合 */
+  function needsMerge(pack) {
+    if (!pack || !pack.all || pack.all.length < 2) return false;
+    const unitIds = [...new Set(pack.all.map((h) => h.unitId).filter(Boolean))];
+    if (unitIds.length < 2) return false;
+    return !pack.all.some((h) => h.kind === "office" && /永續/.test(String(h.unitName || "")));
+  }
+
+  function adminFillUrl(ref) {
+    const q = new URLSearchParams();
+    q.set("mode", "fill");
+    if (ref) q.set("ref", String(ref));
+    return `admin.html?${q.toString()}`;
+  }
+
   function priorPublicUrls(ref) {
     const data = priorYear[ref];
     if (!data) return [];
@@ -738,6 +757,23 @@
       source.textContent = sourceNames.length ? t("fromUnits", sourceNames) : t("fromUnitsNone");
       if (sourceNames.length) source.title = sourceNames.join(lang === "en" ? ", " : "、");
       head.appendChild(source);
+      if (needsMerge(livePack)) {
+        const merge = document.createElement("span");
+        merge.className = "portal-badge merge";
+        merge.textContent = t("needsMerge");
+        merge.title =
+          lang === "en"
+            ? "Two or more unit answers; no sustainability office final yet"
+            : "兩個以上單位有填報，且尚未有永續辦最終稿";
+        head.appendChild(merge);
+        const jump = document.createElement("a");
+        jump.className = "portal-admin-jump";
+        jump.href = adminFillUrl(f.ref);
+        jump.target = "_blank";
+        jump.rel = "noopener noreferrer";
+        jump.textContent = t("goAdminFill");
+        head.appendChild(jump);
+      }
       if (f.subField) {
         const badge = document.createElement("span");
         badge.className = "portal-badge soft";

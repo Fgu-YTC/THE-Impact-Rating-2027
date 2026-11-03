@@ -166,8 +166,41 @@
       focusQuestionId = q.id;
       focusRef = q.ref || null;
       focusMetricRef = q.metricRef || null;
+      if (q.sdg) currentSdg = Number(q.sdg) || currentSdg;
       applyMode("fill");
       scrollToFocusedQuestion();
+    }
+
+    /** Portal／外部連結：admin.html?mode=fill&ref=17.2.4 */
+    function applyDeepLinkFromUrl() {
+      let params;
+      try {
+        params = new URLSearchParams(window.location.search || "");
+      } catch (err) {
+        return false;
+      }
+      const modeParam = String(params.get("mode") || "").trim();
+      const refParam = String(params.get("ref") || params.get("q") || "").trim();
+      if (!modeParam && !refParam) return false;
+      const q =
+        (refParam && questions.find((item) => String(item.ref) === refParam || item.id === refParam)) ||
+        null;
+      if (q && q.sdg) currentSdg = Number(q.sdg) || currentSdg;
+      if (modeParam === "fill" || modeParam === "review" || modeParam === "assign") {
+        if (q) {
+          focusQuestionId = q.id;
+          focusRef = q.ref || null;
+          focusMetricRef = q.metricRef || null;
+        }
+        applyMode(modeParam);
+        if (q) scrollToFocusedQuestion();
+        return true;
+      }
+      if (q) {
+        goFillQuestion(q);
+        return true;
+      }
+      return false;
     }
 
     function fillJumpLabel(q) {
@@ -1871,6 +1904,7 @@
       () => {}
     );
 
+    let deepLinkDone = false;
     THELive.listenUnits(
       (next) => {
         units = next || [];
@@ -1888,7 +1922,11 @@
         fillUnitSelect();
         refreshStats();
         renderTabs();
-        renderQuestions();
+        if (!deepLinkDone && applyDeepLinkFromUrl()) {
+          deepLinkDone = true;
+        } else {
+          renderQuestions();
+        }
         watchAnswers(units);
       },
       (err) => showExportBanner("bad", `讀取單位失敗。${THELive.explain(err)}`)
