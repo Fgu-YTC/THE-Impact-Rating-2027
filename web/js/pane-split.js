@@ -33,18 +33,37 @@
   function setCollapsed(layout, toggleBtn, collapsed, lang) {
     layout.classList.toggle("method-collapsed", collapsed);
     localStorage.setItem(STORAGE_COLLAPSED, collapsed ? "1" : "0");
+    const pane = layout.querySelector(".pane-right");
+    if (pane) {
+      pane.title = collapsed
+        ? lang === "en"
+          ? "Click to expand methodology"
+          : "點此展開方法論"
+        : "";
+      pane.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    }
     if (toggleBtn) {
       const en = lang === "en";
       toggleBtn.textContent = collapsed
         ? en
-          ? "Expand"
-          : "展開"
+          ? "›"
+          : "›"
         : en
           ? "Shrink"
           : "縮小";
       toggleBtn.setAttribute(
         "aria-expanded",
         collapsed ? "false" : "true"
+      );
+      toggleBtn.setAttribute(
+        "aria-label",
+        collapsed
+          ? en
+            ? "Expand methodology pane"
+            : "展開方法論窗格"
+          : en
+            ? "Shrink methodology pane"
+            : "縮小方法論窗格"
       );
       toggleBtn.title = collapsed
         ? en
@@ -100,10 +119,26 @@
     applyWidth(layout, readWidth());
     setCollapsed(layout, toggleBtn, readCollapsed(), currentLang());
 
+    function toggleCollapsed(e) {
+      if (e) e.stopPropagation();
+      const next = !layout.classList.contains("method-collapsed");
+      setCollapsed(layout, toggleBtn, next, currentLang());
+    }
+
     if (toggleBtn) {
-      toggleBtn.addEventListener("click", () => {
-        const next = !layout.classList.contains("method-collapsed");
-        setCollapsed(layout, toggleBtn, next, currentLang());
+      toggleBtn.addEventListener("click", toggleCollapsed);
+    }
+    // 縮成窄軌後「展開」鈕常被擠掉；點整條方法論軌道即可展開
+    pane.addEventListener("click", (e) => {
+      if (!layout.classList.contains("method-collapsed")) return;
+      if (e.target.closest("a, button, input, textarea, select, label")) return;
+      setCollapsed(layout, toggleBtn, false, currentLang());
+    });
+    if (title) {
+      title.addEventListener("click", (e) => {
+        if (!layout.classList.contains("method-collapsed")) return;
+        e.stopPropagation();
+        setCollapsed(layout, toggleBtn, false, currentLang());
       });
     }
 
