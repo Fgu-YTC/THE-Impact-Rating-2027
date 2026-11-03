@@ -66,6 +66,7 @@
       evidenceClearFile: "清除檔案",
       evidencePending: (name) => `待上傳：${name}`,
       evidenceUploading: "上傳證據中…",
+      evidenceNaNote: "已選 No，無需填證據／公開／備註。",
       publicLabel: "公開／不公開／未定",
       comments: "備註（最多 1000 字）",
       policyCreated: "政策訂定年（yyyy）",
@@ -129,6 +130,7 @@
       evidenceClearFile: "Clear file",
       evidencePending: (name) => `Pending upload: ${name}`,
       evidenceUploading: "Uploading evidence…",
+      evidenceNaNote: "No selected — evidence / public / comments not required.",
       publicLabel: "Public / Private / Undefined",
       comments: "Comments (max 1000 characters)",
       policyCreated: "Policy created (yyyy)",
@@ -297,6 +299,25 @@
     });
   }
 
+  function isNoAnswer(ans) {
+    return String((ans && ans.yesNo) || "").toLowerCase() === "no";
+  }
+
+  function clearEvidenceForNo(ref) {
+    pendingFiles.delete(ref);
+    patch(ref, {
+      evidence: "",
+      evidenceFileName: "",
+      evidenceFileUrl: "",
+      evidenceFilePath: "",
+      evidenceStoredName: "",
+      evidenceAlsoFile: false,
+      evidenceKind: "",
+      public: "",
+      comment: "",
+    });
+  }
+
   function appendChoiceRow(parent, { name, type, value, checked, label, onChange }) {
     const lab = document.createElement("label");
     lab.className = "portal-choice";
@@ -372,6 +393,18 @@
   function sanitizePortalAnswer(a) {
     if (!a) return a;
     const out = { ...a };
+    if (String(out.yesNo || "").toLowerCase() === "no") {
+      out.evidence = "";
+      out.evidenceFileName = "";
+      out.evidenceFileUrl = "";
+      out.evidenceFilePath = "";
+      out.evidenceStoredName = "";
+      out.evidenceAlsoFile = false;
+      out.evidenceKind = "";
+      out.public = "";
+      out.comment = "";
+      return out;
+    }
     const raw = String(out.evidence || "").trim();
     if (isStorageUrl(raw)) {
       if (!out.evidenceFileUrl) out.evidenceFileUrl = raw;
@@ -411,6 +444,7 @@
     const { bucket, ref, uploadBytes, getDownloadURL } = await getStorage();
     for (const [refId, file] of pendingFiles.entries()) {
       if (!file) continue;
+      if (isNoAnswer(merged[refId])) continue;
       const stored = `${Date.now()}_${safeFileName(file.name)}`;
       const path = `evidence/portal/${refId}/${stored}`;
       await uploadBytes(ref(bucket, path), file, {
@@ -819,12 +853,18 @@
             value: val,
             checked: ans.yesNo === val,
             label: val === "yes" ? "Yes" : "No",
-            onChange: () => patch(f.ref, { yesNo: val }),
+            onChange: () => {
+              patch(f.ref, { yesNo: val });
+              if (val === "no") clearEvidenceForNo(f.ref);
+              renderFields();
+            },
           });
         });
         wrap.appendChild(row);
         grid.appendChild(wrap);
       }
+
+      const lockedByNo = isNoAnswer(ans);
 
       if (f.answerType === "picklist" && (f.options || []).length) {
         const wrap = document.createElement("div");
@@ -910,16 +950,22 @@
 
       if (portal.hasEvidence) {
         const wrap = document.createElement("div");
-        wrap.className = "portal-evidence";
+        wrap.className = "portal-evidence" + (lockedByNo ? " is-na" : "");
         const caption = document.createElement("div");
         caption.className = "portal-field-label";
         caption.textContent = t("evidenceMax");
         wrap.appendChild(caption);
+        if (lockedByNo) {
+          const note = document.createElement("div");
+          note.className = "portal-na-note";
+          note.textContent = t("evidenceNaNote");
+          wrap.appendChild(note);
+        }
 
         const body = document.createElement("div");
         body.className = "portal-evidence-body";
-        const hasUrl = !!publicEvidenceUrl(ans.evidence);
-        const hasFile = hasEvidenceFile(ans, f.ref);
+        const hasUrl = !lockedByNo && !!publicEvidenceUrl(ans.evidence);
+        const hasFile = !lockedByNo && hasEvidenceFile(ans, f.ref);
 
         const urlBlock = document.createElement("div");
         urlBlock.className = "portal-ev-block";
@@ -927,7 +973,7 @@
         urlLab.className = "portal-ev-mini";
         urlLab.textContent = t("evidenceTypeUrl");
         urlBlock.appendChild(urlLab);
-        const currentUrl = publicEvidenceUrl(ans.evidence) || "";
+        const currentUrl = lockedByNo ? "" : publicEvidenceUrl(ans.evidence) || "";
         if (currentUrl) {
           const a = document.createElement("a");
           a.className = "portal-ev-link portal-ev-url";
@@ -942,21 +988,24 @@
         input.type = "url";
         input.placeholder = "https://…";
         input.value = currentUrl;
-        input.addEventListener("change", () => {
-          const next = publicEvidenceUrl(input.value);
-          if (input.value.trim() && !next) {
-            banner("warn", t("evidenceWarn"));
-            input.value = "";
-          }
-          const cur = answerOf(f.ref);
-          const nextAns = { ...cur, evidence: next || "" };
-          patch(f.ref, {
-            evidence: next || "",
-            evidenceKind: syncEvidenceKind(nextAns, f.ref),
-            evidenceAlsoFile: !!(next && hasEvidenceFile(cur, f.ref)),
+        input.disabled = lockedByNo;
+        if (!lockedByNo) {
+          input.addEventListener("change", () => {
+            const next = publicEvidenceUrl(input.value);
+            if (input.value.trim() && !next) {
+              banner("warn", t("evidenceWarn"));
+              input.value = "";
+            }
+            const cur = answerOf(f.ref);
+            const nextAns = { ...cur, evidence: next || "" };
+            patch(f.ref, {
+              evidence: next || "",
+              evidenceKind: syncEvidenceKind(nextAns, f.ref),
+              evidenceAlsoFile: !!(next && hasEvidenceFile(cur, f.ref)),
+            });
+            renderFields();
           });
-          renderFields();
-        });
+        }
         urlBlock.appendChild(input);
         if (hasUrl) {
           const clearUrl = document.createElement("button");
@@ -977,14 +1026,14 @@
         fileLab.className = "portal-ev-mini";
         fileLab.textContent = t("evidenceTypeFile");
         fileBlock.appendChild(fileLab);
-        const pending = pendingFiles.get(f.ref);
-        const fileHref = fileDownloadHref(ans);
+        const pending = lockedByNo ? null : pendingFiles.get(f.ref);
+        const fileHref = lockedByNo ? "" : fileDownloadHref(ans);
         if (pending) {
           const tip = document.createElement("div");
           tip.className = "portal-ev-pending";
           tip.textContent = t("evidencePending", pending.name);
           fileBlock.appendChild(tip);
-        } else if (fileHref || ans.evidenceFileName) {
+        } else if (fileHref || (!lockedByNo && ans.evidenceFileName)) {
           const a = document.createElement("a");
           a.className = "portal-ev-link";
           a.target = "_blank";
@@ -998,28 +1047,31 @@
         }
         const file = document.createElement("input");
         file.type = "file";
-        file.addEventListener("change", () => {
-          const chosen = file.files && file.files[0];
-          if (!chosen) return;
-          pendingFiles.set(f.ref, chosen);
-          const cur = answerOf(f.ref);
-          const nextAns = {
-            ...cur,
-            evidenceFileName: chosen.name,
-            evidenceFileUrl: "",
-            evidenceFilePath: "",
-            evidenceStoredName: "",
-          };
-          patch(f.ref, {
-            evidenceFileName: chosen.name,
-            evidenceFileUrl: "",
-            evidenceFilePath: "",
-            evidenceStoredName: "",
-            evidenceKind: syncEvidenceKind(nextAns, f.ref),
-            evidenceAlsoFile: !!publicEvidenceUrl(cur.evidence),
+        file.disabled = lockedByNo;
+        if (!lockedByNo) {
+          file.addEventListener("change", () => {
+            const chosen = file.files && file.files[0];
+            if (!chosen) return;
+            pendingFiles.set(f.ref, chosen);
+            const cur = answerOf(f.ref);
+            const nextAns = {
+              ...cur,
+              evidenceFileName: chosen.name,
+              evidenceFileUrl: "",
+              evidenceFilePath: "",
+              evidenceStoredName: "",
+            };
+            patch(f.ref, {
+              evidenceFileName: chosen.name,
+              evidenceFileUrl: "",
+              evidenceFilePath: "",
+              evidenceStoredName: "",
+              evidenceKind: syncEvidenceKind(nextAns, f.ref),
+              evidenceAlsoFile: !!publicEvidenceUrl(cur.evidence),
+            });
+            renderFields();
           });
-          renderFields();
-        });
+        }
         fileBlock.appendChild(file);
         if (hasFile) {
           const clearFile = document.createElement("button");
@@ -1051,7 +1103,7 @@
 
       if (portal.hasPublic) {
         const wrap = document.createElement("div");
-        wrap.className = "portal-choice-group";
+        wrap.className = "portal-choice-group" + (lockedByNo ? " is-na" : "");
         const caption = document.createElement("div");
         caption.className = "portal-field-label";
         caption.textContent = t("publicLabel");
@@ -1063,20 +1115,23 @@
           { value: "private", label: "Private" },
           { value: "undefined", label: "Undefined" },
         ].forEach((item) => {
-          appendChoiceRow(row, {
+          const lab = appendChoiceRow(row, {
             name: `pub-${f.ref}`,
             type: "radio",
             value: item.value,
-            checked: ans.public === item.value,
+            checked: !lockedByNo && ans.public === item.value,
             label: item.label,
             onChange: () => {
+              if (lockedByNo) return;
               patch(f.ref, { public: item.value });
               renderFields();
             },
           });
+          const input = lab.querySelector("input");
+          if (input) input.disabled = lockedByNo;
         });
         wrap.appendChild(row);
-        if (ans.public === "public" && !publicEvidenceUrl(ans.evidence)) {
+        if (!lockedByNo && ans.public === "public" && !publicEvidenceUrl(ans.evidence)) {
           const warn = document.createElement("div");
           warn.className = "field-warn";
           warn.textContent = t("publicNeedsUrl");
@@ -1092,21 +1147,25 @@
         portal.hasPolicyCreated
       ) {
         const lab = document.createElement("label");
+        lab.className = lockedByNo ? "is-na" : "";
         lab.textContent = t("comments");
         const ta = document.createElement("textarea");
         ta.maxLength = 1000;
         ta.rows = 2;
-        ta.value = ans.comment || "";
+        ta.value = lockedByNo ? "" : ans.comment || "";
+        ta.disabled = lockedByNo;
         const fitComment = () => {
           ta.style.height = "auto";
           const next = Math.min(Math.max(ta.scrollHeight, 56), 480);
           ta.style.height = `${next}px`;
         };
-        ta.addEventListener("input", () => {
-          patch(f.ref, { comment: ta.value });
-          fitComment();
-        });
-        ta.addEventListener("change", () => patch(f.ref, { comment: ta.value }));
+        if (!lockedByNo) {
+          ta.addEventListener("input", () => {
+            patch(f.ref, { comment: ta.value });
+            fitComment();
+          });
+          ta.addEventListener("change", () => patch(f.ref, { comment: ta.value }));
+        }
         lab.appendChild(ta);
         grid.appendChild(lab);
         requestAnimationFrame(fitComment);

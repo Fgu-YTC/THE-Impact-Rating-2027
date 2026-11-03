@@ -309,6 +309,25 @@
   border: 1px solid #e4ebe7;
   border-radius: 10px;
 }
+.portal-evidence.is-na,
+.portal-choice-group.is-na,
+label.is-na {
+  opacity: 0.55;
+  pointer-events: none;
+  background: #ebe7e0;
+  border-color: #d5cec4;
+}
+.portal-na-note {
+  font-size: 0.8rem;
+  color: #6a5f52;
+  font-weight: 600;
+}
+.portal-evidence.is-na input,
+.portal-choice-group.is-na input,
+label.is-na textarea {
+  background: #e4dfd6 !important;
+  color: #8a8074 !important;
+}
 .portal-evidence-body {
   display: flex;
   flex-direction: column;
