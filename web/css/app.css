@@ -27,6 +27,26 @@ html, body {
     var(--bg);
   font-family: var(--font-body);
 }
+/* 頂欄／分頁／主區／底欄用 flex 分高，避免 sticky 底欄蓋住題目 */
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+body > .topbar,
+body > .data-year-note,
+body > .submit-banner,
+body > .sdg-tabs {
+  flex-shrink: 0;
+}
+body > .layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+body > .bottombar {
+  flex-shrink: 0;
+}
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -272,11 +292,18 @@ button:disabled {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 6px var(--method-pane-w);
   gap: 0;
+  /* 高度改由 body / #adminApp flex 分配；此處只保底 */
   height: calc(100vh - var(--top-h) - 52px);
-  min-height: 420px;
+  min-height: 0;
 }
 .layout.with-bottom {
   height: calc(100vh - var(--top-h) - 52px - var(--bottom-h));
+}
+body > .layout,
+body > .layout.with-bottom,
+#adminApp .layout,
+#adminApp .layout.with-bottom {
+  height: auto;
 }
 .layout.method-collapsed {
   grid-template-columns: minmax(0, 1fr) 0 44px;
@@ -903,6 +930,7 @@ button:disabled {
   display: grid;
   gap: 0.75rem;
   margin-top: 0.55rem;
+  max-width: 40rem;
 }
 .multi-unit-panel {
   margin-top: 0.35rem;
@@ -1537,7 +1565,30 @@ button:disabled {
   font-size: 1rem;
   margin-bottom: 0.65rem;
 }
+#portalApp:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+/* 管理頁：頂欄＋工具列＋主區＋底欄，底欄不再蓋住填寫區 */
+#adminApp:not([hidden]) {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#adminApp .admin-topbar,
+#adminApp .admin-chrome {
+  flex-shrink: 0;
+}
+#adminApp .admin-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+}
 #adminApp .admin-bottombar {
+  position: relative;
+  flex-shrink: 0;
   gap: 0.55rem 0.75rem;
   align-items: center;
   max-width: 100%;
@@ -1549,6 +1600,10 @@ button:disabled {
   align-items: center;
   gap: 0.45rem 0.65rem;
   max-width: 100%;
+}
+#adminApp .admin-bottom-main[data-for="fill"] {
+  flex: 1 1 auto;
+  justify-content: flex-end;
 }
 #adminApp .admin-layout .pane-left {
   overflow-x: clip;
@@ -1787,8 +1842,8 @@ button:disabled {
 }
 
 .bottombar {
-  position: sticky;
-  bottom: 0;
+  position: relative;
+  bottom: auto;
   z-index: 20;
   min-height: var(--bottom-h);
   display: flex;
@@ -1945,13 +2000,16 @@ body.tour-open .method-body {
 }
 
 .auth-gate {
+  flex: 1 1 auto;
   max-width: 420px;
+  width: calc(100% - 2rem);
   margin: 12vh auto;
   padding: 2rem;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 12px;
   text-align: center;
+  box-sizing: border-box;
 }
 .auth-gate h1 {
   font-family: var(--font-display);
@@ -1983,6 +2041,15 @@ body.tour-open .method-body {
   .layout, .layout.with-bottom {
     grid-template-columns: 1fr;
     height: auto;
+    min-height: 70vh;
+  }
+  body > .layout,
+  body > .layout.with-bottom,
+  #adminApp .layout,
+  #adminApp .layout.with-bottom {
+    height: auto;
+    flex: 1 1 auto;
+    min-height: 70vh;
   }
   .layout.method-collapsed {
     grid-template-columns: 1fr;
