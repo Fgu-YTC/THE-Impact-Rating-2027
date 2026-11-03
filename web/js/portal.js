@@ -233,7 +233,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261030f").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261103a").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];
@@ -637,6 +637,8 @@
   function importLive({ onlyEmpty }) {
     let n = 0;
     fields.forEach((f) => {
+      // 父題已涵蓋的 Excel 子欄（如 5.4.3／5.4.4）不帶入、不另存
+      if (isRedundantSubField(f)) return;
       if (!f.siteQuestionId && !(f.subField && f.parentRef)) return;
       if (onlyEmpty && !portalEmpty(f.ref)) return;
       let mapped = null;
@@ -1217,6 +1219,18 @@
     );
   }
 
+  function stripRedundantAnswers(map) {
+    const out = { ...(map || {}) };
+    fields.forEach((f) => {
+      if (isRedundantSubField(f) && out[f.ref] != null) delete out[f.ref];
+    });
+    // 舊資料可能殘留的 Excel 多餘子欄
+    ["5.4.3", "5.4.4"].forEach((ref) => {
+      if (out[ref] != null) delete out[ref];
+    });
+    return out;
+  }
+
   async function loadRemote() {
     const { store, doc, getDoc } = await getDb();
     const snap = await getDoc(doc(store, "portalFill", "impact2027"));
@@ -1225,12 +1239,15 @@
     Object.keys(raw).forEach((ref) => {
       remote[ref] = sanitizePortalAnswer(raw[ref] || {});
     });
+    remote = stripRedundantAnswers(remote);
   }
 
   async function saveAll() {
     const btn = $("#btnSave");
-    const merged = { ...remote };
+    const merged = stripRedundantAnswers({ ...remote });
     Object.keys(drafts).forEach((ref) => {
+      if (fields.some((f) => f.ref === ref && isRedundantSubField(f))) return;
+      if (ref === "5.4.3" || ref === "5.4.4") return;
       merged[ref] = sanitizePortalAnswer({ ...(merged[ref] || {}), ...drafts[ref] });
     });
     Object.keys(merged).forEach((ref) => {

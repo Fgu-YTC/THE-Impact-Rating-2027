@@ -1467,62 +1467,6 @@
       "subField": true
     },
     {
-      "id": "portal-5.4.3",
-      "ref": "5.4.3",
-      "sdg": 5,
-      "en": "Number of senior academic staff",
-      "zh": "資深學術人員人數",
-      "answerType": "continuous",
-      "options": [
-        {
-          "en": "Number of senior academic staff",
-          "zh": "資深學術人員人數"
-        }
-      ],
-      "siteQuestionId": "sdg5-5.4.1",
-      "portal": {
-        "hasYesNo": false,
-        "hasPublic": false,
-        "hasComment": false,
-        "hasEvidence": false,
-        "hasPolicyCreated": false,
-        "hasPolicyReviewed": false
-      },
-      "aligned": true,
-      "subField": true,
-      "parentRef": "5.4.1",
-      "valueKey": "v0",
-      "excelSubLabel": "Number of senior academic staff"
-    },
-    {
-      "id": "portal-5.4.4",
-      "ref": "5.4.4",
-      "sdg": 5,
-      "en": "Number of employees",
-      "zh": "員工人數",
-      "answerType": "continuous",
-      "options": [
-        {
-          "en": "Number of employees",
-          "zh": "員工人數"
-        }
-      ],
-      "siteQuestionId": "sdg8-8.3.1",
-      "portal": {
-        "hasYesNo": false,
-        "hasPublic": false,
-        "hasComment": false,
-        "hasEvidence": false,
-        "hasPolicyCreated": false,
-        "hasPolicyReviewed": false
-      },
-      "aligned": true,
-      "subField": true,
-      "parentRef": "8.3.1",
-      "valueKey": "v0",
-      "excelSubLabel": "Number of employees"
-    },
-    {
       "id": "portal-5.5.1",
       "ref": "5.5.1",
       "sdg": 5,
