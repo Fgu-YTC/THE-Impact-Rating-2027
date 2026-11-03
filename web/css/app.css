@@ -717,6 +717,7 @@ button:disabled {
   grid-template-columns: 1fr;
   gap: 0.7rem;
   margin-top: 0.65rem;
+  max-width: 40rem;
 }
 .fill-compare-side {
   min-width: 0;
@@ -932,17 +933,14 @@ button:disabled {
   display: grid;
   gap: 0.65rem;
 }
-/* 多單位改直向／最多兩欄，避免並排過窄難讀 */
+/* 多單位直向排列，方便閱讀 */
 .submitted.multi {
   grid-template-columns: 1fr;
   align-items: stretch;
-}
-@media (min-width: 1100px) {
-  .submitted.multi {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  max-width: 40rem;
 }
 .submitted-card {
+  max-width: 40rem;
   padding: 0.75rem 0.85rem;
   border-radius: 8px;
   background: #f3f8f5;
@@ -1061,17 +1059,35 @@ button:disabled {
   display: grid;
   gap: 0.45rem;
   margin-top: 0.5rem;
+  max-width: 36rem;
 }
 .fields .row {
   display: grid;
-  grid-template-columns: 132px 1fr;
-  gap: 0.5rem;
-  align-items: center;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.45rem 0.65rem;
+  align-items: start;
   font-size: 0.85rem;
 }
-.fields .row label { color: var(--muted); }
-.fields textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
-.fields input[type="file"] { font-size: 0.8rem; }
+.fields .row label {
+  color: var(--muted);
+  padding-top: 0.45rem;
+  line-height: 1.3;
+}
+.fields .row:has(input[type="radio"], input[type="checkbox"], .choice-list) {
+  align-items: center;
+}
+.fields .row:has(input[type="radio"], input[type="checkbox"], .choice-list) label {
+  padding-top: 0;
+}
+.fields textarea,
+.fields input[type="url"],
+.fields input[type="text"] {
+  width: 100%;
+  max-width: 28rem;
+  box-sizing: border-box;
+}
+.fields textarea { min-height: 4.2rem; resize: vertical; }
+.fields input[type="file"] { font-size: 0.8rem; max-width: 28rem; }
 .evidence-block-na {
   margin-top: 0.35rem;
   padding: 0.55rem 0.65rem 0.35rem;
