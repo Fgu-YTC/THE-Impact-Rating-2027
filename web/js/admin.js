@@ -1106,7 +1106,36 @@
         miss.textContent = lang === "en" ? "Not provided" : "未提供";
         addAnswerRow(list, lang === "en" ? "Evidence" : "證據", miss);
       }
-      if (answer.comment) addAnswerRow(list, lang === "en" ? "Comments" : "備註", answer.comment);
+      if (answer.comment) {
+        const text = String(answer.comment);
+        if (text.length > 120 || text.split("\n").length > 4) {
+          const box = document.createElement("div");
+          box.className = "submitted-comment";
+          const body = document.createElement("div");
+          body.className = "submitted-comment-body";
+          body.textContent = text;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "submitted-comment-toggle";
+          btn.textContent = lang === "en" ? "Show more" : "展開備註";
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const open = box.classList.toggle("is-open");
+            btn.textContent = open
+              ? lang === "en"
+                ? "Show less"
+                : "收合備註"
+              : lang === "en"
+                ? "Show more"
+                : "展開備註";
+          });
+          box.appendChild(body);
+          box.appendChild(btn);
+          addAnswerRow(list, lang === "en" ? "Comments" : "備註", box);
+        } else {
+          addAnswerRow(list, lang === "en" ? "Comments" : "備註", text);
+        }
+      }
     }
 
     function renderAnswerCard({ title, answer, q, when, tagText, tagClass, cardClass }) {

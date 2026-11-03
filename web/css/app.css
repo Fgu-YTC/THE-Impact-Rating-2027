@@ -912,14 +912,20 @@ button:disabled {
 .submitted {
   margin-top: 0.35rem;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.65rem;
 }
+/* 多單位改直向／最多兩欄，避免並排過窄難讀 */
 .submitted.multi {
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  align-items: start;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+@media (min-width: 1100px) {
+  .submitted.multi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .submitted-card {
-  padding: 0.65rem 0.75rem;
+  padding: 0.75rem 0.85rem;
   border-radius: 8px;
   background: #f3f8f5;
   border: 1px solid #c9dfd2;
@@ -950,13 +956,50 @@ button:disabled {
 }
 .submitted-row {
   display: grid;
-  grid-template-columns: minmax(4rem, 5.5rem) minmax(0, 1fr);
-  gap: 0.35rem 0.6rem;
+  grid-template-columns: minmax(4.2rem, 5.2rem) minmax(0, 1fr);
+  gap: 0.35rem 0.65rem;
   font-size: 0.86rem;
-  line-height: 1.45;
+  line-height: 1.5;
+  margin-top: 0.28rem;
 }
 .submitted-row dt { color: var(--muted); }
-.submitted-row dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+.submitted-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.submitted-row dd a {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.submitted-comment {
+  position: relative;
+}
+.submitted-comment-body {
+  max-height: 7.2rem;
+  overflow: hidden;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.submitted-comment.is-open .submitted-comment-body {
+  max-height: none;
+}
+.submitted-comment-toggle {
+  margin-top: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .submitted-missing {
   color: #9a3412;
   font-weight: 600;
