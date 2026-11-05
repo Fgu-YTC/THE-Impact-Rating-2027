@@ -1353,7 +1353,7 @@
           "kind": "option"
         }
       ],
-      "optionSelect": "single"
+      "optionSelect": "multi"
     },
     {
       "id": "sdg4-4.3.2",

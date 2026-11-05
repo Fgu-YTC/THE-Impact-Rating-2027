@@ -1239,6 +1239,29 @@ body > .layout.with-bottom {
 .fields .row:has(input[type="radio"], input[type="checkbox"], .choice-list) label {
   padding-top: 0;
 }
+.policy-years {
+  grid-template-columns: 1fr;
+}
+.policy-years-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+  width: 100%;
+}
+.policy-years-wrap label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+.policy-years-wrap input {
+  width: 100%;
+  max-width: 10rem;
+}
+@media (max-width: 720px) {
+  .policy-years-wrap {
+    grid-template-columns: 1fr;
+  }
+}
 .fields textarea,
 .fields input[type="url"],
 .fields input[type="text"] {

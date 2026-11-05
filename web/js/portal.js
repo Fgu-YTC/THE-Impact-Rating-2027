@@ -236,7 +236,7 @@
   }
 
   const [portalPack, priorYear] = await Promise.all([
-    fetch("data/portal-questions.json?v=20261103d").then((r) => r.json()),
+    fetch("data/portal-questions.json?v=20261104a").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   const fields = portalPack.fields || [];

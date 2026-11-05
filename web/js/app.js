@@ -2,7 +2,7 @@
   const $ = (sel) => document.querySelector(sel);
 
   const [questionsData, methodologyZh, methodologyEn, priorYear] = await Promise.all([
-    fetch("data/questions.json?v=20261029n").then((r) => r.json()),
+    fetch("data/questions.json?v=20261104a").then((r) => r.json()),
     fetch("data/methodology-zh.json").then((r) => r.json()),
     fetch("data/methodology-en.json").then((r) => r.json()),
     fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
@@ -21,6 +21,7 @@
   let activeQuestionId = null;
   let activeRef = null; // selected indicator/metric ref for methodology
   let activeMetricRef = null;
+  let fillFilter = "all"; // all | unfilled | filled
   let lang = THEUI.getLang();
   const pendingFiles = new Map();
   let remoteAnswers = {};
@@ -37,6 +38,7 @@
   const methodTitle = $("#methodTitle");
   const methodBody = $("#methodBody");
   const emptyState = $("#emptyState");
+  const fillFilterBar = $("#fillFilterBar");
 
   function syncChromeLang() {
     const en = lang === "en";
@@ -68,6 +70,24 @@
       askHint.textContent = en
         ? "Not a premium model — please wait patiently."
         : "非高階模型，使用時請耐心等候。";
+    }
+    if (fillFilterBar) {
+      fillFilterBar.setAttribute("aria-label", en ? "Fill filter" : "填寫篩選");
+      fillFilterBar.querySelectorAll("[data-fill-filter]").forEach((btn) => {
+        const key = btn.getAttribute("data-fill-filter");
+        btn.textContent =
+          key === "unfilled"
+            ? en
+              ? "Unfilled"
+              : "未填寫"
+            : key === "filled"
+              ? en
+                ? "Filled"
+                : "已填寫"
+              : en
+                ? "All"
+                : "全部";
+      });
     }
     if (window.THEPaneSplit && typeof window.THEPaneSplit.refreshLabels === "function") {
       window.THEPaneSplit.refreshLabels();
@@ -326,6 +346,7 @@
     drafts[qid] = { ...(drafts[qid] || {}), ...patch };
     renderTabs();
     updateUnitProgressLabel();
+    if (fillFilter !== "all") requestRender();
   }
 
   function answerHasContent(answer) {
@@ -396,14 +417,35 @@
           : "此單位尚未被分派任何題目。請到管理頁勾選題目後按「分派給此單位」。";
       return;
     }
-    const mine = assigned.filter((q) => q.sdg === currentSdg);
-    if (!mine.length) {
+    const mineAll = assigned.filter((q) => q.sdg === currentSdg);
+    if (!mineAll.length) {
       emptyState.hidden = false;
       const sdgs = sdgsForUnit(currentUnitId).join(", ");
       emptyState.textContent =
         lang === "en"
           ? `No questions for this SDG. Assigned SDGs: ${sdgs || "—"}.`
           : `此單位尚未被分派此 SDG 題目。目前有分派的 SDG：${sdgs || "—"}。`;
+      return;
+    }
+    const mine = mineAll.filter((q) => {
+      if (fillFilter === "unfilled") return !questionLooksFilled(q.id);
+      if (fillFilter === "filled") return questionLooksFilled(q.id);
+      return true;
+    });
+    if (!mine.length) {
+      emptyState.hidden = false;
+      emptyState.textContent =
+        fillFilter === "unfilled"
+          ? lang === "en"
+            ? "No unfilled questions in this SDG."
+            : "此 SDG 沒有未填寫的題目。"
+          : fillFilter === "filled"
+            ? lang === "en"
+              ? "No filled questions in this SDG."
+              : "此 SDG 還沒有已填寫的題目。"
+            : lang === "en"
+              ? "No questions."
+              : "沒有題目。";
       return;
     }
     emptyState.hidden = true;
@@ -655,7 +697,7 @@
   );
   THELive.listenUnits(
     (next) => {
-      units = next || [];
+      units = (next || []).filter((u) => !String(u.name || "").includes("已停用"));
       if (!ensuredGroups) {
         ensuredGroups = true;
         THELive.ensureUnitGroups(units)
@@ -792,6 +834,20 @@
       btn.textContent = label;
     }
   });
+
+  if (fillFilterBar) {
+    fillFilterBar.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-fill-filter]");
+      if (!btn) return;
+      const next = btn.getAttribute("data-fill-filter") || "all";
+      if (next === fillFilter) return;
+      fillFilter = next;
+      fillFilterBar.querySelectorAll("[data-fill-filter]").forEach((el) => {
+        el.classList.toggle("active", el.getAttribute("data-fill-filter") === fillFilter);
+      });
+      renderQuestions();
+    });
+  }
 
   syncChromeLang();
   emptyState.hidden = false;

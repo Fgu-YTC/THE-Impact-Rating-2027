@@ -12,11 +12,15 @@ service cloud.firestore {
         && (!('group' in data) || (data.group is string && data.group.size() > 0 && data.group.size() < 40));
     }
 
+    function isPolicyYear(value) {
+      return value is string && value.size() > 0 && value.size() <= 4;
+    }
+
     function isAnswer(data) {
       return data.keys().hasOnly([
           'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
           'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
-          'updatedAt', 'filledBy'
+          'updatedAt', 'filledBy', 'policyCreated', 'policyReviewed'
         ])
         && (!('yesNo' in data) || (data.yesNo is string && data.yesNo.size() < 20))
         && (!('public' in data) || (data.public is string && data.public.size() < 20))
@@ -29,14 +33,17 @@ service cloud.firestore {
         && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
         && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
         && (!('updatedAt' in data) || data.updatedAt is string)
-        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40));
+        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40))
+        && (!('policyCreated' in data) || isPolicyYear(data.policyCreated))
+        && (!('policyReviewed' in data) || isPolicyYear(data.policyReviewed));
     }
 
     function isOffice(data) {
       return data.keys().hasOnly([
           'yesNo', 'public', 'comment', 'evidence', 'options', 'values',
           'evidenceFileName', 'evidenceStoredName', 'evidenceFilePath', 'evidenceFileUrl',
-          'updatedAt', 'editor', 'sourceUnitId', 'sourceUnitName', 'filledBy'
+          'updatedAt', 'editor', 'sourceUnitId', 'sourceUnitName', 'filledBy',
+          'policyCreated', 'policyReviewed'
         ])
         && data.editor == '永續辦'
         && data.sourceUnitId is string
@@ -55,7 +62,9 @@ service cloud.firestore {
         && (!('evidenceFilePath' in data) || data.evidenceFilePath is string)
         && (!('evidenceFileUrl' in data) || data.evidenceFileUrl is string)
         && (!('updatedAt' in data) || data.updatedAt is string)
-        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40));
+        && (!('filledBy' in data) || (data.filledBy is string && data.filledBy.size() > 0 && data.filledBy.size() <= 40))
+        && (!('policyCreated' in data) || isPolicyYear(data.policyCreated))
+        && (!('policyReviewed' in data) || isPolicyYear(data.policyReviewed));
     }
 
     match /units/{unitId} {

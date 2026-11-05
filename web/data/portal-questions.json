@@ -976,7 +976,7 @@
         "hasEvidence": true,
         "hasPolicyCreated": false,
         "hasPolicyReviewed": false,
-        "optionSelect": "single"
+        "optionSelect": "multi"
       },
       "aligned": true
     },

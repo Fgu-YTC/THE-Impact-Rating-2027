@@ -372,6 +372,47 @@
       evidenceBlock.appendChild(na);
     }
 
+    if (q.hasPolicyCreated || q.hasPolicyReviewed) {
+      const policyRow = document.createElement("div");
+      policyRow.className = "row policy-years";
+      const policyWrap = document.createElement("div");
+      policyWrap.className = "policy-years-wrap";
+      if (q.hasPolicyCreated) {
+        const lab = document.createElement("label");
+        lab.textContent = lang === "en" ? "Policy created (yyyy)" : "政策訂定年（yyyy）";
+        const input = document.createElement("input");
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.maxLength = 4;
+        input.placeholder = "e.g. 2019";
+        input.disabled = disabled;
+        input.value = ans.policyCreated || "";
+        if (!disabled) {
+          input.addEventListener("change", () => onPatch({ policyCreated: input.value.trim() }));
+        }
+        lab.appendChild(input);
+        policyWrap.appendChild(lab);
+      }
+      if (q.hasPolicyReviewed) {
+        const lab = document.createElement("label");
+        lab.textContent = lang === "en" ? "Policy reviewed (yyyy)" : "政策檢討年（yyyy）";
+        const input = document.createElement("input");
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.maxLength = 4;
+        input.placeholder = "e.g. 2024";
+        input.disabled = disabled;
+        input.value = ans.policyReviewed || "";
+        if (!disabled) {
+          input.addEventListener("change", () => onPatch({ policyReviewed: input.value.trim() }));
+        }
+        lab.appendChild(input);
+        policyWrap.appendChild(lab);
+      }
+      policyRow.appendChild(policyWrap);
+      evidenceBlock.appendChild(policyRow);
+    }
+
     const commentRow = document.createElement("div");
     commentRow.className = "row";
     const commentLab = document.createElement("label");

@@ -56,14 +56,18 @@
     }
     booted = true;
 
-    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear, priorUnits] = await Promise.all([
-      fetch("data/questions.json?v=20261104a").then((r) => r.json()),
-      fetch("data/methodology-zh.json").then((r) => r.json()),
-      fetch("data/methodology-en.json").then((r) => r.json()),
-      fetch("data/units.json").then((r) => r.json()),
-      fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
-      fetch("data/prior-units.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
-    ]);
+    const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear, priorUnits, portalQuestions] =
+      await Promise.all([
+        fetch("data/questions.json?v=20261104a").then((r) => r.json()),
+        fetch("data/methodology-zh.json").then((r) => r.json()),
+        fetch("data/methodology-en.json").then((r) => r.json()),
+        fetch("data/units.json").then((r) => r.json()),
+        fetch("data/prior-year.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+        fetch("data/prior-units.json").then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+        fetch("data/portal-questions.json?v=20261105a")
+          .then((r) => (r.ok ? r.json() : { fields: [] }))
+          .catch(() => ({ fields: [] })),
+      ]);
 
     let units = [];
     let unitGroups = THEUI.DEFAULT_UNIT_GROUPS.slice();
@@ -71,7 +75,21 @@
     const localUnits = (THEStorage.getUnitsOverride() || unitsFile).filter(
       (u) => !String(u.id || "").startsWith("unit-placeholder") && !String(u.name || "").includes("佔位")
     );
-    const questions = (questionsData.questions || []).filter((q) => q.fillable !== false);
+    const portalByRef = Object.fromEntries(
+      (portalQuestions.fields || [])
+        .filter((f) => f && f.ref)
+        .map((f) => [String(f.ref), f.portal || {}])
+    );
+    const questions = (questionsData.questions || [])
+      .filter((q) => q.fillable !== false)
+      .map((q) => {
+        const portal = portalByRef[String(q.ref)] || {};
+        return {
+          ...q,
+          hasPolicyCreated: !!portal.hasPolicyCreated,
+          hasPolicyReviewed: !!portal.hasPolicyReviewed,
+        };
+      });
     const metricsByRef = Object.fromEntries(
       (questionsData.metrics || []).map((m) => [String(m.ref), m])
     );
@@ -1133,6 +1151,7 @@
       if (answer.yesNo || answer.public || answer.comment) return true;
       if (String(answer.evidence || "").trim() || answer.evidenceFileName || answer.evidenceFileUrl) return true;
       if (answer.options && answer.options.length) return true;
+      if (String(answer.policyCreated || "").trim() || String(answer.policyReviewed || "").trim()) return true;
       return Object.values(answer.values || {}).some((value) => value != null && String(value) !== "");
     }
 
@@ -1193,6 +1212,12 @@
           ? { public: "Public", private: "Private", undefined: "Undefined", yes: "Public", no: "Private" }
           : { public: "公開", private: "不公開", undefined: "未定", yes: "公開", no: "不公開" };
       if (answer.public) addAnswerRow(list, lang === "en" ? "Public" : "是否公開", pub[answer.public] || answer.public);
+      if (answer.policyCreated) {
+        addAnswerRow(list, lang === "en" ? "Policy created" : "政策訂定年", String(answer.policyCreated));
+      }
+      if (answer.policyReviewed) {
+        addAnswerRow(list, lang === "en" ? "Policy reviewed" : "政策檢討年", String(answer.policyReviewed));
+      }
       const hasEvidenceUrl = !!String(answer.evidence || "").trim();
       const hasEvidenceFile = !!(answer.evidenceFileUrl || answer.evidenceFileName || answer.evidenceFilePath);
       if (hasEvidenceUrl) {

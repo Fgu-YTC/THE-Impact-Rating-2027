@@ -368,11 +368,25 @@
   function sanitizeAnswer(answer, updatedAt) {
     const source = answer || {};
     const out = { updatedAt: updatedAt };
-    ["yesNo", "public", "comment", "evidence", "evidenceFileName", "evidenceStoredName", "evidenceFilePath", "evidenceFileUrl", "filledBy"].forEach(
-      function (key) {
-        if (typeof source[key] === "string") out[key] = source[key];
-      }
-    );
+    [
+      "yesNo",
+      "public",
+      "comment",
+      "evidence",
+      "evidenceFileName",
+      "evidenceStoredName",
+      "evidenceFilePath",
+      "evidenceFileUrl",
+      "filledBy",
+      "policyCreated",
+      "policyReviewed",
+    ].forEach(function (key) {
+      if (typeof source[key] === "string") out[key] = source[key];
+    });
+    if (out.policyCreated) out.policyCreated = out.policyCreated.trim().slice(0, 4);
+    if (out.policyReviewed) out.policyReviewed = out.policyReviewed.trim().slice(0, 4);
+    if (!out.policyCreated) delete out.policyCreated;
+    if (!out.policyReviewed) delete out.policyReviewed;
     if (Array.isArray(source.options)) out.options = source.options.map(function (item) { return String(item); });
     if (source.values && typeof source.values === "object") {
       const values = {};
