@@ -57,7 +57,7 @@
     booted = true;
 
     const [questionsData, methodologyZh, methodologyEn, unitsFile, priorYear, priorUnits] = await Promise.all([
-      fetch("data/questions.json?v=20261029n").then((r) => r.json()),
+      fetch("data/questions.json?v=20261104a").then((r) => r.json()),
       fetch("data/methodology-zh.json").then((r) => r.json()),
       fetch("data/methodology-en.json").then((r) => r.json()),
       fetch("data/units.json").then((r) => r.json()),
@@ -916,8 +916,10 @@
           }
           if (mode === "fill") {
             const work = document.createElement("div");
-            const multi = isMultiUnitQuestion(q);
-            work.className = "multi-unit-work" + (multi ? " has-units" : "");
+            const originals = submissionsFor(q.id, { originalOnly: true });
+            // 有單位原填報就右側對照（單單位也顯示，方便改寫）
+            const showUnitPanel = originals.length > 0;
+            work.className = "multi-unit-work" + (showUnitPanel ? " has-units" : "");
             const fillCol = document.createElement("div");
             fillCol.className = "multi-unit-fill-col";
             returnsFor(q.id).forEach((item) => {
@@ -933,7 +935,7 @@
               })
             );
             work.appendChild(fillCol);
-            if (multi) {
+            if (showUnitPanel) {
               const unitsCol = document.createElement("div");
               unitsCol.className = "multi-unit-units-col";
               unitsCol.appendChild(
@@ -1055,12 +1057,15 @@
       const items = submissionsFor(q.id, { originalOnly });
       const multi = who.length > 1 || items.length > 1;
 
-      if (multi) {
+      if (multi || (editable && items.length >= 1)) {
         const tip = document.createElement("p");
         tip.className = "multi-unit-tip";
-        if (editable) {
+        if (editable && multi) {
           tip.textContent =
             "此題有兩個以上單位。請對照右側各單位答案，在左側「最終填報」合併寫出匯出用的那一份。";
+        } else if (editable) {
+          tip.textContent =
+            "右側為單位原填報（唯讀）。左側「最終填報」已帶入該單位內容，可直接改寫後儲存。";
         } else {
           tip.appendChild(
             document.createTextNode("此題有兩個以上單位答案，可並排對照。合併請到「填寫」模式寫「最終填報」。")
@@ -1414,50 +1419,93 @@
       );
     }
 
+    /** 從單位原答案複製到最終填報草稿用的欄位 */
+    function answerFieldsForSeed(answer) {
+      if (!answer) return {};
+      const out = {};
+      [
+        "yesNo",
+        "public",
+        "comment",
+        "evidence",
+        "evidenceFileName",
+        "evidenceFileUrl",
+        "evidenceFilePath",
+        "evidenceStoredName",
+        "evidenceKind",
+        "evidenceAlsoFile",
+        "policyCreated",
+        "policyReviewed",
+        "filledBy",
+      ].forEach((k) => {
+        if (answer[k] != null && answer[k] !== "") out[k] = answer[k];
+      });
+      if (Array.isArray(answer.options)) out.options = answer.options.slice();
+      if (answer.values && typeof answer.values === "object") {
+        out.values = { ...answer.values };
+      }
+      return out;
+    }
+
+    /**
+     * 僅一單位有原填報、且左側最終稿尚空時，把原填報帶入最終填報草稿。
+     * 已有永續辦最終稿或使用者已改過草稿則不覆蓋。
+     */
+    function seedFinalFromSingleOriginal(q) {
+      const originals = submissionsFor(q.id, { originalOnly: true });
+      if (originals.length !== 1) return;
+      const targets = fillTargets(q);
+      const target = targets[0];
+      if (!target || target.kind !== "final") return;
+      const key = fillKey(target.unitId, q.id);
+      if (fillDrafts[key]) return;
+      const existing = officeOf(target.unitId, q.id);
+      if (existing && answerHasContent(existing)) return;
+      const seeded = answerFieldsForSeed(originals[0].answer);
+      if (!answerHasContent(seeded)) return;
+      fillDrafts[key] = seeded;
+    }
+
     function fillTargets(q) {
       const who = assignees(q.id);
       const originals = submissionsFor(q.id, { originalOnly: true });
       const multi = who.length > 1 || originals.length > 1;
+      const office = officeUnit();
 
-      // 兩個以上單位：只開一份「最終填報」，存到永續辦
-      if (multi) {
-        const office = officeUnit();
+      // 多單位，或僅一單位已交：左側開「最終填報」（單一單位會再帶入原內容）
+      if (multi || originals.length === 1) {
         if (office) {
           return [{ unitId: office.id, unitName: "最終填報", kind: "final" }];
         }
         if (who[0]) {
           return [{ unitId: who[0], unitName: "最終填報", kind: "final" }];
         }
+        if (originals[0]) {
+          return [{ unitId: originals[0].unitId, unitName: "最終填報", kind: "final" }];
+        }
         return [];
       }
 
-      // 單一原單位：改寫該單位答案
+      // 已分派但尚未提交：改寫該單位（空白）
       if (who[0]) {
         return [{ unitId: who[0], unitName: unitName(who[0]), kind: "rewrite" }];
       }
-      if (originals[0]) {
-        return [
-          {
-            unitId: originals[0].unitId,
-            unitName: originals[0].unitName,
-            kind: "rewrite",
-          },
-        ];
-      }
-      const office = officeUnit();
       if (office) return [{ unitId: office.id, unitName: "最終填報", kind: "final" }];
       return [];
     }
 
     function renderFillEditors(q) {
+      seedFinalFromSingleOriginal(q);
       const wrap = document.createElement("div");
       wrap.className = "fill-editors";
       const targets = fillTargets(q);
       const multi = isMultiUnitQuestion(q);
       const head = document.createElement("div");
       head.className = "multi-unit-label";
-      if (multi) {
-        head.textContent = "最終填報（匯出用，同一題只會有這一份）";
+      if (targets[0] && targets[0].kind === "final") {
+        head.textContent = multi
+          ? "最終填報（匯出用，同一題只會有這一份）"
+          : "最終填報（已帶入單位原填報，可改寫）";
       } else if (targets[0] && targets[0].kind === "rewrite") {
         head.textContent = `原本單位改寫：${targets[0].unitName}`;
       } else {
@@ -2150,7 +2198,7 @@
     let deepLinkDone = false;
     THELive.listenUnits(
       (next) => {
-        units = next || [];
+        units = (next || []).filter((u) => !String(u.name || "").includes("已停用"));
         if (!ensuredGroups) {
           ensuredGroups = true;
           THELive.ensureUnitGroups(units)

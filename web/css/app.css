@@ -962,7 +962,7 @@ body > .layout.with-bottom {
   width: 100%;
   max-width: none;
 }
-/* 管理「填寫」多單位：左最終填報、右各單位答案（2–3 欄） */
+/* 管理「填寫」：左改寫／最終填報、右單位原填報（單或多單位皆可） */
 .multi-unit-work.has-units {
   grid-template-columns: minmax(20rem, 30rem) minmax(0, 1fr);
 }
@@ -1158,8 +1158,10 @@ body > .layout.with-bottom {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
-.submitted-comment.is-open .submitted-comment-body {
-  max-height: none;
+.submitted-comment.is-open .submitted-comment-body,
+#adminApp.mode-review .submitted-comment.is-open .submitted-comment-body {
+  max-height: none !important;
+  overflow: visible;
 }
 .submitted-comment-toggle {
   margin-top: 0.25rem;
@@ -1944,6 +1946,14 @@ body > .layout.with-bottom {
 #adminApp.mode-fill [data-for="review"],
 #adminApp.mode-fill [data-for="browse"] { display: none !important; }
 
+.fill-filter-bar {
+  margin: 0.35rem 0 0.65rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, var(--bg, #f7f4ee) 70%, transparent);
+  padding-bottom: 0.25rem;
+}
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
