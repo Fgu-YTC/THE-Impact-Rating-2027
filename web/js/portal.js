@@ -256,25 +256,8 @@
   ]);
   const fields = portalPack.fields || [];
   let currentSdg = fields[0] ? fields[0].sdg : 1;
-  /** "" | "ready" | "proof"。可填＝SDG 1–17 已看過、最終填報可直接貼上。待校稿＝看過但證據還不能貼。沒進最終填報的不進這兩標。 */
+  /** "" | "ready" | "proof"。可填＝備註已是英文、可直接貼。待校稿＝備註仍是中文，還沒確認完。沒進最終填報的不進這兩標。 */
   let workFilter = "";
-  const READY_REFS = new Set([
-    "11.4.1",
-    "11.4.3",
-    "11.4.4",
-    "11.4.5",
-    "11.4.6",
-    "11.4.7",
-    "11.4.8",
-    "11.4.9",
-    "12.2.3",
-    "12.2.4",
-    "12.2.5",
-    "12.2.6",
-    "12.2.7",
-    "12.3.1",
-    "12.4.1",
-  ]);
   const BLOCK_NOTES = {
     "2.5.3": "已看過。備註是學生快充食力站，題目要的是開放設施給在地農民與食品生產者，先不要照這則貼。",
     "3.3.2": "已看過。證據是校內系統網址，外人打不開，貼之前要換成公開頁。",
@@ -290,11 +273,21 @@
     return null;
   }
 
+  function answerForQueue(ref) {
+    const portalAns = { ...(remote[ref] || {}), ...(drafts[ref] || {}) };
+    if (answerHasContent(portalAns)) return portalAns;
+    return finalOfficeAnswer(ref);
+  }
+
+  function commentStillChinese(answer) {
+    return /[\u4e00-\u9fff]/.test(String((answer && answer.comment) || ""));
+  }
+
   function blockNote(ref) {
-    if (READY_REFS.has(ref)) return "";
-    if (BLOCK_NOTES[ref]) return BLOCK_NOTES[ref];
     const field = fields.find((item) => item.ref === ref);
-    const answer = finalOfficeAnswer(ref);
+    const answer = answerForQueue(ref);
+    if (answer && commentStillChinese(answer)) return "備註仍是中文，尚未確認。";
+    if (BLOCK_NOTES[ref]) return BLOCK_NOTES[ref];
     if (!field || !answer) return "";
     const yn = String(answer.yesNo || "").toLowerCase();
     const ev = String(answer.evidence || "");
@@ -311,9 +304,8 @@
   function queueOf(ref) {
     const field = fields.find((item) => item.ref === ref);
     if (field && isRedundantSubField(field)) return "";
-    if (READY_REFS.has(ref)) return "ready";
     if (blockNote(ref)) return "proof";
-    const answer = finalOfficeAnswer(ref);
+    const answer = answerForQueue(ref);
     if (answer && field && answerHasRelevantContent(answer, field)) return "ready";
     return "";
   }
