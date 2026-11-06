@@ -258,25 +258,23 @@
   let currentSdg = fields[0] ? fields[0].sdg : 1;
   /** "" | "ready" | "proof"。可填＝SDG 1–17 已看過、最終填報可直接貼上。待校稿＝看過但證據還不能貼。沒進最終填報的不進這兩標。 */
   let workFilter = "";
-  const CATERING = "https://general.fgu.edu.tw/zh_tw/News/校園餐飲場所7-1起-不-提供免洗餐具及吸管-9026402";
-  const REPORT_EN = "https://sdgs.fgu.edu.tw/uploads/asset/data/695b7c8c434adee0d8b53794/佛光大學2024永續報告書_英三校final_1222.pdf";
-  const READY_PASTE = {
-      "11.4.1": "Yes｜Public Yes。證據：https://website.fgu.edu.tw/zh_tw/announcement/宜蘭共築淨零願景-環保局聯手佛光大學培育碳管理先鋒-29074579 備註：Fo Guang University has set a target to replace its diesel campus buses with electric buses in stages and to install charging points for them.",
-      "11.4.3": "No。公開、證據、備註留空。",
-      "11.4.4": "Yes｜只勾直接提供住房｜Public Yes。證據：https://general.fgu.edu.tw/zh_tw/News/-教職員宿舍公告-114學年教職員宿舍申請公告-2711402 備註：Fo Guang University provides on-campus housing for faculty and staff at Hsiang-yun Residence and Linmei Dormitory. Single rooms and family rooms are let at set monthly rents.",
-      "11.4.5": "Yes｜勾評估可負擔性、直接提供住房｜Public Yes。證據：https://wpsite.fgu.edu.tw/wordpress/fguinfo/index.php/type3/type3-1/type3-1-4/ 備註：Fo Guang University publishes a comparison of on-campus dormitory charges and off-campus rents, and provides student rooms in its own dormitories at the lower on-campus rate.",
-      "11.4.6": "Yes｜Public Yes。證據：https://general.fgu.edu.tw/xhr/archive/download?file=645b59410e588f3e9e307499 備註：Fo Guang University requires vehicles to slow down and yield to pedestrians at buildings, sports grounds and junctions. Pedestrians use the brick footpaths on campus.",
-      "11.4.7": "No。公開、證據、備註留空。",
-      "11.4.8": "No。公開、證據、備註留空。",
-      "11.4.9": "No。公開、證據、備註留空。",
-      "12.2.3": "Yes｜Public Yes｜Created 2020｜Reviewed 留空。證據：https://general.fgu.edu.tw/uploads/asset/data/6620677c019aa140ceaa758b/HS-C-04-01_佛光大學運作化學品管理辦法.docx 備註：Fo Guang University’s chemical-management rules require hazardous waste to be classified, collected, stored and declared, and then stored and transported under the Waste Disposal Act. Incompatible hazardous wastes are kept separate in labelled containers.",
-      "12.2.4": "Yes｜Public Yes｜政策年留空。證據：" + REPORT_EN + " 備註：Fo Guang University records campus waste by treatment route. Recycled waste and waste sent for incineration are reported separately in metric tonnes. General waste is collected for incineration rather than landfill.",
-      "12.2.5": "Yes｜Public Yes｜Created 2019｜Reviewed 留空。證據：" + CATERING + " 備註：Fo Guang University requires campus food outlets to stop providing disposable tableware and drinking straws. Staff and students bring their own reusable utensils.",
-      "12.2.6": "Yes｜Public Yes｜Created 2019｜Reviewed 留空。證據：" + CATERING + " 備註：Fo Guang University requires campus food outlets to stop providing single-use tableware. Staff and students bring their own reusable utensils.",
-      "12.2.7": "Yes｜Public Yes。證據：" + CATERING + " 備註：Fo Guang University applies its single-use tableware rule to contracted campus food outlets. Those outlets do not provide disposable tableware or drinking straws.",
-      "12.3.1": "Yes｜勾全校｜Public Yes。證據：" + REPORT_EN + " 備註：Fo Guang University measures the total waste generated and the amount recycled for the whole university, and reports both in metric tonnes.",
-      "12.4.1": "Yes｜勾每年｜Public Yes。證據：https://sdgs.fgu.edu.tw/uploads/archive_file_multiple/file/69809b8b434ade6bd6f05bd8/佛光大學2024永續報告書_英三校final_1222.pdf 備註：Fo Guang University publishes a standalone sustainability report every year. The public English report discloses the university’s environmental, social and governance performance.",
-  };
+  const READY_REFS = new Set([
+    "11.4.1",
+    "11.4.3",
+    "11.4.4",
+    "11.4.5",
+    "11.4.6",
+    "11.4.7",
+    "11.4.8",
+    "11.4.9",
+    "12.2.3",
+    "12.2.4",
+    "12.2.5",
+    "12.2.6",
+    "12.2.7",
+    "12.3.1",
+    "12.4.1",
+  ]);
   const BLOCK_NOTES = {
     "2.5.3": "已看過。備註是學生快充食力站，題目要的是開放設施給在地農民與食品生產者，先不要照這則貼。",
     "3.3.2": "已看過。證據是校內系統網址，外人打不開，貼之前要換成公開頁。",
@@ -292,43 +290,8 @@
     return null;
   }
 
-  function pasteNoteFromOffice(field, answer) {
-    const yn = String((answer && answer.yesNo) || "").toLowerCase();
-    if (yn === "no") return "No。公開、證據、備註留空。";
-    const bits = [];
-    if (yn === "yes") bits.push("Yes");
-    const selected = Array.isArray(answer.options) ? answer.options.filter(Boolean) : [];
-    if (selected.length && field.options) {
-      const labels = selected.map((key) => {
-        const opt = field.options.find((item) => item.en === key || item.zh === key);
-        return opt ? opt.zh || opt.en : key;
-      });
-      bits.push("勾" + labels.join("、"));
-    }
-    if (answer.public === "public") bits.push("Public Yes");
-    else if (answer.public === "private") bits.push("Private");
-    if (answer.policyCreated) bits.push("Created " + answer.policyCreated);
-    if (answer.policyReviewed) bits.push("Reviewed " + answer.policyReviewed);
-    const values = answer.values || {};
-    Object.keys(values).forEach((key) => {
-      if (values[key] == null || String(values[key]).trim() === "") return;
-      const idx = Number(String(key).replace(/\D/g, ""));
-      const opt = field.options && Number.isFinite(idx) ? field.options[idx] : null;
-      const label = opt ? opt.zh || opt.en : key;
-      bits.push(label + " " + values[key]);
-    });
-    const ev = publicEvidenceUrl(answer.evidence);
-    const fileName = String(answer.evidenceFileName || "").trim();
-    let text = bits.filter(Boolean).join("｜");
-    if (ev) text += (text ? "。" : "") + "證據：" + ev;
-    else if (fileName) text += (text ? "。" : "") + "證據檔：" + fileName;
-    const comment = String(answer.comment || "").trim();
-    if (comment) text += (text ? " " : "") + "備註：" + comment;
-    return text || "已有最終填報，可依畫面內容貼上。";
-  }
-
   function blockNote(ref) {
-    if (READY_PASTE[ref]) return "";
+    if (READY_REFS.has(ref)) return "";
     if (BLOCK_NOTES[ref]) return BLOCK_NOTES[ref];
     const field = fields.find((item) => item.ref === ref);
     const answer = finalOfficeAnswer(ref);
@@ -348,20 +311,10 @@
   function queueOf(ref) {
     const field = fields.find((item) => item.ref === ref);
     if (field && isRedundantSubField(field)) return "";
-    if (READY_PASTE[ref]) return "ready";
+    if (READY_REFS.has(ref)) return "ready";
     if (blockNote(ref)) return "proof";
     const answer = finalOfficeAnswer(ref);
     if (answer && field && answerHasRelevantContent(answer, field)) return "ready";
-    return "";
-  }
-
-  function queueNoteText(ref) {
-    if (queueOf(ref) === "ready" && READY_PASTE[ref]) return READY_PASTE[ref];
-    const blocked = blockNote(ref);
-    if (queueOf(ref) === "proof" && blocked) return blocked;
-    const field = fields.find((item) => item.ref === ref);
-    const answer = finalOfficeAnswer(ref);
-    if (field && answer) return pasteNoteFromOffice(field, answer);
     return "";
   }
 
@@ -1081,13 +1034,6 @@
       primary.className = "portal-title";
       primary.textContent = (lang === "en" ? f.en || f.zh : f.zh || f.en) || "";
       card.appendChild(primary);
-      const queueNote = queueNoteText(f.ref);
-      if (queueNote) {
-        const note = document.createElement("div");
-        note.className = "portal-queue-note";
-        note.textContent = queueNote;
-        card.appendChild(note);
-      }
       const secondaryText = lang === "en" ? f.zh : f.en;
       if (secondaryText && secondaryText !== primary.textContent) {
         const secondary = document.createElement("div");
