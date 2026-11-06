@@ -140,6 +140,102 @@
   color: #9a4d12;
   font-weight: 600;
 }
+.portal-badge.ready {
+  background: #e2f0e6;
+  color: #1e4a3d;
+  font-weight: 600;
+}
+.portal-badge.proof {
+  background: #f3ebe0;
+  color: #7a5a2e;
+  font-weight: 600;
+}
+.portal-queue-note {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.portal-chrome {
+  position: sticky;
+  top: var(--top-h);
+  z-index: 15;
+  background: rgba(255, 252, 247, 0.96);
+  border-bottom: 1px solid var(--line);
+}
+.portal-chrome-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 1.1rem 0.15rem;
+}
+.portal-chrome-body {
+  display: contents;
+}
+#btnTogglePortalChrome {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.22rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.portal-chrome-summary {
+  display: none;
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+.portal-chrome.collapsed .portal-chrome-body,
+.portal-chrome.collapsed .sdg-tabs {
+  display: none;
+}
+.portal-chrome.collapsed .portal-chrome-summary {
+  display: inline;
+}
+.portal-chrome.collapsed .portal-chrome-bar {
+  padding-bottom: 0.4rem;
+}
+.work-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  background: transparent;
+}
+.work-tabs button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.28rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.work-tabs button.ready.active {
+  background: #1e4a3d;
+  border-color: #1e4a3d;
+  color: #fff;
+}
+.work-tabs button.proof.active {
+  background: #7a5a2e;
+  border-color: #7a5a2e;
+  color: #fff;
+}
+.work-tabs .work-count {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+}
+.work-tabs .work-aside {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
 .portal-admin-jump {
   font-size: 0.72rem;
   font-weight: 600;
@@ -383,11 +479,8 @@ label.is-na textarea {
   flex-wrap: wrap;
   gap: 0.3rem;
   padding: 0.55rem 1.1rem;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255, 252, 247, 0.9);
-  position: sticky;
-  top: var(--top-h);
-  z-index: 15;
+  border-bottom: 0;
+  background: transparent;
 }
 .sdg-tabs button {
   display: inline-flex;

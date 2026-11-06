@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/app.css?v=20261103a" />
-  <link rel="stylesheet" href="css/portal.css?v=20261103c" />
+  <link rel="stylesheet" href="css/portal.css?v=20261106b" />
 </head>
 <body>
   <div id="authGate" class="auth-gate">
@@ -68,7 +68,16 @@
 
     <div id="saveBanner" class="submit-banner" hidden role="status" aria-live="assertive"></div>
 
-    <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG"></nav>
+    <div class="portal-chrome" id="portalChrome">
+      <div class="portal-chrome-bar">
+        <button type="button" id="btnTogglePortalChrome" aria-expanded="true" aria-controls="portalChromeBody">收合</button>
+        <span id="portalChromeSummary" class="portal-chrome-summary"></span>
+        <div class="portal-chrome-body" id="portalChromeBody">
+          <nav class="work-tabs" id="workTabs" aria-label="工作清單"></nav>
+        </div>
+      </div>
+      <nav class="sdg-tabs" id="sdgTabs" aria-label="SDG"></nav>
+    </div>
 
     <main class="portal-main">
       <div id="fieldList" class="portal-fields"></div>
@@ -80,6 +89,6 @@
   <script src="js/auth.js?v=20261030f"></script>
   <script src="js/live.js?v=20261030f"></script>
   <script src="js/ui.js?v=20261030f"></script>
-  <script src="js/portal.js?v=20261104a"></script>
+  <script src="js/portal.js?v=20261106b"></script>
 </body>
 </html>

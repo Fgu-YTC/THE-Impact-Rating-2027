@@ -6,6 +6,7 @@
   const authError = $("#authError");
   const fieldList = $("#fieldList");
   const sdgTabs = $("#sdgTabs");
+  const workTabs = $("#workTabs");
   const saveBanner = $("#saveBanner");
   let lang = window.THEUI ? THEUI.getLang() : "zh";
 
@@ -45,6 +46,13 @@
       importEmpty: "沒有可帶入的空白題（尚未填報，或本頁已有內容）。",
       importNone: "目前沒有可帶入的填報內容。",
       meta: (sdg, filled, total) => `SDG ${sdg} · 已填 ${filled}/${total}`,
+      queueReady: "可填",
+      queueProof: "待校稿",
+      queueReadyMeta: (n) => `可填 · ${n} 題`,
+      queueProofMeta: (n) => `待校稿 · ${n} 題`,
+      queueEmptyNote: "尚未填 42 題，周一再做",
+      collapseChrome: "收合",
+      expandChrome: "展開",
       unaligned: "待確認",
       needsMerge: "待整合",
       goAdminFill: "去管理頁改寫／最終填報",
@@ -110,6 +118,13 @@
       importEmpty: "No empty questions to import (nothing filled yet, or this page already has content).",
       importNone: "No unit answers available to import.",
       meta: (sdg, filled, total) => `SDG ${sdg} · ${filled}/${total} filled`,
+      queueReady: "Ready to fill",
+      queueProof: "Needs review",
+      queueReadyMeta: (n) => `Ready to fill · ${n}`,
+      queueProofMeta: (n) => `Needs review · ${n}`,
+      queueEmptyNote: "42 questions not started; leave for Monday",
+      collapseChrome: "Collapse",
+      expandChrome: "Expand",
       unaligned: "Check needed",
       needsMerge: "Needs merge",
       goAdminFill: "Open admin rewrite / final fill",
@@ -241,6 +256,88 @@
   ]);
   const fields = portalPack.fields || [];
   let currentSdg = fields[0] ? fields[0].sdg : 1;
+  /** "" | "ready" | "proof"。可填＝今天就能寫進 Portal；待校稿＝已有草稿、證據或答案還要再看。尚未填的 42 題不進這兩標。 */
+  let workFilter = "";
+  const WORK_QUEUE = {
+    ready: {
+      "6.3.1": "證據用英文永續報告書的廢水處理段：https://sdgs.fgu.edu.tw/uploads/asset/data/695b7c8c434adee0d8b53794/佛光大學2024永續報告書_英三校final_1222.pdf",
+      "11.4.1": "證據改電動公車新聞，公開改 Yes：https://website.fgu.edu.tw/zh_tw/announcement/宜蘭共築淨零願景-環保局聯手佛光大學培育碳管理先鋒-29074579",
+      "11.4.8": "維持 No。公開與備註留空。",
+      "12.2.7": "證據用校園餐飲公告：https://general.fgu.edu.tw/zh_tw/News/校園餐飲場所7-1起-不-提供免洗餐具及吸管-9026402",
+      "15.4.2": "同一則餐飲公告。備註只寫一次性餐具。",
+      "2.3.3": "網址最前面的空白刪掉即可。",
+      "2.3.5": "網址最前面的空白刪掉即可。",
+      "5.6.3": "網址最前面的空白刪掉即可。政策年留空。",
+      "6.4.1": "網址最前面的空白刪掉即可。政策年留空。",
+      "8.2.6": "網址最前面的空白刪掉即可。政策年留空。",
+      "10.6.6": "網址最前面的空白刪掉即可。",
+      "10.6.7": "網址最前面的空白刪掉即可。",
+      "11.2.1": "網址最前面的空白刪掉即可。",
+      "11.2.4": "網址最前面的空白刪掉即可。",
+      "13.3.1": "網址最前面的空白刪掉即可。",
+    },
+    proof: {
+      "2.5.3": "備註是學生快充食力站，題目要的是開放設施給在地農民與食品生產者。",
+      "3.3.2": "國際處填 No，最終填 Yes。網址是校內系統。",
+      "5.3.2": "有英文備註，還沒有公開網址。政策年留空。",
+      "5.3.4": "有英文備註，還沒有公開網址。",
+      "6.3.2": "有英文備註，還沒有公開網址。",
+      "6.3.3": "有英文備註，還沒有公開網址。",
+      "6.3.4": "有英文備註，還沒有公開網址。",
+      "6.5.6": "有英文備註，還沒有公開網址。",
+      "7.4.5": "研發處填 No，最終填 Yes。",
+      "10.6.2": "有英文備註，還沒有公開網址。",
+      "11.2.5": "有英文備註，還沒有公開網址。",
+      "14.4.3": "總務處填 No，最終填 Yes。",
+      "14.5.2": "有英文備註，還沒有公開網址。",
+      "15.3.3": "備註是保育類動物新聞。題目要的是規劃發展納入地方生物多樣性。",
+      "15.4.1": "有英文備註，還沒有公開網址。",
+      "16.3.4": "人社院填 No，最終填 Yes。",
+    },
+  };
+
+  function queueOf(ref) {
+    if (WORK_QUEUE.ready[ref]) return "ready";
+    if (WORK_QUEUE.proof[ref]) return "proof";
+    return "";
+  }
+
+  function updatePortalChromeSummary() {
+    const el = $("#portalChromeSummary");
+    if (!el) return;
+    if (workFilter === "ready") el.textContent = t("queueReadyMeta", Object.keys(WORK_QUEUE.ready).length);
+    else if (workFilter === "proof") el.textContent = t("queueProofMeta", Object.keys(WORK_QUEUE.proof).length);
+    else el.textContent = `SDG ${currentSdg}`;
+  }
+
+  function setPortalChromeCollapsed(collapsed) {
+    const chrome = $("#portalChrome");
+    if (!chrome) return;
+    chrome.classList.toggle("collapsed", !!collapsed);
+    const btn = $("#btnTogglePortalChrome");
+    if (btn) {
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? t("expandChrome") : t("collapseChrome");
+      btn.title = collapsed ? t("expandChrome") : t("collapseChrome");
+    }
+    updatePortalChromeSummary();
+    try {
+      localStorage.setItem("portal-chrome-collapsed", collapsed ? "1" : "0");
+    } catch (_) {
+      /* ignore quota */
+    }
+  }
+
+  function compareRef(a, b) {
+    const pa = String(a).split(".").map((n) => Number(n));
+    const pb = String(b).split(".").map((n) => Number(n));
+    const len = Math.max(pa.length, pb.length);
+    for (let i = 0; i < len; i += 1) {
+      const d = (pa[i] || 0) - (pb[i] || 0);
+      if (d) return d;
+    }
+    return 0;
+  }
   const drafts = {};
   const pendingFiles = new Map();
   let remote = {};
@@ -760,7 +857,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.dataset.sdg = String(n);
-      btn.classList.toggle("active", n === currentSdg);
+      btn.classList.toggle("active", !workFilter && n === currentSdg);
       if (total > 0 && filled === total) btn.classList.add("done");
       else if (filled > 0) btn.classList.add("partial");
       const name = document.createElement("span");
@@ -786,6 +883,7 @@
         btn.appendChild(rank);
       }
       btn.addEventListener("click", () => {
+        workFilter = "";
         currentSdg = n;
         renderTabs();
         renderFields();
@@ -796,13 +894,51 @@
     });
   }
 
+  function renderWorkTabs() {
+    if (!workTabs) return;
+    workTabs.innerHTML = "";
+    [
+      ["ready", "queueReady", "ready"],
+      ["proof", "queueProof", "proof"],
+    ].forEach(([key, labelKey, cls]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = cls + (workFilter === key ? " active" : "");
+      const name = document.createElement("span");
+      name.textContent = t(labelKey);
+      const count = document.createElement("span");
+      count.className = "work-count";
+      count.textContent = String(Object.keys(WORK_QUEUE[key]).length);
+      btn.appendChild(name);
+      btn.appendChild(count);
+      btn.addEventListener("click", () => {
+        workFilter = workFilter === key ? "" : key;
+        renderFields();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      workTabs.appendChild(btn);
+    });
+    const aside = document.createElement("span");
+    aside.className = "work-aside";
+    aside.textContent = t("queueEmptyNote");
+    workTabs.appendChild(aside);
+  }
+
   function renderFields() {
     fieldList.innerHTML = "";
-    const mine = fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
+    const mine = workFilter
+      ? fields
+          .filter((f) => queueOf(f.ref) === workFilter && !isRedundantSubField(f))
+          .sort((a, b) => compareRef(a.ref, b.ref))
+      : fields.filter((f) => f.sdg === currentSdg && !isRedundantSubField(f));
     const { filled, total } = sdgProgress(currentSdg);
-    $("#portalMeta").textContent = t("meta", currentSdg, filled, total);
+    $("#portalMeta").textContent = workFilter
+      ? t(workFilter === "ready" ? "queueReadyMeta" : "queueProofMeta", mine.length)
+      : t("meta", currentSdg, filled, total);
     renderPriorRankBar();
+    renderWorkTabs();
     renderTabs();
+    updatePortalChromeSummary();
     mine.forEach((f) => {
       const ans = answerOf(f.ref);
       const card = document.createElement("article");
@@ -827,6 +963,13 @@
       source.textContent = sourceNames.length ? t("fromUnits", sourceNames) : t("fromUnitsNone");
       if (sourceNames.length) source.title = sourceNames.join(lang === "en" ? ", " : "、");
       head.appendChild(source);
+      const queue = queueOf(f.ref);
+      if (queue) {
+        const badge = document.createElement("span");
+        badge.className = "portal-badge " + queue;
+        badge.textContent = t(queue === "ready" ? "queueReady" : "queueProof");
+        head.appendChild(badge);
+      }
       if (needsMerge(livePack)) {
         const merge = document.createElement("span");
         merge.className = "portal-badge merge";
@@ -871,6 +1014,13 @@
       primary.className = "portal-title";
       primary.textContent = (lang === "en" ? f.en || f.zh : f.zh || f.en) || "";
       card.appendChild(primary);
+      const queueNote = queueOf(f.ref) ? WORK_QUEUE[queueOf(f.ref)][f.ref] : "";
+      if (queueNote) {
+        const note = document.createElement("div");
+        note.className = "portal-queue-note";
+        note.textContent = queueNote;
+        card.appendChild(note);
+      }
       const secondaryText = lang === "en" ? f.zh : f.en;
       if (secondaryText && secondaryText !== primary.textContent) {
         const secondary = document.createElement("div");
@@ -1376,6 +1526,20 @@
   });
 
   $("#btnSignOut").addEventListener("click", () => THEAuth.signOut());
+  const btnTogglePortalChrome = $("#btnTogglePortalChrome");
+  if (btnTogglePortalChrome) {
+    let collapsed = false;
+    try {
+      collapsed = localStorage.getItem("portal-chrome-collapsed") === "1";
+    } catch (_) {
+      collapsed = false;
+    }
+    setPortalChromeCollapsed(collapsed);
+    btnTogglePortalChrome.addEventListener("click", () => {
+      const chrome = $("#portalChrome");
+      setPortalChromeCollapsed(!(chrome && chrome.classList.contains("collapsed")));
+    });
+  }
   $("#btnSave").addEventListener("click", saveAll);
   const btnImport = $("#btnImportLive");
   if (btnImport) {
