@@ -256,57 +256,124 @@
   ]);
   const fields = portalPack.fields || [];
   let currentSdg = fields[0] ? fields[0].sdg : 1;
-  /** "" | "ready" | "proof"。可填＝今天就能寫進 Portal；待校稿＝已有草稿、證據或答案還要再看。尚未填的 42 題不進這兩標。 */
+  /** "" | "ready" | "proof"。可填＝SDG 1–17 已看過、最終填報可直接貼上。待校稿＝看過但證據還不能貼。沒進最終填報的不進這兩標。 */
   let workFilter = "";
-  const WORK_QUEUE = {
-    ready: {
-      "6.3.1": "證據用英文永續報告書的廢水處理段：https://sdgs.fgu.edu.tw/uploads/asset/data/695b7c8c434adee0d8b53794/佛光大學2024永續報告書_英三校final_1222.pdf",
-      "11.4.1": "證據改電動公車新聞，公開改 Yes：https://website.fgu.edu.tw/zh_tw/announcement/宜蘭共築淨零願景-環保局聯手佛光大學培育碳管理先鋒-29074579",
-      "11.4.8": "維持 No。公開與備註留空。",
-      "12.2.7": "證據用校園餐飲公告：https://general.fgu.edu.tw/zh_tw/News/校園餐飲場所7-1起-不-提供免洗餐具及吸管-9026402",
-      "15.4.2": "同一則餐飲公告。備註只寫一次性餐具。",
-      "2.3.3": "網址最前面的空白刪掉即可。",
-      "2.3.5": "網址最前面的空白刪掉即可。",
-      "5.6.3": "網址最前面的空白刪掉即可。政策年留空。",
-      "6.4.1": "網址最前面的空白刪掉即可。政策年留空。",
-      "8.2.6": "網址最前面的空白刪掉即可。政策年留空。",
-      "10.6.6": "網址最前面的空白刪掉即可。",
-      "10.6.7": "網址最前面的空白刪掉即可。",
-      "11.2.1": "網址最前面的空白刪掉即可。",
-      "11.2.4": "網址最前面的空白刪掉即可。",
-      "13.3.1": "網址最前面的空白刪掉即可。",
-    },
-    proof: {
-      "2.5.3": "備註是學生快充食力站，題目要的是開放設施給在地農民與食品生產者。",
-      "3.3.2": "國際處填 No，最終填 Yes。網址是校內系統。",
-      "5.3.2": "有英文備註，還沒有公開網址。政策年留空。",
-      "5.3.4": "有英文備註，還沒有公開網址。",
-      "6.3.2": "有英文備註，還沒有公開網址。",
-      "6.3.3": "有英文備註，還沒有公開網址。",
-      "6.3.4": "有英文備註，還沒有公開網址。",
-      "6.5.6": "有英文備註，還沒有公開網址。",
-      "7.4.5": "研發處填 No，最終填 Yes。",
-      "10.6.2": "有英文備註，還沒有公開網址。",
-      "11.2.5": "有英文備註，還沒有公開網址。",
-      "14.4.3": "總務處填 No，最終填 Yes。",
-      "14.5.2": "有英文備註，還沒有公開網址。",
-      "15.3.3": "備註是保育類動物新聞。題目要的是規劃發展納入地方生物多樣性。",
-      "15.4.1": "有英文備註，還沒有公開網址。",
-      "16.3.4": "人社院填 No，最終填 Yes。",
-    },
+  const CATERING = "https://general.fgu.edu.tw/zh_tw/News/校園餐飲場所7-1起-不-提供免洗餐具及吸管-9026402";
+  const REPORT_EN = "https://sdgs.fgu.edu.tw/uploads/asset/data/695b7c8c434adee0d8b53794/佛光大學2024永續報告書_英三校final_1222.pdf";
+  const READY_PASTE = {
+      "11.4.1": "Yes｜Public Yes。證據：https://website.fgu.edu.tw/zh_tw/announcement/宜蘭共築淨零願景-環保局聯手佛光大學培育碳管理先鋒-29074579 備註：Fo Guang University has set a target to replace its diesel campus buses with electric buses in stages and to install charging points for them.",
+      "11.4.3": "No。公開、證據、備註留空。",
+      "11.4.4": "Yes｜只勾直接提供住房｜Public Yes。證據：https://general.fgu.edu.tw/zh_tw/News/-教職員宿舍公告-114學年教職員宿舍申請公告-2711402 備註：Fo Guang University provides on-campus housing for faculty and staff at Hsiang-yun Residence and Linmei Dormitory. Single rooms and family rooms are let at set monthly rents.",
+      "11.4.5": "Yes｜勾評估可負擔性、直接提供住房｜Public Yes。證據：https://wpsite.fgu.edu.tw/wordpress/fguinfo/index.php/type3/type3-1/type3-1-4/ 備註：Fo Guang University publishes a comparison of on-campus dormitory charges and off-campus rents, and provides student rooms in its own dormitories at the lower on-campus rate.",
+      "11.4.6": "Yes｜Public Yes。證據：https://general.fgu.edu.tw/xhr/archive/download?file=645b59410e588f3e9e307499 備註：Fo Guang University requires vehicles to slow down and yield to pedestrians at buildings, sports grounds and junctions. Pedestrians use the brick footpaths on campus.",
+      "11.4.7": "No。公開、證據、備註留空。",
+      "11.4.8": "No。公開、證據、備註留空。",
+      "11.4.9": "No。公開、證據、備註留空。",
+      "12.2.3": "Yes｜Public Yes｜Created 2020｜Reviewed 留空。證據：https://general.fgu.edu.tw/uploads/asset/data/6620677c019aa140ceaa758b/HS-C-04-01_佛光大學運作化學品管理辦法.docx 備註：Fo Guang University’s chemical-management rules require hazardous waste to be classified, collected, stored and declared, and then stored and transported under the Waste Disposal Act. Incompatible hazardous wastes are kept separate in labelled containers.",
+      "12.2.4": "Yes｜Public Yes｜政策年留空。證據：" + REPORT_EN + " 備註：Fo Guang University records campus waste by treatment route. Recycled waste and waste sent for incineration are reported separately in metric tonnes. General waste is collected for incineration rather than landfill.",
+      "12.2.5": "Yes｜Public Yes｜Created 2019｜Reviewed 留空。證據：" + CATERING + " 備註：Fo Guang University requires campus food outlets to stop providing disposable tableware and drinking straws. Staff and students bring their own reusable utensils.",
+      "12.2.6": "Yes｜Public Yes｜Created 2019｜Reviewed 留空。證據：" + CATERING + " 備註：Fo Guang University requires campus food outlets to stop providing single-use tableware. Staff and students bring their own reusable utensils.",
+      "12.2.7": "Yes｜Public Yes。證據：" + CATERING + " 備註：Fo Guang University applies its single-use tableware rule to contracted campus food outlets. Those outlets do not provide disposable tableware or drinking straws.",
+      "12.3.1": "Yes｜勾全校｜Public Yes。證據：" + REPORT_EN + " 備註：Fo Guang University measures the total waste generated and the amount recycled for the whole university, and reports both in metric tonnes.",
+      "12.4.1": "Yes｜勾每年｜Public Yes。證據：https://sdgs.fgu.edu.tw/uploads/archive_file_multiple/file/69809b8b434ade6bd6f05bd8/佛光大學2024永續報告書_英三校final_1222.pdf 備註：Fo Guang University publishes a standalone sustainability report every year. The public English report discloses the university’s environmental, social and governance performance.",
+  };
+  const BLOCK_NOTES = {
+    "2.5.3": "已看過。備註是學生快充食力站，題目要的是開放設施給在地農民與食品生產者，先不要照這則貼。",
+    "3.3.2": "已看過。證據是校內系統網址，外人打不開，貼之前要換成公開頁。",
+    "15.3.3": "已看過。備註是保育類動物新聞，題目要的是規劃發展納入地方生物多樣性，先不要照這則貼。",
   };
 
-  function queueOf(ref) {
-    if (WORK_QUEUE.ready[ref]) return "ready";
-    if (WORK_QUEUE.proof[ref]) return "proof";
+  function finalOfficeAnswer(ref) {
+    const pack = liveForRef(ref);
+    if (!pack || !pack.preferred) return null;
+    if (pack.preferred.kind === "office" && /永續/.test(String(pack.preferred.unitName || ""))) {
+      return pack.preferred.answer;
+    }
+    return null;
+  }
+
+  function pasteNoteFromOffice(field, answer) {
+    const yn = String((answer && answer.yesNo) || "").toLowerCase();
+    if (yn === "no") return "No。公開、證據、備註留空。";
+    const bits = [];
+    if (yn === "yes") bits.push("Yes");
+    const selected = Array.isArray(answer.options) ? answer.options.filter(Boolean) : [];
+    if (selected.length && field.options) {
+      const labels = selected.map((key) => {
+        const opt = field.options.find((item) => item.en === key || item.zh === key);
+        return opt ? opt.zh || opt.en : key;
+      });
+      bits.push("勾" + labels.join("、"));
+    }
+    if (answer.public === "public") bits.push("Public Yes");
+    else if (answer.public === "private") bits.push("Private");
+    if (answer.policyCreated) bits.push("Created " + answer.policyCreated);
+    if (answer.policyReviewed) bits.push("Reviewed " + answer.policyReviewed);
+    const values = answer.values || {};
+    Object.keys(values).forEach((key) => {
+      if (values[key] == null || String(values[key]).trim() === "") return;
+      const idx = Number(String(key).replace(/\D/g, ""));
+      const opt = field.options && Number.isFinite(idx) ? field.options[idx] : null;
+      const label = opt ? opt.zh || opt.en : key;
+      bits.push(label + " " + values[key]);
+    });
+    const ev = publicEvidenceUrl(answer.evidence);
+    const fileName = String(answer.evidenceFileName || "").trim();
+    let text = bits.filter(Boolean).join("｜");
+    if (ev) text += (text ? "。" : "") + "證據：" + ev;
+    else if (fileName) text += (text ? "。" : "") + "證據檔：" + fileName;
+    const comment = String(answer.comment || "").trim();
+    if (comment) text += (text ? " " : "") + "備註：" + comment;
+    return text || "已有最終填報，可依畫面內容貼上。";
+  }
+
+  function blockNote(ref) {
+    if (READY_PASTE[ref]) return "";
+    if (BLOCK_NOTES[ref]) return BLOCK_NOTES[ref];
+    const field = fields.find((item) => item.ref === ref);
+    const answer = finalOfficeAnswer(ref);
+    if (!field || !answer) return "";
+    const yn = String(answer.yesNo || "").toLowerCase();
+    const ev = String(answer.evidence || "");
+    const hasFile = !!(answer.evidenceFileUrl || answer.evidenceFileName || isStorageUrl(ev));
+    if (yn === "yes" && answer.public === "public" && !publicEvidenceUrl(ev) && !hasFile) {
+      return "已看過。公開是 Yes，但還沒有可貼的網址或檔案。";
+    }
+    if (ev.includes("…") || (ev.match(/https?:\/\//g) || []).length > 1) {
+      return "已看過。證據欄不是單一網址，貼之前要先改成一條。";
+    }
     return "";
+  }
+
+  function queueOf(ref) {
+    const field = fields.find((item) => item.ref === ref);
+    if (field && isRedundantSubField(field)) return "";
+    if (READY_PASTE[ref]) return "ready";
+    if (blockNote(ref)) return "proof";
+    const answer = finalOfficeAnswer(ref);
+    if (answer && field && answerHasRelevantContent(answer, field)) return "ready";
+    return "";
+  }
+
+  function queueNoteText(ref) {
+    if (queueOf(ref) === "ready" && READY_PASTE[ref]) return READY_PASTE[ref];
+    const blocked = blockNote(ref);
+    if (queueOf(ref) === "proof" && blocked) return blocked;
+    const field = fields.find((item) => item.ref === ref);
+    const answer = finalOfficeAnswer(ref);
+    if (field && answer) return pasteNoteFromOffice(field, answer);
+    return "";
+  }
+
+  function queueSize(kind) {
+    return fields.filter((item) => queueOf(item.ref) === kind).length;
   }
 
   function updatePortalChromeSummary() {
     const el = $("#portalChromeSummary");
     if (!el) return;
-    if (workFilter === "ready") el.textContent = t("queueReadyMeta", Object.keys(WORK_QUEUE.ready).length);
-    else if (workFilter === "proof") el.textContent = t("queueProofMeta", Object.keys(WORK_QUEUE.proof).length);
+    if (workFilter === "ready") el.textContent = t("queueReadyMeta", queueSize("ready"));
+    else if (workFilter === "proof") el.textContent = t("queueProofMeta", queueSize("proof"));
     else el.textContent = `SDG ${currentSdg}`;
   }
 
@@ -908,7 +975,7 @@
       name.textContent = t(labelKey);
       const count = document.createElement("span");
       count.className = "work-count";
-      count.textContent = String(Object.keys(WORK_QUEUE[key]).length);
+      count.textContent = String(queueSize(key));
       btn.appendChild(name);
       btn.appendChild(count);
       btn.addEventListener("click", () => {
@@ -1014,7 +1081,7 @@
       primary.className = "portal-title";
       primary.textContent = (lang === "en" ? f.en || f.zh : f.zh || f.en) || "";
       card.appendChild(primary);
-      const queueNote = queueOf(f.ref) ? WORK_QUEUE[queueOf(f.ref)][f.ref] : "";
+      const queueNote = queueNoteText(f.ref);
       if (queueNote) {
         const note = document.createElement("div");
         note.className = "portal-queue-note";
